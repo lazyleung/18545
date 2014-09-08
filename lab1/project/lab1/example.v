@@ -24,7 +24,7 @@ module button_press_display(I_RST,
    input bit I_INIT_DONE;
    input bit I_WRITE_DONE;
 
-   output bit O_DISPLAY_DATA;
+   output bit [7:0] O_DISPLAY_DATA;
    output bit O_WRITE_START;
 
    bit [5:0]  state, next_state;
@@ -99,6 +99,52 @@ module button_press_display(I_RST,
            else
              next_state = wait_l1;
         end
+
+        /*output the next L*/
+        output_l2: begin
+           O_DISPLAY_DATA = ; //L
+           O_WRITE_START = 1;
+           next_state = wait_l2;
+        end
+        wait_l1: begin
+           O_DISPLAY_DATA = ; //L
+           if (I_WRITE_DONE == 1)
+             next_state = output_l2;
+           else
+             next_state = wait_l2;
+        end
+
+        /*output the next O*/
+        output_o: begin
+           O_DISPLAY_DATA = ; //O
+           O_WRITE_START = 1;
+           next_state = wait_o;
+        end
+        wait_o: begin
+           O_DISPLAY_DATA = ; //O
+           if (I_WRITE_DONE == 1)
+             next_state = wait_for_push_button;
+           else
+             next_state = wait_o;
+        end
+      endcase // case (state)
+   end // always_comb
+
+
+   always_ff @(posedge clk) begin
+
+      if (I_RST) begin
+        state <= wait_for_init_done;
+      end
+
+      else begin
+        state <= next_state;
+      end
+
+   end // always_ff @
+
+endmodule // button_press_display
+
 
 
 
