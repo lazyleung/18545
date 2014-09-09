@@ -43,7 +43,8 @@ module example_top(
    input bit I_PUSH_BUTTONA, I_PUSH_BUTTONB, I_PUSH_BUTTONC;
 
    output bit O_LED1, O_LED2, O_LED3;
-   output bit ;
+   output bit LCD_FPGA_RS, LCD_FPGA_RW, LCD_FPGA_E,
+			  LCD_FPGA_DB7, LCD_FPGA_DB6, LCD_FPGA_DB5, LCD_FPGA_DB4;
 
    //lcd module signals
    bit [2:0]  control_out;
