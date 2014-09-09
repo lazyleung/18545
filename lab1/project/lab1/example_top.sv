@@ -27,29 +27,43 @@ module example_top(
                    I_RST,
 
                    /*GPIO signals*/
-                   I_PUSH_BUTTONA,
-                   I_PUSH_BUTTONB,
-                   I_PUSH_BUTTONC,
-                   O_LED1,
+                   I_PUSH_BUTTONA, //GPIO_SW_C
+                   I_PUSH_BUTTONB, //GPIO_SW_E
+                   I_PUSH_BUTTONC, //GPIO_SW_S
+                   O_LED1, // these need to be mapped to something
                    O_LED2,
                    O_LED3,
 
                    /*LCD Display Connections*/
-                   O_SF_D,
-                   O_CONTROL);
+                   LCD_FPGA_RS, LCD_FPGA_RW, LCD_FPGA_E,
+			       LCD_FPGA_DB7, LCD_FPGA_DB6, LCD_FPGA_DB5, LCD_FPGA_DB4);
 
    input bit I_CLK;
    input bit I_RST;
    input bit I_PUSH_BUTTONA, I_PUSH_BUTTONB, I_PUSH_BUTTONC;
 
    output bit O_LED1, O_LED2, O_LED3;
-   output bit [2:0] O_CONTROL;
-   output bit [3:0] O_SF_D;
+   output bit ;
+
+   //lcd module signals
+   bit [2:0]  control_out;
+   bit [3:0]  out;
+
+   //correctly wire the lcd module to the outputs
+   assign LCD_FPGA_DB7 = out[3];
+   assign LCD_FPGA_DB6 = out[2];
+   assign LCD_FPGA_DB5 = out[1];
+   assign LCD_FPGA_DB4 = out[0];
+
+   assign LCD_FPGA_RS = control_out[2];
+   assign LCD_FPGA_RW = control_out[1];
+   assign LCD_FPGA_E  = control_out[0];
 
    /*registers to synchronize asynch push button signals
     *pb [=] push button*/
    bit              pbA_d1, pbB_d1, pbC_d1;
    bit              pbA_d2, pbB_d2, pbC_d2;
+
 
    /*find the rising and falling edges of the push buttons to know
     * when to output to LCD display*/
@@ -111,8 +125,8 @@ module example_top(
    /* lcd module */
    lcd_control lcd_controller(.rst(I_RST),
                               .clk(I_CLK),
-                              .sf_d(O_SF_D),
-                              .control(O_CONTROL),
+                              .sf_d(out),
+                              .control(control_out),
                               .initDone(init_done),
                               .writeStart(write_start),
                               .writeDone(write_done),
