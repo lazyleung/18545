@@ -62,13 +62,13 @@ module testFSM(clkFSM,
 					end
 				`data1 :
 					begin
-						data = 8'b00110001;		//1
+						data = 'h48;		//H
 						writeStart = 1'b1;
 						next_state <= `wait1;
 					end
 				`wait1 :
 					begin
-						data = 8'b00110001;
+						data = 'h48;
 						if(writeDone == 1'b1)
 							next_state <= `data2;
 						else
@@ -76,13 +76,13 @@ module testFSM(clkFSM,
 					end
 				`data2 :
 					begin
-						data = 8'b00111000;		//8
+						data = 'h45;		//E
 						writeStart = 1'b1;
 						next_state <= `wait2;
 					end
 				`wait2 :
 					begin
-						data = 8'b00111000;
+						data = 'h45;
 						if(writeDone == 1'b1)
 							next_state <= `data3;
 						else
@@ -90,13 +90,13 @@ module testFSM(clkFSM,
 					end
 				`data3 :
 					begin
-						data = 8'b00110101;		//5
+						data = 'h4c;		//L
 						writeStart = 1'b1;
 						next_state <= `wait3;
 					end
 				`wait3 :
 					begin
-						data = 8'b00110101;
+						data = 'h4c;
 						if(writeDone == 1'b1)
 							next_state <= `data4;
 						else
@@ -104,13 +104,13 @@ module testFSM(clkFSM,
 					end
 				`data4 :
 					begin
-						data = 8'b00110100;		//4
+						data = 'h4c;		//L
 						writeStart = 1'b1;
 						next_state <= `wait4;
 					end
 				`wait4 :
 					begin
-						data = 8'b00110100;
+						data = 'h4c;
 						if(writeDone == 1'b1)
 							next_state <= `data5;
 						else
@@ -118,13 +118,13 @@ module testFSM(clkFSM,
 					end
 				`data5 :
 					begin
-						data = 8'b00110101;		//5
+						data = 'h4f;		//O
 						writeStart = 1'b1;
 						next_state <= `wait5;
 					end
 				`wait5 :
 					begin
-						data = 8'b00110101;
+						data = 'h4f;
 						if(writeDone == 1'b1)
 							next_state <= `waitClear;
 						else
@@ -143,13 +143,13 @@ module testFSM(clkFSM,
 					end
 				`data6 :
 					begin
-						data = 8'b01000101;		//E
+						data = 'h46;		//F
 						writeStart = 1'b1;
 						next_state <= `wait6;
 					end
 				`wait6 :
 					begin
-						data = 8'b01000101;
+						data = 'h46;
 						if(writeDone == 1'b1)
 							next_state <= `data7;
 						else
@@ -157,13 +157,13 @@ module testFSM(clkFSM,
 					end
 				`data7 :
 					begin
-						data = 8'b01000011;		//C
+						data = 'h4F;		//O
 						writeStart = 1'b1;
 						next_state <= `wait7;
 					end
 				`wait7 :
 					begin
-						data = 8'b01000011;
+						data = 'h4F;
 						if(writeDone == 1'b1)
 							next_state <= `data8;
 						else
@@ -171,13 +171,13 @@ module testFSM(clkFSM,
 					end
 				`data8 :
 					begin
-						data = 8'b01000101;		//E
+						data = 'h4F;		//O
 						writeStart = 1'b1;
 						next_state <= `wait8;
 					end
 				`wait8 :
 					begin
-						data = 8'b01000101;
+						data = 'h4F;
 						if(writeDone == 1'b1)
 							next_state <= `finish;
 						else

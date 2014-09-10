@@ -23,13 +23,14 @@
 
 module example_top(
                    /*system level signals*/
-                   I_CLK,
+                   USER_CLK,
                    I_RST,
 
                    /*GPIO signals*/
-                   I_PUSH_BUTTONA, //GPIO_SW_C
-                   I_PUSH_BUTTONB, //GPIO_SW_E
-                   I_PUSH_BUTTONC, //GPIO_SW_S
+                   GPIO_SW_C, //GPIO_SW_C
+                   GPIO_SW_E, //GPIO_SW_E
+                   GPIO_SW_S, //GPIO_SW_S
+						 GPIO_SW_W, //GPIO_SW_W
                    O_LED1, // these need to be mapped to something
                    O_LED2,
                    O_LED3,
@@ -38,17 +39,16 @@ module example_top(
                    LCD_FPGA_RS, LCD_FPGA_RW, LCD_FPGA_E,
 			       LCD_FPGA_DB7, LCD_FPGA_DB6, LCD_FPGA_DB5, LCD_FPGA_DB4);
 
-   input bit I_CLK;
-   input bit I_RST;
-   input bit I_PUSH_BUTTONA, I_PUSH_BUTTONB, I_PUSH_BUTTONC;
+   input wire USER_CLK;
+   input wire I_RST;
+   input wire GPIO_SW_C, GPIO_SW_E, GPIO_SW_S, GPIO_SW_W;
 
-   output bit O_LED1, O_LED2, O_LED3;
-   output bit LCD_FPGA_RS, LCD_FPGA_RW, LCD_FPGA_E,
-			  LCD_FPGA_DB7, LCD_FPGA_DB6, LCD_FPGA_DB5, LCD_FPGA_DB4;
+   output wire O_LED1, O_LED2, O_LED3;
+   output wire LCD_FPGA_RS, LCD_FPGA_RW, LCD_FPGA_E, LCD_FPGA_DB7, LCD_FPGA_DB6, LCD_FPGA_DB5, LCD_FPGA_DB4;
 
    //lcd module signals
-   bit [2:0]  control_out;
-   bit [3:0]  out;
+   wire[2:0]  control_out;
+   wire[3:0]  out;
 
    //correctly wire the lcd module to the outputs
    assign LCD_FPGA_DB7 = out[3];
@@ -62,38 +62,36 @@ module example_top(
 
    /*registers to synchronize asynch push button signals
     *pb [=] push button*/
-   bit              pbA_d1, pbB_d1, pbC_d1;
-   bit              pbA_d2, pbB_d2, pbC_d2;
+   reg              pbA_d1, pbB_d1, pbC_d1;
+   reg 				  pbA_d2, pbB_d2, pbC_d2;
 
 
    /*find the rising and falling edges of the push buttons to know
     * when to output to LCD display*/
-   bit              rise_edge_any_pushbutton, falling_edge_any_pushbutton;
-   bit              any_push_button;
-   bit              any_push_button_d1;
+   wire              rise_edge_any_pushbutton, falling_edge_any_pushbutton;
+   wire              any_push_button;
+   reg              any_push_button_d1;
 
    /*LCD control signals*/
-   bit              init_done, write_start;
-   bit [7:0]        data_in;
+   wire              init_done, write_start;
+   wire [7:0]        data_in;
 
 
    /*give an output function to the leds*/
-   assign O_LED1 = pbA_d2 and pbB_d2 and pbC_d2;
-   assign O_LED2 = pbA_d2 or pbB_d2 or pbC_d2;
-   assign O_LED3 = pbA_d2 xor pbB_d2 xor pbC_d2;
+   assign O_LED1 = pbA_d2 & pbB_d2 & pbC_d2;
+   assign O_LED2 = pbA_d2 & pbB_d2 & pbC_d2;
+   assign O_LED3 = pbA_d2 & pbB_d2 & pbC_d2;
 
    /* detect the rising edge of any push button being pressed*/
-   assign any_push_button = pbA_d2 or pbB_d2 or pbC_d2;
-   assign rising_edge_any_pushbutton = (not any_push_button_d1) and
-                                       any_push_button;
+   assign any_push_button = pbA_d2 | pbB_d2 | pbC_d2;
+   assign rising_edge_any_pushbutton = !any_push_button_d1 & any_push_button;
 
    /*detect the falling edge of any push button being pressed*/
-   assign falling_edge_any_pushbutton = any_push_button_d1 and
-                                        (not any_push_button);
+   assign falling_edge_any_pushbutton = any_push_button_d1 & !any_push_button;
 
 
    /*register the incoming asynch push button signals*/
-   always_ff @(posedge clk) begin
+   always @(posedge USER_CLK) begin
 
       /* we want a logical 1 to propagate through
        * the pipeline so initialize all the values
@@ -109,13 +107,13 @@ module example_top(
        * the fpga push buttons are active high or low
        * so you may need to add some not gates inbetween
        * some of these register stages*/
-      pbA_d1 <= I_PUSH_BUTTONA;
+      pbA_d1 <= GPIO_SW_C;
       pbA_d2 <= pbA_d1;
 
-      pbB_d1 <= I_PUSH_BUTTONB;
+      pbB_d1 <= GPIO_SW_E;
       pbB_d2 <= pbB_d1;
 
-      pbC_d1 <= I_PUSH_BUTTONC;
+      pbC_d1 <= GPIO_SW_S;
       pbC_d2 <= pbC_d1;
 
       /*to help find the rising edge*/
@@ -125,7 +123,7 @@ module example_top(
 
    /* lcd module */
    lcd_control lcd_controller(.rst(I_RST),
-                              .clk(I_CLK),
+                              .clk(USER_CLK),
                               .sf_d(out),
                               .control(control_out),
                               .initDone(init_done),
@@ -138,7 +136,7 @@ module example_top(
                               .clearAll(falling_edge_any_pushbutton));
 
    button_press_display lcd_hello_fsm(.I_RST(I_RST),
-                                      .I_CLK(I_CLK),
+                                      .I_CLK(USER_CLK),
                                        //display hello when any push button is pressed
                                       .I_PUSH_BUTTON_ASSERTED(rising_edge_any_pushbutton),
                                       .O_DISPLAY_DATA(data_in),
