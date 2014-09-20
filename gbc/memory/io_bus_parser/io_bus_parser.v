@@ -24,20 +24,24 @@ module io_bus_parser_reg(
 
    /*Description of interface with the
     *io bus from the memory router*/
-   input bit I_CLK, I_RESET;
-   inout bit [7:0] IO_DATA_BUS;
-   input bit [15:0] I_ADDR_BUS;
-   input bit        I_WE_BUS, I_RE_BUS;
+   input I_CLK, I_SYNC_RESET;
+   inout [7:0] IO_DATA_BUS;
+   input [15:0] I_ADDR_BUS;
+   input        I_WE_BUS, I_RE_BUS;
 
    /*Description of the interface with the
     *external module accessing the io register*/
-   input bit [7:0]  I_DATA_WR;
-   output bit [7:0] O_DATA_READ;
-   input bit        I_REG_WR_EN;
-   output bit       O_WAIT;
+   input [7:0]  I_DATA_WR;
+   output [7:0] O_DATA_READ;
+   input        I_REG_WR_EN;
+   output       O_WAIT;
 
 
-   bit [7:0] io_register;
+   reg [7:0] io_register;
+   reg 	     data_bus_en;
+   reg [7:0] write_bus_data;
+   reg [7:0] ext_comp_wr_data;
+   
 
    /*tell external module to wait if the CPU memory mapped IO
      write transaction is taking place*/
@@ -46,11 +50,15 @@ module io_bus_parser_reg(
    /*always make reading the register available*/
    assign O_DATA_READ = io_register;
 
+   /*write to the tristate data bus when indicated to do so*/
+   assign IO_DATA_BUS = (data_bus_en) ? write_bus_data : 8'bzzzzzzzz;
+   
+   
    always @(posedge I_CLK) begin
 
       io_register <= io_register;
-      IO_DATA_BUS <= 8'bzzzzzzzz;
-
+      data_bus_en <= 'b0;
+      
       /*if the IO register identifies itself*/
       if (I_ADDR_BUS == P_REGISTER_ADDR) begin
 
@@ -62,9 +70,10 @@ module io_bus_parser_reg(
 
          /* if writing from external module and the bus is
           * reading, forward the new data*/
-         else if (I_REG_WR_EN and I_RE_BUS) begin
+         else if (I_REG_WR_EN & I_RE_BUS) begin
             io_register <= I_DATA_WR;
-            IO_DATA_BUS <= I_DATA_WR;
+            write_bus_data <= I_DATA_WR;
+	    data_bus_en <= 'b1;
          end
 
          /*if only writing from the external module,
@@ -75,7 +84,8 @@ module io_bus_parser_reg(
 
          /* if only reading, then return the io register data*/
          else if (I_RE_BUS) begin
-            IO_DATA_BUS <= io_register;
+            write_bus_data <= io_register;
+	    data_bus_en <= 'b1;
          end
       end
 
@@ -88,6 +98,6 @@ module io_bus_parser_reg(
    end // always @ (posedge I_CLK)
 
 
-endmodule io_bus_parser; // unmatched e
+endmodule
 
 
