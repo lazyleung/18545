@@ -37,7 +37,7 @@ module mem(/*AUTOARG*/
          end
          // synthesis translate_on
       end else if(mem_we) begin
-         data[addr_ext] <= data_ext;
+         // TODO: reenable layter data[addr_ext] <= data_ext;
       end
    end
 
