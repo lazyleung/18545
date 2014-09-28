@@ -1,6 +1,6 @@
 /**
  * Definition of useful constants for the GB80 CPU.
- * 
+ *
  * Author: Joseph Carlos (jdcarlos1@gmail.com)
  */
 
@@ -135,7 +135,7 @@
 `define MEM_WRAM_START 16'hc000
 `define MEM_VRAM_END 16'h9fff
 `define MEM_VRAM_START 16'h8000
-  
+
 /**
  * Small chart of values
  * 0000  0  0
