@@ -35,7 +35,7 @@ module lcd_top(USER_CLK,
 	wire [3:0] in1, in2;
 	assign in1 = { GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4 };
 	assign in2 = { GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7, GPIO_DIP_SW8 };
-	assign { GPIO_LED_0, GPIO_LED_1, GPIO_LED_2, GPIO_LED_3 } = in1 & in2;
+	assign { GPIO_LED_0, GPIO_LED_1, GPIO_LED_2, GPIO_LED_3 } = in1 ^ in2;
 	assign GPIO_LED_4 = 1'b1;
 	
 	wire	writeStart;
