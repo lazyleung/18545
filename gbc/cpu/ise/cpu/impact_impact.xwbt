@@ -1,0 +1,8 @@
+INTSTYLE=impact
+INFILE=C:\Users\ash\Documents\18545\gbc\cpu\ise\cpu\impact.xsl
+OUTFILE=C:\Users\ash\Documents\18545\gbc\cpu\ise\cpu\impact.xsl
+FAMILY=Multiple
+PART=Multiple
+WORKINGDIR=C:\Users\ash\Documents\18545\gbc\cpu\ise\cpu
+LICENSE=iMPACT
+USER_INFO=iMPACT

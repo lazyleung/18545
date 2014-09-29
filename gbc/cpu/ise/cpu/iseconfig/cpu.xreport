@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-09-21T14:51:23</DateModified>
+  <DateModified>2014-09-29T04:11:33</DateModified>
   <ModuleName>cpu</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
-  <SavedFilePath>/afs/ece.cmu.edu/usr/jkleung1/Private/18545/gbc/cpu/ise/cpu/iseconfig/cpu.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/afs/ece.cmu.edu/usr/jkleung1/Private/workarea/</ImplementationReportsDirectory>
+  <SavedFilePath>C:/Users/ash/Documents/18545/gbc/cpu/ise/cpu/iseconfig/cpu.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>C:/Users/ash/Documents/workarea\</ImplementationReportsDirectory>
   <DateInitialized>2014-09-20T17:50:14</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
