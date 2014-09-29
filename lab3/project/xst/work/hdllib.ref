@@ -1,0 +1,3 @@
+MO lcd_top NULL ../src/chipInterface.v vlg41/lcd__top.bin 1411979392
+MO lcd_control NULL ../src/lcd_control.v vlg13/lcd__control.bin 1411979392
+MO testFSM NULL ../src/testFSM.v vlg26/test_f_s_m.bin 1411979392
