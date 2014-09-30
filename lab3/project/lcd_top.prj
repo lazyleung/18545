@@ -1,3 +1,0 @@
-verilog work "../src/testFSM.v"
-verilog work "../src/lcd_control.v"
-verilog work "../src/chipInterface.v"
