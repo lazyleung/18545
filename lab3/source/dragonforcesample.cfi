@@ -1,0 +1,10 @@
+# PROMGEN: Xilinx Prom Generator P.20131013
+# Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.20131013
+DATE            09/29/2014 - 22:35
+SOURCE          dragonforcesample.mcs
+DEVICE          512K
+DATA_WIDTH      16
+FILL_DATA       0xFF
+START_ADDRESS   0x00000000 END_ADDRESS 0x0007913F DIRECTION_UP   "dragonforcesample.hex"
