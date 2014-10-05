@@ -1,0 +1,11 @@
+`define CARTRIDGE_LO 'h0000
+`define CARTRIDGE_HI 'h7fff
+
+`define EXTERNAL_EXPANSION_LO 'hA000
+`define EXTERNAL_EXPANSION_HI 'hBFFF
+
+`define LCD_RAM_LO 'h8000
+`define LCD_RAM_HI 'h9FFF
+
+`define WORK_RAM_LO 'hC000
+`define WORK_RAM
