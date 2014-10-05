@@ -7,5 +7,19 @@
 `define LCD_RAM_LO 'h8000
 `define LCD_RAM_HI 'h9FFF
 
-`define WORK_RAM_LO 'hC000
-`define WORK_RAM
+`define WORK_RAM_BANK0_LO 'hC000
+`define WORK_RAM_BANK0_HI 'hCFFF
+
+`define WORK_RAM_BANKI_LO 'hD000
+`define WORK_RAM_BANKI_HI 'hDFFF
+
+`define OAM_LO 'hFE00
+`define OAM_HI 'hFF7F
+
+`define EXTRA_WORK_RAM_LO 'hFF80
+`define EXTRA_WORK_RAM_HI 'hFFFE
+
+`define IO_REGISTERS_LO 'hFF00
+`define IO_REGISTERS_HI 'hFF7F
+
+`define IE_REGISTER 'hFFFF
