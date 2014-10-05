@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-10-05T15:40:16</DateModified>
+  <DateModified>2014-10-05T19:20:37</DateModified>
   <ModuleName>cpu</ModuleName>
-  <SummaryTimeStamp>Unknown</SummaryTimeStamp>
+  <SummaryTimeStamp>2014-10-05T15:43:23</SummaryTimeStamp>
   <SavedFilePath>C:/Users/ash/Documents/18545/gbc/cpu/ise/iseconfig/cpu.xreport</SavedFilePath>
   <ImplementationReportsDirectory>C:/Users/ash/Documents/18545/gbc/cpu/ise</ImplementationReportsDirectory>
   <DateInitialized>2014-10-05T15:40:15</DateInitialized>

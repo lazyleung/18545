@@ -1,5 +1,0 @@
-verilog work "../src/regfile.v"
-verilog work "../src/mem_synth.v"
-verilog work "../src/decode.v"
-verilog work "../src/cpu.v"
-verilog work "../src/alu.v"
