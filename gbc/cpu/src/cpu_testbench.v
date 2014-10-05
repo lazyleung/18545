@@ -33,6 +33,8 @@ module cpu_testbench();
         I_HILO = 4, I_SERIAL = 3, I_TIMA = 2, I_LCDC = 1, I_VBLANK = 0;
    
     // Testbench variables
+    reg        ce;
+
     wire       timer_reg_addr; // addr_ext == timer MMIO address
    
     integer    count;
@@ -115,8 +117,10 @@ module cpu_testbench();
                  .clock                 (clock),
                  .reset                 (reset));
     
+    initial ce = 0;
     initial clock = 0;
     always #5 clock = ~clock;
+    always @(posedge clock) ce = ~ce;
 
     initial begin
       count = 0;
