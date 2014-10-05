@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r dragonforcesample.hex -p mcs -data_width 16 -w -o dragonforcesample.mcs 
+
+PROM dragonforcesample.prm map: Mon Sep 29 22:35:26 2014
+
+Format        Mcs86 (32-bit)
+Size          512K
+PROM start    0000:0000
+PROM end      0007:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0007:913f     Sep 29 17:35:07 2014 dragonforcesample.hex

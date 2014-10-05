@@ -1,0 +1,10 @@
+MO nobus_buffer NULL ../src/cpu.v vlg18/nobus__buffer.bin 1412538042
+MO buffer NULL ../src/cpu.v vlg1E/buffer.bin 1412538042
+MO regfile NULL ../src/regfile.v vlg72/regfile.bin 1412538042
+MO mem NULL ../src/mem_synth.v vlg0B/mem.bin 1412538042
+MO cpu NULL ../src/cpu.v vlg50/cpu.bin 1412538042
+MO register NULL ../src/cpu.v vlg29/register.bin 1412538042
+MO decode NULL ../src/decode.v vlg50/decode.bin 1412538042
+MO alu NULL ../src/alu.v vlg0A/alu.bin 1412538042
+MO rn_decode NULL ../src/cpu.v vlg2F/rn__decode.bin 1412538042
+MO tristate NULL ../src/cpu.v vlg2C/tristate.bin 1412538042

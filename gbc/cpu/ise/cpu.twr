@@ -1,0 +1,876 @@
+--------------------------------------------------------------------------------
+Release 14.7 Trace  (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 1
+-n 3 -fastpaths -xml cpu.twx cpu.ncd -o cpu.twr cpu.pcf
+
+Design file:              cpu.ncd
+Physical constraint file: cpu.pcf
+Device,package,speed:     xc5vlx110t,ff1136,-1 (PRODUCTION 1.73 2013-10-13, STEPPING level 0)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock clock
+---------------+------------+------------+------------------+--------+
+               |Max Setup to|Max Hold to |                  | Clock  |
+Source         | clk (edge) | clk (edge) |Internal Clock(s) | Phase  |
+---------------+------------+------------+------------------+--------+
+IE_in<0>       |    0.343(R)|    1.872(R)|clock_BUFGP       |   0.000|
+IE_in<1>       |    0.516(R)|    1.711(R)|clock_BUFGP       |   0.000|
+IE_in<2>       |    0.411(R)|    1.809(R)|clock_BUFGP       |   0.000|
+IE_in<3>       |    0.129(R)|    2.067(R)|clock_BUFGP       |   0.000|
+IE_in<4>       |   -0.110(R)|    2.331(R)|clock_BUFGP       |   0.000|
+IE_load        |    1.233(R)|    1.300(R)|clock_BUFGP       |   0.000|
+IF_in<0>       |    0.525(R)|    1.733(R)|clock_BUFGP       |   0.000|
+IF_in<1>       |    0.460(R)|    1.795(R)|clock_BUFGP       |   0.000|
+IF_in<2>       |    0.430(R)|    1.794(R)|clock_BUFGP       |   0.000|
+IF_in<3>       |   -0.054(R)|    2.238(R)|clock_BUFGP       |   0.000|
+IF_in<4>       |    0.230(R)|    1.978(R)|clock_BUFGP       |   0.000|
+IF_load        |    1.418(R)|    0.992(R)|clock_BUFGP       |   0.000|
+addr_ext<0>    |    2.372(R)|    1.944(R)|clock_BUFGP       |   0.000|
+addr_ext<1>    |    3.117(R)|    1.436(R)|clock_BUFGP       |   0.000|
+addr_ext<2>    |    2.474(R)|    2.156(R)|clock_BUFGP       |   0.000|
+addr_ext<3>    |    2.453(R)|    2.053(R)|clock_BUFGP       |   0.000|
+addr_ext<4>    |    3.087(R)|    1.714(R)|clock_BUFGP       |   0.000|
+addr_ext<5>    |    2.660(R)|    1.396(R)|clock_BUFGP       |   0.000|
+addr_ext<6>    |    2.662(R)|    2.148(R)|clock_BUFGP       |   0.000|
+addr_ext<7>    |    2.372(R)|    1.847(R)|clock_BUFGP       |   0.000|
+addr_ext<8>    |    2.256(R)|    1.422(R)|clock_BUFGP       |   0.000|
+addr_ext<9>    |    2.090(R)|    1.659(R)|clock_BUFGP       |   0.000|
+addr_ext<10>   |    3.002(R)|    1.671(R)|clock_BUFGP       |   0.000|
+addr_ext<11>   |    2.273(R)|    1.576(R)|clock_BUFGP       |   0.000|
+addr_ext<12>   |    2.506(R)|    1.515(R)|clock_BUFGP       |   0.000|
+addr_ext<13>   |    1.563(R)|    2.058(R)|clock_BUFGP       |   0.000|
+addr_ext<14>   |    1.356(R)|    2.247(R)|clock_BUFGP       |   0.000|
+addr_ext<15>   |    1.634(R)|    1.991(R)|clock_BUFGP       |   0.000|
+bp_addr<0>     |   44.841(R)|   -0.723(R)|clock_BUFGP       |   0.000|
+bp_addr<1>     |   45.429(R)|   -1.258(R)|clock_BUFGP       |   0.000|
+bp_addr<2>     |   45.369(R)|   -1.201(R)|clock_BUFGP       |   0.000|
+bp_addr<3>     |   45.478(R)|   -1.303(R)|clock_BUFGP       |   0.000|
+bp_addr<4>     |   44.878(R)|   -0.749(R)|clock_BUFGP       |   0.000|
+bp_addr<5>     |   45.546(R)|   -1.368(R)|clock_BUFGP       |   0.000|
+bp_addr<6>     |   45.025(R)|   -0.892(R)|clock_BUFGP       |   0.000|
+bp_addr<7>     |   44.720(R)|   -0.610(R)|clock_BUFGP       |   0.000|
+bp_addr<8>     |   45.228(R)|   -1.071(R)|clock_BUFGP       |   0.000|
+bp_addr<9>     |   45.331(R)|   -1.164(R)|clock_BUFGP       |   0.000|
+bp_addr<10>    |   45.329(R)|   -1.168(R)|clock_BUFGP       |   0.000|
+bp_addr<11>    |   45.185(R)|   -1.032(R)|clock_BUFGP       |   0.000|
+bp_addr<12>    |   44.880(R)|   -0.757(R)|clock_BUFGP       |   0.000|
+bp_addr<13>    |   45.019(R)|   -0.887(R)|clock_BUFGP       |   0.000|
+bp_addr<14>    |   45.006(R)|   -0.867(R)|clock_BUFGP       |   0.000|
+bp_addr<15>    |   44.835(R)|   -0.715(R)|clock_BUFGP       |   0.000|
+bp_continue    |    0.151(R)|    2.159(R)|clock_BUFGP       |   0.000|
+bp_step        |    0.552(R)|    1.750(R)|clock_BUFGP       |   0.000|
+cpu_mem_disable|    3.172(R)|    1.641(R)|clock_BUFGP       |   0.000|
+data_ext<0>    |    0.529(R)|    1.853(R)|clock_BUFGP       |   0.000|
+data_ext<1>    |    0.324(R)|    2.178(R)|clock_BUFGP       |   0.000|
+data_ext<2>    |    0.617(R)|    1.752(R)|clock_BUFGP       |   0.000|
+data_ext<3>    |    0.612(R)|    1.818(R)|clock_BUFGP       |   0.000|
+data_ext<4>    |    0.260(R)|    2.330(R)|clock_BUFGP       |   0.000|
+data_ext<5>    |    0.503(R)|    1.769(R)|clock_BUFGP       |   0.000|
+data_ext<6>    |    0.365(R)|    1.879(R)|clock_BUFGP       |   0.000|
+data_ext<7>    |    0.417(R)|    1.832(R)|clock_BUFGP       |   0.000|
+---------------+------------+------------+------------------+--------+
+
+Clock clock to Pad
+-----------------+------------+------------------+--------+
+                 | clk (edge) |                  | Clock  |
+Destination      |   to PAD   |Internal Clock(s) | Phase  |
+-----------------+------------+------------------+--------+
+A_data<0>        |    9.114(R)|clock_BUFGP       |   0.000|
+A_data<1>        |    9.252(R)|clock_BUFGP       |   0.000|
+A_data<2>        |    8.849(R)|clock_BUFGP       |   0.000|
+A_data<3>        |    9.037(R)|clock_BUFGP       |   0.000|
+A_data<4>        |    9.069(R)|clock_BUFGP       |   0.000|
+A_data<5>        |    8.871(R)|clock_BUFGP       |   0.000|
+A_data<6>        |    9.157(R)|clock_BUFGP       |   0.000|
+A_data<7>        |    9.038(R)|clock_BUFGP       |   0.000|
+F_data<4>        |    9.188(R)|clock_BUFGP       |   0.000|
+F_data<5>        |    9.159(R)|clock_BUFGP       |   0.000|
+F_data<6>        |    8.772(R)|clock_BUFGP       |   0.000|
+F_data<7>        |    9.748(R)|clock_BUFGP       |   0.000|
+IE_data<0>       |   10.385(R)|clock_BUFGP       |   0.000|
+IE_data<1>       |    9.578(R)|clock_BUFGP       |   0.000|
+IE_data<2>       |    9.629(R)|clock_BUFGP       |   0.000|
+IE_data<3>       |    9.227(R)|clock_BUFGP       |   0.000|
+IE_data<4>       |    8.956(R)|clock_BUFGP       |   0.000|
+IF_data<0>       |    9.232(R)|clock_BUFGP       |   0.000|
+IF_data<1>       |    9.302(R)|clock_BUFGP       |   0.000|
+IF_data<2>       |    9.318(R)|clock_BUFGP       |   0.000|
+IF_data<3>       |    9.717(R)|clock_BUFGP       |   0.000|
+IF_data<4>       |    9.768(R)|clock_BUFGP       |   0.000|
+addr_ext<0>      |   16.874(R)|clock_BUFGP       |   0.000|
+addr_ext<1>      |   17.177(R)|clock_BUFGP       |   0.000|
+addr_ext<2>      |   17.178(R)|clock_BUFGP       |   0.000|
+addr_ext<3>      |   17.176(R)|clock_BUFGP       |   0.000|
+addr_ext<4>      |   17.502(R)|clock_BUFGP       |   0.000|
+addr_ext<5>      |   17.505(R)|clock_BUFGP       |   0.000|
+addr_ext<6>      |   17.166(R)|clock_BUFGP       |   0.000|
+addr_ext<7>      |   17.477(R)|clock_BUFGP       |   0.000|
+addr_ext<8>      |   17.216(R)|clock_BUFGP       |   0.000|
+addr_ext<9>      |   17.035(R)|clock_BUFGP       |   0.000|
+addr_ext<10>     |   17.215(R)|clock_BUFGP       |   0.000|
+addr_ext<11>     |   16.864(R)|clock_BUFGP       |   0.000|
+addr_ext<12>     |   17.035(R)|clock_BUFGP       |   0.000|
+addr_ext<13>     |   17.055(R)|clock_BUFGP       |   0.000|
+addr_ext<14>     |   17.348(R)|clock_BUFGP       |   0.000|
+addr_ext<15>     |   17.008(R)|clock_BUFGP       |   0.000|
+data_ext<0>      |   16.259(R)|clock_BUFGP       |   0.000|
+data_ext<1>      |   16.296(R)|clock_BUFGP       |   0.000|
+data_ext<2>      |   16.265(R)|clock_BUFGP       |   0.000|
+data_ext<3>      |   16.276(R)|clock_BUFGP       |   0.000|
+data_ext<4>      |   16.268(R)|clock_BUFGP       |   0.000|
+data_ext<5>      |   16.629(R)|clock_BUFGP       |   0.000|
+data_ext<6>      |   16.611(R)|clock_BUFGP       |   0.000|
+data_ext<7>      |   16.600(R)|clock_BUFGP       |   0.000|
+debug_halt       |    8.939(R)|clock_BUFGP       |   0.000|
+halt             |   13.741(R)|clock_BUFGP       |   0.000|
+high_mem_addr<0> |   10.465(R)|clock_BUFGP       |   0.000|
+high_mem_addr<1> |   10.054(R)|clock_BUFGP       |   0.000|
+high_mem_addr<2> |   10.073(R)|clock_BUFGP       |   0.000|
+high_mem_addr<3> |    9.783(R)|clock_BUFGP       |   0.000|
+high_mem_addr<4> |    9.633(R)|clock_BUFGP       |   0.000|
+high_mem_addr<5> |   10.213(R)|clock_BUFGP       |   0.000|
+high_mem_addr<6> |    9.677(R)|clock_BUFGP       |   0.000|
+high_mem_addr<7> |    9.881(R)|clock_BUFGP       |   0.000|
+high_mem_addr<8> |   11.384(R)|clock_BUFGP       |   0.000|
+high_mem_addr<9> |   11.287(R)|clock_BUFGP       |   0.000|
+high_mem_addr<10>|   11.541(R)|clock_BUFGP       |   0.000|
+high_mem_addr<11>|   11.083(R)|clock_BUFGP       |   0.000|
+high_mem_addr<12>|   11.248(R)|clock_BUFGP       |   0.000|
+high_mem_addr<13>|   11.426(R)|clock_BUFGP       |   0.000|
+high_mem_addr<14>|   11.420(R)|clock_BUFGP       |   0.000|
+high_mem_addr<15>|   11.366(R)|clock_BUFGP       |   0.000|
+high_mem_data<0> |   16.899(R)|clock_BUFGP       |   0.000|
+high_mem_data<1> |   16.955(R)|clock_BUFGP       |   0.000|
+high_mem_data<2> |   16.938(R)|clock_BUFGP       |   0.000|
+high_mem_data<3> |   16.957(R)|clock_BUFGP       |   0.000|
+high_mem_data<4> |   16.954(R)|clock_BUFGP       |   0.000|
+high_mem_data<5> |   17.098(R)|clock_BUFGP       |   0.000|
+high_mem_data<6> |   16.941(R)|clock_BUFGP       |   0.000|
+high_mem_data<7> |   16.996(R)|clock_BUFGP       |   0.000|
+instruction<0>   |    9.912(R)|clock_BUFGP       |   0.000|
+instruction<1>   |   10.881(R)|clock_BUFGP       |   0.000|
+instruction<2>   |   10.421(R)|clock_BUFGP       |   0.000|
+instruction<3>   |    9.873(R)|clock_BUFGP       |   0.000|
+instruction<4>   |   10.487(R)|clock_BUFGP       |   0.000|
+instruction<5>   |   11.091(R)|clock_BUFGP       |   0.000|
+instruction<6>   |   10.530(R)|clock_BUFGP       |   0.000|
+instruction<7>   |   10.615(R)|clock_BUFGP       |   0.000|
+mem_re           |   15.381(R)|clock_BUFGP       |   0.000|
+mem_we           |   16.658(R)|clock_BUFGP       |   0.000|
+regs_data<0>     |    9.467(R)|clock_BUFGP       |   0.000|
+regs_data<1>     |   10.041(R)|clock_BUFGP       |   0.000|
+regs_data<2>     |    9.522(R)|clock_BUFGP       |   0.000|
+regs_data<3>     |   10.029(R)|clock_BUFGP       |   0.000|
+regs_data<4>     |    9.612(R)|clock_BUFGP       |   0.000|
+regs_data<5>     |   10.786(R)|clock_BUFGP       |   0.000|
+regs_data<6>     |   10.034(R)|clock_BUFGP       |   0.000|
+regs_data<7>     |    9.705(R)|clock_BUFGP       |   0.000|
+regs_data<8>     |   10.299(R)|clock_BUFGP       |   0.000|
+regs_data<9>     |   10.251(R)|clock_BUFGP       |   0.000|
+regs_data<10>    |   10.338(R)|clock_BUFGP       |   0.000|
+regs_data<11>    |    9.893(R)|clock_BUFGP       |   0.000|
+regs_data<12>    |   10.003(R)|clock_BUFGP       |   0.000|
+regs_data<13>    |   10.418(R)|clock_BUFGP       |   0.000|
+regs_data<14>    |   11.202(R)|clock_BUFGP       |   0.000|
+regs_data<15>    |    9.967(R)|clock_BUFGP       |   0.000|
+regs_data<16>    |    9.495(R)|clock_BUFGP       |   0.000|
+regs_data<17>    |    9.854(R)|clock_BUFGP       |   0.000|
+regs_data<18>    |    9.433(R)|clock_BUFGP       |   0.000|
+regs_data<19>    |   10.047(R)|clock_BUFGP       |   0.000|
+regs_data<20>    |    9.551(R)|clock_BUFGP       |   0.000|
+regs_data<21>    |    9.509(R)|clock_BUFGP       |   0.000|
+regs_data<22>    |    9.295(R)|clock_BUFGP       |   0.000|
+regs_data<23>    |    9.697(R)|clock_BUFGP       |   0.000|
+regs_data<24>    |   10.131(R)|clock_BUFGP       |   0.000|
+regs_data<25>    |    9.716(R)|clock_BUFGP       |   0.000|
+regs_data<26>    |    9.455(R)|clock_BUFGP       |   0.000|
+regs_data<27>    |    9.286(R)|clock_BUFGP       |   0.000|
+regs_data<28>    |    9.704(R)|clock_BUFGP       |   0.000|
+regs_data<29>    |    9.582(R)|clock_BUFGP       |   0.000|
+regs_data<30>    |    9.344(R)|clock_BUFGP       |   0.000|
+regs_data<31>    |    9.707(R)|clock_BUFGP       |   0.000|
+regs_data<32>    |    9.442(R)|clock_BUFGP       |   0.000|
+regs_data<33>    |   10.041(R)|clock_BUFGP       |   0.000|
+regs_data<34>    |    9.716(R)|clock_BUFGP       |   0.000|
+regs_data<35>    |    9.925(R)|clock_BUFGP       |   0.000|
+regs_data<36>    |    9.716(R)|clock_BUFGP       |   0.000|
+regs_data<37>    |    9.369(R)|clock_BUFGP       |   0.000|
+regs_data<38>    |    9.763(R)|clock_BUFGP       |   0.000|
+regs_data<39>    |    9.703(R)|clock_BUFGP       |   0.000|
+regs_data<40>    |    9.575(R)|clock_BUFGP       |   0.000|
+regs_data<41>    |   10.079(R)|clock_BUFGP       |   0.000|
+regs_data<42>    |    9.706(R)|clock_BUFGP       |   0.000|
+regs_data<43>    |    9.516(R)|clock_BUFGP       |   0.000|
+regs_data<44>    |   10.248(R)|clock_BUFGP       |   0.000|
+regs_data<45>    |    9.315(R)|clock_BUFGP       |   0.000|
+regs_data<46>    |    9.331(R)|clock_BUFGP       |   0.000|
+regs_data<47>    |    9.305(R)|clock_BUFGP       |   0.000|
+regs_data<48>    |    8.864(R)|clock_BUFGP       |   0.000|
+regs_data<49>    |   10.171(R)|clock_BUFGP       |   0.000|
+regs_data<50>    |    9.286(R)|clock_BUFGP       |   0.000|
+regs_data<51>    |   10.432(R)|clock_BUFGP       |   0.000|
+regs_data<52>    |    9.380(R)|clock_BUFGP       |   0.000|
+regs_data<53>    |    9.398(R)|clock_BUFGP       |   0.000|
+regs_data<54>    |    9.351(R)|clock_BUFGP       |   0.000|
+regs_data<55>    |    9.823(R)|clock_BUFGP       |   0.000|
+regs_data<56>    |    9.525(R)|clock_BUFGP       |   0.000|
+regs_data<57>    |    9.833(R)|clock_BUFGP       |   0.000|
+regs_data<58>    |   10.466(R)|clock_BUFGP       |   0.000|
+regs_data<59>    |    9.589(R)|clock_BUFGP       |   0.000|
+regs_data<60>    |    9.278(R)|clock_BUFGP       |   0.000|
+regs_data<61>    |    9.320(R)|clock_BUFGP       |   0.000|
+regs_data<62>    |    9.630(R)|clock_BUFGP       |   0.000|
+regs_data<63>    |    9.294(R)|clock_BUFGP       |   0.000|
+regs_data<64>    |    9.428(R)|clock_BUFGP       |   0.000|
+regs_data<65>    |    9.631(R)|clock_BUFGP       |   0.000|
+regs_data<66>    |    9.271(R)|clock_BUFGP       |   0.000|
+regs_data<67>    |    9.659(R)|clock_BUFGP       |   0.000|
+regs_data<68>    |    9.461(R)|clock_BUFGP       |   0.000|
+regs_data<69>    |    9.296(R)|clock_BUFGP       |   0.000|
+regs_data<70>    |    9.264(R)|clock_BUFGP       |   0.000|
+regs_data<71>    |    9.431(R)|clock_BUFGP       |   0.000|
+regs_data<72>    |    9.242(R)|clock_BUFGP       |   0.000|
+regs_data<73>    |   10.162(R)|clock_BUFGP       |   0.000|
+regs_data<74>    |    9.587(R)|clock_BUFGP       |   0.000|
+regs_data<75>    |   10.135(R)|clock_BUFGP       |   0.000|
+regs_data<76>    |   10.018(R)|clock_BUFGP       |   0.000|
+regs_data<77>    |    9.075(R)|clock_BUFGP       |   0.000|
+regs_data<78>    |    9.001(R)|clock_BUFGP       |   0.000|
+regs_data<79>    |    9.807(R)|clock_BUFGP       |   0.000|
+-----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clock          |   46.150|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+---------------+----------------+---------+
+Source Pad     |Destination Pad |  Delay  |
+---------------+----------------+---------+
+bp_addr<0>     |addr_ext<0>     |   11.164|
+bp_addr<0>     |addr_ext<1>     |   11.467|
+bp_addr<0>     |addr_ext<2>     |   11.468|
+bp_addr<0>     |addr_ext<3>     |   11.466|
+bp_addr<0>     |addr_ext<4>     |   11.792|
+bp_addr<0>     |addr_ext<5>     |   11.795|
+bp_addr<0>     |addr_ext<6>     |   11.456|
+bp_addr<0>     |addr_ext<7>     |   11.767|
+bp_addr<0>     |addr_ext<8>     |   11.506|
+bp_addr<0>     |addr_ext<9>     |   11.325|
+bp_addr<0>     |addr_ext<10>    |   11.505|
+bp_addr<0>     |addr_ext<11>    |   11.154|
+bp_addr<0>     |addr_ext<12>    |   11.325|
+bp_addr<0>     |addr_ext<13>    |   11.345|
+bp_addr<0>     |addr_ext<14>    |   11.638|
+bp_addr<0>     |addr_ext<15>    |   11.298|
+bp_addr<0>     |data_ext<0>     |   12.827|
+bp_addr<0>     |data_ext<1>     |   12.864|
+bp_addr<0>     |data_ext<2>     |   12.833|
+bp_addr<0>     |data_ext<3>     |   12.844|
+bp_addr<0>     |data_ext<4>     |   12.836|
+bp_addr<0>     |data_ext<5>     |   13.197|
+bp_addr<0>     |data_ext<6>     |   13.179|
+bp_addr<0>     |data_ext<7>     |   13.168|
+bp_addr<0>     |halt            |   10.754|
+bp_addr<0>     |high_mem_data<0>|   13.093|
+bp_addr<0>     |high_mem_data<1>|   13.149|
+bp_addr<0>     |high_mem_data<2>|   13.132|
+bp_addr<0>     |high_mem_data<3>|   13.151|
+bp_addr<0>     |high_mem_data<4>|   13.119|
+bp_addr<0>     |high_mem_data<5>|   13.263|
+bp_addr<0>     |high_mem_data<6>|   13.106|
+bp_addr<0>     |high_mem_data<7>|   13.161|
+bp_addr<0>     |mem_re          |   11.752|
+bp_addr<0>     |mem_we          |   13.226|
+bp_addr<1>     |addr_ext<0>     |   11.752|
+bp_addr<1>     |addr_ext<1>     |   12.055|
+bp_addr<1>     |addr_ext<2>     |   12.056|
+bp_addr<1>     |addr_ext<3>     |   12.054|
+bp_addr<1>     |addr_ext<4>     |   12.380|
+bp_addr<1>     |addr_ext<5>     |   12.383|
+bp_addr<1>     |addr_ext<6>     |   12.044|
+bp_addr<1>     |addr_ext<7>     |   12.355|
+bp_addr<1>     |addr_ext<8>     |   12.094|
+bp_addr<1>     |addr_ext<9>     |   11.913|
+bp_addr<1>     |addr_ext<10>    |   12.093|
+bp_addr<1>     |addr_ext<11>    |   11.742|
+bp_addr<1>     |addr_ext<12>    |   11.913|
+bp_addr<1>     |addr_ext<13>    |   11.933|
+bp_addr<1>     |addr_ext<14>    |   12.226|
+bp_addr<1>     |addr_ext<15>    |   11.886|
+bp_addr<1>     |data_ext<0>     |   13.415|
+bp_addr<1>     |data_ext<1>     |   13.452|
+bp_addr<1>     |data_ext<2>     |   13.421|
+bp_addr<1>     |data_ext<3>     |   13.432|
+bp_addr<1>     |data_ext<4>     |   13.424|
+bp_addr<1>     |data_ext<5>     |   13.785|
+bp_addr<1>     |data_ext<6>     |   13.767|
+bp_addr<1>     |data_ext<7>     |   13.756|
+bp_addr<1>     |halt            |   11.342|
+bp_addr<1>     |high_mem_data<0>|   13.681|
+bp_addr<1>     |high_mem_data<1>|   13.737|
+bp_addr<1>     |high_mem_data<2>|   13.720|
+bp_addr<1>     |high_mem_data<3>|   13.739|
+bp_addr<1>     |high_mem_data<4>|   13.707|
+bp_addr<1>     |high_mem_data<5>|   13.851|
+bp_addr<1>     |high_mem_data<6>|   13.694|
+bp_addr<1>     |high_mem_data<7>|   13.749|
+bp_addr<1>     |mem_re          |   12.340|
+bp_addr<1>     |mem_we          |   13.814|
+bp_addr<2>     |addr_ext<0>     |   11.692|
+bp_addr<2>     |addr_ext<1>     |   11.995|
+bp_addr<2>     |addr_ext<2>     |   11.996|
+bp_addr<2>     |addr_ext<3>     |   11.994|
+bp_addr<2>     |addr_ext<4>     |   12.320|
+bp_addr<2>     |addr_ext<5>     |   12.323|
+bp_addr<2>     |addr_ext<6>     |   11.984|
+bp_addr<2>     |addr_ext<7>     |   12.295|
+bp_addr<2>     |addr_ext<8>     |   12.034|
+bp_addr<2>     |addr_ext<9>     |   11.853|
+bp_addr<2>     |addr_ext<10>    |   12.033|
+bp_addr<2>     |addr_ext<11>    |   11.682|
+bp_addr<2>     |addr_ext<12>    |   11.853|
+bp_addr<2>     |addr_ext<13>    |   11.873|
+bp_addr<2>     |addr_ext<14>    |   12.166|
+bp_addr<2>     |addr_ext<15>    |   11.826|
+bp_addr<2>     |data_ext<0>     |   13.355|
+bp_addr<2>     |data_ext<1>     |   13.392|
+bp_addr<2>     |data_ext<2>     |   13.361|
+bp_addr<2>     |data_ext<3>     |   13.372|
+bp_addr<2>     |data_ext<4>     |   13.364|
+bp_addr<2>     |data_ext<5>     |   13.725|
+bp_addr<2>     |data_ext<6>     |   13.707|
+bp_addr<2>     |data_ext<7>     |   13.696|
+bp_addr<2>     |halt            |   11.282|
+bp_addr<2>     |high_mem_data<0>|   13.621|
+bp_addr<2>     |high_mem_data<1>|   13.677|
+bp_addr<2>     |high_mem_data<2>|   13.660|
+bp_addr<2>     |high_mem_data<3>|   13.679|
+bp_addr<2>     |high_mem_data<4>|   13.647|
+bp_addr<2>     |high_mem_data<5>|   13.791|
+bp_addr<2>     |high_mem_data<6>|   13.634|
+bp_addr<2>     |high_mem_data<7>|   13.689|
+bp_addr<2>     |mem_re          |   12.280|
+bp_addr<2>     |mem_we          |   13.754|
+bp_addr<3>     |addr_ext<0>     |   11.801|
+bp_addr<3>     |addr_ext<1>     |   12.104|
+bp_addr<3>     |addr_ext<2>     |   12.105|
+bp_addr<3>     |addr_ext<3>     |   12.103|
+bp_addr<3>     |addr_ext<4>     |   12.429|
+bp_addr<3>     |addr_ext<5>     |   12.432|
+bp_addr<3>     |addr_ext<6>     |   12.093|
+bp_addr<3>     |addr_ext<7>     |   12.404|
+bp_addr<3>     |addr_ext<8>     |   12.143|
+bp_addr<3>     |addr_ext<9>     |   11.962|
+bp_addr<3>     |addr_ext<10>    |   12.142|
+bp_addr<3>     |addr_ext<11>    |   11.791|
+bp_addr<3>     |addr_ext<12>    |   11.962|
+bp_addr<3>     |addr_ext<13>    |   11.982|
+bp_addr<3>     |addr_ext<14>    |   12.275|
+bp_addr<3>     |addr_ext<15>    |   11.935|
+bp_addr<3>     |data_ext<0>     |   13.464|
+bp_addr<3>     |data_ext<1>     |   13.501|
+bp_addr<3>     |data_ext<2>     |   13.470|
+bp_addr<3>     |data_ext<3>     |   13.481|
+bp_addr<3>     |data_ext<4>     |   13.473|
+bp_addr<3>     |data_ext<5>     |   13.834|
+bp_addr<3>     |data_ext<6>     |   13.816|
+bp_addr<3>     |data_ext<7>     |   13.805|
+bp_addr<3>     |halt            |   11.391|
+bp_addr<3>     |high_mem_data<0>|   13.730|
+bp_addr<3>     |high_mem_data<1>|   13.786|
+bp_addr<3>     |high_mem_data<2>|   13.769|
+bp_addr<3>     |high_mem_data<3>|   13.788|
+bp_addr<3>     |high_mem_data<4>|   13.756|
+bp_addr<3>     |high_mem_data<5>|   13.900|
+bp_addr<3>     |high_mem_data<6>|   13.743|
+bp_addr<3>     |high_mem_data<7>|   13.798|
+bp_addr<3>     |mem_re          |   12.389|
+bp_addr<3>     |mem_we          |   13.863|
+bp_addr<4>     |addr_ext<0>     |   11.201|
+bp_addr<4>     |addr_ext<1>     |   11.504|
+bp_addr<4>     |addr_ext<2>     |   11.505|
+bp_addr<4>     |addr_ext<3>     |   11.503|
+bp_addr<4>     |addr_ext<4>     |   11.829|
+bp_addr<4>     |addr_ext<5>     |   11.832|
+bp_addr<4>     |addr_ext<6>     |   11.493|
+bp_addr<4>     |addr_ext<7>     |   11.804|
+bp_addr<4>     |addr_ext<8>     |   11.543|
+bp_addr<4>     |addr_ext<9>     |   11.362|
+bp_addr<4>     |addr_ext<10>    |   11.542|
+bp_addr<4>     |addr_ext<11>    |   11.191|
+bp_addr<4>     |addr_ext<12>    |   11.362|
+bp_addr<4>     |addr_ext<13>    |   11.382|
+bp_addr<4>     |addr_ext<14>    |   11.675|
+bp_addr<4>     |addr_ext<15>    |   11.335|
+bp_addr<4>     |data_ext<0>     |   12.864|
+bp_addr<4>     |data_ext<1>     |   12.901|
+bp_addr<4>     |data_ext<2>     |   12.870|
+bp_addr<4>     |data_ext<3>     |   12.881|
+bp_addr<4>     |data_ext<4>     |   12.873|
+bp_addr<4>     |data_ext<5>     |   13.234|
+bp_addr<4>     |data_ext<6>     |   13.216|
+bp_addr<4>     |data_ext<7>     |   13.205|
+bp_addr<4>     |halt            |   10.791|
+bp_addr<4>     |high_mem_data<0>|   13.130|
+bp_addr<4>     |high_mem_data<1>|   13.186|
+bp_addr<4>     |high_mem_data<2>|   13.169|
+bp_addr<4>     |high_mem_data<3>|   13.188|
+bp_addr<4>     |high_mem_data<4>|   13.156|
+bp_addr<4>     |high_mem_data<5>|   13.300|
+bp_addr<4>     |high_mem_data<6>|   13.143|
+bp_addr<4>     |high_mem_data<7>|   13.198|
+bp_addr<4>     |mem_re          |   11.789|
+bp_addr<4>     |mem_we          |   13.263|
+bp_addr<5>     |addr_ext<0>     |   11.869|
+bp_addr<5>     |addr_ext<1>     |   12.172|
+bp_addr<5>     |addr_ext<2>     |   12.173|
+bp_addr<5>     |addr_ext<3>     |   12.171|
+bp_addr<5>     |addr_ext<4>     |   12.497|
+bp_addr<5>     |addr_ext<5>     |   12.500|
+bp_addr<5>     |addr_ext<6>     |   12.161|
+bp_addr<5>     |addr_ext<7>     |   12.472|
+bp_addr<5>     |addr_ext<8>     |   12.211|
+bp_addr<5>     |addr_ext<9>     |   12.030|
+bp_addr<5>     |addr_ext<10>    |   12.210|
+bp_addr<5>     |addr_ext<11>    |   11.859|
+bp_addr<5>     |addr_ext<12>    |   12.030|
+bp_addr<5>     |addr_ext<13>    |   12.050|
+bp_addr<5>     |addr_ext<14>    |   12.343|
+bp_addr<5>     |addr_ext<15>    |   12.003|
+bp_addr<5>     |data_ext<0>     |   13.532|
+bp_addr<5>     |data_ext<1>     |   13.569|
+bp_addr<5>     |data_ext<2>     |   13.538|
+bp_addr<5>     |data_ext<3>     |   13.549|
+bp_addr<5>     |data_ext<4>     |   13.541|
+bp_addr<5>     |data_ext<5>     |   13.902|
+bp_addr<5>     |data_ext<6>     |   13.884|
+bp_addr<5>     |data_ext<7>     |   13.873|
+bp_addr<5>     |halt            |   11.459|
+bp_addr<5>     |high_mem_data<0>|   13.798|
+bp_addr<5>     |high_mem_data<1>|   13.854|
+bp_addr<5>     |high_mem_data<2>|   13.837|
+bp_addr<5>     |high_mem_data<3>|   13.856|
+bp_addr<5>     |high_mem_data<4>|   13.824|
+bp_addr<5>     |high_mem_data<5>|   13.968|
+bp_addr<5>     |high_mem_data<6>|   13.811|
+bp_addr<5>     |high_mem_data<7>|   13.866|
+bp_addr<5>     |mem_re          |   12.457|
+bp_addr<5>     |mem_we          |   13.931|
+bp_addr<6>     |addr_ext<0>     |   11.348|
+bp_addr<6>     |addr_ext<1>     |   11.651|
+bp_addr<6>     |addr_ext<2>     |   11.652|
+bp_addr<6>     |addr_ext<3>     |   11.650|
+bp_addr<6>     |addr_ext<4>     |   11.976|
+bp_addr<6>     |addr_ext<5>     |   11.979|
+bp_addr<6>     |addr_ext<6>     |   11.640|
+bp_addr<6>     |addr_ext<7>     |   11.951|
+bp_addr<6>     |addr_ext<8>     |   11.690|
+bp_addr<6>     |addr_ext<9>     |   11.509|
+bp_addr<6>     |addr_ext<10>    |   11.689|
+bp_addr<6>     |addr_ext<11>    |   11.338|
+bp_addr<6>     |addr_ext<12>    |   11.509|
+bp_addr<6>     |addr_ext<13>    |   11.529|
+bp_addr<6>     |addr_ext<14>    |   11.822|
+bp_addr<6>     |addr_ext<15>    |   11.482|
+bp_addr<6>     |data_ext<0>     |   13.011|
+bp_addr<6>     |data_ext<1>     |   13.048|
+bp_addr<6>     |data_ext<2>     |   13.017|
+bp_addr<6>     |data_ext<3>     |   13.028|
+bp_addr<6>     |data_ext<4>     |   13.020|
+bp_addr<6>     |data_ext<5>     |   13.381|
+bp_addr<6>     |data_ext<6>     |   13.363|
+bp_addr<6>     |data_ext<7>     |   13.352|
+bp_addr<6>     |halt            |   10.938|
+bp_addr<6>     |high_mem_data<0>|   13.277|
+bp_addr<6>     |high_mem_data<1>|   13.333|
+bp_addr<6>     |high_mem_data<2>|   13.316|
+bp_addr<6>     |high_mem_data<3>|   13.335|
+bp_addr<6>     |high_mem_data<4>|   13.303|
+bp_addr<6>     |high_mem_data<5>|   13.447|
+bp_addr<6>     |high_mem_data<6>|   13.290|
+bp_addr<6>     |high_mem_data<7>|   13.345|
+bp_addr<6>     |mem_re          |   11.936|
+bp_addr<6>     |mem_we          |   13.410|
+bp_addr<7>     |addr_ext<0>     |   11.043|
+bp_addr<7>     |addr_ext<1>     |   11.346|
+bp_addr<7>     |addr_ext<2>     |   11.347|
+bp_addr<7>     |addr_ext<3>     |   11.345|
+bp_addr<7>     |addr_ext<4>     |   11.671|
+bp_addr<7>     |addr_ext<5>     |   11.674|
+bp_addr<7>     |addr_ext<6>     |   11.335|
+bp_addr<7>     |addr_ext<7>     |   11.646|
+bp_addr<7>     |addr_ext<8>     |   11.385|
+bp_addr<7>     |addr_ext<9>     |   11.204|
+bp_addr<7>     |addr_ext<10>    |   11.384|
+bp_addr<7>     |addr_ext<11>    |   11.033|
+bp_addr<7>     |addr_ext<12>    |   11.204|
+bp_addr<7>     |addr_ext<13>    |   11.224|
+bp_addr<7>     |addr_ext<14>    |   11.517|
+bp_addr<7>     |addr_ext<15>    |   11.177|
+bp_addr<7>     |data_ext<0>     |   12.706|
+bp_addr<7>     |data_ext<1>     |   12.743|
+bp_addr<7>     |data_ext<2>     |   12.712|
+bp_addr<7>     |data_ext<3>     |   12.723|
+bp_addr<7>     |data_ext<4>     |   12.715|
+bp_addr<7>     |data_ext<5>     |   13.076|
+bp_addr<7>     |data_ext<6>     |   13.058|
+bp_addr<7>     |data_ext<7>     |   13.047|
+bp_addr<7>     |halt            |   10.633|
+bp_addr<7>     |high_mem_data<0>|   12.972|
+bp_addr<7>     |high_mem_data<1>|   13.028|
+bp_addr<7>     |high_mem_data<2>|   13.011|
+bp_addr<7>     |high_mem_data<3>|   13.030|
+bp_addr<7>     |high_mem_data<4>|   12.998|
+bp_addr<7>     |high_mem_data<5>|   13.142|
+bp_addr<7>     |high_mem_data<6>|   12.985|
+bp_addr<7>     |high_mem_data<7>|   13.040|
+bp_addr<7>     |mem_re          |   11.631|
+bp_addr<7>     |mem_we          |   13.105|
+bp_addr<8>     |addr_ext<0>     |   11.551|
+bp_addr<8>     |addr_ext<1>     |   11.854|
+bp_addr<8>     |addr_ext<2>     |   11.855|
+bp_addr<8>     |addr_ext<3>     |   11.853|
+bp_addr<8>     |addr_ext<4>     |   12.179|
+bp_addr<8>     |addr_ext<5>     |   12.182|
+bp_addr<8>     |addr_ext<6>     |   11.843|
+bp_addr<8>     |addr_ext<7>     |   12.154|
+bp_addr<8>     |addr_ext<8>     |   11.893|
+bp_addr<8>     |addr_ext<9>     |   11.712|
+bp_addr<8>     |addr_ext<10>    |   11.892|
+bp_addr<8>     |addr_ext<11>    |   11.541|
+bp_addr<8>     |addr_ext<12>    |   11.712|
+bp_addr<8>     |addr_ext<13>    |   11.732|
+bp_addr<8>     |addr_ext<14>    |   12.025|
+bp_addr<8>     |addr_ext<15>    |   11.685|
+bp_addr<8>     |data_ext<0>     |   13.214|
+bp_addr<8>     |data_ext<1>     |   13.251|
+bp_addr<8>     |data_ext<2>     |   13.220|
+bp_addr<8>     |data_ext<3>     |   13.231|
+bp_addr<8>     |data_ext<4>     |   13.223|
+bp_addr<8>     |data_ext<5>     |   13.584|
+bp_addr<8>     |data_ext<6>     |   13.566|
+bp_addr<8>     |data_ext<7>     |   13.555|
+bp_addr<8>     |halt            |   11.141|
+bp_addr<8>     |high_mem_data<0>|   13.480|
+bp_addr<8>     |high_mem_data<1>|   13.536|
+bp_addr<8>     |high_mem_data<2>|   13.519|
+bp_addr<8>     |high_mem_data<3>|   13.538|
+bp_addr<8>     |high_mem_data<4>|   13.506|
+bp_addr<8>     |high_mem_data<5>|   13.650|
+bp_addr<8>     |high_mem_data<6>|   13.493|
+bp_addr<8>     |high_mem_data<7>|   13.548|
+bp_addr<8>     |mem_re          |   12.139|
+bp_addr<8>     |mem_we          |   13.613|
+bp_addr<9>     |addr_ext<0>     |   11.654|
+bp_addr<9>     |addr_ext<1>     |   11.957|
+bp_addr<9>     |addr_ext<2>     |   11.958|
+bp_addr<9>     |addr_ext<3>     |   11.956|
+bp_addr<9>     |addr_ext<4>     |   12.282|
+bp_addr<9>     |addr_ext<5>     |   12.285|
+bp_addr<9>     |addr_ext<6>     |   11.946|
+bp_addr<9>     |addr_ext<7>     |   12.257|
+bp_addr<9>     |addr_ext<8>     |   11.996|
+bp_addr<9>     |addr_ext<9>     |   11.815|
+bp_addr<9>     |addr_ext<10>    |   11.995|
+bp_addr<9>     |addr_ext<11>    |   11.644|
+bp_addr<9>     |addr_ext<12>    |   11.815|
+bp_addr<9>     |addr_ext<13>    |   11.835|
+bp_addr<9>     |addr_ext<14>    |   12.128|
+bp_addr<9>     |addr_ext<15>    |   11.788|
+bp_addr<9>     |data_ext<0>     |   13.317|
+bp_addr<9>     |data_ext<1>     |   13.354|
+bp_addr<9>     |data_ext<2>     |   13.323|
+bp_addr<9>     |data_ext<3>     |   13.334|
+bp_addr<9>     |data_ext<4>     |   13.326|
+bp_addr<9>     |data_ext<5>     |   13.687|
+bp_addr<9>     |data_ext<6>     |   13.669|
+bp_addr<9>     |data_ext<7>     |   13.658|
+bp_addr<9>     |halt            |   11.244|
+bp_addr<9>     |high_mem_data<0>|   13.583|
+bp_addr<9>     |high_mem_data<1>|   13.639|
+bp_addr<9>     |high_mem_data<2>|   13.622|
+bp_addr<9>     |high_mem_data<3>|   13.641|
+bp_addr<9>     |high_mem_data<4>|   13.609|
+bp_addr<9>     |high_mem_data<5>|   13.753|
+bp_addr<9>     |high_mem_data<6>|   13.596|
+bp_addr<9>     |high_mem_data<7>|   13.651|
+bp_addr<9>     |mem_re          |   12.242|
+bp_addr<9>     |mem_we          |   13.716|
+bp_addr<10>    |addr_ext<0>     |   11.652|
+bp_addr<10>    |addr_ext<1>     |   11.955|
+bp_addr<10>    |addr_ext<2>     |   11.956|
+bp_addr<10>    |addr_ext<3>     |   11.954|
+bp_addr<10>    |addr_ext<4>     |   12.280|
+bp_addr<10>    |addr_ext<5>     |   12.283|
+bp_addr<10>    |addr_ext<6>     |   11.944|
+bp_addr<10>    |addr_ext<7>     |   12.255|
+bp_addr<10>    |addr_ext<8>     |   11.994|
+bp_addr<10>    |addr_ext<9>     |   11.813|
+bp_addr<10>    |addr_ext<10>    |   11.993|
+bp_addr<10>    |addr_ext<11>    |   11.642|
+bp_addr<10>    |addr_ext<12>    |   11.813|
+bp_addr<10>    |addr_ext<13>    |   11.833|
+bp_addr<10>    |addr_ext<14>    |   12.126|
+bp_addr<10>    |addr_ext<15>    |   11.786|
+bp_addr<10>    |data_ext<0>     |   13.315|
+bp_addr<10>    |data_ext<1>     |   13.352|
+bp_addr<10>    |data_ext<2>     |   13.321|
+bp_addr<10>    |data_ext<3>     |   13.332|
+bp_addr<10>    |data_ext<4>     |   13.324|
+bp_addr<10>    |data_ext<5>     |   13.685|
+bp_addr<10>    |data_ext<6>     |   13.667|
+bp_addr<10>    |data_ext<7>     |   13.656|
+bp_addr<10>    |halt            |   11.242|
+bp_addr<10>    |high_mem_data<0>|   13.581|
+bp_addr<10>    |high_mem_data<1>|   13.637|
+bp_addr<10>    |high_mem_data<2>|   13.620|
+bp_addr<10>    |high_mem_data<3>|   13.639|
+bp_addr<10>    |high_mem_data<4>|   13.607|
+bp_addr<10>    |high_mem_data<5>|   13.751|
+bp_addr<10>    |high_mem_data<6>|   13.594|
+bp_addr<10>    |high_mem_data<7>|   13.649|
+bp_addr<10>    |mem_re          |   12.240|
+bp_addr<10>    |mem_we          |   13.714|
+bp_addr<11>    |addr_ext<0>     |   11.508|
+bp_addr<11>    |addr_ext<1>     |   11.811|
+bp_addr<11>    |addr_ext<2>     |   11.812|
+bp_addr<11>    |addr_ext<3>     |   11.810|
+bp_addr<11>    |addr_ext<4>     |   12.136|
+bp_addr<11>    |addr_ext<5>     |   12.139|
+bp_addr<11>    |addr_ext<6>     |   11.800|
+bp_addr<11>    |addr_ext<7>     |   12.111|
+bp_addr<11>    |addr_ext<8>     |   11.850|
+bp_addr<11>    |addr_ext<9>     |   11.669|
+bp_addr<11>    |addr_ext<10>    |   11.849|
+bp_addr<11>    |addr_ext<11>    |   11.498|
+bp_addr<11>    |addr_ext<12>    |   11.669|
+bp_addr<11>    |addr_ext<13>    |   11.689|
+bp_addr<11>    |addr_ext<14>    |   11.982|
+bp_addr<11>    |addr_ext<15>    |   11.642|
+bp_addr<11>    |data_ext<0>     |   13.171|
+bp_addr<11>    |data_ext<1>     |   13.208|
+bp_addr<11>    |data_ext<2>     |   13.177|
+bp_addr<11>    |data_ext<3>     |   13.188|
+bp_addr<11>    |data_ext<4>     |   13.180|
+bp_addr<11>    |data_ext<5>     |   13.541|
+bp_addr<11>    |data_ext<6>     |   13.523|
+bp_addr<11>    |data_ext<7>     |   13.512|
+bp_addr<11>    |halt            |   11.098|
+bp_addr<11>    |high_mem_data<0>|   13.437|
+bp_addr<11>    |high_mem_data<1>|   13.493|
+bp_addr<11>    |high_mem_data<2>|   13.476|
+bp_addr<11>    |high_mem_data<3>|   13.495|
+bp_addr<11>    |high_mem_data<4>|   13.463|
+bp_addr<11>    |high_mem_data<5>|   13.607|
+bp_addr<11>    |high_mem_data<6>|   13.450|
+bp_addr<11>    |high_mem_data<7>|   13.505|
+bp_addr<11>    |mem_re          |   12.096|
+bp_addr<11>    |mem_we          |   13.570|
+bp_addr<12>    |addr_ext<0>     |   11.203|
+bp_addr<12>    |addr_ext<1>     |   11.506|
+bp_addr<12>    |addr_ext<2>     |   11.507|
+bp_addr<12>    |addr_ext<3>     |   11.505|
+bp_addr<12>    |addr_ext<4>     |   11.831|
+bp_addr<12>    |addr_ext<5>     |   11.834|
+bp_addr<12>    |addr_ext<6>     |   11.495|
+bp_addr<12>    |addr_ext<7>     |   11.806|
+bp_addr<12>    |addr_ext<8>     |   11.545|
+bp_addr<12>    |addr_ext<9>     |   11.364|
+bp_addr<12>    |addr_ext<10>    |   11.544|
+bp_addr<12>    |addr_ext<11>    |   11.193|
+bp_addr<12>    |addr_ext<12>    |   11.364|
+bp_addr<12>    |addr_ext<13>    |   11.384|
+bp_addr<12>    |addr_ext<14>    |   11.677|
+bp_addr<12>    |addr_ext<15>    |   11.337|
+bp_addr<12>    |data_ext<0>     |   12.866|
+bp_addr<12>    |data_ext<1>     |   12.903|
+bp_addr<12>    |data_ext<2>     |   12.872|
+bp_addr<12>    |data_ext<3>     |   12.883|
+bp_addr<12>    |data_ext<4>     |   12.875|
+bp_addr<12>    |data_ext<5>     |   13.236|
+bp_addr<12>    |data_ext<6>     |   13.218|
+bp_addr<12>    |data_ext<7>     |   13.207|
+bp_addr<12>    |halt            |   10.793|
+bp_addr<12>    |high_mem_data<0>|   13.132|
+bp_addr<12>    |high_mem_data<1>|   13.188|
+bp_addr<12>    |high_mem_data<2>|   13.171|
+bp_addr<12>    |high_mem_data<3>|   13.190|
+bp_addr<12>    |high_mem_data<4>|   13.158|
+bp_addr<12>    |high_mem_data<5>|   13.302|
+bp_addr<12>    |high_mem_data<6>|   13.145|
+bp_addr<12>    |high_mem_data<7>|   13.200|
+bp_addr<12>    |mem_re          |   11.791|
+bp_addr<12>    |mem_we          |   13.265|
+bp_addr<13>    |addr_ext<0>     |   11.342|
+bp_addr<13>    |addr_ext<1>     |   11.645|
+bp_addr<13>    |addr_ext<2>     |   11.646|
+bp_addr<13>    |addr_ext<3>     |   11.644|
+bp_addr<13>    |addr_ext<4>     |   11.970|
+bp_addr<13>    |addr_ext<5>     |   11.973|
+bp_addr<13>    |addr_ext<6>     |   11.634|
+bp_addr<13>    |addr_ext<7>     |   11.945|
+bp_addr<13>    |addr_ext<8>     |   11.684|
+bp_addr<13>    |addr_ext<9>     |   11.503|
+bp_addr<13>    |addr_ext<10>    |   11.683|
+bp_addr<13>    |addr_ext<11>    |   11.332|
+bp_addr<13>    |addr_ext<12>    |   11.503|
+bp_addr<13>    |addr_ext<13>    |   11.523|
+bp_addr<13>    |addr_ext<14>    |   11.816|
+bp_addr<13>    |addr_ext<15>    |   11.476|
+bp_addr<13>    |data_ext<0>     |   13.005|
+bp_addr<13>    |data_ext<1>     |   13.042|
+bp_addr<13>    |data_ext<2>     |   13.011|
+bp_addr<13>    |data_ext<3>     |   13.022|
+bp_addr<13>    |data_ext<4>     |   13.014|
+bp_addr<13>    |data_ext<5>     |   13.375|
+bp_addr<13>    |data_ext<6>     |   13.357|
+bp_addr<13>    |data_ext<7>     |   13.346|
+bp_addr<13>    |halt            |   10.932|
+bp_addr<13>    |high_mem_data<0>|   13.271|
+bp_addr<13>    |high_mem_data<1>|   13.327|
+bp_addr<13>    |high_mem_data<2>|   13.310|
+bp_addr<13>    |high_mem_data<3>|   13.329|
+bp_addr<13>    |high_mem_data<4>|   13.297|
+bp_addr<13>    |high_mem_data<5>|   13.441|
+bp_addr<13>    |high_mem_data<6>|   13.284|
+bp_addr<13>    |high_mem_data<7>|   13.339|
+bp_addr<13>    |mem_re          |   11.930|
+bp_addr<13>    |mem_we          |   13.404|
+bp_addr<14>    |addr_ext<0>     |   11.329|
+bp_addr<14>    |addr_ext<1>     |   11.632|
+bp_addr<14>    |addr_ext<2>     |   11.633|
+bp_addr<14>    |addr_ext<3>     |   11.631|
+bp_addr<14>    |addr_ext<4>     |   11.957|
+bp_addr<14>    |addr_ext<5>     |   11.960|
+bp_addr<14>    |addr_ext<6>     |   11.621|
+bp_addr<14>    |addr_ext<7>     |   11.932|
+bp_addr<14>    |addr_ext<8>     |   11.671|
+bp_addr<14>    |addr_ext<9>     |   11.490|
+bp_addr<14>    |addr_ext<10>    |   11.670|
+bp_addr<14>    |addr_ext<11>    |   11.319|
+bp_addr<14>    |addr_ext<12>    |   11.490|
+bp_addr<14>    |addr_ext<13>    |   11.510|
+bp_addr<14>    |addr_ext<14>    |   11.803|
+bp_addr<14>    |addr_ext<15>    |   11.463|
+bp_addr<14>    |data_ext<0>     |   12.992|
+bp_addr<14>    |data_ext<1>     |   13.029|
+bp_addr<14>    |data_ext<2>     |   12.998|
+bp_addr<14>    |data_ext<3>     |   13.009|
+bp_addr<14>    |data_ext<4>     |   13.001|
+bp_addr<14>    |data_ext<5>     |   13.362|
+bp_addr<14>    |data_ext<6>     |   13.344|
+bp_addr<14>    |data_ext<7>     |   13.333|
+bp_addr<14>    |halt            |   10.919|
+bp_addr<14>    |high_mem_data<0>|   13.258|
+bp_addr<14>    |high_mem_data<1>|   13.314|
+bp_addr<14>    |high_mem_data<2>|   13.297|
+bp_addr<14>    |high_mem_data<3>|   13.316|
+bp_addr<14>    |high_mem_data<4>|   13.284|
+bp_addr<14>    |high_mem_data<5>|   13.428|
+bp_addr<14>    |high_mem_data<6>|   13.271|
+bp_addr<14>    |high_mem_data<7>|   13.326|
+bp_addr<14>    |mem_re          |   11.917|
+bp_addr<14>    |mem_we          |   13.391|
+bp_addr<15>    |addr_ext<0>     |   11.158|
+bp_addr<15>    |addr_ext<1>     |   11.461|
+bp_addr<15>    |addr_ext<2>     |   11.462|
+bp_addr<15>    |addr_ext<3>     |   11.460|
+bp_addr<15>    |addr_ext<4>     |   11.786|
+bp_addr<15>    |addr_ext<5>     |   11.789|
+bp_addr<15>    |addr_ext<6>     |   11.450|
+bp_addr<15>    |addr_ext<7>     |   11.761|
+bp_addr<15>    |addr_ext<8>     |   11.500|
+bp_addr<15>    |addr_ext<9>     |   11.319|
+bp_addr<15>    |addr_ext<10>    |   11.499|
+bp_addr<15>    |addr_ext<11>    |   11.148|
+bp_addr<15>    |addr_ext<12>    |   11.319|
+bp_addr<15>    |addr_ext<13>    |   11.339|
+bp_addr<15>    |addr_ext<14>    |   11.632|
+bp_addr<15>    |addr_ext<15>    |   11.292|
+bp_addr<15>    |data_ext<0>     |   12.821|
+bp_addr<15>    |data_ext<1>     |   12.858|
+bp_addr<15>    |data_ext<2>     |   12.827|
+bp_addr<15>    |data_ext<3>     |   12.838|
+bp_addr<15>    |data_ext<4>     |   12.830|
+bp_addr<15>    |data_ext<5>     |   13.191|
+bp_addr<15>    |data_ext<6>     |   13.173|
+bp_addr<15>    |data_ext<7>     |   13.162|
+bp_addr<15>    |halt            |   10.748|
+bp_addr<15>    |high_mem_data<0>|   13.087|
+bp_addr<15>    |high_mem_data<1>|   13.143|
+bp_addr<15>    |high_mem_data<2>|   13.126|
+bp_addr<15>    |high_mem_data<3>|   13.145|
+bp_addr<15>    |high_mem_data<4>|   13.113|
+bp_addr<15>    |high_mem_data<5>|   13.257|
+bp_addr<15>    |high_mem_data<6>|   13.100|
+bp_addr<15>    |high_mem_data<7>|   13.155|
+bp_addr<15>    |mem_re          |   11.746|
+bp_addr<15>    |mem_we          |   13.220|
+cpu_mem_disable|addr_ext<0>     |    7.871|
+cpu_mem_disable|addr_ext<1>     |    8.174|
+cpu_mem_disable|addr_ext<2>     |    8.175|
+cpu_mem_disable|addr_ext<3>     |    8.173|
+cpu_mem_disable|addr_ext<4>     |    8.499|
+cpu_mem_disable|addr_ext<5>     |    8.502|
+cpu_mem_disable|addr_ext<6>     |    8.163|
+cpu_mem_disable|addr_ext<7>     |    8.474|
+cpu_mem_disable|addr_ext<8>     |    8.213|
+cpu_mem_disable|addr_ext<9>     |    8.032|
+cpu_mem_disable|addr_ext<10>    |    8.212|
+cpu_mem_disable|addr_ext<11>    |    7.861|
+cpu_mem_disable|addr_ext<12>    |    8.032|
+cpu_mem_disable|addr_ext<13>    |    8.052|
+cpu_mem_disable|addr_ext<14>    |    8.345|
+cpu_mem_disable|addr_ext<15>    |    8.005|
+cpu_mem_disable|data_ext<0>     |    7.343|
+cpu_mem_disable|data_ext<1>     |    7.380|
+cpu_mem_disable|data_ext<2>     |    7.349|
+cpu_mem_disable|data_ext<3>     |    7.360|
+cpu_mem_disable|data_ext<4>     |    7.352|
+cpu_mem_disable|data_ext<5>     |    7.713|
+cpu_mem_disable|data_ext<6>     |    7.695|
+cpu_mem_disable|data_ext<7>     |    7.684|
+cpu_mem_disable|mem_re          |    7.874|
+cpu_mem_disable|mem_we          |    7.903|
+---------------+----------------+---------+
+
+
+Analysis completed Sun Oct 05 15:43:21 2014 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 461 MB
+
+
+
