@@ -4,22 +4,19 @@
 `define EXTERNAL_EXPANSION_LO 'hA000
 `define EXTERNAL_EXPANSION_HI 'hBFFF
 
-`define LCD_RAM_LO 'h8000
-`define LCD_RAM_HI 'h9FFF
+`define LCDRAM_LO 'h8000
+`define LCDRAM_HI 'h9FFF
 
-`define WORK_RAM_BANK0_LO 'hC000
-`define WORK_RAM_BANK0_HI 'hCFFF
-
-`define WORK_RAM_BANKI_LO 'hD000
-`define WORK_RAM_BANKI_HI 'hDFFF
+`define WRAM_LO 'hC000
+`define WRAM_HI 'hCFFF
 
 `define OAM_LO 'hFE00
 `define OAM_HI 'hFF7F
 
-`define EXTRA_WORK_RAM_LO 'hFF80
-`define EXTRA_WORK_RAM_HI 'hFFFE
+`define LWRAM_LO 'hFF80
+`define LWRAM_HI 'hFFFE
 
-`define IO_REGISTERS_LO 'hFF00
-`define IO_REGISTERS_HI 'hFF7F
+`define IOREG_LO 'hFF00
+`define IOREG_HI 'hFF7F
 
 `define IE_REGISTER 'hFFFF
