@@ -47,3 +47,7 @@ always @(posedge I_CLK or I_RESET) begin
 end
 
 endmodule // bram_router
+
+module bram_router_test();
+	  
+endmodule // bram_router_test
