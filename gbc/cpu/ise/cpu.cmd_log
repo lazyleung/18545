@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "C:/Users/ash/Documents/18545/gbc/cpu/ise/cpu.xst" -ofn "C:/Users/ash/Documents/18545/gbc/cpu/ise/cpu.syr" 
