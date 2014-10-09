@@ -1,4 +1,7 @@
-module io_bus_parser_reg(
+
+/* IO BUS PARSER*/
+
+module io_bus_parser_reg (
                          /*System Level Signals*/
                          I_CLK,
                          I_SYNC_RESET,
@@ -10,8 +13,8 @@ module io_bus_parser_reg(
                             written to register ONE cycle later*/
                          IO_DATA_BUS,
                          I_ADDR_BUS,
-                         I_WE_BUS,
-                         I_RE_BUS,
+                         I_WE_BUS_L,
+                         I_RE_BUS_L,
 
                          /*Interface with external modules*/
                          I_DATA_WR, //to write to the io register
@@ -27,7 +30,7 @@ module io_bus_parser_reg(
    input I_CLK, I_SYNC_RESET;
    inout [7:0] IO_DATA_BUS;
    input [15:0] I_ADDR_BUS;
-   input        I_WE_BUS, I_RE_BUS;
+   input        I_WE_BUS_L, I_RE_BUS_L;
 
    /*Description of the interface with the
     *external module accessing the io register*/
@@ -41,49 +44,52 @@ module io_bus_parser_reg(
    reg 	     data_bus_en;
    reg [7:0] write_bus_data;
    reg [7:0] ext_comp_wr_data;
-   
+
 
    /*tell external module to wait if the CPU memory mapped IO
      write transaction is taking place*/
-   assign O_WAIT = I_WE_BUS;
+   assign O_WAIT = ~I_WE_BUS_L & (I_ADDR_BUS == P_REGISTER_ADDR);
 
    /*always make reading the register available*/
    assign O_DATA_READ = io_register;
 
    /*write to the tristate data bus when indicated to do so*/
    assign IO_DATA_BUS = (data_bus_en) ? write_bus_data : 8'bzzzzzzzz;
-   
-   
+
+
    always @(posedge I_CLK) begin
 
       io_register <= io_register;
       data_bus_en <= 'b0;
-      
+
       /*if the IO register identifies itself*/
       if (I_ADDR_BUS == P_REGISTER_ADDR) begin
 
+	 
          /*if any write transaction for the bus,
           *service it, ingoring all other interfaces*/
-         if (I_WE_BUS) begin
+         if (~I_WE_BUS_L) begin
             io_register <= IO_DATA_BUS;
          end
 
          /* if writing from external module and the bus is
           * reading, forward the new data*/
-         else if (I_REG_WR_EN & I_RE_BUS) begin
+         else if (I_REG_WR_EN & ~I_RE_BUS_L) begin
             io_register <= I_DATA_WR;
             write_bus_data <= I_DATA_WR;
 	    data_bus_en <= 'b1;
+	    $display("Case 1 Found!!");
          end
 
          /*if only writing from the external module,
            load the data in*/
          else if (I_REG_WR_EN) begin
             io_register <= I_DATA_WR;
+	    $display("Case 2 Found!!");
          end
 
          /* if only reading, then return the io register data*/
-         else if (I_RE_BUS) begin
+         else if (~I_RE_BUS_L) begin
             write_bus_data <= io_register;
 	    data_bus_en <= 'b1;
          end
