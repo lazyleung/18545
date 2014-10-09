@@ -16,7 +16,7 @@
 module cpu(/*AUTOARG*/
    // Outputs
    high_mem_data, high_mem_addr, F_data, A_data, instruction, IF_data,
-   IE_data, regs_data, mem_we, mem_re, halt, debug_halt,
+   IE_data, regs_data, mem_we_l, mem_re_l, halt, debug_halt,
    // Inouts
    addr_ext, data_ext,
    // Inputs
@@ -40,7 +40,7 @@ module cpu(/*AUTOARG*/
 
    output wire [4:0] IF_data, IE_data;
    
-   output wire  mem_we, mem_re;
+   output wire  mem_we_l, mem_re_l;
    output wire  halt;
    output wire  debug_halt;
 
@@ -127,7 +127,7 @@ module cpu(/*AUTOARG*/
    assign interrupt = ~((IF_data & IE_data) == 5'd0);
    assign IF_in_l = (IF_load_l) ? IF_in | (IF_data & interrupt_mask) : IF_in;
 
-   assign IE_load_l = (mem_we) ? addr_ext == `MMIO_IE : 1'b0;
+   assign IE_load_l = (~mem_we_l) ? addr_ext == `MMIO_IE : 1'b0;
    assign IE_in_l = (IE_load_l) ? data_ext[4:0] : IE_in;
    
    always @(*) begin
@@ -190,8 +190,8 @@ module cpu(/*AUTOARG*/
    wire        data_buf_load, data_buf_write;
 
    // Outputs
-   assign mem_we = data_buf_write_ext & ~high_mem & ~cpu_mem_disable;
-   assign mem_re = data_buf_load_ext & ~high_mem & ~cpu_mem_disable;
+   assign mem_we_l = ~(data_buf_write_ext & ~high_mem & ~cpu_mem_disable);
+   assign mem_re_l = ~(data_buf_load_ext & ~high_mem & ~cpu_mem_disable);
    
    // Registers
    wire        inst_reg_load, A_load, F_load, temp1_load, temp0_load;
