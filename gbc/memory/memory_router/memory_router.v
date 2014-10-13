@@ -1,4 +1,4 @@
-`include "memdef.vh"
+`include "memory/memory_router/memdef.vh"
 
 
 module memory_router(

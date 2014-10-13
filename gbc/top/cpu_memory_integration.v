@@ -1,17 +1,15 @@
-`include "../memory/memory_router/memdef.vh"
-`include "../cpu/cpu.v"
-`include "../memory/io_bus_parser/io_bus_parser.v"
-`include "../memory/working_ram_bank/working_ram_banking.v"
-
+`include "memory/memory_router/memdef.vh"
+`include "memory/working_memory_bank/working_memory_banking.v"
+`include "memory/memory_router/memory_router.v"
+`include "cpu/src/cpu.v"
 
 module cpu_mem_integration();
 
-   output [7:0] O_DATA1, O_DATA2;
 
    wire 	cpu_mem_we_l, cpu_mem_re_l, cpu_halt;
    tri [15:0] 	addr_ext;
    tri [7:0] 	data_ext;
-   wire 	clock, reset;
+   reg 		clock, reset;
 
    wire [15:0] 	cpu_addr;
    assign cpu_addr = addr_ext;
@@ -24,6 +22,10 @@ module cpu_mem_integration();
    tri [7:0] 	wram_data;
    wire [15:0]	wram_addr;
    wire 	wram_we_l, wram_re_l;
+   wire [7:0] 	ioreg1_data, ioreg2_data;
+
+   wire 	gb_mode ;
+   assign gb_mode = 0;
    
    always
      #5 clock = ~clock;
@@ -54,7 +56,6 @@ module cpu_mem_integration();
 			.IO_CPU_DATA(data_ext),
 			.I_CPU_WE_L(cpu_mem_we_l),
 			.I_CPU_RE_L(cpu_mem_re_l),
-
 
 			/* IO Register Bus */
 			.O_IOREG_ADDR(iobus_addr),
@@ -101,7 +102,7 @@ module cpu_mem_integration();
 			    .IO_WRAM_DATA(wram_data),
 			    .I_WRAM_WE_L(wram_we_l),
 			    .I_WRAM_RE_L(wram_re_l),
-			    .I_IN_DMG_MODE(0)
+			    .I_IN_DMG_MODE(gb_mode)
 			    );
    
 endmodule

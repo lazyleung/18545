@@ -1,4 +1,4 @@
-`include "cpu.vh"
+`include "cpu/src/cpu.vh"
 /**
  * The GB80 decode module.
  * 
