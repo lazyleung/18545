@@ -1,17 +1,16 @@
-`include "../memory/memory_router/memdef.vh"
-`include "../cpu/cpu.v"
-`include "../memory/io_bus_parser/io_bus_parser.v"
-`include "../memory/working_ram_bank/working_ram_banking.v"
-
+`include "memory/memory_router/memdef.vh"
+`include "memory/working_memory_bank/working_memory_banking.v"
+`include "memory/memory_router/memory_router.v"
+`include "cpu/src/cpu.v"
+`include "memory/cartridge_sim.v"
 
 module cpu_mem_integration();
 
-   output [7:0] O_DATA1, O_DATA2;
 
    wire 	cpu_mem_we_l, cpu_mem_re_l, cpu_halt;
    tri [15:0] 	addr_ext;
    tri [7:0] 	data_ext;
-   wire 	clock, reset;
+   reg 		clock, reset;
 
    wire [15:0] 	cpu_addr;
    assign cpu_addr = addr_ext;
@@ -24,6 +23,17 @@ module cpu_mem_integration();
    tri [7:0] 	wram_data;
    wire [15:0]	wram_addr;
    wire 	wram_we_l, wram_re_l;
+
+   
+   tri [7:0] 	cartridge_data;
+   wire [15:0]	cartridge_addr;
+   wire 	cartridge_we_l, cartridge_re_l;
+
+   
+   wire [7:0] 	ioreg1_data, ioreg2_data;
+
+   wire 	gb_mode ;
+   assign gb_mode = 0;
    
    always
      #5 clock = ~clock;
@@ -55,7 +65,6 @@ module cpu_mem_integration();
 			.I_CPU_WE_L(cpu_mem_we_l),
 			.I_CPU_RE_L(cpu_mem_re_l),
 
-
 			/* IO Register Bus */
 			.O_IOREG_ADDR(iobus_addr),
 			.IO_IOREG_DATA(iobus_data),
@@ -66,10 +75,16 @@ module cpu_mem_integration();
 			.O_WRAM_ADDR(wram_addr),
 			.IO_WRAM_DATA(wram_data),
 			.O_WRAM_WE_L(wram_we_l),
-			.O_WRAM_RE_L(wram_re_l)
+			.O_WRAM_RE_L(wram_re_l),
+
+			.O_CARTRIDGE_ADDR(cartridge_addr),
+			.IO_CARTRIDGE_DATA(cartridge_data),
+			.O_CARTRIDGE_WE_L(cartridge_we_l),
+			.O_CARTRIDGE_RE_L(cartridge_re_l)
+
+
 			);
 
-   reg [7:0] 	ioreg1_data, ioreg_data2;
 
    io_bus_parser_reg #(`SC, 0)ioreg1(
 				     .I_CLK(clock),
@@ -101,8 +116,21 @@ module cpu_mem_integration();
 			    .IO_WRAM_DATA(wram_data),
 			    .I_WRAM_WE_L(wram_we_l),
 			    .I_WRAM_RE_L(wram_re_l),
-			    .I_IN_DMG_MODE(0)
+			    .I_IN_DMG_MODE(gb_mode)
 			    );
+
+   
+   cartridge_sim cartsim(
+			 .I_CLK(clock),
+			 .I_RESET(reset),
+			 .I_CARTRIDGE_ADDR(cartridge_addr),
+			 .IO_CARTRIDGE_DATA(cartridge_data),
+			 .I_CARTRIDGE_WE_L(cartridge_we_l),
+			 .I_CARTRIDGE_RE_L(cartridge_we_l)
+			 );
+
+
+   
    
 endmodule
 			
