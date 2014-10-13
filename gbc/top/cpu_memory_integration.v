@@ -2,6 +2,7 @@
 `include "memory/working_memory_bank/working_memory_banking.v"
 `include "memory/memory_router/memory_router.v"
 `include "cpu/src/cpu.v"
+`include "memory/cartridge_sim.v"
 
 module cpu_mem_integration();
 
@@ -22,6 +23,13 @@ module cpu_mem_integration();
    tri [7:0] 	wram_data;
    wire [15:0]	wram_addr;
    wire 	wram_we_l, wram_re_l;
+
+   
+   tri [7:0] 	cartridge_data;
+   wire [15:0]	cartridge_addr;
+   wire 	cartridge_we_l, cartridge_re_l;
+
+   
    wire [7:0] 	ioreg1_data, ioreg2_data;
 
    wire 	gb_mode ;
@@ -67,10 +75,16 @@ module cpu_mem_integration();
 			.O_WRAM_ADDR(wram_addr),
 			.IO_WRAM_DATA(wram_data),
 			.O_WRAM_WE_L(wram_we_l),
-			.O_WRAM_RE_L(wram_re_l)
+			.O_WRAM_RE_L(wram_re_l),
+
+			.O_CARTRIDGE_ADDR(cartridge_addr),
+			.IO_CARTRIDGE_DATA(cartridge_data),
+			.O_CARTRIDGE_WE_L(cartridge_we_l),
+			.O_CARTRIDGE_RE_L(cartridge_re_l)
+
+
 			);
 
-   reg [7:0] 	ioreg1_data, ioreg_data2;
 
    io_bus_parser_reg #(`SC, 0)ioreg1(
 				     .I_CLK(clock),
@@ -104,6 +118,19 @@ module cpu_mem_integration();
 			    .I_WRAM_RE_L(wram_re_l),
 			    .I_IN_DMG_MODE(gb_mode)
 			    );
+
+   
+   cartridge_sim cartsim(
+			 .I_CLK(clock),
+			 .I_RESET(reset),
+			 .I_CARTRIDGE_ADDR(cartridge_addr),
+			 .IO_CARTRIDGE_DATA(cartridge_data),
+			 .I_CARTRIDGE_WE_L(cartridge_we_l),
+			 .I_CARTRIDGE_RE_L(cartridge_we_l)
+			 );
+
+
+   
    
 endmodule
 			
