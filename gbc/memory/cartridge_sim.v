@@ -25,7 +25,7 @@ module cartridge_sim(
 
    assign bram_addr = router_addr[14:0];
 
-   bram_router #(16'h0FFF) ifconverter(
+   bram_wrapper #(16'h0FFF) ifconverter(
 				       .I_CLK(I_CLK),
 				       .I_RESET(I_RESET),
 				       .I_ADDR(I_CARTRIDGE_ADDR),

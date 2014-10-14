@@ -1,4 +1,4 @@
-`include "memory/memory_router/memdef.vh"
+`include "memdef.vh"
 
 
 module memory_router(
@@ -137,7 +137,7 @@ module memory_router(
    reg 		     cpu_accessing_ioreg, cpu_accessing_cartridge, cpu_accessing_lcdram,
 		     cpu_accessing_wram,  cpu_accessing_oam,       cpu_accessing_lwram;
    reg 		     ppu_accessing_ioreg, ppu_accessing_cartridge, ppu_accessing_lcdram,
-		     ppu_accessing_wram, ppu_accessing_oam,        cpu_accessing_lwram;
+		     ppu_accessing_wram, ppu_accessing_oam,        ppu_accessing_lwram;
    reg 		     rdma_accessing_ioreg, rdma_accessing_cartridge, rdma_accessing_lcdram,
 		     rdma_accessing_wram,  rdma_accessing_oam,     rdma_accessing_lwram;
    reg 		     wdma_accessing_ioreg, wdma_accessing_cartridge, wdma_accessing_lcdram,
@@ -272,12 +272,12 @@ module memory_router(
       oam_cpu_return <= 0;
       lwram_cpu_return <= 0;
 
-      ioreg_cpu_return <= cpu_accessing_ioreg & ~I_CPU_WE_L;
-      cartridge_cpu_return <= cpu_accessing_cartridge & ~I_CPU_WE_L;
-      lcdram_cpu_return <= cpu_accessing_lcdram & ~I_CPU_WE_L;
-      wram_cpu_return <= cpu_accessing_wram & ~I_CPU_WE_L;
-      oam_cpu_return <= cpu_accessing_oam & ~I_CPU_WE_L;
-      lwram_cpu_return <= cpu_accessing_oam & ~I_CPU_WE_L;
+      ioreg_cpu_return <= cpu_accessing_ioreg & ~I_CPU_RE_L;
+      cartridge_cpu_return <= cpu_accessing_cartridge & ~I_CPU_RE_L;
+      lcdram_cpu_return <= cpu_accessing_lcdram & ~I_CPU_RE_L;
+      wram_cpu_return <= cpu_accessing_wram & ~I_CPU_RE_L;
+      oam_cpu_return <= cpu_accessing_oam & ~I_CPU_RE_L;
+      lwram_cpu_return <= cpu_accessing_oam & ~I_CPU_RE_L;
 
    end // always @ (posedge I_CLK)
 

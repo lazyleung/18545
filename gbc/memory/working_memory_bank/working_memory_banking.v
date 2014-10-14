@@ -1,8 +1,4 @@
-`include "memory/io_bus_parser/io_bus_parser.v"
-`include "memory/cpuIF_2_bramIF/bram_wrapper.v"
-//`include "../bram_core2/bram_core/ipcore_dir/bram.v"
-`include "memory/bram_sim/bram_sim.v"
-`include "memory/memory_router/memdef.vh"
+`include "../memory_router/memdef.vh"
 
 /*WORKING MEMORY BANK - reads the specified working bank from
  *the io bus register and determines whether the address to 
@@ -99,7 +95,7 @@ module working_memory_bank(
    
    /*keep only 12 bits since we are working with
     *4 kbyte segments of memory*/ 
-   bram_router #(16'h0FFF) ifconverter(
+   bram_wrapper #(16'h0FFF) ifconverter(
 				       .I_CLK(I_CLK),
 				       .I_RESET(I_RESET),
 				       .I_ADDR(I_WRAM_ADDR),

@@ -34,9 +34,10 @@ output [7 : 0] doutb;
 
 reg[7:0] i_mem[0:size-1];
 
+
 always @(posedge clka or posedge rsta) begin
     if(rsta) begin
-        $readmemh("memory/mem.dat", i_mem);
+        $readmemh("mem.dat", i_mem);
     end else if(ena | enb) begin
         if(wea)
             i_mem[addra] = dina;
@@ -45,7 +46,7 @@ always @(posedge clka or posedge rsta) begin
     end
 end
 
-assign douta = (ena) ? i_mem[addra] : 8'bzzzzzzzz;
-assign doutb = (enb) ? i_mem[addrb] : 8'bzzzzzzzz;
+assign douta = (ena) ? i_mem[addra] : 8'b00000000;
+assign doutb = (enb) ? i_mem[addrb] : 8'b00000000;
 
 endmodule

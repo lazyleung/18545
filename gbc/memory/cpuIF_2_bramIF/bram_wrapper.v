@@ -1,4 +1,4 @@
-module bram_router(
+module bram_wrapper(
     I_CLK,
     I_RESET,
 
@@ -46,16 +46,10 @@ module bram_router(
          state <= 0;
          data_out <= 8'h00;
          out_en <= 0;
-      end else if (state == 1) begin
-         out_en <= 1;
-	 state <= 0;
       end else begin
-         data_out <= I_BRAM_DOUT;
-         out_en <= 0;
-	 if (~I_RE_L)
-	   state <= 1;
-      end
-      
+      data_out <= I_BRAM_DOUT;
+      out_en <= ~I_RE_L;
+		end
    end
    
 endmodule // bram_router
