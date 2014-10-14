@@ -187,7 +187,7 @@ module memory_router(
       cpu_accessing_cartridge = 0;
       en_cartridge_data = 0;
       o_cartridge_we_l = 1;
-      o_cartridge_we_l = 1;
+      o_cartridge_re_l = 1;
       cpu_accessing_lcdram = 0;
       en_lcdram_data = 0;
       o_lcdram_we_l = 1;
