@@ -12,6 +12,8 @@ module cpu_mem_integration();
    tri [7:0] 	data_ext;
    reg 		clock, reset;
 
+   assign cpu_halt = 0;
+
    wire [15:0] 	cpu_addr;
    assign cpu_addr = addr_ext;
    
@@ -37,6 +39,14 @@ module cpu_mem_integration();
    
    always
      #5 clock = ~clock;
+
+   always @(posedge clock) begin
+      $display("CPU_ADDR: %h DATA: %h WE: %d RE:%d CART_ADDR: %h CART_DATA: %h CART_WE: %d CART_RE: %d", addr_ext, data_ext, 
+	       cpu_mem_we_l, cpu_mem_re_l, cartridge_addr, cartridge_data, 
+	       cartridge_we_l, cartridge_re_l);
+      $display("%h %h %d %d", cartsim.bram_addr, cartsim.bram_data_out, cartsim.bram_en, cartsim.bram_we);
+   end
+
    
    
    initial begin
@@ -44,7 +54,11 @@ module cpu_mem_integration();
       reset = 0;
       #3 reset = 1;
       #3 reset = 0;
+      #50 $finish;
    end
+
+   wire cpu_mem_disable;
+   assign cpu_mem_disable = 0;
    
    cpu gbc_cpu(
 	      .mem_we_l(cpu_mem_we_l), 
@@ -52,6 +66,7 @@ module cpu_mem_integration();
 	      .halt(cpu_halt), 
 	      .addr_ext(addr_ext), 
 	      .data_ext(data_ext),
+	      .cpu_mem_disable(cpu_mem_disable),
 	      .clock(clock), 
 	      .reset(reset)
    );
@@ -126,7 +141,7 @@ module cpu_mem_integration();
 			 .I_CARTRIDGE_ADDR(cartridge_addr),
 			 .IO_CARTRIDGE_DATA(cartridge_data),
 			 .I_CARTRIDGE_WE_L(cartridge_we_l),
-			 .I_CARTRIDGE_RE_L(cartridge_we_l)
+			 .I_CARTRIDGE_RE_L(cartridge_re_l)
 			 );
 
 

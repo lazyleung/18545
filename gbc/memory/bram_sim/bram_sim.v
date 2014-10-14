@@ -36,7 +36,7 @@ reg[7:0] i_mem[0:size-1];
 
 always @(posedge clka or posedge rsta) begin
     if(rsta) begin
-        $readmemh("mem.dat", i_mem);
+        $readmemh("memory/mem.dat", i_mem);
     end else if(ena | enb) begin
         if(wea)
             i_mem[addra] = dina;

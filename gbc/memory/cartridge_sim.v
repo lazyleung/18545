@@ -22,7 +22,9 @@ module cartridge_sim(
    wire [15:0] 		bram_banked_addr;
    wire [14:0] 		bram_addr;
    wire [7:0] 		bram_data_in, bram_data_out;
-   
+
+   assign bram_addr = router_addr[14:0];
+
    bram_router #(16'h0FFF) ifconverter(
 				       .I_CLK(I_CLK),
 				       .I_RESET(I_RESET),
