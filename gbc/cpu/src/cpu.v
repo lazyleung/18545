@@ -1,8 +1,8 @@
-`include "cpu/src/cpu.vh"
-`include "cpu/src/decode.v"
-`include "cpu/src/regfile.v"
-`include "cpu/src/alu.v"
-`include "cpu/src/mem.v"
+`include "cpu.vh"
+`include "decode.v"
+`include "regfile.v"
+`include "alu.v"
+`include "mem.v"
 
 /**
  * The GB80 CPU.
