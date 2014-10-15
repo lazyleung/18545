@@ -77,21 +77,19 @@ module io_bus_parser_reg (
          else if (I_REG_WR_EN & ~I_RE_BUS_L) begin
             io_register <= I_DATA_WR;
             write_bus_data <= I_DATA_WR;
-	    data_bus_en <= 'b1;
-	    $display("Case 1 Found!!");
+				data_bus_en <= 'b1;
          end
 
          /*if only writing from the external module,
            load the data in*/
          else if (I_REG_WR_EN) begin
             io_register <= I_DATA_WR;
-	    $display("Case 2 Found!!");
          end
 
          /* if only reading, then return the io register data*/
          else if (~I_RE_BUS_L) begin
             write_bus_data <= io_register;
-	    data_bus_en <= 'b1;
+				data_bus_en <= 'b1;
          end
       end
 

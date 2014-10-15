@@ -27,30 +27,22 @@ module bram_wrapper(
    input 	   I_WE_L, I_RE_L;
    
    output          O_BRAM_EN;
-   output 	   O_BRAM_WE;
+   output 	       O_BRAM_WE;
    output [15:0]   O_BRAM_ADDR;
    output [7:0]    O_BRAM_DIN;
-   input [7:0] 	   I_BRAM_DOUT;
+   input [7:0] 	 I_BRAM_DOUT;
 
    // Internal variables   
-   reg [7:0] 	   data_out;
-   reg 		   state, out_en;
+   wire [7:0] 	   data_out;
+   wire 		      out_en;
    
    assign O_BRAM_ADDR = I_ADDR & P_OFFSET_MASK;
    assign O_BRAM_WE = ~I_WE_L;
    assign O_BRAM_EN = (~I_WE_L) | (~I_RE_L);
-   assign IO_DATA = (out_en) ? data_out: 8'bzzzzzzzz;
-   
-   always @(posedge I_CLK) begin
-      if (I_RESET) begin
-         state <= 0;
-         data_out <= 8'h00;
-         out_en <= 0;
-      end else begin
-      data_out <= I_BRAM_DOUT;
-      out_en <= ~I_RE_L;
-		end
-   end
+   assign IO_DATA = (out_en) ? data_out : 8'bzzzzzzzz;
+	
+	assign data_out = I_BRAM_DOUT;
+	assign out_en = ~I_RE_L;
    
 endmodule // bram_router
 

@@ -40,7 +40,7 @@ module cpu_mem_integration();
       reset = 0;
       #3 reset = 1;
       #3 reset = 0;
-      #500 $finish;
+      #2000 $finish;
    end
 
    wire cpu_mem_disable;

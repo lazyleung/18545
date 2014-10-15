@@ -441,7 +441,7 @@ module cpu(/*AUTOARG*/
                       // Inputs
                       .bp_step          (bp_step),
                       .bp_continue      (bp_continue),
-                      .bp_pc            (bp_pc),
+                      .bp_pc            (bp_pc), 
                       .instruction      (instruction[7:0]),
                       .taken            (taken),
                       .interrupt        (interrupt),

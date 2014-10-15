@@ -29,7 +29,7 @@
 <msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/working_memory_bank/working_memory_banking.v" Line 112: Port <arg fmt="%s" index="1">enb</arg> is not connected to this instance
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cpuIF_2_bramIF/bram_wrapper.v" Line 55: Target &lt;<arg fmt="%s" index="1">(null)</arg>&gt; of concurrent assignment or output port connection should be a net type.
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cpuIF_2_bramIF/bram_wrapper.v" Line 47: Target &lt;<arg fmt="%s" index="1">(null)</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
 <msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cartridge_sim.v" Line 28: Port <arg fmt="%s" index="1">number 12</arg> is not connected to this instance

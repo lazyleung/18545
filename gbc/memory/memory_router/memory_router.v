@@ -144,11 +144,11 @@ module memory_router(
 		     wdma_accessing_wram,  wdma_accessing_oam,     wdma_accessing_lwram;
    
    /*Bits To Route Returning Read Data*/
-   reg 		     ioreg_cpu_return, cartridge_cpu_return, lcdram_cpu_return,
+   wire 		     ioreg_cpu_return, cartridge_cpu_return, lcdram_cpu_return,
 		     wram_cpu_return, oam_cpu_return, lwram_cpu_return;
-   reg 		     ioreg_ppu_return, cartridge_ppu_return, lcdram_ppu_return,
+   wire 		     ioreg_ppu_return, cartridge_ppu_return, lcdram_ppu_return,
 		     wram_ppu_return, oam_ppu_return, lwram_ppu_return;
-   reg 		     ioreg_rdma_return, cartridge_rdma_return, lcdram_rdma_return,
+   wire 		     ioreg_rdma_return, cartridge_rdma_return, lcdram_rdma_return,
 		     wram_rdma_return, oam_rdma_return, lwram_rdma_return;
 
    /*Make the output ports so it works with dumb, old verilog....*/
@@ -204,6 +204,7 @@ module memory_router(
       en_lwram_data = 0;
       o_lwram_we_l = 1;
       o_lwram_re_l = 1;
+		o_ioreg_addr = 0;
 
       /*CPU ROUTING*/
       if (I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR < `IOREG_HI) begin
@@ -263,23 +264,16 @@ module memory_router(
 
    end // always @ (*)
 
-   always @(posedge I_CLK) begin
+ 
 
-      ioreg_cpu_return <= 0;
-      cartridge_cpu_return <= 0;
-      lcdram_cpu_return <= 0;
-      wram_cpu_return <= 0;
-      oam_cpu_return <= 0;
-      lwram_cpu_return <= 0;
+   assign ioreg_cpu_return = cpu_accessing_ioreg & ~I_CPU_RE_L;
+   assign cartridge_cpu_return = cpu_accessing_cartridge & ~I_CPU_RE_L;
+   assign lcdram_cpu_return = cpu_accessing_lcdram & ~I_CPU_RE_L;
+   assign wram_cpu_return = cpu_accessing_wram & ~I_CPU_RE_L;
+   assign oam_cpu_return = cpu_accessing_oam & ~I_CPU_RE_L;
+   assign lwram_cpu_return = cpu_accessing_oam & ~I_CPU_RE_L;
 
-      ioreg_cpu_return <= cpu_accessing_ioreg & ~I_CPU_RE_L;
-      cartridge_cpu_return <= cpu_accessing_cartridge & ~I_CPU_RE_L;
-      lcdram_cpu_return <= cpu_accessing_lcdram & ~I_CPU_RE_L;
-      wram_cpu_return <= cpu_accessing_wram & ~I_CPU_RE_L;
-      oam_cpu_return <= cpu_accessing_oam & ~I_CPU_RE_L;
-      lwram_cpu_return <= cpu_accessing_oam & ~I_CPU_RE_L;
 
-   end // always @ (posedge I_CLK)
 
    always @(*) begin
 
