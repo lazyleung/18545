@@ -110,7 +110,10 @@ module memory_router(
    assign ppu_data_in = IO_PPU_DATA;
    reg [7:0] 	     cpu_data_out, ppu_data_out;
    reg 		     en_cpu_data, en_ppu_data;
-   assign IO_CPU_DATA = (en_cpu_data) ?  cpu_data_out : 'bzzzzzzzz;
+	
+	tristate #(8) cpu_data_tri(.out(IO_CPU_DATA), .in(cpu_data_out), .en(en_cpu_data));
+	
+   //assign IO_CPU_DATA = (en_cpu_data) ?  cpu_data_out : 'bzzzzzzzz;
    assign IO_PPU_DATA = (en_ppu_data) ? ppu_data_out : 'bzzzzzzzz;
    
    /* Slave Interfaces*/

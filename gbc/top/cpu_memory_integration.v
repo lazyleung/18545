@@ -29,8 +29,9 @@ module cpu_mem_integration();
    
    wire [7:0] 	ioreg1_data, ioreg2_data;
 
-   wire 	gb_mode ;
-   assign gb_mode = 0;
+   wire 		gb_mode ;
+   assign 	gb_mode = 0;
+	integer	count;
    
    always
      #5 clock = ~clock;
@@ -38,9 +39,18 @@ module cpu_mem_integration();
    initial begin
       clock = 0;
       reset = 0;
+		count = 0;
       #3 reset = 1;
       #3 reset = 0;
-      #2000 $finish;
+		
+		while (count < 10000000) begin
+         count = count + 1;
+         @(posedge clock);
+      end
+
+      @(posedge clock);
+      
+      #1 $finish;
    end
 
    wire cpu_mem_disable;
@@ -106,6 +116,8 @@ module cpu_mem_integration();
 				     .I_RE_BUS_L(iobus_re_l),
 				     .O_DATA_READ(ioreg2_data)
 				     );
+					  
+					  
    working_memory_bank wram(
 			    .I_CLK(clock),
 			    .I_RESET(reset),

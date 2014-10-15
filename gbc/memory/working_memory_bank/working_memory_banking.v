@@ -75,8 +75,8 @@ module working_memory_bank(
    wire 		bram_we;
    wire [15:0] 		router_addr;
    wire [15:0] 		bram_banked_addr;
-   wire [14:0] 		bram_addr;
-   wire [7:0] 		bram_data_in, bram_data_out;
+   wire [15:0] 		bram_addr;
+   wire [7:0] 		bram_data_in, bram_data_out1;
    wire [2:0] 		bank_selection;
 
    /*from the register get the working bank information*/
@@ -90,7 +90,7 @@ module working_memory_bank(
    
    /*if using bank zero keep the same address, else use the modified one
     *to get information from a different spot in the bram chunk*/
-   assign bram_addr = (is_bank_zero) ?  router_addr[14:0] : bram_banked_addr[14:0];
+   assign bram_addr = (is_bank_zero) ?  router_addr[15:0] : bram_banked_addr[15:0];
 		      
    
    /*keep only 12 bits since we are working with
@@ -105,8 +105,8 @@ module working_memory_bank(
 				       .O_BRAM_EN(bram_en),
 				       .O_BRAM_WE(bram_we),
 				       .O_BRAM_ADDR(router_addr),
-				       .O_BRAM_DIN(bram_data_in),
-				       .I_BRAM_DOUT(bram_data_out)
+				       .O_BRAM_DIN(bram_data_in)//,
+				       //.I_BRAM_DOUT(bram_data_out1)
 				       );
    /* Actual Memory Location*/
    bram banked_memory(
@@ -116,7 +116,7 @@ module working_memory_bank(
 		      .wea(bram_we),
 		      .addra(bram_addr),
 		      .dina(bram_data_in),
-		      .douta(bram_data_out)
+		      .douta(bram_data_out1)
 		      );
 
 endmodule // working_memory_bank

@@ -1,53 +1,116 @@
 `include "../../memory/memory_router/memdef.vh"
-`include "../../memory/io_bus_parser/io_bus_parser.v"
+//`include "../../memory/io_bus_parser/io_bus_parser.v"
+
+`default_nettype none
 
 module cpu_mem_integration(
-                            I_CLK, 
-                            I_RESET, 
-                            O_DATA1, 
-                            O_DATA2);
+									 USER_CLK, 
+                            GPIO_DIP_SW1,
+								    GPIO_LED_0,       									 
+									 GPIO_LED_1,
+								    GPIO_LED_2,
+								    GPIO_LED_3,
+                            GPIO_LED_4,
+                            GPIO_LED_5,
+                            GPIO_LED_6,
+                            GPIO_LED_7,
+									 GPIO_SW_W,
+									 GPIO_SW_C,
+									 CLK_33MHZ_FPGA
+									 );
+									 
+									 
+	input USER_CLK;
+   input GPIO_DIP_SW1, GPIO_SW_W, GPIO_SW_C, CLK_33MHZ_FPGA;
+	output GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
+			 GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
+          GPIO_LED_6,GPIO_LED_7;
 
-   input I_CLK, I_RESET;
-   output [7:0] O_DATA1, O_DATA2;
 
-   wire     cpu_mem_we_l, cpu_mem_re_l, cpu_halt;
+	wire PUSH_BUTTON;
+	assign PUSH_BUTTON = GPIO_DIP_SW1;
+	
+   wire I_CLK, I_RESET;
+	assign I_CLK = USER_CLK;
+	assign I_RESET = GPIO_SW_W;
+	
+   wire [7:0] O_DATA1;
+	assign GPIO_LED_7 = O_DATA1[7];
+	assign GPIO_LED_6 = O_DATA1[6];
+	assign GPIO_LED_5 = O_DATA1[5];
+	assign GPIO_LED_4 = O_DATA1[4];
+	assign GPIO_LED_3 = O_DATA1[3];
+	assign GPIO_LED_2 = O_DATA1[2];
+	assign GPIO_LED_1 = O_DATA1[1];
+	assign GPIO_LED_0 = O_DATA1[0];
+
+   wire         cpu_mem_we_l, cpu_mem_re_l, cpu_halt, cpu_clock;
    tri [15:0]   addr_ext;
-   tri [7:0]    data_ext;
-   reg      clock, reset;
+   wire [7:0]    data_ext;
+   wire         clock, reset;
 
-   assign cpu_halt = 0;
+   assign       cpu_halt = 0;
 
    wire [15:0]  cpu_addr;
-   assign cpu_addr = addr_ext;
+	wire en_addr_ext = 0;
+	
+	assign addr_ext = (en_addr_ext) ? 16'b0000000000000000 : 16'bzzzzzzzzzzzzzzzz;
+	assign cpu_addr = addr_ext;
+	
+   assign       cpu_addr = addr_ext;
    
-
-   tri [7:0]    iobus_data;
+   wire [7:0]    iobus_data;
    wire [15:0]  iobus_addr;
-   wire     iobus_we_l, iobus_re_l;
+   wire         iobus_we_l, iobus_re_l;
 
-   tri [7:0]    wram_data;
+   wire [7:0]    wram_data;
    wire [15:0]  wram_addr;
-   wire     wram_we_l, wram_re_l;
+   wire         wram_we_l, wram_re_l;
 
-   
-   tri [7:0]    cartridge_data;
+   wire [7:0]    cartridge_data;
    wire [15:0]  cartridge_addr;
-   wire     cartridge_we_l, cartridge_re_l;
-
+   wire         cartridge_we_l, cartridge_re_l;
    
    wire [7:0]   ioreg1_data, ioreg2_data;
+	wire [79:0]  cpu_regfile_dbg;
 
-   wire     gb_mode ;
+   wire   gb_mode;
    assign gb_mode = 0;
    
-   assign clock = I_CLK;
+ 
    assign reset = I_RESET;
 
-   assign O_DATA1 = ioreg1_data;
-   assign O_DATA2 = ioreg2_data;
+	reg [7:0] count1 = 0;
+	reg [21:0] count2 = 0;
+	reg [7:0] count3 = 0;
+	always @(posedge cpu_clock) begin
+		count2 <= count2 + 1;
+		if (count2 == 0)
+			count1 <= count1 + 1;
+			
+		if (reset) begin
+			count2 <= 0;
+			count1 <= 0;
+		end
+	end
+	
+	always @(posedge clock) begin
+		count3 <= count3 + 1;
+		
+	end
+	
+	assign clock = count1[0];
+	
+	wire [15:0] cpu_addr_out;
 
+   //assign O_DATA1 = (PUSH_BUTTON) ? ioreg1_data : ioreg2_data;
+	assign O_DATA1 = (PUSH_BUTTON) ? {0,0,0,GPIO_SW_C,reset,clock,cpu_mem_we_l,cpu_mem_re_l} : ioreg1_data;
    wire cpu_mem_disable;
    assign cpu_mem_disable = 0;
+	
+	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4)) //~4.125MHz
+   cdiv(.clock_out(cpu_clock),
+        .clock_in(CLK_33MHZ_FPGA));
    
    cpu gbc_cpu(
           .mem_we_l(cpu_mem_we_l), 
@@ -57,7 +120,9 @@ module cpu_mem_integration(
           .data_ext(data_ext),
           .cpu_mem_disable(cpu_mem_disable),
           .clock(clock), 
-          .reset(reset)
+          .reset(reset),
+			 .regs_data(cpu_regfile_dbg),
+			 .cpu_addr_out(cpu_addr_out)
    );
 
    memory_router router(
@@ -76,10 +141,12 @@ module cpu_mem_integration(
             .O_IOREG_RE_L(iobus_re_l),
              
             /*WORKING RAM*/
+				/*
             .O_WRAM_ADDR(wram_addr),
             .IO_WRAM_DATA(wram_data),
             .O_WRAM_WE_L(wram_we_l),
             .O_WRAM_RE_L(wram_re_l),
+				*/
 
             .O_CARTRIDGE_ADDR(cartridge_addr),
             .IO_CARTRIDGE_DATA(cartridge_data),
@@ -109,6 +176,7 @@ module cpu_mem_integration(
                      .I_RE_BUS_L(iobus_re_l),
                      .O_DATA_READ(ioreg2_data)
                      );
+		/*					
    working_memory_bank wram(
                 .I_CLK(clock),
                 .I_RESET(reset),
@@ -122,6 +190,7 @@ module cpu_mem_integration(
                 .I_WRAM_RE_L(wram_re_l),
                 .I_IN_DMG_MODE(gb_mode)
                 );
+					 */
 
    
    cartridge_sim cartsim(
@@ -134,7 +203,37 @@ module cpu_mem_integration(
              );
 
 
+
    
    
 endmodule
-            
+
+
+module my_clock_divider(/*AUTOARG*/
+   // Outputs
+   clock_out,
+   // Inputs
+   clock_in
+   );
+
+   parameter
+     DIV_SIZE = 15,
+       DIV_OVER_TWO = 24000;
+   
+
+   output reg clock_out = 0;
+
+   input wire  clock_in;
+   
+   reg [DIV_SIZE-1:0]           counter=0;
+
+   always @(posedge clock_in) begin
+      if (counter == DIV_OVER_TWO-1) begin
+			clock_out = ~clock_out;
+			counter <= 0;
+      end
+		else
+			counter <= counter + 1;
+   end
+
+endmodule
