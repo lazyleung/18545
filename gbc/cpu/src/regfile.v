@@ -1,4 +1,4 @@
-`include "cpu/src/cpu.vh"
+`include "cpu.vh"
 
 /**
  * The GB80 register file.

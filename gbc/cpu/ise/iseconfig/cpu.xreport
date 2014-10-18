@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-10-08T21:58:36</DateModified>
-  <ModuleName>bram</ModuleName>
-  <SummaryTimeStamp>2014-10-08T21:58:29</SummaryTimeStamp>
+  <DateModified>2014-10-13T20:24:19</DateModified>
+  <ModuleName>cpu</ModuleName>
+  <SummaryTimeStamp>2014-10-13T19:49:57</SummaryTimeStamp>
   <SavedFilePath>C:/Users/ash/Documents/18545/gbc/cpu/ise/iseconfig/cpu.xreport</SavedFilePath>
   <ImplementationReportsDirectory>C:/Users/ash/Documents/18545/gbc/cpu/ise\</ImplementationReportsDirectory>
   <DateInitialized>2014-10-08T21:58:36</DateInitialized>

@@ -1,12 +1,7 @@
-`include "memory/memory_router/memdef.vh"
-`include "memory/working_memory_bank/working_memory_banking.v"
-`include "memory/memory_router/memory_router.v"
-`include "cpu/src/cpu.v"
-`include "memory/cartridge_sim.v"
+`include "../../memory/memory_router/memdef.vh"
+`include "../../memory/io_bus_parser/io_bus_parser.v"
 
 module cpu_mem_integration();
-
-
    wire 	cpu_mem_we_l, cpu_mem_re_l, cpu_halt;
    tri [15:0] 	addr_ext;
    tri [7:0] 	data_ext;
@@ -34,27 +29,28 @@ module cpu_mem_integration();
    
    wire [7:0] 	ioreg1_data, ioreg2_data;
 
-   wire 	gb_mode ;
-   assign gb_mode = 0;
+   wire 		gb_mode ;
+   assign 	gb_mode = 0;
+	integer	count;
    
    always
      #5 clock = ~clock;
-
-   always @(posedge clock) begin
-      $display("CPU_ADDR: %h DATA: %h WE: %d RE:%d CART_ADDR: %h CART_DATA: %h CART_WE: %d CART_RE: %d", addr_ext, data_ext, 
-	       cpu_mem_we_l, cpu_mem_re_l, cartridge_addr, cartridge_data, 
-	       cartridge_we_l, cartridge_re_l);
-      $display("%h %h %d %d", cartsim.bram_addr, cartsim.bram_data_out, cartsim.bram_en, cartsim.bram_we);
-   end
-
-   
    
    initial begin
       clock = 0;
       reset = 0;
+		count = 0;
       #3 reset = 1;
       #3 reset = 0;
-      #50 $finish;
+		
+		while (count < 10000000) begin
+         count = count + 1;
+         @(posedge clock);
+      end
+
+      @(posedge clock);
+      
+      #1 $finish;
    end
 
    wire cpu_mem_disable;
@@ -120,6 +116,8 @@ module cpu_mem_integration();
 				     .I_RE_BUS_L(iobus_re_l),
 				     .O_DATA_READ(ioreg2_data)
 				     );
+					  
+					  
    working_memory_bank wram(
 			    .I_CLK(clock),
 			    .I_RESET(reset),

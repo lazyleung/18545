@@ -1,8 +1,8 @@
-`include "cpu/src/cpu.vh"
-`include "cpu/src/decode.v"
-`include "cpu/src/regfile.v"
-`include "cpu/src/alu.v"
-`include "cpu/src/mem.v"
+`include "cpu.vh"
+`include "decode.v"
+`include "regfile.v"
+`include "alu.v"
+`include "mem.v"
 
 /**
  * The GB80 CPU.
@@ -25,10 +25,12 @@ module cpu(/*AUTOARG*/
    addr_ext, data_ext,
    // Inputs
    IF_in, IE_in, IF_load, IE_load, cpu_mem_disable, clock, reset,
-   bp_addr, bp_step, bp_continue
+   bp_addr, bp_step, bp_continue, cpu_addr_out
    );
    inout [15:0] addr_ext;
    inout [7:0]  data_ext;
+	
+	output wire [15:0] cpu_addr_out;
 
    // Debugging outputs: translated high memory address line and high memory
    // data line.
@@ -81,6 +83,7 @@ module cpu(/*AUTOARG*/
    wire [7:0]   data_ext_out, data_ext_in;
    wire [15:0]  addr_ext_out, addr_ext_in;
 //   wire [7:0]   high_mem_data;
+	assign cpu_addr_out = addr_ext_out; 
    
    wire         high_mem = (`MEM_HIGH_START <= addr_ext_out) & 
                 (addr_ext_out <= `MEM_HIGH_END); 
@@ -441,7 +444,7 @@ module cpu(/*AUTOARG*/
                       // Inputs
                       .bp_step          (bp_step),
                       .bp_continue      (bp_continue),
-                      .bp_pc            (bp_pc),
+                      .bp_pc            (bp_pc), 
                       .instruction      (instruction[7:0]),
                       .taken            (taken),
                       .interrupt        (interrupt),
