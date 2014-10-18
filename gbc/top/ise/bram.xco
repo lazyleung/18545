@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.7
-# Date: Wed Oct 15 15:48:27 2014
+# Date: Sat Oct 18 19:36:02 2014
 #
 ##############################################################
 #
@@ -46,7 +46,7 @@ CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
-CSET coe_file=C:\Users\ash\Documents\18545\gbc\memory\bram_coe\mid_sem_dem0.coe
+CSET coe_file=C:\Users\ash\Documents\18545\gbc\memory\bram_coe\mid_sem_demo.coe
 CSET collision_warnings=ALL
 CSET component_name=bram
 CSET disable_collision_warnings=false
@@ -57,7 +57,7 @@ CSET enable_32bit_address=false
 CSET enable_a=Use_ENA_Pin
 CSET enable_b=Always_Enabled
 CSET error_injection_type=Single_Bit_Error_Injection
-CSET fill_remaining_memory_locations=false
+CSET fill_remaining_memory_locations=true
 CSET interface_type=Native
 CSET load_init_file=true
 CSET mem_file=no_Mem_file_loaded
@@ -74,15 +74,15 @@ CSET port_b_clock=100
 CSET port_b_enable_rate=100
 CSET port_b_write_rate=50
 CSET primitive=8kx2
-CSET read_width_a=16
-CSET read_width_b=16
+CSET read_width_a=8
+CSET read_width_b=8
 CSET register_porta_input_of_softecc=false
 CSET register_porta_output_of_memory_core=false
 CSET register_porta_output_of_memory_primitives=false
 CSET register_portb_output_of_memory_core=false
 CSET register_portb_output_of_memory_primitives=false
 CSET register_portb_output_of_softecc=false
-CSET remaining_memory_locations=0
+CSET remaining_memory_locations=00
 CSET reset_memory_latch_a=false
 CSET reset_memory_latch_b=false
 CSET reset_priority_a=CE
@@ -98,11 +98,11 @@ CSET use_regceb_pin=false
 CSET use_rsta_pin=true
 CSET use_rstb_pin=false
 CSET write_depth_a=65536
-CSET write_width_a=16
-CSET write_width_b=16
+CSET write_width_a=8
+CSET write_width_b=8
 # END Parameters
 # BEGIN Extra information
 MISC pkg_timestamp=2012-11-19T16:22:25Z
 # END Extra information
 GENERATE
-# CRC: c05181b1
+# CRC: fabb9ee2

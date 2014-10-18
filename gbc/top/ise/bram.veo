@@ -53,8 +53,8 @@ bram your_instance_name (
   .ena(ena), // input ena
   .wea(wea), // input [0 : 0] wea
   .addra(addra), // input [15 : 0] addra
-  .dina(dina), // input [15 : 0] dina
-  .douta(douta) // output [15 : 0] douta
+  .dina(dina), // input [7 : 0] dina
+  .douta(douta) // output [7 : 0] douta
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 

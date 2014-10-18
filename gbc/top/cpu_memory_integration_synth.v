@@ -43,36 +43,55 @@ module cpu_mem_integration(
 	assign GPIO_LED_2 = O_DATA1[2];
 	assign GPIO_LED_1 = O_DATA1[1];
 	assign GPIO_LED_0 = O_DATA1[0];
-
-   wire         cpu_mem_we_l, cpu_mem_re_l, cpu_halt, cpu_clock;
-   tri [15:0]   addr_ext;
-   wire [7:0]    data_ext;
-   wire         clock, reset;
-
-   assign       cpu_halt = 0;
-
-   wire [15:0]  cpu_addr;
-	wire en_addr_ext = 0;
 	
-	assign addr_ext = (en_addr_ext) ? 16'b0000000000000000 : 16'bzzzzzzzzzzzzzzzz;
+	// CPU Setup
+	// Outputs
+	wire [7:0]  F_data, A_data, instruction;
+	wire [4:0]  IF_data, IE_data;
+	wire [79:0] regs_data;
+	wire        cpu_mem_we_l, cpu_mem_re_l, cpu_halt;
+	// Inouts
+	wire [15:0]  addr_ext;
+   wire [7:0]   data_ext;
+	// Inputs
+   wire [4:0]  IF_in, IE_in;
+   wire        IF_load, IE_load;
+	wire        cpu_mem_disable;
+	wire [15:0] bp_addr;
+   wire        bp_step, bp_continue;
+   wire        clock, reset;
+	// Assigns
+	assign 		IF_in = 5'd0;
+	assign 		IE_in = 5'd0;
+	assign 		IF_load = 1'd0;
+	assign 		IE_load = 1'd0;
+	assign		cpu_mem_disable = 1'd0;
+   assign 		bp_addr = 16'hffff;
+   assign 		bp_step = 1'b0;
+   assign 		bp_continue = 1'b0;
+	
+	wire         cpu_clock;
+	
+   wire        dma_mem_re, dma_mem_we;
+	
+	// CPU mem tristate
+   wire [15:0] cpu_addr;
+	assign addr_ext = (~cpu_mem_we_l | ~cpu_mem_re_l) ? 16'bzzzzzzzzzzzzzzzz : 16'b0000000000000000;
 	assign cpu_addr = addr_ext;
-	
-   assign       cpu_addr = addr_ext;
    
-   wire [7:0]    iobus_data;
+   wire [7:0]   iobus_data;
    wire [15:0]  iobus_addr;
    wire         iobus_we_l, iobus_re_l;
 
-   wire [7:0]    wram_data;
+   wire [7:0]   wram_data;
    wire [15:0]  wram_addr;
    wire         wram_we_l, wram_re_l;
 
-   wire [7:0]    cartridge_data;
+   wire [7:0]   cartridge_data;
    wire [15:0]  cartridge_addr;
    wire         cartridge_we_l, cartridge_re_l;
    
    wire [7:0]   ioreg1_data, ioreg2_data;
-	wire [79:0]  cpu_regfile_dbg;
 
    wire   gb_mode;
    assign gb_mode = 0;
@@ -80,9 +99,8 @@ module cpu_mem_integration(
  
    assign reset = I_RESET;
 
-	reg [7:0] count1 = 0;
-	reg [21:0] count2 = 0;
-	reg [7:0] count3 = 0;
+	reg [7:0]  count1 = 0;
+	reg [19:0] count2 = 0;
 	always @(posedge cpu_clock) begin
 		count2 <= count2 + 1;
 		if (count2 == 0)
@@ -94,35 +112,40 @@ module cpu_mem_integration(
 		end
 	end
 	
-	always @(posedge clock) begin
-		count3 <= count3 + 1;
-		
-	end
-	
-	assign clock = count1[0];
-	
-	wire [15:0] cpu_addr_out;
+	assign clock = cpu_clock;
 
    //assign O_DATA1 = (PUSH_BUTTON) ? ioreg1_data : ioreg2_data;
-	assign O_DATA1 = (PUSH_BUTTON) ? {0,0,0,GPIO_SW_C,reset,clock,cpu_mem_we_l,cpu_mem_re_l} : ioreg1_data;
-   wire cpu_mem_disable;
-   assign cpu_mem_disable = 0;
+	assign O_DATA1 = (PUSH_BUTTON) ? {addr_ext[7:1], clock} : {addr_ext[15:9], clock};
 	
 	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4)) //~4.125MHz
    cdiv(.clock_out(cpu_clock),
         .clock_in(CLK_33MHZ_FPGA));
    
    cpu gbc_cpu(
-          .mem_we_l(cpu_mem_we_l), 
-          .mem_re_l(cpu_mem_re_l), 
-          .halt(cpu_halt), 
-          .addr_ext(addr_ext), 
-          .data_ext(data_ext),
-          .cpu_mem_disable(cpu_mem_disable),
-          .clock(clock), 
-          .reset(reset),
-			 .regs_data(cpu_regfile_dbg),
-			 .cpu_addr_out(cpu_addr_out)
+			 // Outputs
+			 .F_data                      (F_data),
+          .A_data                      (A_data),
+          .instruction                 (instruction),
+          .IF_data                     (IF_data),
+          .IE_data                     (IE_data),
+          .regs_data                   (regs_data),
+          .mem_we_l                    (cpu_mem_we_l),
+          .mem_re_l                    (cpu_mem_re_l),
+          .halt                        (cpu_halt),
+          // Inouts
+          .addr_ext                    (addr_ext),
+          .data_ext                    (data_ext),
+          // Inputs
+          .IF_in                       (IF_in[4:0]),
+          .IE_in                       (IE_in[4:0]),
+          .IF_load                     (IF_load),
+          .IE_load                     (IE_load),
+          .cpu_mem_disable             (cpu_mem_disable),
+          .clock                       (clock),
+          .reset                       (reset),
+          .bp_addr                     (bp_addr),
+          .bp_step                     (bp_step),
+          .bp_continue                 (bp_continue)
    );
 
    memory_router router(
