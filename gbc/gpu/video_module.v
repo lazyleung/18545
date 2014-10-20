@@ -194,6 +194,18 @@ module video_module(//Outputs
    reg [7:0]          WX;
    // temp registers for r/rw mixtures
    reg [4:0]          STAT_w;
+	
+	reg [7:0] 			 BCPS; // TODO GBC: Implement this
+	reg [7:0]          BCPD; // TODO GBC: Implement this
+	reg [7:0]          OCPS; // TODO GBC: Implement this
+	reg [7:0]          OCPD; // TODO GBC: Implement this
+	reg [7:0]          VBK; // TODO GBC: Implement this
+	
+	reg [7:0]          HDMA1; // TODO GBC: Implement this
+	reg [7:0]          HDMA2; // TODO GBC: Implement this
+	reg [7:0]          HDMA3; // TODO GBC: Implement this
+	reg [7:0]          HDMA4; // TODO GBC: Implement this
+	reg [7:0]          HDMA5; // TODO GBC: Implement this
    
    wire               vram_enable, oam_enable, reg_enable;
    reg [12:0]         vram_addrA;
@@ -353,19 +365,21 @@ module video_module(//Outputs
    
    reg [4:0]          tile_col_num; // increments from 0 -> 31
    //reg[6:0] sprite_num; // increments from 0 -> 39
+	integer i;
    
    always @(posedge clock) begin
       if (reset) begin
-	 // initialize registers
-	 LCDC 	<= 8'h00; //91
-	 SCY 	<= 8'h00; //4f
-	 SCX 	<= 8'h00;
+	 // initialize registers // TODO: Testing
+	 LCDC 	<= 8'hC3; //91
+	 SCY 	<= 8'hB0 - 8; //4f
+	 SCX 	<= 8'hF0 - 16;
 	 LYC 	<= 8'h00;
-	 BGP 	<= 8'hFC; //fc
-	 OBP0 	<= 8'h00;
-	 OBP1 	<= 8'h00;
-	 WY 	<= 8'h00;
-	 WX		<= 8'h00;
+	 //BGP 	<= 8'hFC; //fc
+	 BGP 	<= 8'hE4; //fc
+	 OBP0 	<= 8'hD0;
+	 OBP1 	<= 8'hE0;
+	 WY 	<= 8'h90;
+	 WX		<= 8'h07;
 	 
 	 // reset internal registers
 	 int_vblank_req <= 0;
@@ -505,6 +519,15 @@ module video_module(//Outputs
 		    state <= BG_ADDR_WAIT_STATE;
 		 end
 		 else begin
+			 /*
+			  * TODO: GBC changes:
+			  * If in GBC mode:
+			  *
+			  * when cleared background and window lose priority,\
+			  * sprites always on top of bg and window independent of OAM and BG attribues
+			  *
+			  * GBC in non GBC mode: 
+			  */
 		    tile_x_pos <= {tile_col_num, 3'b0};
 		    tile_y_pos <= line_count;
 		    render_background <= 0;
@@ -649,8 +672,12 @@ module video_module(//Outputs
 	      //end
 	      
 	      SPRITE_PIXEL_COMPUTE_STATE: begin
-		 tile_data1 <= vram_outA;
-		 tile_data2 <= vram_outB;
+		 // Handle horizontal flipping
+		 for (i = 0; i < 8; i = i + 1) begin
+			tile_data1[i] <= sprite_attributes[5] ? vram_outA[7 - i] : vram_outA[i];
+			tile_data2[i] <= sprite_attributes[5] ? vram_outB[7 - i] : vram_outB[i];
+		 end
+
 		 tile_byte_pos1 <= sprite_x_pos >> 3;
 		 tile_byte_pos2 <= (sprite_x_pos >> 3) + 1;
 		 tile_byte_offset1 <= sprite_x_pos[2:0];

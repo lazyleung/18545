@@ -10,6 +10,7 @@
 module gpu_test_top(CLK_33MHZ_FPGA,
 	       CLK_27MHZ_FPGA,
 	       USER_CLK,
+			 GPIO_SW_C,
 	       dvi_d, dvi_vs, dvi_hs, dvi_xclk_p, dvi_xclk_n, dvi_reset_b,
 	       dvi_de,
 	       dvi_sda, dvi_scl,
@@ -17,7 +18,7 @@ module gpu_test_top(CLK_33MHZ_FPGA,
    parameter
      I_HILO = 4, I_SERIAL = 3, I_TIMA = 2, I_LCDC = 1, I_VBLANK = 0;
   
-   input CLK_33MHZ_FPGA, CLK_27MHZ_FPGA, USER_CLK;
+   input wire CLK_33MHZ_FPGA, CLK_27MHZ_FPGA, USER_CLK, GPIO_SW_C;
    output [11:0] 	dvi_d;			//DIV Outputs
    output 		dvi_vs, dvi_hs, 	//DIV Outputs
 			dvi_xclk_p, 		//DIV Outputs
@@ -45,7 +46,7 @@ module gpu_test_top(CLK_33MHZ_FPGA,
 	assign int_req = 2'b0;
 	assign video_addr = 16'b0;
 	assign video_data_in = 8'b0;
-	assign reset = 0;
+	assign reset = GPIO_SW_C;
 
    gpu_top gpu (// Outputs
 		.do_video		(do_video[7:0] ),

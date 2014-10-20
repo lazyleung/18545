@@ -1,6 +1,7 @@
 # Output products list for <VRAM>
 VRAM.asy
 VRAM.gise
+VRAM.mif
 VRAM.ngc
 VRAM.sym
 VRAM.v
