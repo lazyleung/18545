@@ -5,7 +5,7 @@
 
 // The CPU's clock is 4194304 Hz, or 2^22 Hz.
 
-`include "cpu.vh"
+`include "../cpu/src/cpu.vh"
 `default_nettype none
 
 module lcd_top(CLK_33MHZ_FPGA,

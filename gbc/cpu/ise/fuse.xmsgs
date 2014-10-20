@@ -5,6 +5,9 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="HDLCompiler" num="687" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/cpu/ise/../src/mem.v" Line 7: Illegal redeclaration of module &lt;<arg fmt="%s" index="1">mem</arg>&gt;.
+</msg>
+
 <msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/cpu/ise/../src/cpu_testbench.v" Line 46: Port <arg fmt="%s" index="1">high_mem_data</arg> is not connected to this instance
 </msg>
 

@@ -11,7 +11,7 @@ module cpu_testbench();
     // Outputs
     wire [79:0] regs_data;
     wire        halt;
-    wire        mem_we, mem_re;
+    wire        mem_we_l, mem_re_l;
     wire [7:0]  A_data, instruction, F_data;
     wire [4:0]  IF_data, IE_data;
 
@@ -51,8 +51,8 @@ module cpu_testbench();
            .IF_data                     (IF_data[4:0]),
            .IE_data                     (IE_data[4:0]),
            .regs_data                   (regs_data[79:0]),
-           .mem_we                      (mem_we),
-           .mem_re                      (mem_re),
+           .mem_we_l                    (mem_we_l),
+           .mem_re_l                    (mem_re_l),
            .halt                        (halt),
            // Inouts
            .addr_ext                    (addr_ext[15:0]),
@@ -74,8 +74,8 @@ module cpu_testbench();
                      .data_ext(data_ext[7:0]),
                      // Inputs
                      .addr_ext(addr_ext[15:0]),
-                     .mem_we((mem_we | dma_mem_we)),
-                     .mem_re((mem_re | dma_mem_re) & ~timer_reg_addr),
+                     .mem_we((~mem_we_l | dma_mem_we)),
+                     .mem_re((~mem_re_l | dma_mem_re) & ~timer_reg_addr),
                      .reset             (reset),
                      .clock             (clock));
 
@@ -83,8 +83,8 @@ module cpu_testbench();
                 .dma_mem_we(dma_mem_we),
                 .addr_ext(addr_ext),
                 .data_ext(data_ext),
-                .mem_we(mem_we),
-                .mem_re(mem_re),
+                .mem_we(~mem_we_l),
+                .mem_re(~mem_re_l),
                 .cpu_mem_disable(cpu_mem_disable),
                 .clock(clock),
                 .reset(reset));
@@ -112,8 +112,8 @@ module cpu_testbench();
                  .addr_ext              (addr_ext[15:0]),
                  .data_ext              (data_ext[7:0]),
                  // Inputs
-                 .mem_re                (mem_re),
-                 .mem_we                (mem_we),
+                 .mem_re                (~mem_re_l),
+                 .mem_we                (~mem_we_l),
                  .clock                 (clock),
                  .reset                 (reset));
     

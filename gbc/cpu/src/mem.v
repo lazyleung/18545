@@ -4,7 +4,7 @@
  * Author: Joseph Carlos (jdcarlos1@gmail.com)
  */
 
-module mem(/*AUTOARG*/
+module mem(
    // Inouts
    data_ext,
    // Inputs
