@@ -125,13 +125,13 @@ module memory_router(
    assign lwram_data_in = IO_LWRAM_DATA;
    wire [7:0]        ioreg_data_out, cartridge_data_out, lcdram_data_out,
 		             wram_data_out, oam_data_out, lwram_data_out;
-   wire              en_ioreg_data = 0;
-   wire              en_lcdram_data = 0;
-   wire	             en_wram_data = 0;
-   wire              en_oam_data = 0;
-   wire              en_lwram_data = 0;
-   wire              en_cartridge_data = 0;
-   wire              cpu_accessing_cartridge = 0;
+   wire              en_ioreg_data;
+   wire              en_lcdram_data;
+   wire	             en_wram_data;
+   wire              en_oam_data;
+   wire              en_lwram_data;
+   wire              en_cartridge_data;
+	wire cpu_accessing_cartridge;
    assign IO_IOREG_DATA = (en_ioreg_data) ? ioreg_data_out : 'bzzzzzzzz;
    assign IO_CARTRIDGE_DATA = (en_cartridge_data) ? cartridge_data_out : 'bzzzzzzzz;
    assign IO_LCDRAM_DATA = (en_lcdram_data) ? lcdram_data_out : 'bzzzzzzzz;
@@ -165,7 +165,6 @@ module memory_router(
    assign rdma_en = ~I_RDMA_RE_L;
    assign wdma_en = ~I_WDMA_WE_L;
 
-   assign en_cartridge_data = (cpu_en & I_CPU_ADDR >= `CARTRIDGE_LO & I_CPU_ADDR < `CARTRIDGE_HI);
 
    assign cpu_accessing_cartridge = (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI);
    assign cpu_accessing_ioreg = (cpu_en && I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR < `IOREG_HI);
@@ -282,9 +281,9 @@ module memory_router(
                        (ppu_accessing_oam) ? I_PPU_ADDR :
                        (rdma_accessing_oam) ? I_RDMA_ADDR :
                        (wdma_accessing_oam) ? I_WDMA_DATA : 'd0;
-   assign en_oam_data = (cpu_oam_cartridge) ? ~I_CPU_WE_L :
-                        (ppu_oam_cartridge) ? ~I_PPU_WE_L :
-                        (wdma_oam_cartridge) ? ~I_WDMA_WE_L : 0;
+   assign en_oam_data = (cpu_accessing_oam) ? ~I_CPU_WE_L :
+                        (ppu_accessing_oam) ? ~I_PPU_WE_L :
+                        (wdma_accessing_oam) ? ~I_WDMA_WE_L : 0;
 
 
    assign O_LCDRAM_WE_L = (cpu_accessing_lcdram) ? I_CPU_WE_L :

@@ -81,6 +81,17 @@ module cpu_mem_integration();
 			.IO_IOREG_DATA(iobus_data),
 			.O_IOREG_WE_L(iobus_we_l),
 			.O_IOREG_RE_L(iobus_re_l),
+			
+			.I_PPU_ADDR(0),
+			.I_PPU_WE_L(1),
+			.I_PPU_RE_L(1),
+			
+			.I_RDMA_ADDR(0),
+			.I_RDMA_RE_L(1),
+			
+			.I_WDMA_ADDR(0),
+			.I_WDMA_WE_L(1),
+			.I_WDMA_DATA(0),
 		     
 			/*WORKING RAM*/
 			.O_WRAM_ADDR(wram_addr),
