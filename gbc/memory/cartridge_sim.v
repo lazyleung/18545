@@ -12,7 +12,7 @@ module cartridge_sim(
    input I_CLK, I_RESET;
 
    input [15:0] I_CARTRIDGE_ADDR;
-   inout [7:0] 	IO_CARTRIDGE_DATA;
+   inout [7:0]  IO_CARTRIDGE_DATA;
 
    input 	I_CARTRIDGE_WE_L, I_CARTRIDGE_RE_L;
    

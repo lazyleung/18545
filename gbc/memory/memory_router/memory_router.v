@@ -125,17 +125,20 @@ module memory_router(
    assign lwram_data_in = IO_LWRAM_DATA;
    reg [7:0] 	     ioreg_data_out, cartridge_data_out, lcdram_data_out,
 		     wram_data_out, oam_data_out, lwram_data_out;
-   reg 		     en_ioreg_data, en_cartridge_data, en_lcdram_data,
+   reg 		     en_ioreg_data, en_lcdram_data,
 		     en_wram_data, en_oam_data, en_lwram_data;
+	wire en_cartridge_data = 0;
+	wire cpu_accessing_cartridge;
    assign IO_IOREG_DATA = (en_ioreg_data) ? ioreg_data_out : 'bzzzzzzzz;
    assign IO_CARTRIDGE_DATA = (en_cartridge_data) ? cartridge_data_out : 'bzzzzzzzz;
    assign IO_LCDRAM_DATA = (en_lcdram_data) ? lcdram_data_out : 'bzzzzzzzz;
    assign IO_WRAM_DATA = (en_wram_data) ? wram_data_out : 'bzzzzzzzz;
    assign IO_OAM_DATA = (en_oam_data) ? oam_data_out : 'bzzzzzzzz;
    assign IO_LWRAM_DATA = (en_lwram_data) ? lwram_data_out : 'bzzzzzzzz;
+	
    
    /*Bits to indicate who is accessing what*/
-   reg 		     cpu_accessing_ioreg, cpu_accessing_cartridge, cpu_accessing_lcdram,
+   reg 		     cpu_accessing_ioreg, cpu_accessing_lcdram,
 		     cpu_accessing_wram,  cpu_accessing_oam,       cpu_accessing_lwram;
    reg 		     ppu_accessing_ioreg, ppu_accessing_cartridge, ppu_accessing_lcdram,
 		     ppu_accessing_wram,  ppu_accessing_oam,       ppu_accessing_lwram;
@@ -151,6 +154,16 @@ module memory_router(
 			     wram_ppu_return, oam_ppu_return, lwram_ppu_return;
    wire 		     ioreg_rdma_return, cartridge_rdma_return, lcdram_rdma_return,
 			     wram_rdma_return, oam_rdma_return, lwram_rdma_return;
+				  
+	wire       cpu_en, ppu_en, rdma_en, wdma_en;
+	assign cpu_en = ~I_CPU_WE_L | ~I_CPU_RE_L;
+	assign ppu_en = ~I_PPU_WE_L | ~I_PPU_RE_L;
+	assign rdma_en = ~I_RDMA_RE_L;
+	assign wdma_en = ~I_WDMA_WE_L;
+	
+	assign en_cartridge_data = (cpu_en & I_CPU_ADDR >= `CARTRIDGE_LO & I_CPU_ADDR < `CARTRIDGE_HI);
+	assign cpu_accessing_cartridge = (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI);
+	
    
    /*Memory Routing Based on Address*/
    always @(*) begin
@@ -159,8 +172,8 @@ module memory_router(
       en_ioreg_data = 0;
       O_IOREG_WE_L = 1;
       O_IOREG_RE_L = 1;
-      cpu_accessing_cartridge = 0;
-      en_cartridge_data = 0;
+      //cpu_accessing_cartridge = 0;
+      //en_cartridge_data = 0;
       O_CARTRIDGE_WE_L = 1;
       O_CARTRIDGE_RE_L = 1;
       cpu_accessing_lcdram = 0;
@@ -205,7 +218,7 @@ module memory_router(
       wdma_accessing_lwram = 0;
 
       /***CPU ROUTING*****************************************************/
-      if (I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR < `IOREG_HI) begin
+      if (cpu_en && I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR < `IOREG_HI) begin
          cpu_accessing_ioreg = 1;
          en_ioreg_data = 1;
          ioreg_data_out = cpu_data_in;
@@ -214,9 +227,9 @@ module memory_router(
          O_IOREG_RE_L = I_CPU_RE_L;
       end
 
-      if (I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI) begin
-         cpu_accessing_cartridge = 1;
-         en_cartridge_data = 1;
+      if (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI) begin
+         //cpu_accessing_cartridge = 1;
+        // en_cartridge_data = 1;
          cartridge_data_out = cpu_data_in;
          O_CARTRIDGE_ADDR = I_CPU_ADDR;
          O_CARTRIDGE_WE_L = I_CPU_WE_L;
@@ -224,7 +237,7 @@ module memory_router(
       end
 
 
-      if (I_CPU_ADDR >= `LCDRAM_LO && I_CPU_ADDR < `LCDRAM_HI) begin
+      if (cpu_en && I_CPU_ADDR >= `LCDRAM_LO && I_CPU_ADDR < `LCDRAM_HI) begin
          cpu_accessing_lcdram = 1;
          en_lcdram_data = 1;
          lcdram_data_out = cpu_data_in;
@@ -233,7 +246,7 @@ module memory_router(
          O_LCDRAM_RE_L = I_CPU_RE_L;
       end
 
-      if (I_CPU_ADDR >= `WRAM_LO && I_CPU_ADDR < `WRAM_HI) begin
+      if (cpu_en && I_CPU_ADDR >= `WRAM_LO && I_CPU_ADDR < `WRAM_HI) begin
          cpu_accessing_wram = 1;
          en_wram_data = 1;
          wram_data_out = cpu_data_in;
@@ -242,7 +255,7 @@ module memory_router(
          O_WRAM_RE_L = I_CPU_RE_L;
       end
 
-      if (I_CPU_ADDR >= `OAM_LO && I_CPU_ADDR < `OAM_HI) begin
+      if (cpu_en && I_CPU_ADDR >= `OAM_LO && I_CPU_ADDR < `OAM_HI) begin
          cpu_accessing_oam = 1;
          en_oam_data = 1;
          oam_data_out = cpu_data_in;
@@ -251,7 +264,7 @@ module memory_router(
          O_OAM_RE_L = I_CPU_RE_L;
       end
 
-      if (I_CPU_ADDR >= `LWRAM_LO && I_CPU_ADDR < `LWRAM_HI) begin
+      if (cpu_en && I_CPU_ADDR >= `LWRAM_LO && I_CPU_ADDR < `LWRAM_HI) begin
          cpu_accessing_lwram = 1;
          en_lwram_data = 1;
          lwram_data_out = cpu_data_in;
@@ -261,7 +274,7 @@ module memory_router(
       end
 
       /****PPU ROUTING*************************************************/
-      if (I_PPU_ADDR >= `IOREG_LO && I_PPU_ADDR < `IOREG_HI) begin
+      if (ppu_en && I_PPU_ADDR >= `IOREG_LO && I_PPU_ADDR < `IOREG_HI) begin
          ppu_accessing_ioreg = 1;
          en_ioreg_data = 1;
          ioreg_data_out = ppu_data_in;
@@ -270,9 +283,9 @@ module memory_router(
          O_IOREG_RE_L = I_PPU_RE_L;
       end
 
-      if (I_PPU_ADDR >= `CARTRIDGE_LO && I_PPU_ADDR < `CARTRIDGE_HI) begin
+      if (ppu_en && I_PPU_ADDR >= `CARTRIDGE_LO && I_PPU_ADDR < `CARTRIDGE_HI) begin
          ppu_accessing_cartridge = 1;
-         en_cartridge_data = 1;
+         //en_cartridge_data = 1;
          cartridge_data_out = ppu_data_in;
          O_CARTRIDGE_ADDR = I_PPU_ADDR;
          O_CARTRIDGE_WE_L = I_PPU_WE_L;
@@ -280,7 +293,7 @@ module memory_router(
       end
 
 
-      if (I_PPU_ADDR >= `LCDRAM_LO && I_PPU_ADDR < `LCDRAM_HI) begin
+      if (ppu_en && I_PPU_ADDR >= `LCDRAM_LO && I_PPU_ADDR < `LCDRAM_HI) begin
          ppu_accessing_lcdram = 1;
          en_lcdram_data = 1;
          lcdram_data_out = ppu_data_in;
@@ -289,7 +302,7 @@ module memory_router(
          O_LCDRAM_RE_L = I_PPU_RE_L;
       end
 
-      if (I_PPU_ADDR >= `WRAM_LO && I_PPU_ADDR < `WRAM_HI) begin
+      if (ppu_en && I_PPU_ADDR >= `WRAM_LO && I_PPU_ADDR < `WRAM_HI) begin
          ppu_accessing_wram = 1;
          en_wram_data = 1;
          wram_data_out = ppu_data_in;
@@ -298,7 +311,7 @@ module memory_router(
          O_WRAM_RE_L = I_PPU_RE_L;
       end
 
-      if (I_PPU_ADDR >= `OAM_LO && I_PPU_ADDR < `OAM_HI) begin
+      if (ppu_en && I_PPU_ADDR >= `OAM_LO && I_PPU_ADDR < `OAM_HI) begin
          ppu_accessing_oam = 1;
          en_oam_data = 1;
          oam_data_out = ppu_data_in;
@@ -307,7 +320,7 @@ module memory_router(
          O_OAM_RE_L = I_PPU_RE_L;
       end
 
-      if (I_PPU_ADDR >= `LWRAM_LO && I_PPU_ADDR < `LWRAM_HI) begin
+      if (ppu_en && I_PPU_ADDR >= `LWRAM_LO && I_PPU_ADDR < `LWRAM_HI) begin
          ppu_accessing_lwram = 1;
          en_lwram_data = 1;
          lwram_data_out = ppu_data_in;
@@ -317,45 +330,45 @@ module memory_router(
       end
 
       /****RDMA ROUTING*************************************************/
-      if (I_RDMA_ADDR >= `IOREG_LO && I_RDMA_ADDR < `IOREG_HI) begin
+      if (rdma_en && I_RDMA_ADDR >= `IOREG_LO && I_RDMA_ADDR < `IOREG_HI) begin
          rdma_accessing_ioreg = 1;
          O_IOREG_ADDR = I_RDMA_ADDR;
          O_IOREG_RE_L = I_PPU_RE_L;
       end
 
-      if (I_RDMA_ADDR >= `CARTRIDGE_LO && I_RDMA_ADDR < `CARTRIDGE_HI) begin
+      if (rdma_en && I_RDMA_ADDR >= `CARTRIDGE_LO && I_RDMA_ADDR < `CARTRIDGE_HI) begin
          rdma_accessing_cartridge = 1;
          O_CARTRIDGE_ADDR = I_RDMA_ADDR;
          O_CARTRIDGE_RE_L = I_RDMA_RE_L;
       end
 
 
-      if (I_RDMA_ADDR >= `LCDRAM_LO && I_RDMA_ADDR < `LCDRAM_HI) begin
+      if (rdma_en && I_RDMA_ADDR >= `LCDRAM_LO && I_RDMA_ADDR < `LCDRAM_HI) begin
          rdma_accessing_lcdram = 1;
          O_LCDRAM_ADDR = I_RDMA_ADDR;
          O_LCDRAM_RE_L = I_RDMA_RE_L;
       end
 
-      if (I_RDMA_ADDR >= `WRAM_LO && I_RDMA_ADDR < `WRAM_HI) begin
+      if (rdma_en && I_RDMA_ADDR >= `WRAM_LO && I_RDMA_ADDR < `WRAM_HI) begin
          rdma_accessing_wram = 1;
          O_WRAM_ADDR = I_RDMA_ADDR;
          O_WRAM_RE_L = I_RDMA_RE_L;
       end
 
-      if (I_RDMA_ADDR >= `OAM_LO && I_RDMA_ADDR < `OAM_HI) begin
+      if (rdma_en && I_RDMA_ADDR >= `OAM_LO && I_RDMA_ADDR < `OAM_HI) begin
          rdma_accessing_oam = 1;
          O_OAM_ADDR = I_RDMA_ADDR;
          O_OAM_RE_L = I_RDMA_RE_L;
       end
 
-      if (I_RDMA_ADDR >= `LWRAM_LO && I_RDMA_ADDR < `LWRAM_HI) begin
+      if (rdma_en && I_RDMA_ADDR >= `LWRAM_LO && I_RDMA_ADDR < `LWRAM_HI) begin
          rdma_accessing_lwram = 1;
          O_LWRAM_ADDR = I_RDMA_ADDR;
          O_LWRAM_RE_L = I_RDMA_RE_L;
       end
 
       /****WDMA ROUTING*************************************************/
-      if (I_WDMA_ADDR >= `IOREG_LO && I_WDMA_ADDR < `IOREG_HI) begin
+      if (wdma_en && I_WDMA_ADDR >= `IOREG_LO && I_WDMA_ADDR < `IOREG_HI) begin
          wdma_accessing_ioreg = 1;
 	 en_ioreg_data = 1;
 	 ioreg_data_out = I_WDMA_DATA;
@@ -363,16 +376,16 @@ module memory_router(
          O_IOREG_WE_L = I_WDMA_WE_L;
       end
 
-      if (I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR < `CARTRIDGE_HI) begin
+      if (wdma_en && I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR < `CARTRIDGE_HI) begin
          wdma_accessing_cartridge = 1;
-	 en_cartridge_data = 1;
+	 //en_cartridge_data = 1;
 	 cartridge_data_out = I_WDMA_DATA;
          O_CARTRIDGE_ADDR = I_WDMA_ADDR;
          O_CARTRIDGE_WE_L = I_WDMA_WE_L;
       end
 
 
-      if (I_WDMA_ADDR >= `LCDRAM_LO && I_WDMA_ADDR < `LCDRAM_HI) begin
+      if (wdma_en && I_WDMA_ADDR >= `LCDRAM_LO && I_WDMA_ADDR < `LCDRAM_HI) begin
          wdma_accessing_lcdram = 1;
 	 en_lcdram_data = 1;
 	 lcdram_data_out = I_WDMA_DATA;
@@ -380,7 +393,7 @@ module memory_router(
          O_LCDRAM_WE_L = I_WDMA_WE_L;
       end
 
-      if (I_WDMA_ADDR >= `WRAM_LO && I_WDMA_ADDR < `WRAM_HI) begin
+      if (wdma_en && I_WDMA_ADDR >= `WRAM_LO && I_WDMA_ADDR < `WRAM_HI) begin
          wdma_accessing_wram = 1;
 	 en_wram_data = 1;
 	 wram_data_out = I_WDMA_DATA;
@@ -388,7 +401,7 @@ module memory_router(
          O_WRAM_WE_L = I_WDMA_WE_L;
       end
 
-      if (I_WDMA_ADDR >= `OAM_LO && I_WDMA_ADDR < `OAM_HI) begin
+      if (wdma_en && I_WDMA_ADDR >= `OAM_LO && I_WDMA_ADDR < `OAM_HI) begin
          wdma_accessing_oam = 1;
 	 en_oam_data = 1;
 	 oam_data_out = I_WDMA_DATA;
@@ -396,7 +409,7 @@ module memory_router(
          O_OAM_WE_L = I_WDMA_WE_L;
       end
 
-      if (I_WDMA_ADDR >= `LWRAM_LO && I_WDMA_ADDR < `LWRAM_HI) begin
+      if (wdma_en && I_WDMA_ADDR >= `LWRAM_LO && I_WDMA_ADDR < `LWRAM_HI) begin
          wdma_accessing_lwram = 1;
 	 en_lwram_data = 1;
 	 lwram_data_out = I_WDMA_DATA;

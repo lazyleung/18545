@@ -70,14 +70,14 @@ module cpu_mem_integration(
    assign 		bp_step = 1'b0;
    assign 		bp_continue = 1'b0;
 	
-	wire         cpu_clock;
+	wire        cpu_clock;
 	
    wire        dma_mem_re, dma_mem_we;
 	
 	// CPU mem tristate
-   wire [15:0] cpu_addr;
-	assign addr_ext = (~cpu_mem_we_l | ~cpu_mem_re_l) ? 16'bzzzzzzzzzzzzzzzz : 16'b0000000000000000;
-	assign cpu_addr = addr_ext;
+   //wire [15:0] cpu_addr;
+	//assign addr_ext = (~cpu_mem_we_l | ~cpu_mem_re_l) ? 16'bzzzzzzzzzzzzzzzz : 16'b0000000000000000;
+	//assign cpu_addr = addr_ext;
    
    wire [7:0]   iobus_data;
    wire [15:0]  iobus_addr;
@@ -90,6 +90,11 @@ module cpu_mem_integration(
    wire [7:0]   cartridge_data;
    wire [15:0]  cartridge_addr;
    wire         cartridge_we_l, cartridge_re_l;
+	
+	// Cartirage data tristate
+	//wire [7:0] cartridge_data_bus;
+	//assign cartridge_data = (~cartridge_re_l) ? 8'bzzzz_zzzz : 8'b0000_0000;
+	//assign cartridge_data_bus = cartridge_data;
    
    wire [7:0]   ioreg1_data, ioreg2_data;
 
@@ -147,12 +152,17 @@ module cpu_mem_integration(
           .bp_step                     (bp_step),
           .bp_continue                 (bp_continue)
    );
+	
+	reg cartridge_re_l_reg;
+	always @(posedge clock) begin
+		cartridge_re_l_reg <= cartridge_re_l;
+	end
 
    memory_router router(
             /* CPU Memory Interface*/
             .I_CLK(clock),
             .I_RESET(reset),
-            .I_CPU_ADDR(cpu_addr),
+            .I_CPU_ADDR(addr_ext),
             .IO_CPU_DATA(data_ext),
             .I_CPU_WE_L(cpu_mem_we_l),
             .I_CPU_RE_L(cpu_mem_re_l),
@@ -175,9 +185,9 @@ module cpu_mem_integration(
             .IO_CARTRIDGE_DATA(cartridge_data),
             .O_CARTRIDGE_WE_L(cartridge_we_l),
             .O_CARTRIDGE_RE_L(cartridge_re_l)
-
-
             );
+				
+	
 
 
    io_bus_parser_reg #(`SC, 0)ioreg1(
@@ -224,11 +234,6 @@ module cpu_mem_integration(
              .I_CARTRIDGE_WE_L(cartridge_we_l),
              .I_CARTRIDGE_RE_L(cartridge_re_l)
              );
-
-
-
-   
-   
 endmodule
 
 
