@@ -105,7 +105,7 @@ module cpu_mem_integration(
    assign reset = I_RESET;
 
 	reg [7:0]  count1 = 0;
-	reg [19:0] count2 = 0;
+	reg [10:0] count2 = 0;
 	always @(posedge cpu_clock) begin
 		count2 <= count2 + 1;
 		if (count2 == 0)
