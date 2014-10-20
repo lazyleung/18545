@@ -24,6 +24,9 @@ module io_bus_parser_reg (
 
    parameter P_REGISTER_ADDR = 16'h0000;
    parameter P_DATA_RST_VAL = 8'h00;
+   parameter P_FORWARD_DATA = 0;
+   parameter P_RESET_ON_READ = 0;
+   
 
    /*Description of interface with the
     *io bus from the memory router*/
@@ -41,10 +44,8 @@ module io_bus_parser_reg (
 
 
    reg [7:0] io_register;
-   reg 	     data_bus_en;
-   reg [7:0] write_bus_data;
-   reg [7:0] ext_comp_wr_data;
-
+   wire      data_bus_en;
+   wire [7:0] write_bus_data;
 
    /*tell external module to wait if the CPU memory mapped IO
      write transaction is taking place*/
@@ -56,41 +57,39 @@ module io_bus_parser_reg (
    /*write to the tristate data bus when indicated to do so*/
    assign IO_DATA_BUS = (data_bus_en) ? write_bus_data : 8'bzzzzzzzz;
 
+   wire      address_match;
+   assign address_match = (I_ADDR_BUS == P_REGISTER_ADDR);
+
+   /*forwards the data being written, else return the register contents*/
+   assign write_bus_data = (I_REG_WR_EN & P_FORWARD_DATA) ? I_DATA_WR : io_register;
+   assign data_bus_en = (address_match & ~I_RE_BUS_L);
 
    always @(posedge I_CLK) begin
 
       io_register <= io_register;
-      data_bus_en <= 'b0;
 
       /*if the IO register identifies itself*/
-      if (I_ADDR_BUS == P_REGISTER_ADDR) begin
-
+      if (address_match) begin
 	 
          /*if any write transaction for the bus,
           *service it, ingoring all other interfaces*/
          if (~I_WE_BUS_L) begin
             io_register <= IO_DATA_BUS;
          end
-
-         /* if writing from external module and the bus is
-          * reading, forward the new data*/
-         else if (I_REG_WR_EN & ~I_RE_BUS_L) begin
-            io_register <= I_DATA_WR;
-            write_bus_data <= I_DATA_WR;
-				data_bus_en <= 'b1;
-         end
-
          /*if only writing from the external module,
            load the data in*/
          else if (I_REG_WR_EN) begin
             io_register <= I_DATA_WR;
          end
 
-         /* if only reading, then return the io register data*/
-         else if (~I_RE_BUS_L) begin
-            write_bus_data <= io_register;
-				data_bus_en <= 'b1;
-         end
+	 else begin
+	    io_register <= io_register;
+	 end
+
+	 /*if a read triggers a register reset*/
+	 if (P_RESET_ON_READ & ~I_RE_BUS_L)
+	     io_register <= P_DATA_RST_VAL;
+	 
       end
 
       /* put reset at the end to supercede all
