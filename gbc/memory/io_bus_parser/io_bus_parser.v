@@ -1,3 +1,6 @@
+`define READ_ONLY 2'b10
+`define WRITE_ONLY 2'b01
+
 
 /* IO BUS PARSER*/
 
@@ -26,7 +29,13 @@ module io_bus_parser_reg (
    parameter P_DATA_RST_VAL = 8'h00;
    parameter P_FORWARD_DATA = 0;
    parameter P_RESET_ON_READ = 0;
-   
+   /*MODE:
+   /* 00 - read/write access
+    * 01 - write only access
+    * 10 - read only access
+    */
+   parameter P_MODE = 2'b00;
+
 
    /*Description of interface with the
     *io bus from the memory router*/
@@ -62,7 +71,7 @@ module io_bus_parser_reg (
 
    /*forwards the data being written, else return the register contents*/
    assign write_bus_data = (I_REG_WR_EN & P_FORWARD_DATA) ? I_DATA_WR : io_register;
-   assign data_bus_en = (address_match & ~I_RE_BUS_L);
+   assign data_bus_en = (address_match & ~I_RE_BUS_L & (P_MODE ~= `WRITE_ONLY);
 
    always @(posedge I_CLK) begin
 
@@ -70,10 +79,10 @@ module io_bus_parser_reg (
 
       /*if the IO register identifies itself*/
       if (address_match) begin
-	 
+
          /*if any write transaction for the bus,
           *service it, ingoring all other interfaces*/
-         if (~I_WE_BUS_L) begin
+         if (~I_WE_BUS_L & (P_MODE ~= `READ_ONLY)) begin
             io_register <= IO_DATA_BUS;
          end
          /*if only writing from the external module,
@@ -89,7 +98,7 @@ module io_bus_parser_reg (
 	 /*if a read triggers a register reset*/
 	 if (P_RESET_ON_READ & ~I_RE_BUS_L)
 	     io_register <= P_DATA_RST_VAL;
-	 
+
       end
 
       /* put reset at the end to supercede all
