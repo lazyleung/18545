@@ -23,6 +23,7 @@ module io_bus_parser_reg (
                          I_DATA_WR, //to write to the io register
                          O_DATA_READ, //to read from the io register
                          I_REG_WR_EN,
+                         O_DBUS_WRITE,//indicates a new value in the register
                          O_WAIT); //active high, write data to register
 
    parameter P_REGISTER_ADDR = 16'h0000;
@@ -49,6 +50,7 @@ module io_bus_parser_reg (
    input [7:0]  I_DATA_WR;
    output [7:0] O_DATA_READ;
    input        I_REG_WR_EN;
+   output reg   O_DBUS_WRITE;
    output       O_WAIT;
 
 
@@ -71,11 +73,12 @@ module io_bus_parser_reg (
 
    /*forwards the data being written, else return the register contents*/
    assign write_bus_data = (I_REG_WR_EN & P_FORWARD_DATA) ? I_DATA_WR : io_register;
-   assign data_bus_en = (address_match & ~I_RE_BUS_L & (P_MODE ~= `WRITE_ONLY);
+   assign data_bus_en = (address_match & ~I_RE_BUS_L & (P_MODE ~= `WRITE_ONLY));
 
    always @(posedge I_CLK) begin
 
       io_register <= io_register;
+      O_DBUS_WRITE <= 0;
 
       /*if the IO register identifies itself*/
       if (address_match) begin
@@ -84,6 +87,7 @@ module io_bus_parser_reg (
           *service it, ingoring all other interfaces*/
          if (~I_WE_BUS_L & (P_MODE ~= `READ_ONLY)) begin
             io_register <= IO_DATA_BUS;
+            O_DBUS_WRITE <= 1;
          end
          /*if only writing from the external module,
            load the data in*/
