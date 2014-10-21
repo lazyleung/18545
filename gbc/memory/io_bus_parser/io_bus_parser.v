@@ -10,10 +10,6 @@ module io_bus_parser_reg (
                          I_SYNC_RESET,
 
                          /*Interface with the memory router*/
-                         /* If read operation, then data will be
-                            returned ONE cycle later that address transaction
-                            If write operation then data will be
-                            written to register ONE cycle later*/
                          IO_DATA_BUS,
                          I_ADDR_BUS,
                          I_WE_BUS_L,

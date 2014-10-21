@@ -46,6 +46,7 @@ module dma_controller(
 
 
    wire gnd = 0;
+   wire high = 1;
    wire gnd_data = 8'd0;
    wire st_oam_dma;
    wire [7:0]    dma_staddr_high;
@@ -69,7 +70,7 @@ module dma_controller(
 
    /*DMA Register - stores the high bytes in the
     * address that the source of the DMA transfer is from*/
-   io_bus_parser_reg #(`DMA,0,0,0) dma_reg(
+   io_bus_parser_reg #(`DMA,0,0,0,0) dma_reg(
                                            .I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_SYNC_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -142,6 +143,89 @@ module dma_controller(
          oam_dma_state <= OAM_DMA_WAIT;
          oam_count <= 0;
       end
-   end
+   end // always @ (posedge I_CLK)
+
+   wire [7:0] hdma_source_high, hdma_source_low,
+              hdma_dest_high,   hdma_dest_low;
+   wire [7:0] hdma5_specification, hdma5_status;
+   wire       hdma_init_change;
+
+   /*HDMA Register Instantiations - we only care about the contents
+    *of what is in them, so ground the inputs (on our interface)
+    *and read the data*/
+   io_bus_parser_reg #(`HDMA1,0,0,0,0) hdma1_reg(
+                                               .I_CLK(I_CLK),
+                                               .I_SYNC_RESET(I_SYNC_RESET),
+                                               .IO_DATA_BUS(IO_IOREG_DATA),
+                                               .I_ADDR_BUS(I_IOREG_ADDR),
+                                               .I_WE_BUS_L(I_IOREG_WE_L),
+                                               .I_RE_BUS_L(I_IOREG_RE_L),
+                                               .I_DATA_WR(gnd_data),
+                                               .O_DATA_READ(hdma_source_high),
+                                               .I_REG_WR_EN(gnd));
+
+   io_bus_parser_reg #(`HDMA2,0,0,0,0) hdma2_reg(
+                                               .I_CLK(I_CLK),
+                                               .I_SYNC_RESET(I_SYNC_RESET),
+                                               .IO_DATA_BUS(IO_IOREG_DATA),
+                                               .I_ADDR_BUS(I_IOREG_ADDR),
+                                               .I_WE_BUS_L(I_IOREG_WE_L),
+                                               .I_RE_BUS_L(I_IOREG_RE_L),
+                                               .I_DATA_WR(gnd_data),
+                                               .O_DATA_READ(hdma_source_low),
+                                               .I_REG_WR_EN(gnd));
+
+   io_bus_parser_reg #(`HDMA3,0,0,0,0) hdma3_reg(
+                                               .I_CLK(I_CLK),
+                                               .I_SYNC_RESET(I_SYNC_RESET),
+                                               .IO_DATA_BUS(IO_IOREG_DATA),
+                                               .I_ADDR_BUS(I_IOREG_ADDR),
+                                               .I_WE_BUS_L(I_IOREG_WE_L),
+                                               .I_RE_BUS_L(I_IOREG_RE_L),
+                                               .I_DATA_WR(gnd_data),
+                                               .O_DATA_READ(hdma_dest_high),
+                                               .I_REG_WR_EN(gnd));
+
+   io_bus_parser_reg #(`HDMA4,0,0,0,0) hdma4_reg(
+                                               .I_CLK(I_CLK),
+                                               .I_SYNC_RESET(I_SYNC_RESET),
+                                               .IO_DATA_BUS(IO_IOREG_DATA),
+                                               .I_ADDR_BUS(I_IOREG_ADDR),
+                                               .I_WE_BUS_L(I_IOREG_WE_L),
+                                               .I_RE_BUS_L(I_IOREG_RE_L),
+                                               .I_DATA_WR(gnd_data),
+                                               .O_DATA_READ(hdma_dest_low),
+                                               .I_REG_WR_EN(gnd));
+
+   /*FOR HDMA5, we need two registers, one read only and one write only,
+    *since reading and writing from the register goes to different operations.
+    *Reading from HDMA5 gives the status of the DMA transfer, while writing to
+    *to register initiates or cancels a dma operation*/
+
+   /*write only register (10) */
+   io_bus_parser_reg #(`HDMA5,0,0,0,'b10) hdma5_reg(
+                                                  .I_CLK(I_CLK),
+                                                  .I_SYNC_RESET(I_SYNC_RESET),
+                                                  .IO_DATA_BUS(IO_IOREG_DATA),
+                                                  .I_ADDR_BUS(I_IOREG_ADDR),
+                                                  .I_WE_BUS_L(I_IOREG_WE_L),
+                                                  .I_RE_BUS_L(I_IOREG_RE_L),
+                                                  .I_DATA_WR(gnd_data),
+                                                  .O_DATA_READ(hdma5_specification),
+                                                  .O_DBUS_WRITE(hdma_init_change),
+                                                  .I_REG_WR_EN(gnd));
+
+   /*read only register (01) - forward the status data*/
+   io_bus_parser_reg #(`HDMA5,0,1,0,'b01) hdma5_reg(
+                                                  .I_CLK(I_CLK),
+                                                  .I_SYNC_RESET(I_SYNC_RESET),
+                                                  .IO_DATA_BUS(IO_IOREG_DATA),
+                                                  .I_ADDR_BUS(I_IOREG_ADDR),
+                                                  .I_WE_BUS_L(I_IOREG_WE_L),
+                                                  .I_RE_BUS_L(I_IOREG_RE_L),
+                                                  .I_DATA_WR(hdma5_status),
+                                                  .I_REG_WR_EN(high)); //enables status to always be forwarded
+
+
 
 endmodule
