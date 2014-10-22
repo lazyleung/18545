@@ -63,25 +63,29 @@ module dma_controller(
    assign O_WDMA_DATA = I_RDMA_DATA;
 
    /*multiplex which dma controller gets access to the port*/
-   assign O_RDMA_ADDR = (oam_dma_active) ? oam_rdma_addr : 16'h0000;
-   assign O_WDMA_ADDR = (oam_dma_active) ? oam_wdma_addr : 16'h0000;
-   assign O_RDMA_RE_L = (oam_dma_active) ? oam_dma_we_l : 1;
-   assign O_WDMA_WE_L = (oam_dma_active) ? oam_dma_re_l : 1;
+   assign O_RDMA_ADDR = (oam_dma_active) ? oam_rdma_addr
+                        (gdma_active)    ? gdma_rdma_addr : 16'h0000;
+   assign O_WDMA_ADDR = (oam_dma_active) ? oam_wdma_addr
+                        (gdma_active)    ? gdma_wdma_addr : 16'h0000;
+   assign O_RDMA_RE_L = (oam_dma_active) ? oam_dma_we_l
+                        (gdma_active)    ? gdma_re_l : 1;
+   assign O_WDMA_WE_L = (oam_dma_active) ? oam_dma_re_l
+                        (gdma_active)    ? gdma_dma_we_l : 1;
 
    /*DMA Register - stores the high bytes in the
     * address that the source of the DMA transfer is from*/
    io_bus_parser_reg #(`DMA,0,0,0,0) dma_reg(
-                                           .I_CLK(I_CLK),
-                                           .I_SYNC_RESET(I_SYNC_RESET),
-                                           .IO_DATA_BUS(IO_IOREG_DATA),
-                                           .I_ADDR_BUS(I_IOREG_ADDR),
-                                           .I_WE_BUS_L(I_IOREG_WE_L),
-                                           .I_RE_BUS_L(I_IOREG_RE_L),
+                                             .I_CLK(I_CLK),
+                                             .I_SYNC_RESET(I_SYNC_RESET),
+                                             .IO_DATA_BUS(IO_IOREG_DATA),
+                                             .I_ADDR_BUS(I_IOREG_ADDR),
+                                             .I_WE_BUS_L(I_IOREG_WE_L),
+                                             .I_RE_BUS_L(I_IOREG_RE_L),
 
-                                           .I_DATA_WR(gnd_data), //no writing to this register
-                                           .O_DATA_READ(dma_staddr_high), //to read from the io register
-                                           .I_REG_WR_EN(gnd), //no writing to this register
-                                           .O_DBUS_WRITE(start_new_dma));
+                                             .I_DATA_WR(gnd_data), //no writing to this register
+                                             .O_DATA_READ(dma_staddr_high), //to read from the io register
+                                             .I_REG_WR_EN(gnd), //no writing to this register
+                                             .O_DBUS_WRITE(start_new_dma));
 
    /*use base address high bits and the count as the offset*/
    assign oam_rdma_addr[15:8] = dma_staddr_high;
@@ -225,6 +229,66 @@ module dma_controller(
                                                   .I_RE_BUS_L(I_IOREG_RE_L),
                                                   .I_DATA_WR(hdma5_status),
                                                   .I_REG_WR_EN(high)); //enables status to always be forwarded
+
+   parameter GDMA_WAIT = 'b0;
+   parameter GDMA_WRITE = 'b1;
+   reg        gdma_state, gdma_active;
+   wire [15:0] dest_base_addr, source_base_addr;
+   wire [15:0] transfer_length;
+   reg [15:0]  gdma_count;
+   wire [15:0] gdma_rdma_addr;
+   wire [15:0] rdma_wdma_addr;
+   wire        dma_sel;
+   reg         gdma_we_l, gdma_re_l;
+   assign dest_base_addr[15:13] = 3'b100;//top 3 bits have to be 100, (vram destination)
+   assign dest_base_addr[12:8] = hdma_dest_high[5:0];
+   assign dest_base_addr[7:0] = hdma_dest_low & 0xF0; //lowest 4 bits are 0
+   assign source_base_addr[15:8] = hdma_source_high;
+   assign dma_sel = hdma5_specification[7];
+   assign transfer_length = (hdma5_specification[6:0] + 1) << 4;
+
+   assign gdma_rdma_addr = source_base_addr + gdma_count;
+   assign gdma_wdma_addr = dest_base_addr + gdma_count;
+
+   /*OAM DMA CONTROLLER*/
+   always @(posedge I_CLK) begin
+
+      gdma_re_l <= 1;
+      gdma_we_l <= 1;
+      gdma_active <= 0;
+
+      case(gdma_state)
+        GDMA_WAIT: begin
+           /*register indicates that a write took place to
+            *DMA register, so start the DMA transactiong*/
+           if (hdma_init_change & (dma_sel == 0)) begin
+              gdma_state <= GDMA_WRITE;
+              gdma_count <= 0;
+              gdma_re_l <= 0;
+              gdma_we_l <= 0;
+              gdma_active <= 1;
+           end
+           else begin
+             gdma_state <= GDMA_WAIT;
+           end
+        end
+
+        GDMA_WRITE: begin
+           if (gdma_count == transfer_length - 1) begin
+              gdma_state <= GDMA_WAIT;
+              gdma_count <= 'd0;
+              gdma_active <= 0;
+           end
+           else begin
+              gdma_active <= 1;
+              gdma_count <= gdma_count + 1;
+              gdma_state <= GDMA_WRITE;
+              gdma_re_l <= 0;
+              gdma_we_l <= 0;
+           end
+        end
+      endcase
+
 
 
 
