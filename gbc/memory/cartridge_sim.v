@@ -42,7 +42,7 @@ module cartridge_sim(
    bram cartridge(
 		      .clka(I_CLK),
 		      .rsta(I_RESET),
-		      .ena(bram_en),
+		      //.ena(bram_en),
 		      .wea(bram_we),
 		      .addra(bram_addr),
 		      .dina(bram_data_in2),

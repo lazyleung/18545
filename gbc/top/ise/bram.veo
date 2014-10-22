@@ -50,7 +50,6 @@
 bram your_instance_name (
   .clka(clka), // input clka
   .rsta(rsta), // input rsta
-  .ena(ena), // input ena
   .wea(wea), // input [0 : 0] wea
   .addra(addra), // input [15 : 0] addra
   .dina(dina), // input [7 : 0] dina

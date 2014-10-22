@@ -32,9 +32,15 @@ module cpu_mem_integration();
    wire 		gb_mode ;
    assign 	gb_mode = 0;
 	integer	count;
+	
+	wire clock_main;
    
    always
-     #5 clock = ~clock;
+     #10 clock = ~clock;
+	  
+	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4)) //~4.125MHz
+   cdiv(.clock_out(clock_main),
+        .clock_in(clock));
    
    initial begin
       clock = 0;
@@ -55,6 +61,8 @@ module cpu_mem_integration();
 
    wire cpu_mem_disable;
    assign cpu_mem_disable = 0;
+	
+	
    
    cpu gbc_cpu(
 	      .mem_we_l(cpu_mem_we_l), 
@@ -63,13 +71,13 @@ module cpu_mem_integration();
 	      .addr_ext(addr_ext), 
 	      .data_ext(data_ext),
 	      .cpu_mem_disable(cpu_mem_disable),
-	      .clock(clock), 
+	      .clock(clock_main), 
 	      .reset(reset)
    );
 
    memory_router router(
 			/* CPU Memory Interface*/
-			.I_CLK(clock),
+			.I_CLK(clock_main),
 			.I_RESET(reset),
 			.I_CPU_ADDR(cpu_addr),
 			.IO_CPU_DATA(data_ext),
@@ -109,7 +117,7 @@ module cpu_mem_integration();
 
 
    io_bus_parser_reg #(`SC, 0)ioreg1(
-				     .I_CLK(clock),
+				     .I_CLK(clock_main),
 				     .I_SYNC_RESET(reset),
 				     .IO_DATA_BUS(iobus_data),
 				     .I_ADDR_BUS(iobus_addr),
@@ -119,7 +127,7 @@ module cpu_mem_integration();
 				     );
    
    io_bus_parser_reg #(`SB,0) ioreg2(
-				     .I_CLK(clock),
+				     .I_CLK(clock_main),
 				     .I_SYNC_RESET(reset),
 				     .IO_DATA_BUS(iobus_data),
 				     .I_ADDR_BUS(iobus_addr),
@@ -127,10 +135,10 @@ module cpu_mem_integration();
 				     .I_RE_BUS_L(iobus_re_l),
 				     .O_DATA_READ(ioreg2_data)
 				     );
-					  
+	  
 					  
    working_memory_bank wram(
-			    .I_CLK(clock),
+			    .I_CLK(clock_main),
 			    .I_RESET(reset),
 			    .I_IOREG_ADDR(iobus_addr),
 			    .IO_IOREG_DATA(iobus_data),
@@ -145,7 +153,7 @@ module cpu_mem_integration();
 
    
    cartridge_sim cartsim(
-			 .I_CLK(clock),
+			 .I_CLK(clock_main),
 			 .I_RESET(reset),
 			 .I_CARTRIDGE_ADDR(cartridge_addr),
 			 .IO_CARTRIDGE_DATA(cartridge_data),
@@ -156,5 +164,34 @@ module cpu_mem_integration();
 
    
    
+endmodule
+
+module my_clock_divider(/*AUTOARG*/
+   // Outputs
+   clock_out,
+   // Inputs
+   clock_in
+   );
+
+   parameter
+     DIV_SIZE = 15,
+       DIV_OVER_TWO = 24000;
+   
+
+   output reg clock_out = 0;
+
+   input wire  clock_in;
+   
+   reg [DIV_SIZE-1:0]           counter=0;
+
+   always @(posedge clock_in) begin
+      if (counter == DIV_OVER_TWO-1) begin
+			clock_out <= ~clock_out;
+			counter <= 0;
+      end
+		else
+			counter <= counter + 1;
+   end
+
 endmodule
 			

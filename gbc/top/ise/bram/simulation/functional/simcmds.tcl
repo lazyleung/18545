@@ -58,7 +58,6 @@ wave add /bram_tb/status
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/ADDRA
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/DINA
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/WEA
-      wave add  /bram_tb/bram_synth_inst/BMG_PORT/ENA
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/DOUTA
 run all
 quit

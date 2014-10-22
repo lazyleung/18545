@@ -16,7 +16,6 @@ quietly WaveActivateNextPane {} 0
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/ADDRA
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/DINA
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/WEA
-      add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/ENA
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/DOUTA
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ps} 0}

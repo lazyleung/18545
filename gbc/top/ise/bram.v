@@ -39,7 +39,6 @@
 module bram(
   clka,
   rsta,
-  ena,
   wea,
   addra,
   dina,
@@ -48,7 +47,6 @@ module bram(
 
 input clka;
 input rsta;
-input ena;
 input [0 : 0] wea;
 input [15 : 0] addra;
 input [7 : 0] dina;
@@ -65,13 +63,13 @@ output [7 : 0] douta;
     .C_AXI_TYPE(1),
     .C_BYTE_SIZE(9),
     .C_COMMON_CLK(0),
-    .C_DEFAULT_DATA("00"),
+    .C_DEFAULT_DATA("0"),
     .C_DISABLE_WARN_BHV_COLL(0),
     .C_DISABLE_WARN_BHV_RANGE(0),
     .C_ENABLE_32BIT_ADDRESS(0),
     .C_FAMILY("virtex5"),
     .C_HAS_AXI_ID(0),
-    .C_HAS_ENA(1),
+    .C_HAS_ENA(0),
     .C_HAS_ENB(0),
     .C_HAS_INJECTERR(0),
     .C_HAS_MEM_OUTPUT_REGS_A(0),
@@ -106,7 +104,7 @@ output [7 : 0] douta;
     .C_USE_BRAM_BLOCK(0),
     .C_USE_BYTE_WEA(0),
     .C_USE_BYTE_WEB(0),
-    .C_USE_DEFAULT_DATA(1),
+    .C_USE_DEFAULT_DATA(0),
     .C_USE_ECC(0),
     .C_USE_SOFTECC(0),
     .C_WEA_WIDTH(1),
@@ -122,11 +120,11 @@ output [7 : 0] douta;
   inst (
     .CLKA(clka),
     .RSTA(rsta),
-    .ENA(ena),
     .WEA(wea),
     .ADDRA(addra),
     .DINA(dina),
     .DOUTA(douta),
+    .ENA(),
     .REGCEA(),
     .CLKB(),
     .RSTB(),
