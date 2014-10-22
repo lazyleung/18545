@@ -1,5 +1,5 @@
-`include "memory/io_bus_parser/io_bus_parser.v"
-`include "memory/memory_router/memdef.vh"
+`include "../../memory/io_bus_parser/io_bus_parser.v"
+`include "../../memory/memory_router/memdef.vh"
 
 module dma_controller(
                       I_CLK,
@@ -31,23 +31,23 @@ module dma_controller(
    input I_CLK;
    input I_SYNC_RESET;
 
-   input I_IOREG_DATA;
-   inout IO_IOREG_DATA;
+   input [15:0] I_IOREG_ADDR;
+   inout [7:0] IO_IOREG_DATA;
    input I_IOREG_WE_L;
    input I_IOREG_RE_L;
    output [15:0] O_RDMA_ADDR;
    input [7:0]   I_RDMA_DATA;
-   output reg    O_RDMA_RE_L;
+   output 	 O_RDMA_RE_L;
    output [15:0] O_WDMA_ADDR;
    output [7:0]  O_WDMA_DATA;
-   output reg    O_WDMA_WE_L;
+   output 	 O_WDMA_WE_L;
    input         I_HBLANK;
    input         I_VBLANK;
 
 
    wire gnd = 0;
    wire high = 1;
-   wire gnd_data = 8'd0;
+   wire[7:0]  gnd_data = 8'd0;
    wire st_oam_dma;
    wire [7:0]    dma_staddr_high;
    wire [15:0]   oam_rdma_addr;
@@ -67,18 +67,18 @@ module dma_controller(
    assign O_WDMA_DATA = I_RDMA_DATA;
 
    /*multiplex which dma controller gets access to the port*/
-   assign O_RDMA_ADDR = (oam_dma_active) ? oam_rdma_addr
-                        (gdma_active)    ? gdma_rdma_addr
+   assign O_RDMA_ADDR = (oam_dma_active) ? oam_rdma_addr  :
+                        (gdma_active)    ? gdma_rdma_addr :
                         (hdma_active)    ? hdma_rdma_addr : 16'h0000;
-   assign O_WDMA_ADDR = (oam_dma_active) ? oam_wdma_addr
-                        (gdma_active)    ? gdma_wdma_addr
+   assign O_WDMA_ADDR = (oam_dma_active) ? oam_wdma_addr  :
+                        (gdma_active)    ? gdma_wdma_addr :
                         (hdma_active)    ? hdma_wdma_addr : 16'h0000;
-   assign O_RDMA_RE_L = (oam_dma_active) ? oam_dma_re_l
-                        (gdma_active)    ? gdma_re_l
-                        (hdma_active)    ? hdma_re_l : 1;
-   assign O_WDMA_WE_L = (oam_dma_active) ? oam_dma_we_l
-                        (gdma_active)    ? gdma_we_l
-                        (hdma_active)    ? hdma_we_l : 1;
+   assign O_RDMA_RE_L = (oam_dma_active) ? oam_dma_re_l   :
+                        (gdma_active)    ? gdma_re_l      :
+                        (hdma_active)    ? hdma_re_l      : 1;
+   assign O_WDMA_WE_L = (oam_dma_active) ? oam_dma_we_l   :
+                        (gdma_active)    ? gdma_we_l      :
+                        (hdma_active)    ? hdma_we_l      : 1;
 
    /*DMA Register - stores the high bytes in the
     * address that the source of the DMA transfer is from*/
@@ -215,7 +215,7 @@ module dma_controller(
     *to register initiates or cancels a dma operation*/
 
    /*write only register (10) */
-   io_bus_parser_reg #(`HDMA5,0,0,0,'b10) hdma5_reg(
+   io_bus_parser_reg #(`HDMA5,0,0,0,'b10) hdma5w_reg(
                                                   .I_CLK(I_CLK),
                                                   .I_SYNC_RESET(I_SYNC_RESET),
                                                   .IO_DATA_BUS(IO_IOREG_DATA),
@@ -228,15 +228,15 @@ module dma_controller(
                                                   .I_REG_WR_EN(gnd));
 
    /*read only register (01) - forward the status data*/
-   io_bus_parser_reg #(`HDMA5,0,1,0,'b01) hdma5_reg(
-                                                  .I_CLK(I_CLK),
-                                                  .I_SYNC_RESET(I_SYNC_RESET),
-                                                  .IO_DATA_BUS(IO_IOREG_DATA),
-                                                  .I_ADDR_BUS(I_IOREG_ADDR),
-                                                  .I_WE_BUS_L(I_IOREG_WE_L),
-                                                  .I_RE_BUS_L(I_IOREG_RE_L),
-                                                  .I_DATA_WR(hdma5_status),
-                                                  .I_REG_WR_EN(high)); //enables status to always be forwarded
+   io_bus_parser_reg #(`HDMA5,0,1,0,'b01) hdma5r_reg(
+                                                    .I_CLK(I_CLK),
+                                                    .I_SYNC_RESET(I_SYNC_RESET),
+                                                    .IO_DATA_BUS(IO_IOREG_DATA),
+                                                    .I_ADDR_BUS(I_IOREG_ADDR),
+                                                    .I_WE_BUS_L(I_IOREG_WE_L),
+                                                    .I_RE_BUS_L(I_IOREG_RE_L),
+                                                    .I_DATA_WR(hdma5_status),
+                                                    .I_REG_WR_EN(high)); //enables status to always be forwarded
 
    parameter GDMA_WAIT = 'b0;
    parameter GDMA_WRITE = 'b1;
@@ -298,146 +298,149 @@ module dma_controller(
         end
       endcase // case (gdma_state)
 
-      parameter HDMA_WAIT = 2'b00;
-      parameter HDMA_WAIT_HBLANK = 2'b01;
-      parameter HDMA_16WRITE = 2'b10;
-      parameter HDMA_CHECK_WAIT = 2'b11;
-
-      reg [1:0] hdma_state;
-      reg [15:0] hdma_count;
-
-      /*give the status of the DMA transfer to the read only register of HDMA5*/
-      assign hdma5_status[7] = (gdma_state == GDMA_WRITE) | (hdma_state != HDMA_WAIT);
-      assign hdma5_status[6:0] = 'd0;
-
-      /*find the rising edge of the hblank signal to know
-       *when to trigger the 16 bytes write of the hdma*/
-      reg        hblank_d1;
-      reg        rising_edge_hblank;
-      wire [3:0] hdma_4bits;
-      assign hdma_4bits = hdma_count[3:0];
-      always @(posedge I_CLK) begin
-         hblank_d1 <= I_HBLANK;
-         rising_edge_hblank <= ~hblank_d1 & I_HBLANK;
-      end
-
-      assign hdma_rdma_addr = source_base_addr + hdma_count;
-      assign hdma_wdma_addr = dest_base_addr + hdma_count;
-
-      /*Horizontal DMA Controller*/
-      always @(posedge I_CLK) begin
-
-         hdma_we_l <= 1;
-         hdma_re_l <= 1;
-         hdma_active <= 0;
-
-         case(hdma_state)
-
-           /*wait for an HDMA signal from the CPU*/
-           HDMA_WAIT: begin
-
-              /*indicatesthe CPU schedules DMA transaction*/
-              if (hdma_init_change & hdma_init_change & (dma_sel == 1)) begin
-
-                 /*initiation on same cycle as start of hblank*/
-                 if (rising_edge_hblank) begin
-                    hdma_state <= HDMA_16WRITE;
-                    hdma_we_l <= 0;
-                    hdma_re_l <= 0;
-                    hdma_active <= 1;
-                    hdma_count <= 0;
-                 end
-                 else /*go to wait for start of hblank*/
-                   hdma_state <= HDMA_WAIT_HBLANK;
-              end
-              else begin
-                hdma_state <= HDMA_WAIT;
-              end
-           end // case: HDMA_WAIT
-
-           /*wait for the start of Hblank after a
-            *request was made*/
-           HDMA_WAIT_HBLANK: begin
-
-              /*if a cancel request*/
-              hdma_active <= 1;
-              if (hdma_init_change & (dma_sel == 0)) begin
-                 hdma_state <= HDMA_WAIT;
-                 hdma_count <= 0;
-              end
-
-              /*start DMA on first hblank period*/
-              else if (rising_edge_hblank) begin
+   end // always @ (posedge I_CLK)
+   
+   parameter HDMA_WAIT = 2'b00;
+   parameter HDMA_WAIT_HBLANK = 2'b01;
+   parameter HDMA_16WRITE = 2'b10;
+   parameter HDMA_CHECK_WAIT = 2'b11;
+   
+   reg [1:0] hdma_state;
+   reg [15:0] hdma_count;
+   
+   /*give the status of the DMA transfer to the read only register of HDMA5*/
+   assign hdma5_status[7] = (gdma_state == GDMA_WRITE) | 
+			    (hdma_state != HDMA_WAIT);
+   assign hdma5_status[6:0] = 'd0;
+   
+   /*find the rising edge of the hblank signal to know
+    *when to trigger the 16 bytes write of the hdma*/
+   reg        hblank_d1;
+   reg        rising_edge_hblank;
+   wire [3:0] hdma_4bits;
+   assign hdma_4bits = hdma_count[3:0];
+   always @(posedge I_CLK) begin
+      hblank_d1 <= I_HBLANK;
+      rising_edge_hblank <= ~hblank_d1 & I_HBLANK;
+   end
+   
+   assign hdma_rdma_addr = source_base_addr + hdma_count;
+   assign hdma_wdma_addr = dest_base_addr + hdma_count;
+   
+   /*Horizontal DMA Controller*/
+   always @(posedge I_CLK) begin
+      
+      hdma_we_l <= 1;
+      hdma_re_l <= 1;
+      hdma_active <= 0;
+      
+      case(hdma_state)
+	
+        /*wait for an HDMA signal from the CPU*/
+        HDMA_WAIT: begin
+	   
+           /*indicatesthe CPU schedules DMA transaction*/
+           if (hdma_init_change & hdma_init_change & (dma_sel == 1)) begin
+	      
+              /*initiation on same cycle as start of hblank*/
+              if (rising_edge_hblank) begin
                  hdma_state <= HDMA_16WRITE;
                  hdma_we_l <= 0;
                  hdma_re_l <= 0;
                  hdma_active <= 1;
                  hdma_count <= 0;
               end
-              else begin
-                 hdma_state <= HDMA_WAIT_HBLANK;
-              end
-           end // case: HDMA_WAIT_HBLANK
-
-           /*writing 16 bytes of data*/
-           HDMA_16WRITE: begin
-
-              hdma_active <= 1;
-
-              /*if HDMA cancel*/
-              if (hdma_init_change & (dma_sel == 0)) begin
-                 hdma_state <= HDMA_WAIT;
-                 hdma_count <= 0;
-              end
-
-              /*this was the last burst of writing 16*/
-              else if (hdma_count >= transfer_length -1) begin
-                 hdma_state <= HDMA_WAIT;
-                 hdma_count <= 0;
-              end
-
-              /*write 16 values then wait for next hblank period*/
-              else if (hdma_4bits >= 4'hF) begin
-                 hdma_state <= HDMA_CHECK_WAIT;
-                 hdma_count <= hdma_count + 1;
-              end
-
-              /*in the middle of moving 16 bytes*/
-              else begin
-                 hdma_we_l <= 0;
-                 hdma_re_l <= 0;
-                 hdma_state <= HDMA_16WRITE;
-                 hdma_count <= hdma_count + 1;
-              end
-           end // case: HDMA_16WRITE
-
-           /*waiting for the next hblank period*/
-           HDMA_CHECK_WAIT: begin
-
-              hdma_active <= 1;
-
-              /*if cancel*/
-              if ( hdma_init_change & (dma_sel == 0)) begin
-                 hdma_state <= HDMA_WAIT;
-                 hdma_count <= 0;
-              end
-
-              /*start of new hblank period,
-               *go to write 16 more bytes*/
-              else if (rising_edge_hblank) begin
-                 hdma_state <= HDMA_16WRITE;
-                 hdma_we_l <= 0;
-                 hdma_re_l <= 0;
-              end
-
-              /*continue waiting for next hblank*/
-              else begin
-                 hdma_state <= HDMA_CHECK_WAIT;
-              end
+              else /*go to wait for start of hblank*/
+                hdma_state <= HDMA_WAIT_HBLANK;
+           end
+           else begin
+              hdma_state <= HDMA_WAIT;
+           end
+        end // case: HDMA_WAIT
+	
+        /*wait for the start of Hblank after a
+         *request was made*/
+        HDMA_WAIT_HBLANK: begin
+	   
+           /*if a cancel request*/
+           hdma_active <= 1;
+           if (hdma_init_change & (dma_sel == 0)) begin
+              hdma_state <= HDMA_WAIT;
+              hdma_count <= 0;
            end
 
-         endcase // case (hdma_state)
-      end
+           /*start DMA on first hblank period*/
+           else if (rising_edge_hblank) begin
+              hdma_state <= HDMA_16WRITE;
+              hdma_we_l <= 0;
+              hdma_re_l <= 0;
+              hdma_active <= 1;
+              hdma_count <= 0;
+           end
+           else begin
+              hdma_state <= HDMA_WAIT_HBLANK;
+           end
+        end // case: HDMA_WAIT_HBLANK
+
+        /*writing 16 bytes of data*/
+        HDMA_16WRITE: begin
+
+           hdma_active <= 1;
+
+           /*if HDMA cancel*/
+           if (hdma_init_change & (dma_sel == 0)) begin
+              hdma_state <= HDMA_WAIT;
+              hdma_count <= 0;
+           end
+
+           /*this was the last burst of writing 16*/
+           else if (hdma_count >= transfer_length -1) begin
+              hdma_state <= HDMA_WAIT;
+              hdma_count <= 0;
+           end
+
+           /*write 16 values then wait for next hblank period*/
+           else if (hdma_4bits >= 4'hF) begin
+              hdma_state <= HDMA_CHECK_WAIT;
+              hdma_count <= hdma_count + 1;
+           end
+
+           /*in the middle of moving 16 bytes*/
+           else begin
+              hdma_we_l <= 0;
+              hdma_re_l <= 0;
+              hdma_state <= HDMA_16WRITE;
+              hdma_count <= hdma_count + 1;
+           end
+        end // case: HDMA_16WRITE
+
+        /*waiting for the next hblank period*/
+        HDMA_CHECK_WAIT: begin
+
+           hdma_active <= 1;
+
+           /*if cancel*/
+           if ( hdma_init_change & (dma_sel == 0)) begin
+              hdma_state <= HDMA_WAIT;
+              hdma_count <= 0;
+           end
+
+           /*start of new hblank period,
+            *go to write 16 more bytes*/
+           else if (rising_edge_hblank) begin
+              hdma_state <= HDMA_16WRITE;
+              hdma_we_l <= 0;
+              hdma_re_l <= 0;
+           end
+
+           /*continue waiting for next hblank*/
+           else begin
+              hdma_state <= HDMA_CHECK_WAIT;
+           end
+        end
+
+      endcase // case (hdma_state)
+   end
 
 
 endmodule
