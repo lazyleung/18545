@@ -440,6 +440,13 @@ module dma_controller(
         end
 
       endcase // case (hdma_state)
+
+      if (I_SYNC_RESET) begin
+	 hdma_state <= HDMA_WAIT;
+	 hdma_count <= 0;
+      end
+      
+      
    end
 
 

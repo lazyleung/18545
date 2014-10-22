@@ -3,56 +3,56 @@
 
 module memory_router(
 
-		             I_CLK,
-		             I_RESET,
+                     I_CLK,
+                     I_RESET,
 
-		             /*******************************************************/
-		             /* Memory Master Interfaces                            */
-		             /*******************************************************/
+                     /*******************************************************/
+                     /* Memory Master Interfaces                            */
+                     /*******************************************************/
 
-		             /*Interface with CPU*/
-		             I_CPU_ADDR,
-		             IO_CPU_DATA,
-		             I_CPU_WE_L,
-		             I_CPU_RE_L,
+                     /*Interface with CPU*/
+                     I_CPU_ADDR,
+                     IO_CPU_DATA,
+                     I_CPU_WE_L,
+                     I_CPU_RE_L,
 
-		             /*Interface with PPU*/
-		             I_PPU_ADDR,
-		             IO_PPU_DATA,
-		             I_PPU_WE_L,
-		             I_PPU_RE_L,
+                     /*Interface with PPU*/
+                     I_PPU_ADDR,
+                     IO_PPU_DATA,
+                     I_PPU_WE_L,
+                     I_PPU_RE_L,
 
-		             /*Interface with DMA Read Port*/
-		             I_RDMA_ADDR,
-		             O_RDMA_DATA,
-		             I_RDMA_RE_L,
+                     /*Interface with DMA Read Port*/
+                     I_RDMA_ADDR,
+                     O_RDMA_DATA,
+                     I_RDMA_RE_L,
 
-		             /*Interface with DMA Write Port*/
-		             I_WDMA_ADDR,
-		             I_WDMA_DATA,
-		             I_WDMA_WE_L,
+                     /*Interface with DMA Write Port*/
+                     I_WDMA_ADDR,
+                     I_WDMA_DATA,
+                     I_WDMA_WE_L,
 
-		             /********************************************************/
-		             /* Memory Slave Interfaces                              */
-		             /********************************************************/
+                     /********************************************************/
+                     /* Memory Slave Interfaces                              */
+                     /********************************************************/
 
-		             /*IO Register Bus*/
-		             O_IOREG_ADDR,
-		             IO_IOREG_DATA,
-		             O_IOREG_WE_L,
-		             O_IOREG_RE_L,
+                     /*IO Register Bus*/
+                     O_IOREG_ADDR,
+                     IO_IOREG_DATA,
+                     O_IOREG_WE_L,
+                     O_IOREG_RE_L,
 
-		             /*Cartridge Interface*/
-		             O_CARTRIDGE_ADDR,
-		             IO_CARTRIDGE_DATA,
-		             O_CARTRIDGE_WE_L,
-		             O_CARTRIDGE_RE_L,
+                     /*Cartridge Interface*/
+                     O_CARTRIDGE_ADDR,
+                     IO_CARTRIDGE_DATA,
+                     O_CARTRIDGE_WE_L,
+                     O_CARTRIDGE_RE_L,
 
-		             /*LCD RAM*/
-		             O_LCDRAM_ADDR,
-		             IO_LCDRAM_DATA,
-		             O_LCDRAM_WE_L,
-		             O_LCDRAM_RE_L,
+                     /*LCD RAM*/
+                     O_LCDRAM_ADDR,
+                     IO_LCDRAM_DATA,
+                     O_LCDRAM_WE_L,
+                     O_LCDRAM_RE_L,
 
                      /*WORKING RAM*/
                      O_WRAM_ADDR,
@@ -72,11 +72,11 @@ module memory_router(
                      O_LWRAM_WE_L,
                      O_LWRAM_RE_L,
 
-		             /*ERRORS*/
-		             O_SAME_PORT_ACCESS_ERROR,
-		             O_PPU_BOUNDARY_ERROR,
-		             O_RDMA_BOUNDARY_ERROR,
-		             O_WDMA_BOUNDARY_ERROR);
+                     /*ERRORS*/
+                     O_SAME_PORT_ACCESS_ERROR,
+                     O_PPU_BOUNDARY_ERROR,
+                     O_RDMA_BOUNDARY_ERROR,
+                     O_WDMA_BOUNDARY_ERROR);
 
    /*Master Interface Ports*/
    input             I_CLK, I_RESET;
@@ -99,7 +99,7 @@ module memory_router(
 
    /*Errors*/
    output            O_SAME_PORT_ACCESS_ERROR, O_PPU_BOUNDARY_ERROR,
-		             O_RDMA_BOUNDARY_ERROR, O_WDMA_BOUNDARY_ERROR;
+                     O_RDMA_BOUNDARY_ERROR, O_WDMA_BOUNDARY_ERROR;
 
    /*break up the io busses into two separate lines so they can
     *be routed to a new location */
@@ -115,7 +115,7 @@ module memory_router(
    assign IO_PPU_DATA = (en_ppu_data) ? ppu_data_out : 'bzzzzzzzz;
 
    /* Slave Interfaces*/
-   wire [7:0] 	     ioreg_data_in, cartridge_data_in, lcdram_data_in,
+   wire [7:0]        ioreg_data_in, cartridge_data_in, lcdram_data_in,
                      wram_data_in, oam_data_in, lwram_data_in;
    assign ioreg_data_in = IO_IOREG_DATA;
    assign cartridge_data_in = IO_CARTRIDGE_DATA;
@@ -124,14 +124,14 @@ module memory_router(
    assign oam_data_in = IO_OAM_DATA;
    assign lwram_data_in = IO_LWRAM_DATA;
    wire [7:0]        ioreg_data_out, cartridge_data_out, lcdram_data_out,
-		             wram_data_out, oam_data_out, lwram_data_out;
+                     wram_data_out, oam_data_out, lwram_data_out;
    wire              en_ioreg_data;
    wire              en_lcdram_data;
-   wire	             en_wram_data;
+   wire              en_wram_data;
    wire              en_oam_data;
    wire              en_lwram_data;
    wire              en_cartridge_data;
-	wire cpu_accessing_cartridge;
+   wire              cpu_accessing_cartridge;
    assign IO_IOREG_DATA = (en_ioreg_data) ? ioreg_data_out : 'bzzzzzzzz;
    assign IO_CARTRIDGE_DATA = (en_cartridge_data) ? cartridge_data_out : 'bzzzzzzzz;
    assign IO_LCDRAM_DATA = (en_lcdram_data) ? lcdram_data_out : 'bzzzzzzzz;
@@ -141,22 +141,22 @@ module memory_router(
 
 
    /*Bits to indicate who is accessing what*/
-   wire 		     cpu_accessing_ioreg, cpu_accessing_lcdram,
-		             cpu_accessing_wram,  cpu_accessing_oam,       cpu_accessing_lwram;
+   wire              cpu_accessing_ioreg, cpu_accessing_lcdram,
+                     cpu_accessing_wram,  cpu_accessing_oam,       cpu_accessing_lwram;
    wire              ppu_accessing_ioreg, ppu_accessing_cartridge, ppu_accessing_lcdram,
-		             ppu_accessing_wram,  ppu_accessing_oam,       ppu_accessing_lwram;
+                     ppu_accessing_wram,  ppu_accessing_oam,       ppu_accessing_lwram;
    wire              rdma_accessing_ioreg, rdma_accessing_cartridge, rdma_accessing_lcdram,
-		             rdma_accessing_wram,  rdma_accessing_oam,     rdma_accessing_lwram;
+                     rdma_accessing_wram,  rdma_accessing_oam,     rdma_accessing_lwram;
    wire              wdma_accessing_ioreg, wdma_accessing_cartridge, wdma_accessing_lcdram,
-		             wdma_accessing_wram,  wdma_accessing_oam,     wdma_accessing_lwram;
+                     wdma_accessing_wram,  wdma_accessing_oam,     wdma_accessing_lwram;
 
    /*Bits To Route Returning Read Data*/
-   wire 		     ioreg_cpu_return, cartridge_cpu_return, lcdram_cpu_return,
-			         wram_cpu_return, oam_cpu_return, lwram_cpu_return;
-   wire 		     ioreg_ppu_return, cartridge_ppu_return, lcdram_ppu_return,
-			         wram_ppu_return, oam_ppu_return, lwram_ppu_return;
-   wire 		     ioreg_rdma_return, cartridge_rdma_return, lcdram_rdma_return,
-			         wram_rdma_return, oam_rdma_return, lwram_rdma_return;
+   wire              ioreg_cpu_return, cartridge_cpu_return, lcdram_cpu_return,
+                     wram_cpu_return, oam_cpu_return, lwram_cpu_return;
+   wire              ioreg_ppu_return, cartridge_ppu_return, lcdram_ppu_return,
+                     wram_ppu_return, oam_ppu_return, lwram_ppu_return;
+   wire              ioreg_rdma_return, cartridge_rdma_return, lcdram_rdma_return,
+                     wram_rdma_return, oam_rdma_return, lwram_rdma_return;
 
    wire              cpu_en, ppu_en, rdma_en, wdma_en;
 
@@ -269,11 +269,11 @@ module memory_router(
                           (wdma_accessing_lwram) ? ~I_WDMA_WE_L : 0;
 
    assign O_OAM_WE_L = (cpu_accessing_oam) ? I_CPU_WE_L :
-                         (ppu_accessing_oam) ? I_PPU_WE_L :
-                         (wdma_accessing_oam) ? I_WDMA_WE_L : 1;
+                       (ppu_accessing_oam) ? I_PPU_WE_L :
+                       (wdma_accessing_oam) ? I_WDMA_WE_L : 1;
    assign O_OAM_RE_L = (cpu_accessing_oam) ? I_CPU_RE_L :
-                         (ppu_accessing_oam) ? I_PPU_RE_L :
-                         (rdma_accessing_oam) ? I_RDMA_RE_L : 1;
+                       (ppu_accessing_oam) ? I_PPU_RE_L :
+                       (rdma_accessing_oam) ? I_RDMA_RE_L : 1;
    assign oam_data_out = (cpu_accessing_oam) ? cpu_data_in :
                          (ppu_accessing_oam) ? ppu_data_in :
                          (wdma_accessing_oam) ? I_WDMA_DATA : 'd0;
@@ -330,32 +330,32 @@ module memory_router(
 
    /*Drive CPU Data Bus with Return Data*/
    assign cpu_data_out = (ioreg_cpu_return) ? ioreg_data_in :
-			 (cartridge_cpu_return) ? cartridge_data_in :
-			 (lcdram_cpu_return) ? lcdram_data_in :
-			 (wram_cpu_return) ? wram_data_in :
-			 (oam_cpu_return) ? oam_data_in :
-			 (lwram_cpu_return) ? lwram_data_in : 0;
+                         (cartridge_cpu_return) ? cartridge_data_in :
+                         (lcdram_cpu_return) ? lcdram_data_in :
+                         (wram_cpu_return) ? wram_data_in :
+                         (oam_cpu_return) ? oam_data_in :
+                         (lwram_cpu_return) ? lwram_data_in : 0;
    assign en_cpu_data = ioreg_cpu_return | cartridge_cpu_return |
-			lcdram_cpu_return | wram_cpu_return |
-			oam_cpu_return | lwram_cpu_return ;
+                        lcdram_cpu_return | wram_cpu_return |
+                        oam_cpu_return | lwram_cpu_return ;
 
    /*Drive PPU Data Bus with Return Data*/
    assign ppu_data_out = (ioreg_ppu_return) ? ioreg_data_in :
-			 (cartridge_ppu_return) ? cartridge_data_in :
-			 (lcdram_ppu_return) ? lcdram_data_in :
-			 (wram_ppu_return) ? wram_data_in :
-			 (oam_ppu_return) ? oam_data_in :
-			 (lwram_ppu_return) ? lwram_data_in : 0;
+                         (cartridge_ppu_return) ? cartridge_data_in :
+                         (lcdram_ppu_return) ? lcdram_data_in :
+                         (wram_ppu_return) ? wram_data_in :
+                         (oam_ppu_return) ? oam_data_in :
+                         (lwram_ppu_return) ? lwram_data_in : 0;
    assign en_ppu_data = ioreg_ppu_return | cartridge_ppu_return |
-			lcdram_ppu_return | wram_ppu_return |
-			oam_ppu_return | lwram_ppu_return ;
+                        lcdram_ppu_return | wram_ppu_return |
+                        oam_ppu_return | lwram_ppu_return ;
 
    /*Drive RDMA Data with Return Data*/
    assign O_RDMA_DATA = (ioreg_rdma_return) ? ioreg_data_in :
-			 (cartridge_rdma_return) ? cartridge_data_in :
-			 (lcdram_rdma_return) ? lcdram_data_in :
-			 (wram_rdma_return) ? wram_data_in :
-			 (oam_rdma_return) ? oam_data_in :
-			 (lwram_rdma_return) ? lwram_data_in : 0;
+                        (cartridge_rdma_return) ? cartridge_data_in :
+                        (lcdram_rdma_return) ? lcdram_data_in :
+                        (wram_rdma_return) ? wram_data_in :
+                        (oam_rdma_return) ? oam_data_in :
+                        (lwram_rdma_return) ? lwram_data_in : 0;
 
 endmodule
