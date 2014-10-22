@@ -58,4 +58,4 @@ NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
 #NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
 #Created by Constraints Editor (xc5vlx110t-ff1136-1) - 2014/10/14
 NET "USER_CLK" TNM_NET = USER_CLK;
-TIMESPEC TS_CLK_8MHz = PERIOD "USER_CLK" 12.1 us;
+TIMESPEC TS_CLK_8MHz = PERIOD "USER_CLK" 12.1 us HIGH 50 %;

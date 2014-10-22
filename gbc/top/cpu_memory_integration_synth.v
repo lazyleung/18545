@@ -35,6 +35,8 @@ module cpu_mem_integration(
 	assign I_RESET = GPIO_SW_W;
 	
    wire [7:0] O_DATA1;
+	//assign O_DATA1 = bram_data;
+	
 	assign GPIO_LED_7 = O_DATA1[7];
 	assign GPIO_LED_6 = O_DATA1[6];
 	assign GPIO_LED_5 = O_DATA1[5];
@@ -43,8 +45,9 @@ module cpu_mem_integration(
 	assign GPIO_LED_2 = O_DATA1[2];
 	assign GPIO_LED_1 = O_DATA1[1];
 	assign GPIO_LED_0 = O_DATA1[0];
-	
-	// CPU Setup
+	//========================================
+	//============= CPU Setup ================
+	//========================================
 	// Outputs
 	wire [7:0]  F_data, A_data, instruction;
 	wire [4:0]  IF_data, IE_data;
@@ -70,14 +73,9 @@ module cpu_mem_integration(
    assign 		bp_step = 1'b0;
    assign 		bp_continue = 1'b0;
 	
-	wire        cpu_clock;
+	wire        mem_clock;
 	
    wire        dma_mem_re, dma_mem_we;
-	
-	// CPU mem tristate
-   //wire [15:0] cpu_addr;
-	//assign addr_ext = (~cpu_mem_we_l | ~cpu_mem_re_l) ? 16'bzzzzzzzzzzzzzzzz : 16'b0000000000000000;
-	//assign cpu_addr = addr_ext;
    
    wire [7:0]   iobus_data;
    wire [15:0]  iobus_addr;
@@ -91,6 +89,11 @@ module cpu_mem_integration(
    wire [15:0]  cartridge_addr;
    wire         cartridge_we_l, cartridge_re_l;
 	
+	// CPU mem tristate
+   //wire [15:0] cpu_addr;
+	//assign addr_ext = (~cpu_mem_we_l | ~cpu_mem_re_l) ? 16'bzzzzzzzzzzzzzzzz : 16'b0000000000000000;
+	//assign cpu_addr = addr_ext;
+	
 	// Cartirage data tristate
 	//wire [7:0] cartridge_data_bus;
 	//assign cartridge_data = (~cartridge_re_l) ? 8'bzzzz_zzzz : 8'b0000_0000;
@@ -99,14 +102,13 @@ module cpu_mem_integration(
    wire [7:0]   ioreg1_data, ioreg2_data;
 
    wire   gb_mode;
+	
    assign gb_mode = 0;
-   
- 
    assign reset = I_RESET;
 
 	reg [7:0]  count1 = 0;
 	reg [10:0] count2 = 0;
-	always @(posedge cpu_clock) begin
+	always @(posedge clock) begin
 		count2 <= count2 + 1;
 		if (count2 == 0)
 			count1 <= count1 + 1;
@@ -116,16 +118,19 @@ module cpu_mem_integration(
 			count1 <= 0;
 		end
 	end
-	
-	assign clock = cpu_clock;
 
-   //assign O_DATA1 = (PUSH_BUTTON) ? ioreg1_data : ioreg2_data;
-	assign O_DATA1 = (PUSH_BUTTON) ? {addr_ext[7:1], clock} : {addr_ext[15:9], clock};
+   assign O_DATA1 = (PUSH_BUTTON) ? ioreg1_data : ioreg2_data;
+	//assign O_DATA1 = (PUSH_BUTTON) ? {addr_ext[7:1], clock} : {addr_ext[15:9], clock};
 	
+	// Clock Dividers
 	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4)) //~4.125MHz
-   cdiv(.clock_out(cpu_clock),
+   cdiv(.clock_out(clock),
         .clock_in(CLK_33MHZ_FPGA));
-   
+		  
+	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2)) //~8.125MHz
+   memcdiv(.clock_out(mem_clock),
+        .clock_in(CLK_33MHZ_FPGA));
+		  
    cpu gbc_cpu(
 			 // Outputs
 			 .F_data                      (F_data),
@@ -172,6 +177,17 @@ module cpu_mem_integration(
             .IO_IOREG_DATA(iobus_data),
             .O_IOREG_WE_L(iobus_we_l),
             .O_IOREG_RE_L(iobus_re_l),
+				
+				.I_PPU_ADDR(0),
+				.I_PPU_WE_L(1),
+				.I_PPU_RE_L(1),
+			
+				.I_RDMA_ADDR(0),
+				.I_RDMA_RE_L(1),
+			
+				.I_WDMA_ADDR(0),
+				.I_WDMA_WE_L(1),
+				.I_WDMA_DATA(0),
              
             /*WORKING RAM*/
 				/*
@@ -180,7 +196,7 @@ module cpu_mem_integration(
             .O_WRAM_WE_L(wram_we_l),
             .O_WRAM_RE_L(wram_re_l),
 				*/
-
+				
             .O_CARTRIDGE_ADDR(cartridge_addr),
             .IO_CARTRIDGE_DATA(cartridge_data),
             .O_CARTRIDGE_WE_L(cartridge_we_l),
@@ -209,7 +225,7 @@ module cpu_mem_integration(
                      .I_RE_BUS_L(iobus_re_l),
                      .O_DATA_READ(ioreg2_data)
                      );
-		/*					
+	/*
    working_memory_bank wram(
                 .I_CLK(clock),
                 .I_RESET(reset),
@@ -225,15 +241,21 @@ module cpu_mem_integration(
                 );
 					 */
 
-   
    cartridge_sim cartsim(
-             .I_CLK(clock),
+             .I_CLK(mem_clock),
              .I_RESET(reset),
              .I_CARTRIDGE_ADDR(cartridge_addr),
              .IO_CARTRIDGE_DATA(cartridge_data),
              .I_CARTRIDGE_WE_L(cartridge_we_l),
              .I_CARTRIDGE_RE_L(cartridge_re_l)
              );
+	/*
+	bram_test btest(
+				.data(bram_data),
+				.clock(clock),
+				.reset(reset)
+				);
+	*/
 endmodule
 
 
@@ -257,7 +279,7 @@ module my_clock_divider(/*AUTOARG*/
 
    always @(posedge clock_in) begin
       if (counter == DIV_OVER_TWO-1) begin
-			clock_out = ~clock_out;
+			clock_out <= ~clock_out;
 			counter <= 0;
       end
 		else
@@ -265,3 +287,30 @@ module my_clock_divider(/*AUTOARG*/
    end
 
 endmodule
+
+module bram_test (
+		data,
+		reset,
+		clock
+	);
+	
+	input 			clock, reset;
+	output [8:0] 	data;
+	reg [15:0]  	count = 0;
+	
+	// synthesis attribute keep [of] data [is] "true";
+	
+	bram tb(
+		      .clka(clock),
+		      .rsta(reset),
+		      .wea(0),
+		      .addra(count),
+		      .dina(0),
+		      .douta(data)
+		      );
+	
+	always @(posedge clock) begin
+		count <= count + 1;
+	end
+	
+endmodule 

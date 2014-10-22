@@ -69,7 +69,7 @@ module io_bus_parser_reg (
 
    /*forwards the data being written, else return the register contents*/
    assign write_bus_data = (I_REG_WR_EN & P_FORWARD_DATA) ? I_DATA_WR : io_register;
-   assign data_bus_en = (address_match & ~I_RE_BUS_L & (P_MODE ~= `WRITE_ONLY));
+   assign data_bus_en = (address_match & ~I_RE_BUS_L & (P_MODE != `WRITE_ONLY));
 
    always @(posedge I_CLK) begin
 
@@ -81,7 +81,7 @@ module io_bus_parser_reg (
 
          /*if any write transaction for the bus,
           *service it, ingoring all other interfaces*/
-         if (~I_WE_BUS_L & (P_MODE ~= `READ_ONLY)) begin
+         if (~I_WE_BUS_L & (P_MODE != `READ_ONLY)) begin
             io_register <= IO_DATA_BUS;
             O_DBUS_WRITE <= 1;
          end

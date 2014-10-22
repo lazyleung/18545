@@ -87,14 +87,14 @@
 --    C_PRIM_TYPE                 :  1 
 --    C_LOAD_INIT_FILE            :  1 
 --    C_INIT_FILE_NAME            :  bram.mif 
---    C_USE_DEFAULT_DATA          :  1 
---    C_DEFAULT_DATA              :  00 
+--    C_USE_DEFAULT_DATA          :  0 
+--    C_DEFAULT_DATA              :  0 
 --    C_RST_TYPE                  :  SYNC 
 --    C_HAS_RSTA                  :  1 
 --    C_RST_PRIORITY_A            :  CE 
 --    C_RSTRAM_A                  :  0 
 --    C_INITA_VAL                 :  0 
---    C_HAS_ENA                   :  1 
+--    C_HAS_ENA                   :  0 
 --    C_HAS_REGCEA                :  0 
 --    C_USE_BYTE_WEA              :  0 
 --    C_WEA_WIDTH                 :  1 
@@ -232,7 +232,6 @@ ARCHITECTURE xilinx OF bram_prod IS
   PORT (
       --Port A
     RSTA           : IN STD_LOGIC;  --opt port
-    ENA            : IN STD_LOGIC;  --opt port
   
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -255,7 +254,6 @@ BEGIN
     PORT MAP (
       --Port A
       RSTA       => RSTA,
-      ENA        => ENA,
   
       WEA        => WEA,
       ADDRA      => ADDRA,
