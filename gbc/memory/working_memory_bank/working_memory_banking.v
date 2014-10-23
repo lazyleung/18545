@@ -21,6 +21,7 @@
  * into the final logic that goes into the bram block*/
 module working_memory_bank(
 			   I_CLK,
+			   I_MEM_CLK,
 			   I_RESET,
 
 			   /*Interface with IO Register Bus
@@ -41,7 +42,7 @@ module working_memory_bank(
 			    *one bank can be used*/
 			   I_IN_DMG_MODE);
 
-   input        I_CLK, I_RESET;
+   input        I_CLK, I_MEM_CLK, I_RESET;
    input [15:0] I_IOREG_ADDR, I_WRAM_ADDR;
    inout [7:0] 	IO_IOREG_DATA, IO_WRAM_DATA;
    input 	I_IOREG_WE_L, I_IOREG_RE_L,
@@ -96,7 +97,7 @@ module working_memory_bank(
    /*keep only 12 bits since we are working with
     *4 kbyte segments of memory*/ 
    bram_wrapper #(16'h0FFF) ifconverter(
-				       .I_CLK(I_CLK),
+				       .I_CLK(I_MEM_CLK),
 				       .I_RESET(I_RESET),
 				       .I_ADDR(I_WRAM_ADDR),
 				       .IO_DATA(IO_WRAM_DATA),
@@ -110,7 +111,7 @@ module working_memory_bank(
 				       );
    /* Actual Memory Location*/
    bram banked_memory(
-		      .clka(I_CLK),
+		      .clka(I_MEM_CLK),
 		      .rsta(I_RESET),
 		      .ena(bram_en),
 		      .wea(bram_we),
