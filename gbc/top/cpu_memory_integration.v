@@ -23,9 +23,11 @@ module cpu_mem_integration();
    wire         wram_we_l, wram_re_l;
    
    
-   tri [7:0]    cartridge_data;
-   wire [15:0]  cartridge_addr;
-   wire         cartridge_we_l, cartridge_re_l;
+   tri [7:0]    cartridge_data, oam_data, lcdram_data;
+   wire [15:0]  cartridge_addr, oam_addr, lcdram_addr;
+   wire         cartridge_we_l, cartridge_re_l, 
+		oam_we_l, oam_re_l, 
+		lcdram_we_l, lcdram_re_l;
    
    
    wire [7:0]   ioreg1_data, ioreg2_data;
@@ -34,13 +36,16 @@ module cpu_mem_integration();
    assign       gb_mode = 0;
    integer      count;
    
-   wire         clock_main;
+   wire         clock_main, mem_clock;
    
    always
      #5 clock = ~clock;
    
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4)) //~4.125MHz
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4))
    cdiv(.clock_out(clock_main),
+        .clock_in(clock));
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
+   cdiv(.clock_out(mem_clock),
         .clock_in(clock));
    
    initial begin
@@ -52,10 +57,10 @@ module cpu_mem_integration();
       
       while (count < 10000000) begin
          count = count + 1;
-         @(posedge clock);
+         @(posedge clock_main);
       end
       
-      @(posedge clock);
+      @(posedge clock_main);
       
       #1 $finish;
    end
@@ -123,6 +128,14 @@ module cpu_mem_integration();
                         .IO_CARTRIDGE_DATA(cartridge_data),
                         .O_CARTRIDGE_WE_L(cartridge_we_l),
                         .O_CARTRIDGE_RE_L(cartridge_re_l)
+			.O_OAM_ADDR(oam_addr),
+			.IO_OAM_DATA(oam_data),
+			.O_OAM_WE_L(oam_we_l),
+			.O_OAM_RE_L(oam_re_l)
+			.O_LCDRAM_ADDR(lcdram_addr),
+			.IO_LCDRAM_DATA(lcdram_data),
+			.O_LCDRAM_WE_L(lcdram_we_l),
+			.O_LCDRAM_RE_L(lcdram_re_l)
                         );
 
 
@@ -149,6 +162,7 @@ module cpu_mem_integration();
    
    working_memory_bank wram(
                             .I_CLK(clock_main),
+			    .I_MEM_CLK(mem_clock),
                             .I_RESET(reset),
                             .I_IOREG_ADDR(iobus_addr),
                             .IO_IOREG_DATA(iobus_data),
@@ -163,7 +177,7 @@ module cpu_mem_integration();
 
    
    cartridge_sim cartsim(
-                         .I_CLK(clock_main),
+                         .I_CLK(mem_clock),
                          .I_RESET(reset),
                          .I_CARTRIDGE_ADDR(cartridge_addr),
                          .IO_CARTRIDGE_DATA(cartridge_data),
@@ -171,6 +185,25 @@ module cpu_mem_integration();
                          .I_CARTRIDGE_RE_L(cartridge_re_l)
                          );
    
+
+   oamram_test oam(
+		   .I_MEM_CLK(mem_clock),
+		   .I_RESET(reset),
+		   .I_OAM_ADDR(oam_addr),
+		   .IO_OAM_DATA(oam_data),
+		   .I_OAM_WE_L(oam_we_l),
+		   .I_OAM_RE_L(oam_re_l)
+		   );
+
+   
+   lcdram_test lcdram(
+		      .I_MEM_CLK(mem_clock),
+		      .I_RESET(reset),
+		      .I_LCDRAM_ADDR(lcdram_addr),
+		      .IO_LCDRAM_DATA(lcdram_data),
+		      .I_LCDRAM_WE_L(lcdram_we_l),
+		      .I_LCDRAM_RE_L(lcdram_re_l)
+		      );
    
 endmodule
 
