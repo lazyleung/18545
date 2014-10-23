@@ -110,7 +110,7 @@ module cpu_mem_integration();
                         .I_PPU_WE_L(1),
                         .I_PPU_RE_L(1),
                         .I_RDMA_ADDR(rdma_addr),
-                        .O_RDMA_DATA(rdma_data)
+                        .O_RDMA_DATA(rdma_data),
                         .I_RDMA_RE_L(rdma_re_l),
                         .I_WDMA_ADDR(wdma_addr),
                         .I_WDMA_WE_L(wdma_we_l),
