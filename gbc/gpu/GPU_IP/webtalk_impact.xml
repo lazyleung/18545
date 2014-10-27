@@ -3,15 +3,15 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="impact" timeStamp="Sun Oct 19 21:45:57 2014">
+<application name="impact" timeStamp="Sun Oct 26 16:34:27 2014">
 <section name="Project Information" visible="false">
-<property name="ProjectID" value="f9e24538922549c4afcbab76e552a80f"/>
+<property name="ProjectID" value="d443c81de8304705b33168d322911d5a"/>
 <property name="ProjectIteration" value="1"/>
 </section>
 <section name="iMPACT Project Info" visible="true">
 <property name="Use Project File" value="Yes"/>
 <property name="Project Entry" value="ise"/>
-<property name="OS Name" value="Microsoft Windows 7"/>
+<property name="OS Name" value="Microsoft Windows 7 (64 Bit)"/>
 <property name="User Lic. Info" value="174679548_176449548_210570730_342"/>
 </section>
 <section name="iMPACT One Step SVF File Mode" visible="true">
@@ -35,6 +35,10 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="Part5" value="xc5vlx110t"/>
 </item>
 <item name="Boundary Scan Operations Statistics">
+<property name="BSCAN Operation" value="ReadIdcode -p 4
+"/>
+<property name="BSCAN Operation" value="Program -p 4
+"/>
 </item>
 <item name="Cable Summary">
 <property name="Cable Type" value=""/>
