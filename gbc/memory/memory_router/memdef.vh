@@ -50,6 +50,9 @@
 /***************************************************/
 /* IO Register Address Definitions                 */
 /***************************************************/
+
+
+/*io register            has been implemented? */
 `define P1    16'hFF00
 `define SB    16'hFF01
 `define SC    16'hFF02
@@ -60,7 +63,7 @@
 `define KEY1  16'hFF4D
 `define RP    16'hFF56
 `define VBK   16'hFF4F
-`define SVBK  16'hFF70
+`define SVBK  16'hFF70   // X
 `define IF    16'hFF0F
 `define IE    16'hFFFF
 `define IME   0
@@ -70,17 +73,17 @@
 `define SCX   16'hFF43
 `define LY    16'hFF44
 `define LYC   16'hFF45
-`define DMA   16'hFF46
+`define DMA   16'hFF46   // X
 `define BGP   16'hFF47
 `define OBP0  16'hFF48
 `define OBP1  16'hFF49
 `define WY    16'hFF4A
 `define WX    16'hFF4B
-`define HDMA1 16'hFF51
-`define HDMA2 16'hFF52
-`define HDMA3 16'hFF53
-`define HDMA4 16'hFF54
-`define HDMA5 16'hFF55
+`define HDMA1 16'hFF51   // X
+`define HDMA2 16'hFF52   // X
+`define HDMA3 16'hFF53   // X
+`define HDMA4 16'hFF54   // X
+`define HDMA5 16'hFF55   // X
 `define BCPS  16'hFF68
 `define BCPD  16'hFF69
 `define OCPS  16'hFF6A
