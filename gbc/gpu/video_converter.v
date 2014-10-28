@@ -23,35 +23,35 @@
 // the middle of the screen.
 module video_converter( //Outputs
 						// run on clock
-						color, pixel_clock, 	//DVI_MOD Outputs
-						//sync_b, 					//DVI_MOD Outputs
-						blank_b,					//DVI_MOD Outputs
-						hsync, vsync,			//DVI_MOD Outputs
-
-								//Inputs
-						reset, //~gpuclk_rst_b from setup
-						clock, //clk31p5 31.5MHz clock (gpuclk)
-						gb_clock, //clk33 33MHz clock
-						// run on gb_clock
-						pixel_data, 							//VIDEO_MOD Inputs
-						gb_pixel_count, gb_line_count,	//VIDEO_MOD Inputs
-						gb_hsync, gb_vsync, gb_we			//VIDEO_MOD Inputs								
-							);
+						O_COLOR, 
+						O_PIXEL_CLOCK, 
+						O_BLANK_L,	
+						O_HSYNC, 
+						O_VSYNC,		
+						I_RESET,
+						I_GPU_CLOCK,    //clk31p5 31.5MHz clock (gpuclk)
+						I_CLK33, //clk33 33MHz clock
+						I_PIXEL_DATA, 	
+						I_GB_PIXEL_COUNT, 
+						I_GB_LINE_COUNT,	
+						I_GB_HSYNC, 
+						I_GB_VSYNC, 
+						I_GB_WE			
+					);
 
 	//Outputs
 	// run on clock
-	output wire[23:0] color; 			//DVI_MOD Outputs
-	output wire pixel_clock; 			//DVI_MOD Outputs
-//	output wire sync_b, blank_b;
-	output wire blank_b;					//DVI_MOD Outputs
-	output wire hsync, vsync;			//DVI_MOD Outputs
+	output wire[23:0] O_COLOR; 			//DVI_MOD Outputs
+	output wire O_PIXEL_CLOCK; 			//DVI_MOD Outputs
+	output wire O_BLANK_L;					//DVI_MOD Outputs
+	output wire O_HSYNC, O_VSYNC;			//DVI_MOD Outputs
 	
 	//Inputs
-	input reset, clock, gb_clock;
+	input I_RESET, I_GPU_CLOCK, I_CLK33;
 	// run on gb_clock
-	input [1:0] pixel_data; 							//VIDEO_MOD Inputs
-	input [7:0] gb_pixel_count, gb_line_count;	//VIDEO_MOD Inputs
-	input gb_hsync, gb_vsync, gb_we;					//VIDEO_MOD Inputs		
+	input [1:0] I_PIXEL_DATA; 							//VIDEO_MOD Inputs
+	input [7:0] I_GB_PIXEL_COUNT, I_GB_LINE_COUNT;	//VIDEO_MOD Inputs
+	input I_GB_HSYNC, I_GB_VSYNC, I_GB_WE;					//VIDEO_MOD Inputs		
 
 	// game boy screen size
 	parameter GB_SCREEN_WIDTH = 10'd160;
@@ -83,23 +83,22 @@ module video_converter( //Outputs
 
 	reg write_enable;
 
-	assign b1_we = front_buffer ? (gb_we) : 0;
-	assign b2_we = front_buffer ? 0 : (gb_we);
+	assign b1_we = front_buffer ? (I_GB_WE) : 0;
+	assign b2_we = front_buffer ? 0 : (I_GB_WE);
 
 	assign read_data = (front_buffer) ? b2_dout : b1_dout;
-	//assign pixel_data = (front_buffer) ? b1_din : b2_din;
-	assign b1_din = (front_buffer) ? pixel_data : 0;
-	assign b2_din = (front_buffer) ? 0 : pixel_data;
+	assign b1_din = (front_buffer) ? I_PIXEL_DATA : 0;
+	assign b2_din = (front_buffer) ? 0 : I_PIXEL_DATA;
 
 	// If front_buffer, buffer1 clk is gb_clock
 	// otherwise is pixel_clock
 	BUFGMUX clock_mux_b1(.S(front_buffer), .O(b1_clk),
-								.I0(clock), .I1(gb_clock));
+								.I0(I_GPU_CLOCK), .I1(I_CLK33));
 
 	// If front_buffer, buffer2 clk is pixel_clock
 	// otherwise, is gb_clock
 	BUFGMUX clock_mux_b2(.S(front_buffer), .O(b2_clk),
-								.I0(gb_clock), .I1(clock));
+								.I0(I_CLK33), .I1(I_GPU_CLOCK));
 
 	// internal buffer ram
 	frame_buffer buffer1(
@@ -126,16 +125,16 @@ module video_converter( //Outputs
 	reg gb_last_hsync;
 
 	// handle writing into the back_buffer
-	always @ (posedge gb_clock) begin
-		if(reset) begin
+	always @ (posedge I_CLK33) begin
+		if(I_RESET) begin
 			front_buffer <= 0;
 			gb_last_vsync <= 0;
 		end else begin
-			gb_last_vsync <= gb_vsync;
+			gb_last_vsync <= I_GB_VSYNC;
 		end
 
 		// detect positive vsync edge
-		if(~gb_last_vsync && gb_vsync) begin
+		if(~gb_last_vsync && I_GB_VSYNC) begin
 			front_buffer <= ~front_buffer;
 		end
 	end
@@ -144,9 +143,7 @@ module video_converter( //Outputs
 	// detect vsync edge
 	// handle output to the vga module
 	wire my_hsync, my_vsync;
-	//wire [9:0] pixel_count, line_count;
 	wire [11:0] pixel_count, line_count;
-//	vga_controller vgac(clock, reset, my_hsync, my_vsync, pixel_count, line_count);
 
 	wire border;
 	sync_gen dvi_sync(//Outputs
@@ -156,12 +153,12 @@ module video_converter( //Outputs
 						.x(pixel_count),
 						.y(line_count),
 							//Inputs
-						.gpuclk(clock),
-						.gpuclk_rst_b(~reset)
-							);
+						.gpuclk(I_GPU_CLOCK),
+						.gpuclk_rst_b(~I_RESET)
+					);
 	// write to our current counter
 	//assign write_addr = my_line_count * 160 + my_pixel_count;
-	assign write_addr = gb_line_count * 160 + gb_pixel_count;
+	assign write_addr = I_GB_LINE_COUNT * 160 + I_GB_PIXEL_COUNT;
 
 	parameter X_OFFSET = 160;
 	parameter Y_OFFSET = 76;
@@ -176,8 +173,8 @@ module video_converter( //Outputs
 	// delay the outputs by two clocks
 	reg [2:0] hdelay, vdelay;
 	
-	always @ (posedge clock) begin
-		if(reset) begin
+	always @ (posedge I_GPU_CLOCK) begin
+		if(I_RESET) begin
 			hdelay <= 3'b111;
 			vdelay <= 3'b111;
 		end else begin
@@ -202,16 +199,16 @@ module video_converter( //Outputs
 								((read_data == 2'b10) ? 8'h55: //dark gray
 								8'h00)) : 8'h00; //black
 								
-	assign color[7:0] = my_color;
-	assign color[15:8] = my_color;
-	assign color[23:16] = my_color;
+	assign O_COLOR[7:0] = my_color;
+	assign O_COLOR[15:8] = my_color;
+	assign O_COLOR[23:16] = my_color;
 	
 	//assign sync_b = hdelay[2] ^ vdelay[2];
-	assign blank_b = ~border; //(pixel_count[9:0] < 640) && (line_count[9:0] < 480);
-	assign pixel_clock = ~clock;
+	assign O_BLANK_L = ~border; //(pixel_count[9:0] < 640) && (line_count[9:0] < 480);
+	assign O_PIXEL_CLOCK = ~I_GPU_CLOCK;
 
-	assign hsync = hdelay[2];
-	assign vsync = vdelay[2];
+	assign O_HSYNC = hdelay[2];
+	assign O_VSYNC = vdelay[2];
 	
 endmodule
 
