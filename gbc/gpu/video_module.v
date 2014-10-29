@@ -35,7 +35,7 @@
                       O_MODE,
 
                       /*For debugging*/
-                      O_DEBUG_OUT,
+                      O_DEBUG_OUT
                       );
 
    output reg        O_INTERRUPT_VBLANK, O_INTERRUPT_LCDC;
@@ -51,6 +51,7 @@
    input wire [15:0] I_VRAM_ADDR;
    input wire [7:0]  I_VRAM_DATA;
    input wire        I_INTERRUPT_VBLANK_ACK, I_INTERRUPT_LCDC_ACK;
+	output reg [1:0]   O_MODE;
    output wire [31:0] O_DEBUG_OUT;
 
    ///////////////////////////////////
@@ -188,7 +189,7 @@
    reg [7:0]          LCDC;
    wire               graphics_enable, window_display_enable,
                       bg_char_data_sel, window_screen_data_sel,
-                      bg_screen_data_sel, window_priority_bit,
+                      bg_screen_data_sel, obj_is_larger_size, window_priority_bit,
                       enable_bg_display;
    assign graphics_enable = LCDC[7];
    assign window_display_enable = LCDC[5];
@@ -866,7 +867,7 @@
 
    // If LCD display is enabled, next_line_count = O_LINE_COUNT + 1,
    // looping around max # of lines. If not enabled, set O_LINE_COUNT to 0
-   assign next_line_count = (graphics_enable) ? ((O_PIXEL_COUNT == TC_PIXELS - 1) ?((O_LINE_COUNT == LINES - 1) ?
+   assign next_line_count = (graphics_enable) ? ((O_PIXEL_COUNT == TC_PIXELS - 1) ?((O_LINE_COUNT == TC_LINES - 1) ?
                                                                                     0 : O_LINE_COUNT + 1) : O_LINE_COUNT) : 0;
 
    // Set both horizontal and vertical sync

@@ -47,9 +47,11 @@ module gpu_test_top(CLK_33MHZ_FPGA,
 	assign video_addr = 16'b0;
 	assign video_data_in = 8'b0;
 	assign reset = GPIO_SW_C;
-
+	
+	
+/*
    gpu_top gpu (// Outputs
-		.do_video		(do_video[7:0] ),
+		.do_video		(do_video[7:0]),
 		.mode_video		(mode_video[1:0]),
 		.int_req		(int_req[1:0]),
 		.dvi_d			(dvi_d[11:0]),
@@ -76,6 +78,42 @@ module gpu_test_top(CLK_33MHZ_FPGA,
 		.di_video		(video_data_in),
 		.int_ack		(int_ack[1:0]),
 		.switches78		());
+		*/
 
+  gpu_top gpu(
+
+                 /* Data Outputs */
+                 .O_VRAM_DATA(do_video[7:0]),
+                 .O_VIDEO_MODE(mode_video[1:0]),
+                 .I_INT_REQ(int_req[1:0]),
+
+                 /*DVI Ports*/
+                 .O_DVI_D(dvi_d[11:0]),
+                 .O_DVI_VS(dvi_vs),
+                 .O_DVI_HS(dvi_hs),
+                 .O_DVI_XCLK_P(dvi_xclk_p),
+                 .O_DVI_XCLK_N(dvi_xclk_n),
+                 .O_DVI_DE(dvi_de),
+                 .O_DVI_RESET_L(dvi_reset_b),
+					  
+                 .IO_DVI_SDA(dvi_sda),
+                 .IO_DVI_SCL(dvi_scl),
+
+                 /* Inputs*/
+                 .I_CLK27(CLK_27MHZ_FPGA),
+                 .I_CLK33(CLK_33MHZ_FPGA),
+                 .I_CLK100(USER_CLK),
+                 .I_RESET_L(~reset),
+                 .I_MEM_ENABLE(mem_enable_video),
+
+                 /* Vram Bus Sognals */
+                 .I_VRAM_WE_L(~mem_we),
+                 .I_VRAM_RE_L(~mem_re),
+                 .I_VRAM_ADDR(video_addr),
+                 .I_VRAM_DATA(video_data_in),
+
+                 /* Interrupt acknowledgement signals*/
+                 .I_INTERRUPT_ACK(int_ack[1:0])
+                 );
    
 endmodule

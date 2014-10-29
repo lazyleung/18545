@@ -51,7 +51,7 @@
                  I_VRAM_DATA,
 
                  /* Interrupt acknowledgement signals*/
-                 I_INTTERRUPT_ACK,
+                 I_INTERRUPT_ACK,
 
                  //TEST
                  O_IIC_DONE
@@ -73,7 +73,7 @@
    input            I_VRAM_WE_L, I_VRAM_RE_L;
    input [15:0]     I_VRAM_ADDR;
    input [7:0]      I_VRAM_DATA;
-   input [1:0]      I_INTTERRUPT_ACK; // bit 0 vblank interrupt acknowledge
+   input [1:0]      I_INTERRUPT_ACK; // bit 0 vblank interrupt acknowledge
    // bit 1 hblank interrupt acknowledge
    /* For Testing*/
    output           O_IIC_DONE;
@@ -98,7 +98,7 @@
                     gpuclk_rst_b;
 
    video_module video( .I_RESET(~I_RESET_L),
-                       .I_CLOCK(I_CLK_33),
+                       .I_CLOCK(I_CLK33),
                        .O_INTERRUPT_VBLANK(I_INT_REQ[0]),
                        .O_INTERRUPT_LCDC(I_INT_REQ[1]),
                        .I_INTERRUPT_VBLANK_ACK(I_INTERRUPT_ACK[0]),
