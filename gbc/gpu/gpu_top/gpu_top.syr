@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.18 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.18 secs
+Total CPU time to Xst completion: 0.07 secs
  
 --> Reading design: gpu_top.prj
 
@@ -67,8 +67,8 @@ Use DSP Block                      : Auto
 Automatic Register Balancing       : No
 
 ---- Target Options
-LUT Combining                      : Off
-Reduce Control Sets                : Off
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
 Add IO Buffers                     : YES
 Global Maximum Fanout              : 100000
 Add Generic Clock Buffer(BUFG)     : 32
@@ -143,11 +143,11 @@ Analysis of file <"gpu_top.prj"> succeeded.
 =========================================================================
 *                     Design Hierarchy Analysis                         *
 =========================================================================
-ERROR:HDLCompilers:87 - "../video_module.v" line 226 Could not find module/primitive 'OAM'
-ERROR:HDLCompilers:87 - "../video_module.v" line 241 Could not find module/primitive 'VRAM'
+ERROR:HDLCompilers:87 - "../video_module.v" line 238 Could not find module/primitive 'OAM'
+ERROR:HDLCompilers:87 - "../video_module.v" line 253 Could not find module/primitive 'VRAM'
 --> 
 
-Total memory usage is 272108 kilobytes
+Total memory usage is 274976 kilobytes
 
 Number of errors   :    2 (   0 filtered)
 Number of warnings :    0 (   0 filtered)

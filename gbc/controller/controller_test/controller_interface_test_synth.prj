@@ -1,0 +1,2 @@
+verilog work "../controller.v"
+verilog work "controller_interface_test_synth.v"

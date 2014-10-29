@@ -205,6 +205,8 @@ module video_converter( //Outputs
 	assign color[7:0] = my_color;
 	assign color[15:8] = my_color;
 	assign color[23:16] = my_color;
+	//assign color[15:8] = 0;
+	//assign color[23:16] = 0;
 	
 	//assign sync_b = hdelay[2] ^ vdelay[2];
 	assign blank_b = ~border; //(pixel_count[9:0] < 640) && (line_count[9:0] < 480);

@@ -615,7 +615,7 @@ module video_module(//Outputs
 		    tile_col_num <= tile_col_num + 1;
 		    state <= BG_ADDR_STATE;
 		 end
-	      end
+	      end // 9 cycles * 32
 	      
 	      /////////////
 	      // SPRITES //
@@ -767,7 +767,7 @@ module video_module(//Outputs
 		    sprite_num <= sprite_num + 1;
 		    state <= SPRITE_POS_STATE;
 		 end
-	      end
+	      end // 13 cycles * 40
 	      
 	      /////////////
 	      // DISPLAY //
