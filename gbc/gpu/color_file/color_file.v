@@ -71,11 +71,6 @@ module color_file(
    assign bgpal_return_data = bg_pallete_arr[bgpal_arr_index];
    assign sprpal_return_data = spr_pallete_arr[sprpal_arr_index];
 
-   wire          membus_en;
-   wire [7:0]    membus_return_data;
-   assign membus_en = ~I_MEMBUS_RE_L;
-   assign IO_DATABUS = (membus_en) ? membus_return_data : 'bzzzzzzzz;
-
    /*determine which registers are being read*/
    wire          bcps_rd, bcpd_rd, ocps_rd, ocpd_rd;
    assign bcps_rd = (~I_MEMBUS_RE_L && I_MEMBUS_ADDR == `BCPS);
@@ -83,6 +78,12 @@ module color_file(
    assign ocps_rd = (~I_MEMBUS_RE_L && I_MEMBUS_ADDR == `OCPS);
    assign ocpd_rd = (~I_MEMBUS_RE_L && I_MEMBUS_ADDR == `OCPD);
 
+   
+   wire          membus_en;
+   wire [7:0]    membus_return_data;
+   assign membus_en = bcps_rd, bcpd_rd, ocps_rd, ocpd_rd;
+   assign IO_DATABUS = (membus_en) ? membus_return_data : 'bzzzzzzzz;
+   
    /*multiplex the return data based on the address and re signal*/
    assign membus_return_data = (bcps_rd) ? bcps_reg :
                                (bcpd_rd) ? bgpal_return_data :
