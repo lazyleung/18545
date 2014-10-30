@@ -1,6 +1,0 @@
-xst -intstyle ise -ifn "C:/Users/brock/Documents/18545/gbc/controller/controller_test/controller_interface_test_synth.xst" -ofn "C:/Users/brock/Documents/18545/gbc/controller/controller_test/controller_interface_test_synth.syr" 
-ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc C:/Users/brock/Documents/18545/gbc/controller/controller.ucf -p xc5vlx110t-ff1136-1 controller_interface_test_synth.ngc controller_interface_test_synth.ngd  
-map -intstyle ise -p xc5vlx110t-ff1136-1 -w -logic_opt off -ol high -t 1 -register_duplication off -global_opt off -mt off -cm area -ir off -pr off -lc off -power off -o controller_interface_test_synth_map.ncd controller_interface_test_synth.ngd controller_interface_test_synth.pcf 
-par -w -intstyle ise -ol high -mt off controller_interface_test_synth_map.ncd controller_interface_test_synth.ncd controller_interface_test_synth.pcf 
-trce -intstyle ise -v 3 -s 1 -n 3 -fastpaths -xml controller_interface_test_synth.twx controller_interface_test_synth.ncd -o controller_interface_test_synth.twr controller_interface_test_synth.pcf 
-bitgen -intstyle ise -f controller_interface_test_synth.ut controller_interface_test_synth.ncd 
