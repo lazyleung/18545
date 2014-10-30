@@ -30,7 +30,7 @@
 /*OAM is composed of 160 bytes of 
  *information*/
 `define OAM_LO 'hFE00
-`define OAM_HI 'hFF7F
+`define OAM_HI 'hFE9F
 
 /*The "little working RAM"  is
  *composed of 127 bytes of information

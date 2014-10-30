@@ -206,7 +206,7 @@ module memory_router(
    assign O_IOREG_ADDR = (cpu_accessing_ioreg) ? I_CPU_ADDR :
                          (ppu_accessing_ioreg) ? I_PPU_ADDR :
                          (rdma_accessing_ioreg) ? I_RDMA_ADDR :
-                         (wdma_accessing_ioreg) ? I_WDMA_DATA : 'd0;
+                         (wdma_accessing_ioreg) ? I_WDMA_ADDR : 'd0;
    assign en_ioreg_data = (cpu_accessing_ioreg) ? ~I_CPU_WE_L :
                           (ppu_accessing_ioreg) ? ~I_PPU_WE_L :
                           (wdma_accessing_ioreg) ? ~I_WDMA_WE_L : 0;
@@ -225,7 +225,7 @@ module memory_router(
    assign O_CARTRIDGE_ADDR = (cpu_accessing_cartridge) ? I_CPU_ADDR :
                              (ppu_accessing_cartridge) ? I_PPU_ADDR :
                              (rdma_accessing_cartridge) ? I_RDMA_ADDR :
-                             (wdma_accessing_cartridge) ? I_WDMA_DATA : 'd0;
+                             (wdma_accessing_cartridge) ? I_WDMA_ADDR : 'd0;
    assign en_cartridge_data = (cpu_accessing_cartridge) ? ~I_CPU_WE_L :
                               (ppu_accessing_cartridge) ? ~I_PPU_WE_L :
                               (wdma_accessing_cartridge) ? ~I_WDMA_WE_L : 0;
@@ -244,7 +244,7 @@ module memory_router(
    assign O_WRAM_ADDR = (cpu_accessing_wram) ? I_CPU_ADDR :
                         (ppu_accessing_wram) ? I_PPU_ADDR :
                         (rdma_accessing_wram) ? I_RDMA_ADDR :
-                        (wdma_accessing_wram) ? I_WDMA_DATA : 'd0;
+                        (wdma_accessing_wram) ? I_WDMA_ADDR : 'd0;
    assign en_wram_data = (cpu_accessing_wram) ? ~I_CPU_WE_L :
                          (ppu_accessing_wram) ? ~I_PPU_WE_L :
                          (wdma_accessing_wram) ? ~I_WDMA_WE_L : 0;
@@ -263,7 +263,7 @@ module memory_router(
    assign O_LWRAM_ADDR = (cpu_accessing_lwram) ? I_CPU_ADDR :
                          (ppu_accessing_lwram) ? I_PPU_ADDR :
                          (rdma_accessing_lwram) ? I_RDMA_ADDR :
-                         (wdma_accessing_lwram) ? I_WDMA_DATA : 'd0;
+                         (wdma_accessing_lwram) ? I_WDMA_ADDR : 'd0;
    assign en_lwram_data = (cpu_accessing_lwram) ? ~I_CPU_WE_L :
                           (ppu_accessing_lwram) ? ~I_PPU_WE_L :
                           (wdma_accessing_lwram) ? ~I_WDMA_WE_L : 0;
@@ -280,7 +280,7 @@ module memory_router(
    assign O_OAM_ADDR = (cpu_accessing_oam) ? I_CPU_ADDR :
                        (ppu_accessing_oam) ? I_PPU_ADDR :
                        (rdma_accessing_oam) ? I_RDMA_ADDR :
-                       (wdma_accessing_oam) ? I_WDMA_DATA : 'd0;
+                       (wdma_accessing_oam) ? I_WDMA_ADDR : 'd0;
    assign en_oam_data = (cpu_accessing_oam) ? ~I_CPU_WE_L :
                         (ppu_accessing_oam) ? ~I_PPU_WE_L :
                         (wdma_accessing_oam) ? ~I_WDMA_WE_L : 0;
@@ -298,7 +298,7 @@ module memory_router(
    assign O_LCDRAM_ADDR = (cpu_accessing_lcdram) ? I_CPU_ADDR :
                           (ppu_accessing_lcdram) ? I_PPU_ADDR :
                           (rdma_accessing_lcdram) ? I_RDMA_ADDR :
-                          (wdma_accessing_lcdram) ? I_WDMA_DATA : 'd0;
+                          (wdma_accessing_lcdram) ? I_WDMA_ADDR : 'd0;
    assign en_lcdram_data = (cpu_accessing_lcdram) ? ~I_CPU_WE_L :
                            (ppu_accessing_lcdram) ? ~I_PPU_WE_L :
                            (wdma_accessing_lcdram) ? ~I_WDMA_WE_L : 0;

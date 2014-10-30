@@ -48,7 +48,7 @@ module dma_controller(
    wire gnd = 0;
    wire high = 1;
    wire[7:0]  gnd_data = 8'd0;
-   wire st_oam_dma;
+   wire          start_new_dma;
    wire [7:0]    dma_staddr_high;
    wire [15:0]   oam_rdma_addr;
    wire [15:0]   oam_wdma_addr;

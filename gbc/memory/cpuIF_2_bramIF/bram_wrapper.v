@@ -34,11 +34,17 @@ module bram_wrapper(
 
    // Internal variables   
    wire [7:0] 	   data_out;
+   reg            bus_en;
    
    assign O_BRAM_ADDR = I_ADDR & P_OFFSET_MASK;
    assign O_BRAM_WE = ~I_WE_L;
    assign O_BRAM_EN = (~I_WE_L) | (~I_RE_L);
-   assign IO_DATA = (~I_RE_L) ? I_BRAM_DOUT: 8'bzzzzzzzz;
+   assign IO_DATA = (bus_en) ? I_BRAM_DOUT: 8'bzzzzzzzz;
+   assign O_BRAM_DIN = IO_DATA;
+   
+   always @(posedge I_CLK) begin
+        bus_en <= ~I_RE_L;
+   end
    
 endmodule // bram_router
 
