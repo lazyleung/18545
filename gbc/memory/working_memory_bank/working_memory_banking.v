@@ -103,7 +103,6 @@ module working_memory_bank(
 				       .IO_DATA(IO_WRAM_DATA),
 				       .I_WE_L(I_WRAM_WE_L),
 				       .I_RE_L(I_WRAM_RE_L),
-				       .O_BRAM_EN(bram_en),
 				       .O_BRAM_WE(bram_we),
 				       .O_BRAM_ADDR(router_addr),
 				       .O_BRAM_DIN(bram_data_in)//,
@@ -113,7 +112,6 @@ module working_memory_bank(
    bram banked_memory(
 		      .clka(I_MEM_CLK),
 		      .rsta(I_RESET),
-		      .ena(bram_en),
 		      .wea(bram_we),
 		      .addra(bram_addr),
 		      .dina(bram_data_in),

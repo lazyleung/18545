@@ -19,95 +19,95 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../cpu/src/breakpoints.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="20"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../cpu/src/clock_divider.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="14"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="10"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_auto_testbench.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="3"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="10"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="10"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="10"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_auto_testbench_breakpoints.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="11"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="11"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="11"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_auto_testbench_dma.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="5"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="12"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="12"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="12"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_auto_testbench_interrupts.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="6"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="13"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="13"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="13"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_auto_testbench_scroll.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="7"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="14"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="14"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="14"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_auto_testbench_timers.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="8"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="15"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="15"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="15"/>
     </file>
     <file xil_pn:name="../../cpu/src/cpu_testbench.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="9"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="16"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="16"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="16"/>
     </file>
     <file xil_pn:name="../../cpu/src/dma.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="10"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../cpu/src/supermem.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="11"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../cpu/src/timers.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="12"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../memory/bram_sim/bram_sim.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="13"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="10"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="16"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="16"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="16"/>
     </file>
     <file xil_pn:name="../../memory/cpuIF_2_bramIF/bram_wrapper.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="14"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="8"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
     </file>
     <file xil_pn:name="../../memory/io_bus_parser/test_io_bus_parser.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="15"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
     </file>
     <file xil_pn:name="../../memory/memory_router/memory_router.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="16"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="5"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="3"/>
     </file>
     <file xil_pn:name="../../memory/working_memory_bank/working_memory_banking.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="17"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="../../memory/cartridge_sim/cartridge_sim.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="18"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="9"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
     </file>
     <file xil_pn:name="../../memory/bram_sim/mem.dat" xil_pn:type="FILE_USERDOC"/>
@@ -118,12 +118,20 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="1"/>
     </file>
     <file xil_pn:name="../cpu_memory_integration.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="19"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="84"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="84"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="84"/>
     </file>
     <file xil_pn:name="top.cdc" xil_pn:type="FILE_CDC">
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    </file>
+    <file xil_pn:name="../../memory/memory_testing_modules/lcdram_test.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    </file>
+    <file xil_pn:name="../../memory/memory_testing_modules/oam_test.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="3"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
   </files>
@@ -369,13 +377,8 @@
     <property xil_pn:name="Safe Implementation" xil_pn:value="No" xil_pn:valueState="default"/>
     <property xil_pn:name="Security" xil_pn:value="Enable Readback and Reconfiguration" xil_pn:valueState="default"/>
     <property xil_pn:name="SelectMAP Abort Sequence" xil_pn:value="Enable" xil_pn:valueState="default"/>
-<<<<<<< HEAD
-    <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/cpu_mem_integration" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.cpu_mem_integration" xil_pn:valueState="non-default"/>
-=======
-    <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/cpu_mem_integration/router" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.memory_router" xil_pn:valueState="non-default"/>
->>>>>>> 9974ba363975ec0abb9ed567cc32ea3b9b3255ea
+    <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/cpu_auto_testbench/dut/high_mmmod" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.mem" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Map" xil_pn:value="work.cpu_auto_testbench" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Route" xil_pn:value="work.cpu_auto_testbench" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Translate" xil_pn:value="work.cpu_auto_testbench" xil_pn:valueState="non-default"/>
@@ -391,11 +394,7 @@
     <property xil_pn:name="Slice Packing" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Slice Utilization Ratio" xil_pn:value="100" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify 'define Macro Name and Value" xil_pn:value="" xil_pn:valueState="default"/>
-<<<<<<< HEAD
-    <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="work.cpu_mem_integration" xil_pn:valueState="default"/>
-=======
-    <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="work.memory_router" xil_pn:valueState="default"/>
->>>>>>> 9974ba363975ec0abb9ed567cc32ea3b9b3255ea
+    <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="work.mem" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Map" xil_pn:value="work.cpu_auto_testbench" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Route" xil_pn:value="work.cpu_auto_testbench" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Translate" xil_pn:value="work.cpu_auto_testbench" xil_pn:valueState="default"/>
@@ -482,6 +481,7 @@
     <file xil_pn:name="../../cpu/src/mem.v" xil_pn:type="FILE_VERILOG"/>
     <file xil_pn:name="../../memory/io_bus_parser/io_bus_parser.v" xil_pn:type="FILE_VERILOG"/>
     <file xil_pn:name="../../memory/memory_router/memdef.vh" xil_pn:type="FILE_VERILOG"/>
+    <file xil_pn:name="../../memory/dma/dma.v" xil_pn:type="FILE_VERILOG"/>
   </autoManagedFiles>
 
 </project>

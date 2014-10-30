@@ -37,7 +37,7 @@ module mem(
          end
          // synthesis translate_on
       end else if(mem_we) begin
-         // TODO: reenable layter data[addr_ext] <= data_ext;
+         data[addr_ext] <= data_ext;
       end
    end
 

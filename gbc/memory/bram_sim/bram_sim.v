@@ -4,12 +4,10 @@
 module bram(
 	    clka,
 	    rsta,
-	    ena,
 	    wea,
 	    addra,
 	    dina,
 	    douta,
-	    enb,
 	    web,
 	    addrb,
 	    dinb,
@@ -17,16 +15,14 @@ module bram(
 	    );
 
    parameter
-     size = 512; // in bytes
+     size = 65536; // in bytes
 
    input clka;
    input rsta;
-   input ena;
    input [0 : 0] wea;
    input [14 : 0] addra;
    input [7 : 0]  dina;
    output reg [7 : 0] douta;
-   input 	      enb;
    input [0 : 0]      web;
    input [14 : 0]     addrb;
    input [7 : 0]      dinb;
@@ -37,18 +33,18 @@ module bram(
 
    always @(posedge clka or posedge rsta) begin
       if(rsta) begin
-         $readmemh("mem.dat", i_mem);
-      end else if(ena | enb) begin
+         $readmemh("oam_dma_test.dat", i_mem);
+      end else begin
          if(wea)
-           i_mem[addra] = dina;
+            i_mem[addra] <= dina;
          if(web)
-           i_mem[addrb] = dinb;
+           i_mem[addrb] <= dinb;
       end
    end
 
    always @(posedge clka) begin
-      douta <= (ena) ? i_mem[addra] : 8'b00000000;
-      doutb <= (enb) ? i_mem[addrb] : 8'b00000000;
+      douta <=  i_mem[addra];
+      doutb <=  i_mem[addrb];
    end
    
    

@@ -36,7 +36,7 @@ module cpu_mem_integration();
    assign       gb_mode = 0;
    integer      count;
 
-   wire         clock_main, mem_clock;
+   wire         clock_main, mem_clock, mem_clocka;
 
    always
      #5 clock = ~clock;
@@ -45,15 +45,20 @@ module cpu_mem_integration();
    cdiv(.clock_out(clock_main),
         .clock_in(clock));
    my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
-   cdiv(.clock_out(mem_clock),
+   cdivdouble(.clock_out(mem_clocka),
         .clock_in(clock));
+        
+   assign mem_clock = ~mem_clocka;
 
    initial begin
       clock = 0;
       reset = 0;
       count = 0;
-      #3 reset = 1;
-      #3 reset = 0;
+      @(posedge clock_main);
+      reset = 1;
+      @(posedge clock_main);
+      reset = 0;
+      @(posedge clock_main);
 
       while (count < 10000000) begin
          count = count + 1;
@@ -65,12 +70,24 @@ module cpu_mem_integration();
       #1 $finish;
    end
 
-   wire cpu_mem_disable;
-   assign cpu_mem_disable = 0;
-
    wire [15:0] rdma_addr, wdma_addr;
    wire [7:0]  rdma_data, wdma_data;
    wire        rdma_re_l, wdma_we_l;
+   
+      // Inputs
+   wire [4:0]  IF_in, IE_in;
+   wire        IF_load, IE_load;
+   wire [15:0] bp_addr;
+   wire        bp_step, bp_continue;
+   // Assigns
+   assign       IF_in = 5'd0;
+   assign       IE_in = 5'd0;
+   assign       IF_load = 1'd0;
+   assign       IE_load = 1'd0;
+   assign       cpu_mem_disable = 1'd0;
+   assign       bp_addr = 16'hffff;
+   assign       bp_step = 1'b0;
+   assign       bp_continue = 1'b0;
 
    cpu gbc_cpu(
                .mem_we_l(cpu_mem_we_l),
@@ -78,14 +95,21 @@ module cpu_mem_integration();
                .halt(cpu_halt),
                .addr_ext(addr_ext),
                .data_ext(data_ext),
+               .IF_in(IF_in[4:0]),
+               .IE_in(IE_in[4:0]),
+               .IF_load(IF_load),
+               .IE_load(IE_load),
                .cpu_mem_disable(cpu_mem_disable),
+               .bp_addr(bp_addr),
+               .bp_step(bp_step),
+               .bp_continue(bp_continue),
                .clock(clock_main),
                .reset(reset)
                );
-
+               
    dma_controller dma(
                       .I_CLK(clock_main),
-                      .I_SYNC_RESET(clock_reset),
+                      .I_SYNC_RESET(reset),
                       .I_IOREG_ADDR(iobus_addr),
                       .IO_IOREG_DATA(iobus_data),
                       .I_IOREG_WE_L(iobus_we_l),
@@ -127,11 +151,11 @@ module cpu_mem_integration();
                         .O_CARTRIDGE_ADDR(cartridge_addr),
                         .IO_CARTRIDGE_DATA(cartridge_data),
                         .O_CARTRIDGE_WE_L(cartridge_we_l),
-                        .O_CARTRIDGE_RE_L(cartridge_re_l)
+                        .O_CARTRIDGE_RE_L(cartridge_re_l),
 			            .O_OAM_ADDR(oam_addr),
 			            .IO_OAM_DATA(oam_data),
 			            .O_OAM_WE_L(oam_we_l),
-			            .O_OAM_RE_L(oam_re_l)
+			            .O_OAM_RE_L(oam_re_l),
 			            .O_LCDRAM_ADDR(lcdram_addr),
 			            .IO_LCDRAM_DATA(lcdram_data),
 			            .O_LCDRAM_WE_L(lcdram_we_l),
