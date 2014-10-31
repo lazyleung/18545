@@ -9,12 +9,11 @@ module waveform_generator(
                           /*User Freq & Duty Cycle Spec*/
                           I_FREQUENCY,
                           I_DUTY_CYCLE,
-                          I_WRITE_NEW_SOUND,
                           I_WAVEFORM_EN);
 
    input I_CLK, I_RESET;
    output O_WAVE;
-   input  I_WRITE_NEW_SOUND, I_WAVEFORM_EN;
+   input  I_WAVEFORM_EN;
    input [10:0] I_FREQUENCY; //calculated as 2^17/(2^11-I_FREQUENCY)
    input [1:0]  I_DUTY_CYCLE; /* 00 - 12.5%
                                * 01 - 25%
@@ -36,16 +35,9 @@ module waveform_generator(
                             (duty_cyc_reg == 'b10) ? num_clocks_in_period >> 1 : //50%
                             (duty_cyc_reg == 'b11) ? (num_clocks_in_period + num_clocks_in_period << 1) >> 2 : 0; //75%
 
-   /*write the frequency register when there is a change*/
    always @(posedge I_CLK) begin
-      if (I_WRITE_NEW_SOUND) begin
-         freq_reg <= I_FREQUENCY;
-         duty_cyc_reg <= I_DUTY_CYCLE;
-      end
-      if (I_RESET) begin
-         freq_reg <= 0;
-         duty_cyc_reg <= 0;
-      end
+      freq_reg <= I_FREQUENCY;
+      duty_cyc_reg <= I_DUTY_CYCLE;
    end
 
    /*generate the waveform based on the specification*/
@@ -65,12 +57,6 @@ module waveform_generator(
 
       /*reset the counter when overflow*/
       else if (count >= num_clocks_in_period) begin
-         count <= 0;
-      end
-
-      /*if a new sound specification,
-       *restart the count*/
-      if (I_WRITE_NEW_SOUND) begin
          count <= 0;
       end
 
