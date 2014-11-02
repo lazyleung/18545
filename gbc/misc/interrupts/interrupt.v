@@ -35,7 +35,7 @@ module interrupt(
         O_VBLANK_ACK,
         O_LCDSTAT_ACK
     );
-    
+
     input           I_CLOCK, I_RESET;
     input           I_VBLANK_INTERRUPT, I_LCDSTAT_INTERRUPT, I_TIMER_INTERRUPT, I_SERIAL_INTERRUPT, I_JOYPAD_INTERRUPT;
     input           I_MEM_WE_L;
