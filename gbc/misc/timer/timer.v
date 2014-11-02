@@ -9,13 +9,13 @@
 `define MMIO_TMA 16'hff06
 `define MMIO_TAC 16'hff07
 
-// Each time when the timer overflows (ie. when TIMA gets bigger than FFh), 
+// Each time when the timer overflows (ie. when TIMA gets bigger than FFh),
 // then an interrupt is requested by setting Bit 2 in the IF Register (FF0F).
 // When that interrupt is enabled, then the CPU will execute it by calling the timer interrupt vector at 0050h.
-module timer(
+module timer_module(
         O_TIMER_INTERRUPT,
         I_CLOCK, I_RESET,
-        IO_ADDR, IO_DATA,
+        I_ADDR, IO_DATA,
         I_RE_L, I_WE_L
     );
 
@@ -23,7 +23,7 @@ module timer(
 
     input           I_CLOCK, I_RESET, I_RE_L, I_WE_L;
 
-    inout [15:0]    IO_ADDR;
+    input [15:0]    I_ADDR;
     inout [7:0]     IO_DATA;
 
     // Timer & Diver Register wires
@@ -33,7 +33,7 @@ module timer(
 
     // Internal Variables
     reg     state, next_state;
-    wire    TIMA_ce, increment; 
+    wire    TIMA_ce, increment;
 
     assign O_TIMER_INTERRUPT = (TIMA == 8'hff) & increment;
 
@@ -64,15 +64,15 @@ module timer(
     wire    DIV_we, TIMA_we, TMA_we, TAC_we;
     wire    DIV_re, TIMA_re, TMA_re, TAC_re;
 
-    assign DIV_we  = (~I_WE_L) ? (IO_ADDR == `MMIO_DIV)  : 0;
-    assign TIMA_we = (~I_WE_L) ? (IO_ADDR == `MMIO_TIMA) : 0;
-    assign TMA_we  = (~I_WE_L) ? (IO_ADDR == `MMIO_TMA)  : 0;
-    assign TAC_we  = (~I_WE_L) ? (IO_ADDR == `MMIO_TAC)  : 0;
+    assign DIV_we  = (~I_WE_L) ? (I_ADDR == `MMIO_DIV)  : 0;
+    assign TIMA_we = (~I_WE_L) ? (I_ADDR == `MMIO_TIMA) : 0;
+    assign TMA_we  = (~I_WE_L) ? (I_ADDR == `MMIO_TMA)  : 0;
+    assign TAC_we  = (~I_WE_L) ? (I_ADDR == `MMIO_TAC)  : 0;
 
-    assign DIV_re  = (~I_RE_L) ? (IO_ADDR == `MMIO_DIV)  : 0;
-    assign TIMA_re = (~I_RE_L) ? (IO_ADDR == `MMIO_TIMA) : 0;
-    assign TMA_re  = (~I_RE_L) ? (IO_ADDR == `MMIO_TMA)  : 0;
-    assign TAC_re  = (~I_RE_L) ? (IO_ADDR == `MMIO_TAC)  : 0;
+    assign DIV_re  = (~I_RE_L) ? (I_ADDR == `MMIO_DIV)  : 0;
+    assign TIMA_re = (~I_RE_L) ? (I_ADDR == `MMIO_TIMA) : 0;
+    assign TMA_re  = (~I_RE_L) ? (I_ADDR == `MMIO_TMA)  : 0;
+    assign TAC_re  = (~I_RE_L) ? (I_ADDR == `MMIO_TAC)  : 0;
 
     // Bus tristate
     tristate #(8) DIV_tri(
@@ -118,7 +118,7 @@ module timer(
         .clock(I_CLOCK),
         .reset(I_RESET)
     );
-   
+
     register #(8, 0) DIV_reg(
         .q(DIV),
         .d(DIV + {7'b0, DIV_LO_sum[8]}),
@@ -142,7 +142,7 @@ module timer(
         .clock(I_CLOCK),
         .reset(I_RESET)
     );
-                     
+
     register #(8) TIMA_reg(
         .q(TIMA),
         .d(
