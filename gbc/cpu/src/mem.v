@@ -10,9 +10,8 @@ module mem(
    // Inputs
    addr_ext, mem_we, mem_re, reset, clock
    );
-   parameter
-     size = 512, // in bytes
-     use_memfile = 1;
+
+   parameter size = 512; // in bytes
 
    inout [7:0]  data_ext;
 
@@ -20,22 +19,15 @@ module mem(
    input        mem_we, mem_re;
    input        reset, clock;
 
-   reg [7:0]   data[0:size-1];
-
-   wire [7:0]  data_ext_int;
+   reg [7:0]    data[0:size-1];
 
    integer      i;
 
    always @(posedge clock or posedge reset) begin
       if (reset) begin
          for (i = 0; i < size; i = i + 1) begin
-            data[i] = 8'hee;
+            data[i] <= 8'hee;
          end
-         // synthesis translate_off
-         if (use_memfile) begin
-            $readmemh("mem.dat", data);
-         end
-         // synthesis translate_on
       end else if(mem_we) begin
          data[addr_ext] <= data_ext;
       end

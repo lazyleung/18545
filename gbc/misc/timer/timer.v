@@ -21,10 +21,10 @@ module timer(
 
     output          O_TIMER_INTERRUPT;
 
-    input           I_CLOCK, I_RESET, I_MEM_RE_L, I_MEM_WE_L;
+    input           I_CLOCK, I_RESET, I_RE_L, I_WE_L;
 
-    inout [15:0]    I_ADDR;
-    inout [7:0]     I_DATA;
+    inout [15:0]    IO_ADDR;
+    inout [7:0]     IO_DATA;
 
     // Timer & Diver Register wires
     wire [9:0]       counter;
@@ -69,10 +69,10 @@ module timer(
     assign TMA_we  = (~I_WE_L) ? (IO_ADDR == `MMIO_TMA)  : 0;
     assign TAC_we  = (~I_WE_L) ? (IO_ADDR == `MMIO_TAC)  : 0;
 
-    assign DIV_re  = (~I_re_L) ? (IO_ADDR == `MMIO_DIV)  : 0;
-    assign TIMA_re = (~I_re_L) ? (IO_ADDR == `MMIO_TIMA) : 0;
-    assign TMA_re  = (~I_re_L) ? (IO_ADDR == `MMIO_TMA)  : 0;
-    assign TAC_re  = (~I_re_L) ? (IO_ADDR == `MMIO_TAC)  : 0;
+    assign DIV_re  = (~I_RE_L) ? (IO_ADDR == `MMIO_DIV)  : 0;
+    assign TIMA_re = (~I_RE_L) ? (IO_ADDR == `MMIO_TIMA) : 0;
+    assign TMA_re  = (~I_RE_L) ? (IO_ADDR == `MMIO_TMA)  : 0;
+    assign TAC_re  = (~I_RE_L) ? (IO_ADDR == `MMIO_TAC)  : 0;
 
     // Bus tristate
     tristate #(8) DIV_tri(

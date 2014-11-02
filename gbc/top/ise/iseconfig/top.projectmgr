@@ -17,20 +17,28 @@
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration_synth.v/gbc_cpu - cpu/gb80_decode - decode</ClosedNode>
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration_synth.v/router - memory_router</ClosedNode>
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration_synth.v/wram - working_memory_bank</ClosedNode>
+         <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v</ClosedNode>
          <ClosedNode>/dma C:|Users|ash|Documents|18545|gbc|cpu|src|dma.v</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/cartsim - cartridge_sim</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/gbc_cpu - cpu</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/oam - oamram_test</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/wram - working_memory_bank</ClosedNode>
+         <ClosedNode>/lcd_top C:|Users|ash|Documents|18545|gbc|top|lcd_top.v</ClosedNode>
+         <ClosedNode>/lcdram_test C:|Users|ash|Documents|18545|gbc|memory|memory_testing_modules|lcdram_test.v</ClosedNode>
+         <ClosedNode>/oamram_test C:|Users|ash|Documents|18545|gbc|memory|memory_testing_modules|oam_test.v</ClosedNode>
          <ClosedNode>/test_io_bus_parser C:|Users|ash|Documents|18545|gbc|memory|io_bus_parser|test_io_bus_parser.v</ClosedNode>
          <ClosedNode>/timers C:|Users|ash|Documents|18545|gbc|cpu|src|timers.v</ClosedNode>
          <ClosedNode>/working_memory_bank C:|Users|ash|Documents|18545|gbc|memory|working_memory_bank|working_memory_banking.v</ClosedNode>
          <ClosedNode>PROJECT</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>cpu_mem_integration (C:/Users/ash/Documents/18545/gbc/top/cpu_memory_integration_synth.v)</SelectedItem>
+         <SelectedItem>gameboycolor (C:/Users/ash/Documents/18545/gbc/top/gbc_top_synth.v)</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000001ac000000020000000000000000000000000200000064ffffffff000000810000000300000002000001ac0000000100000003000000000000000100000003</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000001a0000000020000000000000000000000000200000064ffffffff000000810000000300000002000001a00000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>cpu_mem_integration (C:/Users/ash/Documents/18545/gbc/top/cpu_memory_integration_synth.v)</CurrentItem>
+      <CurrentItem>gameboycolor (C:/Users/ash/Documents/18545/gbc/top/gbc_top_synth.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
@@ -43,26 +51,26 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem>Synthesize - XST</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000000000000000000014d000000010000000100000000000000000000000064ffffffff0000008100000000000000010000014d0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem>Synthesize - XST</CurrentItem>
    </ItemView>
    <ItemView guiview="File" >
       <ClosedNodes>
          <ClosedNodesVersion>1</ClosedNodesVersion>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>cpu_memory_integration.v</SelectedItem>
+         <SelectedItem>decode.v</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000000000000000100000000000000000000000000000000000002f2000000040101000100000000000000000000000064ffffffff000000810000000000000004000000c700000001000000000000009d0000000100000000000000660000000100000000000001280000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>cpu_memory_integration.v</CurrentItem>
+      <CurrentItem>decode.v</CurrentItem>
    </ItemView>
    <ItemView guiview="Library" >
       <ClosedNodes>
@@ -79,13 +87,12 @@
    <ItemView engineview="BehavioralSim" guiview="Source" compilemode="AutoCompile" >
       <ClosedNodes>
          <ClosedNodesVersion>2</ClosedNodesVersion>
-         <ClosedNode>/Automatic `includes</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench.v</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_breakpoints.v</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_dma.v</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_interrupts.v</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_scroll.v</ClosedNode>
-         <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_timers.v</ClosedNode>
+         <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_timers.v/dut - cpu</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_timers.v/dut - cpu/gb80_decode - decode</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_auto_testbench_timers.v/tima_module - timers</ClosedNode>
          <ClosedNode>/cpu_auto_testbench C:|Users|brock|Documents|18545|gbc|cpu|src|cpu_auto_testbench.v</ClosedNode>
@@ -97,6 +104,9 @@
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/cartsim - cartridge_sim</ClosedNode>
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/dma - dma_controller</ClosedNode>
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/gbc_cpu - cpu</ClosedNode>
+         <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/gbc_cpu - cpu/gb80_decode - decode</ClosedNode>
+         <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/lcdram - lcdram_test</ClosedNode>
+         <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/oam - oamram_test</ClosedNode>
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration.v/wram - working_memory_bank</ClosedNode>
          <ClosedNode>/cpu_mem_integration C:|Users|ash|Documents|18545|gbc|top|cpu_memory_integration_synth.v</ClosedNode>
          <ClosedNode>/cpu_testbench C:|Users|ash|Documents|18545|gbc|cpu|src|cpu_testbench.v</ClosedNode>
@@ -104,13 +114,13 @@
          <ClosedNode>PROJECT</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Unassigned User Library Modules</SelectedItem>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >6</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000001a0000000020000000000000000000000000200000064ffffffff000000810000000300000002000001a00000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>Unassigned User Library Modules</CurrentItem>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="" guiview="Process" >
       <ClosedNodes>
@@ -118,13 +128,13 @@
          <ClosedNode>Design Utilities/Compile HDL Simulation Libraries</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>Design Utilities</SelectedItem>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000000000000000000014d000000010000000100000000000000000000000064ffffffff0000008100000000000000010000014d0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem>Design Utilities</CurrentItem>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
@@ -132,13 +142,13 @@
          <ClosedNode>Design Utilities/Compile HDL Simulation Libraries</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem/>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000f8000000010000000100000000000000000000000064ffffffff000000810000000000000001000000f80000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000000000000000000014d000000010000000100000000000000000000000064ffffffff0000008100000000000000010000014d0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem/>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_UCF" guiview="Process" >
       <ClosedNodes>
@@ -155,7 +165,7 @@
       <CurrentItem/>
    </ItemView>
    <SourceProcessView>000000ff00000000000000020000011b0000011b01000000050100000002</SourceProcessView>
-   <CurrentView>Behavioral Simulation</CurrentView>
+   <CurrentView>Implementation</CurrentView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_CDC" guiview="Process" >
       <ClosedNodes>
          <ClosedNodesVersion>1</ClosedNodesVersion>
@@ -181,13 +191,13 @@
          <ClosedNode>Design Utilities</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem/>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000000f8000000010000000100000000000000000000000064ffffffff000000810000000000000001000000f80000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000000000000000000014d000000010000000100000000000000000000000064ffffffff0000008100000000000000010000014d0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem/>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" guiview="Source" compilemode="ManualCompile" >
       <ClosedNodes>

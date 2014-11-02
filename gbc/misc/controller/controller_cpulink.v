@@ -1,4 +1,4 @@
-`include "../memory/memory_router/memdef.vh"
+`include "../../memory/memory_router/memdef.vh"
 
 `define START 7
 `define SELECT 6
@@ -9,36 +9,34 @@
 `define LEFT 1
 `define RIGHT 0
 
-  
 module controller(
 		  /*System Level Inputs*/
-		  .I_CLK,
-		  .I_CLK_33MHZ,
-		  .I_RESET,
+		  I_CLK,
+		  I_CLK_33MHZ,
+		  I_RESET,
 
 		  /*IO Register Bus*/
-		  .I_IOREG_ADDR,
-		  .IO_IOREG_DATA,
-		  .I_IOREG_WE_L,
-		  .I_IOREG_RE_L, 
+		  I_IOREG_ADDR,
+		  IO_IOREG_DATA,
+		  I_IOREG_WE_L,
+		  I_IOREG_RE_L, 
 
 		  /*IF with Controller Hardware*/
-		  .O_CONTROLLER_LATCH,
-		  .O_CONTROLLER_PULSE,
-		  .I_CONTROLLER_DATA,
+		  O_CONTROLLER_LATCH,
+		  O_CONTROLLER_PULSE,
+		  I_CONTROLLER_DATA,
 
 		  /*CPU Interrupt*/
-		  .O_CONTROLLER_INTERRUPT
-		  
+		  O_CONTROLLER_INTERRUPT
 		  );
    
-   input I_CLK, I_CLK_33MHZ, I_RESET;
+   input        I_CLK, I_CLK_33MHZ, I_RESET;
    input [15:0] I_IOREG_ADDR;
    inout [7:0] 	IO_IOREG_DATA;
-   input 	I_IOREG_WE_L, I_IOREG_RE_L;
-   output 	O_CONTROLLER_LATCH;
-   output 	O_CONTROLLER_PULSE;
-   input 	I_CONTROLLER_DATA;
+   input 	    I_IOREG_WE_L, I_IOREG_RE_L;
+   output 	    O_CONTROLLER_LATCH;
+   output 	    O_CONTROLLER_PULSE;
+   input 	    I_CONTROLLER_DATA;
    output reg	O_CONTROLLER_INTERRUPT;
 
    reg 	[1:0]	p1_reg;
