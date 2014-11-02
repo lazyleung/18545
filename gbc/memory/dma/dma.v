@@ -24,8 +24,9 @@ module dma_controller(
                       /*System Status Signals*/
                       I_HBLANK, //to be held high during duration of
                                 //horizontal blanking period
-                      I_VBLANK //to be held high during duration of
+                      I_VBLANK, //to be held high during duration of
                                //vertical blanking period
+                      O_HALT_CPU // stop cpu execution durind DMA
                       );
 
    input I_CLK;
@@ -43,6 +44,10 @@ module dma_controller(
    output 	 O_WDMA_WE_L;
    input         I_HBLANK;
    input         I_VBLANK;
+   output        O_HALT_CPU;
+
+   reg           gdma_cpu_halt, hdma_cpu_halt;
+   assign O_HALT_CPU = gdma_cpu_halt | hdma_cpu_halt;
 
 
    wire gnd = 0;
@@ -262,6 +267,7 @@ module dma_controller(
       gdma_re_l <= 1;
       gdma_we_l <= 1;
       gdma_active <= 0;
+      gdma_cpu_halt <= 0;
 
       case(gdma_state)
         GDMA_WAIT: begin
@@ -275,6 +281,7 @@ module dma_controller(
               gdma_re_l <= 0;
               gdma_we_l <= 0;
               gdma_active <= 1;
+              gdma_cpu_halt <= 1;
            end
            else begin
              gdma_state <= GDMA_WAIT;
@@ -288,6 +295,7 @@ module dma_controller(
               gdma_active <= 0;
            end
            else begin
+              gdma_cpu_halt <= 1;
               gdma_active <= 1;
               gdma_count <= gdma_count + 1;
               gdma_state <= GDMA_WRITE;
@@ -332,6 +340,7 @@ module dma_controller(
       hdma_we_l <= 1;
       hdma_re_l <= 1;
       hdma_active <= 0;
+      hdma_cpu_halt <= 0;
 
       case(hdma_state)
 
@@ -348,6 +357,7 @@ module dma_controller(
                  hdma_re_l <= 0;
                  hdma_active <= 1;
                  hdma_count <= 0;
+                 hdma_cpu_halt <= 1;
               end
               else /*go to wait for start of hblank*/
                 hdma_state <= HDMA_WAIT_HBLANK;
@@ -375,6 +385,7 @@ module dma_controller(
               hdma_re_l <= 0;
               hdma_active <= 1;
               hdma_count <= 0;
+              hdma_cpu_halt <= 1;
            end
            else begin
               hdma_state <= HDMA_WAIT_HBLANK;
@@ -406,6 +417,7 @@ module dma_controller(
 
            /*in the middle of moving 16 bytes*/
            else begin
+              hdma_cpu_halt <= 1;
               hdma_we_l <= 0;
               hdma_re_l <= 0;
               hdma_state <= HDMA_16WRITE;
