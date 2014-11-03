@@ -19,31 +19,31 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module controller_interface_test_synth(
-									 USER_CLK,
-                            GPIO_DIP_SW1,
+									USER_CLK,
+                            		GPIO_DIP_SW1,
 								    GPIO_LED_0,       									 
-									 GPIO_LED_1,
+									GPIO_LED_1,
 								    GPIO_LED_2,
 								    GPIO_LED_3,
-                            GPIO_LED_4,
-                            GPIO_LED_5,
-                            GPIO_LED_6,
-                            GPIO_LED_7,
-									 GPIO_SW_W,
-									 GPIO_SW_C,
-									 CLK_33MHZ_FPGA,
-									 HDR2_2_SM_8_N,
-									 HDR2_4_SM_8_P,
-									 HDR2_6_SM_7_N
+                            		GPIO_LED_4,
+                            		GPIO_LED_5,
+                            		GPIO_LED_6,
+                            		GPIO_LED_7,
+									GPIO_SW_W,
+									GPIO_SW_C,
+									CLK_33MHZ_FPGA,
+									HDR2_2_SM_8_N,
+									HDR2_4_SM_8_P,
+									HDR2_6_SM_7_N
 									 
     );
-	input USER_CLK;
-   input GPIO_DIP_SW1, GPIO_SW_W, GPIO_SW_C, CLK_33MHZ_FPGA;
-	input HDR2_6_SM_7_N;
-	output GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
-			 GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
-          GPIO_LED_6,GPIO_LED_7;
-	output HDR2_2_SM_8_N, HDR2_4_SM_8_P;
+	input 	USER_CLK;
+   	input 	GPIO_DIP_SW1, GPIO_SW_W, GPIO_SW_C, CLK_33MHZ_FPGA;
+	input 	HDR2_6_SM_7_N;
+	output 	GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
+			GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
+          	GPIO_LED_6,GPIO_LED_7;
+	output 	HDR2_2_SM_8_N, HDR2_4_SM_8_P;
 	
 
 
