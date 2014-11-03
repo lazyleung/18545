@@ -32,24 +32,26 @@ module timer_module(
     wire [2:0]       TAC;
 
     // Internal Variables
-    reg     state, next_state;
-    wire    TIMA_ce, increment;
+    reg     state, next_state, increment;
+    wire    TIMA_ce;
 
     assign O_TIMER_INTERRUPT = (TIMA == 8'hff) & increment;
 
-    assign TIMA_ce =    (TAC_data[1:0] == 2'b00 ) ? counter[9] :
-                        (TAC_data[1:0] == 2'b01 ) ? counter[3] :
-                        (TAC_data[1:0] == 2'b10 ) ? counter[5] : counter[7];
+    assign TIMA_ce =    (TAC[1:0] == 2'b00 ) ? counter[9] :
+                        (TAC[1:0] == 2'b01 ) ? counter[3] :
+                        (TAC[1:0] == 2'b10 ) ? counter[5] : counter[7];
 
     always @(*) begin
         next_state = state;
-        TIMA_inc = 0;
+        increment = 0;
         if(state) begin
-            if(TIMA_ce)
-                next_state = 1;
-        end else begin
             if(~TIMA_ce)
                 next_state = 0;
+        end else begin
+            if(TIMA_ce) begin
+                next_state = 0;
+                increment = 1;
+            end
         end
     end
 
@@ -101,13 +103,14 @@ module timer_module(
 
     // Registers
     register #(10, 0) TIMA_counter_reg(
-        .q(counter_data),
-        .d(counter_data + 10'd1),
+        .q(counter),
+        .d(counter + 10'd1),
         .load(TAC[2]),
         .clock(I_CLOCK),
         .reset(I_RESET)
     );
 
+    wire [7:0] DIV_LO;
     wire [8:0] DIV_LO_sum;
     assign DIV_LO_sum = {1'b0, DIV_LO} + 9'b1;
 
@@ -124,13 +127,13 @@ module timer_module(
         .d(DIV + {7'b0, DIV_LO_sum[8]}),
         .load(1'b1),
         .clock(I_CLOCK),
-        .reset(I_RESET | DIV_write)
+        .reset(I_RESET | DIV_we)
     );
 
     register #(3, 0) TAC_reg(
         .q(TAC),
         .d(IO_DATA[2:0]),
-        .load(TAC_write),
+        .load(TAC_we),
         .clock(I_CLOCK),
         .reset(I_RESET)
     );

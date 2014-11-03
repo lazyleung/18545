@@ -47,7 +47,7 @@ module controller(
    wire [7:0] 	return_data;
 
    /*determine selection lines for the array*/
-   assign return_startselAB_values = p1_regreg[1];
+   assign return_startselAB_values = p1_reg[1];
    assign return_UDLR_values = p1_reg[0];
 
    /*multiplex which row in the array to choose*/
@@ -89,7 +89,8 @@ module controller(
    end
 
    /*trigger the interrupt*/
-   wire 	interrupt_monitor, interrupt_monitor_d1;
+   wire 	interrupt_monitor;
+   reg    interrupt_monitor_d1;
    assign interrupt_monitor = start | sel | a | b | up | down | left | right;
    always @(posedge I_CLK) begin
       /*find the rising edge of any button being pressed to

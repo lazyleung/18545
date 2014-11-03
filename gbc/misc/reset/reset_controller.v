@@ -1,9 +1,10 @@
 module reset_controller(
-			.I_CLK,
-			.I_ASYNC_RESET,
+			I_CLK,
+			I_ASYNC_RESET,
 
 			/*will be held high for 5 cycles*/
-			.O_SYNC_RESET);
+			O_SYNC_RESET
+            );
 
 
    input      I_CLK, I_ASYNC_RESET;
