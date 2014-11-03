@@ -45,6 +45,7 @@
 :: PART OF THIS FILE AT ALL TIMES.
 ::--------------------------------------------------------------------------------
 
+cp ..\..\..\sound_bram.mif .
 
 
 vlogcomp -work work ..\..\implement\results\routed.v

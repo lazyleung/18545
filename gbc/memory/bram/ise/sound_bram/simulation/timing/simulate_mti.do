@@ -45,6 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 set work work
 #--------------------------------------------------------------------------------
+cp ../../../sound_bram.mif .
 
 vlib work
 vmap work work

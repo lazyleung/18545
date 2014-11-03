@@ -45,6 +45,7 @@
 :: PART OF THIS FILE AT ALL TIMES.
 ::--------------------------------------------------------------------------------
 
+cp ..\..\..\sound_bram.mif .
 
 
 echo "Compiling Core Verilog UNISIM/Behavioral model"

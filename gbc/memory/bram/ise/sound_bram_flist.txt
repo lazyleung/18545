@@ -2,6 +2,7 @@
 _xmsgs\pn_parser.xmsgs
 sound_bram.asy
 sound_bram.gise
+sound_bram.mif
 sound_bram.ngc
 sound_bram.v
 sound_bram.veo
