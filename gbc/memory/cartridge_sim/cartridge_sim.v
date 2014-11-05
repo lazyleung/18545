@@ -37,9 +37,8 @@ module cartridge_sim(
 				       .I_BRAM_DOUT(bram_data_out2)
 				       );
    /* Actual Memory Location*/
-   bram cartridge(
+   bram_cart cartridge(
 		  .clka(I_CLK),
-		  .rsta(I_RESET),
 		  .wea(bram_we),
 		  .addra(bram_addr),
 		  .dina(bram_data_in2),
