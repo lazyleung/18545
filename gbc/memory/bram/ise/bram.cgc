@@ -336,7 +336,7 @@
             <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.C_DISABLE_WARN_BHV_RANGE">0</spirit:configurableElementValue>
          </spirit:configurableElementValues>
          <spirit:vendorExtensions>
-            <xilinx:instanceProperties>
+            <xilinx:instanceProperties xmlns:xilinx="http://www.xilinx.com">
                <xilinx:projectOptions>
                   <xilinx:projectName>bram</xilinx:projectName>
                   <xilinx:outputDirectory>./</xilinx:outputDirectory>
@@ -371,23 +371,20 @@
             </xilinx:instanceProperties>
             <xilinx:generationHistory>
                <xilinx:fileSet>
-                  <xilinx:name>apply_current_project_options_generator</xilinx:name>
-               </xilinx:fileSet>
-               <xilinx:fileSet>
                   <xilinx:name>customization_generator</xilinx:name>
                   <xilinx:file>
                      <xilinx:name>./sound_bram.mif</xilinx:name>
                      <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:00:53 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0x0FF3F358</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:18 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0xAFF9A4CE</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./summary.log</xilinx:name>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:00:53 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:17 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xE8657F81</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -395,16 +392,16 @@
                   <xilinx:file>
                      <xilinx:name>./sound_bram.mif</xilinx:name>
                      <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0x0FF3F358</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:24 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0xAFF9A4CE</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./summary.log</xilinx:name>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:01 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:24 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xE8657F81</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -412,9 +409,9 @@
                   <xilinx:file>
                      <xilinx:name>./sound_bram.xco</xilinx:name>
                      <xilinx:userFileType>xco</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0xF8220A81</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0x98069F22</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -425,7 +422,7 @@
                      <xilinx:userFileType>txt</xilinx:userFileType>
                      <xilinx:timeStamp>Sun Oct 13 18:11:47 GMT 2013</xilinx:timeStamp>
                      <xilinx:checkSum>0xF95F2A26</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/doc/blk_mem_gen_v7_3_vinfo.html</xilinx:name>
@@ -433,7 +430,7 @@
                      <xilinx:userFileType>unknown</xilinx:userFileType>
                      <xilinx:timeStamp>Sun Oct 13 18:11:47 GMT 2013</xilinx:timeStamp>
                      <xilinx:checkSum>0x702C7FA8</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/doc/pg058-blk-mem-gen.pdf</xilinx:name>
@@ -441,7 +438,7 @@
                      <xilinx:userFileType>pdf</xilinx:userFileType>
                      <xilinx:timeStamp>Sun Oct 13 18:11:47 GMT 2013</xilinx:timeStamp>
                      <xilinx:checkSum>0xC1E42F23</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -450,329 +447,329 @@
                      <xilinx:name>./sound_bram/example_design/sound_bram_exdes.ucf</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>ucf</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xC44C6B6D</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/example_design/sound_bram_exdes.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xD9CCDA26</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/example_design/sound_bram_exdes.xdc</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>xdc</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x7684D6D4</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/example_design/sound_bram_prod.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xE7AAC7A2</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/implement.bat</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x84DF6E8A</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/implement.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xC242FED0</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/planAhead_ise.bat</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xD82E640C</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/planAhead_ise.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xCF1E38F0</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/planAhead_ise.tcl</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xB364DCCF</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/xst.prj</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xAA2C47E5</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/implement/xst.scr</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x7431DC0F</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/addr_gen.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x0500E48D</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/bmg_stim_gen.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x09D5D317</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/bmg_tb_pkg.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xE0D93E5B</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/checker.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x3EC35020</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/data_gen.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xD9F7C4A0</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simcmds.tcl</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x257BE775</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simulate_isim.bat</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x1C08F94B</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simulate_mti.bat</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x86EA5D67</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simulate_mti.do</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x04C86938</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simulate_mti.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x86EA5D67</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simulate_ncsim.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x57E73836</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/simulate_vcs.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x0C166092</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/ucli_commands.key</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xB8CAF0EE</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/vcs_session.tcl</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x43E545E3</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/wave_mti.do</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xD7494AF3</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/functional/wave_ncsim.sv</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x072D117E</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/random.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x2939160A</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/sound_bram_synth.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x074D1E27</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/sound_bram_tb.vhd</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>vhdl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x3F5B5257</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simcmds.tcl</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x257BE775</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simulate_isim.bat</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x192E18EE</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simulate_mti.bat</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x86EA5D67</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simulate_mti.do</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x9CF7AF8A</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simulate_mti.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x86EA5D67</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simulate_ncsim.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xF718A4D7</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/simulate_vcs.sh</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xE7CE9BA2</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/ucli_commands.key</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xB8CAF0EE</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/vcs_session.tcl</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xDD73F91F</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/wave_mti.do</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xC5052984</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram/simulation/timing/wave_ncsim.sv</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:02 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:05:25 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xEB7F3962</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -780,9 +777,9 @@
                   <xilinx:file>
                      <xilinx:name>./sound_bram.ngc</xilinx:name>
                      <xilinx:userFileType>ngc</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:48 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0x27B0F51A</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:11 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0x0D311350</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -796,9 +793,9 @@
                   <xilinx:file>
                      <xilinx:name>./sound_bram.veo</xilinx:name>
                      <xilinx:userFileType>veo</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:49 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:12 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x02815C09</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -806,9 +803,9 @@
                   <xilinx:file>
                      <xilinx:name>./sound_bram.v</xilinx:name>
                      <xilinx:userFileType>verilog</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:49 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:12 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x50231E97</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -817,9 +814,9 @@
                      <xilinx:name>./sound_bram/doc/blk_mem_gen_v7_3_vinfo.html</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:49 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:12 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x702C7FA8</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -827,23 +824,23 @@
                   <xilinx:file>
                      <xilinx:name>./sound_bram.asy</xilinx:name>
                      <xilinx:userFileType>asy</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:56 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:18 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x16155108</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram.mif</xilinx:name>
                      <xilinx:userFileType>mif</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:56 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0x0FF3F358</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:18 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0xAFF9A4CE</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./summary.log</xilinx:name>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:56 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:17 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0xE8657F81</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -852,9 +849,9 @@
                      <xilinx:name>./sound_bram_xmdf.tcl</xilinx:name>
                      <xilinx:userFileType>tclXmdf</xilinx:userFileType>
                      <xilinx:userFileType>tcl</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:56 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:18 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x6EA8C198</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -863,17 +860,17 @@
                      <xilinx:name>./sound_bram.gise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>gise</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:59 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:21 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x75E7D3C8</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram.xise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>xise</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:01:59 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0x77631AE9</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:21 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0x5E2BA7DF</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -882,25 +879,25 @@
                      <xilinx:name>./_xmsgs/pn_parser.xmsgs</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>unknown</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:02:01 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:22 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x76882743</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram.gise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>gise</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:02:01 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:23 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x5CD61D9F</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                   <xilinx:file>
                      <xilinx:name>./sound_bram.xise</xilinx:name>
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>xise</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:02:01 GMT 2014</xilinx:timeStamp>
-                     <xilinx:checkSum>0xA1AFBC3E</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:23 GMT 2014</xilinx:timeStamp>
+                     <xilinx:checkSum>0xF0222E81</xilinx:checkSum>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>
@@ -913,9 +910,9 @@
                      <xilinx:userFileType>ignore</xilinx:userFileType>
                      <xilinx:userFileType>txtFlist</xilinx:userFileType>
                      <xilinx:userFileType>txt</xilinx:userFileType>
-                     <xilinx:timeStamp>Mon Nov 03 01:02:01 GMT 2014</xilinx:timeStamp>
+                     <xilinx:timeStamp>Wed Nov 05 02:06:23 GMT 2014</xilinx:timeStamp>
                      <xilinx:checkSum>0x92D13849</xilinx:checkSum>
-                     <xilinx:generationId>generationID_706127423</xilinx:generationId>
+                     <xilinx:generationId>generationID_1879581046</xilinx:generationId>
                   </xilinx:file>
                </xilinx:fileSet>
                <xilinx:fileSet>

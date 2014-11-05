@@ -22,10 +22,56 @@
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="top.xise"/>
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="cpu_mem_integration_guide.ncd" xil_pn:origination="imported"/>
+    <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="gameboycolor.cmd_log"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="gameboycolor.lso"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="gameboycolor.prj"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="gameboycolor.syr"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="gameboycolor.xst"/>
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="gameboycolor_guide.ncd" xil_pn:origination="imported"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="gameboycolor_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
 
-  <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
+  <transforms xmlns="http://www.xilinx.com/XMLSchema">
+    <transform xil_pn:end_ts="1415152990" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="-8376557370698722648" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1415152990" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="5130861576356089519" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1415152990" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1415152990" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-5259478077517446918" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1415152990" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="-8458126479482839362" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1415152990" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="7290605103081824761" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1415152993" xil_pn:in_ck="8888857813218405871" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="-8371786964588626451" xil_pn:start_ts="1415152990">
+      <status xil_pn:value="FailedRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
+      <outfile xil_pn:name="gameboycolor.lso"/>
+      <outfile xil_pn:name="gameboycolor.prj"/>
+      <outfile xil_pn:name="gameboycolor.syr"/>
+      <outfile xil_pn:name="gameboycolor.xst"/>
+      <outfile xil_pn:name="gameboycolor_xst.xrpt"/>
+      <outfile xil_pn:name="webtalk_pn.xml"/>
+      <outfile xil_pn:name="xst"/>
+    </transform>
+  </transforms>
 
 </generated_project>
