@@ -44,13 +44,13 @@ module gameboycolorsim();
                       .GPIO_DIP_SW1(high_byte),
 
                       /*For Debugging*/
-                      .GPIO_LED_0([0]LED),
-                      .GPIO_LED_1([1]LED),
-                      .GPIO_LED_2([2]LED),
-                      .GPIO_LED_3([3]LED),
-                      .GPIO_LED_4([4]LED),
-                      .GPIO_LED_5([5]LED),
-                      .GPIO_LED_6([6]LED),
-                      .GPIO_LED_7([7]LED)
+                      .GPIO_LED_0(LED[0]),
+                      .GPIO_LED_1(LED[1]),
+                      .GPIO_LED_2(LED[2]),
+                      .GPIO_LED_3(LED[3]),
+                      .GPIO_LED_4(LED[4]),
+                      .GPIO_LED_5(LED[5]),
+                      .GPIO_LED_6(LED[6]),
+                      .GPIO_LED_7(LED[7])
                       );
 endmodule
