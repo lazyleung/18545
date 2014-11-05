@@ -25,7 +25,7 @@
     </file>
     <file xil_pn:name="../../cpu/src/cpu.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="14"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="19"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="21"/>
     </file>
     <file xil_pn:name="../../cpu/src/supermem.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
@@ -62,9 +62,6 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="14"/>
     </file>
     <file xil_pn:name="../../memory/bram/mem.dat" xil_pn:type="FILE_USERDOC"/>
-    <file xil_pn:name="../../memory/bram/bram.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="Implementation" xil_pn:seqID="15"/>
-    </file>
     <file xil_pn:name="top.cdc" xil_pn:type="FILE_CDC"/>
     <file xil_pn:name="../../memory/memory_testing_modules/lcdram_test.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
@@ -87,7 +84,7 @@
     </file>
     <file xil_pn:name="../../cpu/src/mem.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="38"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="17"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="19"/>
     </file>
     <file xil_pn:name="../../misc/interrupts/interrupt.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="42"/>
@@ -107,6 +104,27 @@
     </file>
     <file xil_pn:name="../gbc_top.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/bram_wram.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="Implementation" xil_pn:seqID="15"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/sound_bram.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/bram.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/bram_cart.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="Implementation" xil_pn:seqID="17"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/bram_lcd.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="Implementation" xil_pn:seqID="16"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/bram.ngc" xil_pn:type="FILE_NGC">
+      <association xil_pn:name="Implementation" xil_pn:seqID="144"/>
+    </file>
+    <file xil_pn:name="../../memory/bram/bram_cart.ngc" xil_pn:type="FILE_NGC">
+      <association xil_pn:name="Implementation" xil_pn:seqID="145"/>
     </file>
   </files>
 

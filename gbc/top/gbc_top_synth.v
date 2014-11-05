@@ -28,8 +28,8 @@ module gameboycolor(
     // ========================================
     // ========== Board I/O Setup =============
     // ========================================
-    input   GPIO_DIP_SW1, GPIO_SW_W, CLK_33MHZ_FPGA;//, HDR2_6_SM_7_N;
-    output   HDR2_2_SM_8_N;//HDR2_4_SM_8_P;
+    input   GPIO_DIP_SW1, GPIO_SW_W, CLK_33MHZ_FPGA, HDR2_6_SM_7_N;
+    output   HDR2_2_SM_8_N, HDR2_4_SM_8_P;
     output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
             GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
             GPIO_LED_6,GPIO_LED_7;
