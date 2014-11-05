@@ -45,7 +45,7 @@ JP      LOOP_FINISH
 
 RIGHT:
 LD      HL, $FF01 ;SB io register
-LD      (HL), $01 ;only turn on 1 led
+LD      (HL), $55 ;
 JP      LOOP_FINISH
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

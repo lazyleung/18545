@@ -10,3 +10,8 @@ SLOT 0 START $0000 SIZE $4000       ;0-3FFF fixed bank
 ;.bank 0 slot 0   ;informs the game we are inserting to ROM bank 0, and assume in CPU slot 0 (which we defined above as $0-3FFF)
 ;.org $0A3F    ;CPU address to insert to
 
+.org $0000
+LD      A, $01
+ID
+LOOP_FINISH:
+JP      LOOP_FINISH
