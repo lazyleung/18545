@@ -28,8 +28,8 @@ module gameboycolor(
     // ========================================
     // ========== Board I/O Setup =============
     // ========================================
-    input   GPIO_DIP_SW1, GPIO_SW_W, CLK_33MHZ_FPGA, HDR2_6_SM_7_N;
-    output   HDR2_2_SM_8_N, HDR2_4_SM_8_P;
+    input   GPIO_DIP_SW1, GPIO_SW_W, CLK_33MHZ_FPGA;//, HDR2_6_SM_7_N;
+    output   HDR2_2_SM_8_N;//HDR2_4_SM_8_P;
     output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
             GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
             GPIO_LED_6,GPIO_LED_7;
@@ -78,15 +78,6 @@ module gameboycolor(
     assign       bp_step = 1'b0;
     assign       bp_continue = 1'b0;
 
-    wire [15:0] rdma_addr, wdma_addr;
-    wire [7:0]  rdma_data, wdma_data;
-    wire        rdma_re_l, wdma_we_l;
-
-    // Assigns
-    assign       bp_addr = 16'hffff;
-    assign       bp_step = 1'b0;
-    assign       bp_continue = 1'b0;
-
     // ========================================
     // ============= PPU Setup ================
     // ========================================
@@ -110,6 +101,10 @@ module gameboycolor(
     wire [15:0] wram_addr;
     wire        wram_we_l, wram_re_l;
 
+    wire [15:0] rdma_addr, wdma_addr;
+    wire [7:0]  rdma_data, wdma_data;
+    wire        rdma_re_l, wdma_we_l;
+
     wire [7:0]  cartridge_data, oam_data, lcdram_data;
     wire [15:0] cartridge_addr, oam_addr, lcdram_addr;
     wire        cartridge_we_l, cartridge_re_l,
@@ -126,7 +121,9 @@ module gameboycolor(
     // ============ Clock Setup ===============
     // ========================================
 
-    wire    clock_main, mem_clock, mem_clocka;
+    wire    clock_main;
+    wire    mem_clock; 
+    wire    mem_clocka;
 
     assign  mem_clock = ~mem_clocka;
 
@@ -247,7 +244,6 @@ module gameboycolor(
                                      .I_RE_BUS_L(iobus_re_l),
                                      .O_DATA_READ(ioreg2_data)
                                      );
-    /* Memory Components*/
     working_memory_bank wram(
                             .I_CLK(clock_main),
                             .I_MEM_CLK(mem_clock),
@@ -290,7 +286,7 @@ module gameboycolor(
                       .I_LCDRAM_RE_L(lcdram_re_l)
                       );
 
-    /*IO Devices*/
+
     interrupt Interrupt(
                        .I_CLOCK(clock_main),
                        .I_RESET(synch_reset),
