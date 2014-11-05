@@ -1,4 +1,4 @@
-`include "../memory/memory_router/memdef.vh"
+`include "C:/Users/ash/Documents/18545/gbc/memory/memory_router/memdef.vh"
 
 /*Clocks for sweep time specs based on 33MHz clock*/
 `define SWEEPCLOCKS1 257400
@@ -52,7 +52,7 @@ module sound_channel1(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr10_data)
+                                       .O_DATA_READ(nr10_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr10));
    io_bus_parser_reg #(`NR11,0,0,0,0) (.I_CLK(I_CLK),
@@ -62,7 +62,7 @@ module sound_channel1(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr11_data)
+                                       .O_DATA_READ(nr11_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr11));
    io_bus_parser_reg #(`NR12,0,0,0,0) (.I_CLK(I_CLK),
@@ -72,7 +72,7 @@ module sound_channel1(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr12_data)
+                                       .O_DATA_READ(nr12_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr12));
    io_bus_parser_reg #(`NR13,0,0,0,0) (.I_CLK(I_CLK),
@@ -82,7 +82,7 @@ module sound_channel1(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr13_data)
+                                       .O_DATA_READ(nr13_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr13));
    io_bus_parser_reg #(`NR14,0,0,0,0) (.I_CLK(I_CLK),
@@ -92,7 +92,7 @@ module sound_channel1(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr14_data)
+                                       .O_DATA_READ(nr14_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr14));
 
@@ -118,7 +118,7 @@ module sound_channel1(
    assign num_sweep_shift = nr10_data[2:0];
    assign duty_cycle = nr11_data[7:6];
    assign sound_length = (64 - nr11_data[5:0]) * CLOCKS256;
-   assign base_frequency = {nr14_data, [2:0], nr13_data};
+   assign base_frequency = {nr14_data[2:0], nr13_data};
    assign restart_sound = new_nr14 & nr14_data[7];
    assign stop_output = nr14_data[6];
    assign initial_volume = nr12_data[7:4];
@@ -163,11 +163,11 @@ module sound_channel1(
       
       /*volume envelope time expired, update the volume*/
       if (volume_time_count >= volume_step_time && volume_step_time != 'd0) begin
-	 volume_time_count <= 0;
-	 if (volume_increase && current volume != 'b1111)
-	   current_volume <= current_volume + 1;
-	 else if (~volume_increase && current_volume != 0000)
-	   current_volume <= current_volume - 1;
+			volume_time_count <= 0;
+			if (volume_increase && current_volume != 'b1111)
+				current_volume <= current_volume + 1;
+			else if (~volume_increase && current_volume != 0000)
+				current_volume <= current_volume - 1;
       end
       
       /*if time for sound to play expires, stop playing the sound*/
