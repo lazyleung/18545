@@ -12,6 +12,9 @@ SLOT 0 START $0000 SIZE $4000       ;0-3FFF fixed bank
 
 .org $0000
 LD      A, $01
-ID
+DI
+LD      A, $02
+EI
+LD      A, $03
 LOOP_FINISH:
 JP      LOOP_FINISH

@@ -40,8 +40,9 @@ module lcdram_test(
 
 
       /* Actual Memory Location*/
-   bram_lcd lcdbram(
+   bram lcdbram(
 		.clka(I_MEM_CLK),
+        .rsta(I_RESET),
 		.wea(bram_we),
 		.addra(bram_addr),
 		.dina(bram_data_in2),
