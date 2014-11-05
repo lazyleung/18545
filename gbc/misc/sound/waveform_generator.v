@@ -18,7 +18,7 @@ module squarewave_generator(
    
    input I_BITCLK, I_RESET;
    output reg [19:0] O_SAMPLE;
-   input 	     I_WAVEFORM_EN;
+   input 	     I_WAVEFORM_EN, I_STROBE;
    input [10:0]      I_FREQUENCY; //will be calculated as 2^17/(2^11-I_FREQUENCY)
    input [3:0] 	     I_VOLUME;
    input [1:0] 	     I_DUTY_CYCLE; /* 00 - 12.5%
@@ -34,7 +34,7 @@ module squarewave_generator(
    reg 		     waveform;
    reg [15:0] 	     count;
 
-   reg [19:0] 	     volume_to_sample;
+   wire [19:0] 	     volume_to_sample;
    
    /*go from a 4 bit value to a 20 bit value*/
    assign volume_to_sample = volume_reg << 16;
@@ -44,7 +44,7 @@ module squarewave_generator(
                              (duty_cyc_reg == 'b01) ? num_strobes_in_period >> 2 : //25%
                              (duty_cyc_reg == 'b10) ? num_strobes_in_period >> 1 : //50%
                              (duty_cyc_reg == 'b11) ? (num_strobes_in_period + //75%
-						       num_clocks_in_period << 1) >> 2 
+						       num_strobes_in_period << 1) >> 2 
 			     : 0; 
 
    /* Cross information over clock domains by
@@ -65,32 +65,35 @@ module squarewave_generator(
    always @(posedge I_BITCLK) begin
 
       if (I_STROBE) begin
-	 count <= count + 1;
+			count <= count + 1;
 	 
-	 /*make the duty cycle*/
-	 if (count < num_strobes_high) begin
-            O_SAMPLE <= volume_to_sample;
-	 end
+			/*make the duty cycle*/
+			//if (count < num_strobes_high) begin
+			if (count < 48000/880) begin
+            O_SAMPLE <= 20'h80000;
+			end
 	 
-	 /*low end of duty cycle, finish period*/
-	 else if (count < num_strobes_in_period) begin
-            O_SAMPLE <= 0;
-	 end
+			/*low end of duty cycle, finish period*/
+			//else if (count < num_strobes_in_period) begin
+			else if (count < 48000/440) begin
+            O_SAMPLE <= 20'h7ffff;
+			end
 	 
-	 /*reset the counter when overflow*/
-	 else if (count >= num_strobes_in_period) begin
+			/*reset the counter when overflow*/
+			//else if (count >= num_strobes_in_period) begin
+			else if (count >= 48000/440) begin
             count <= 0;
-	 end
+			end
 	 
-      end // if (I_STROBE)
+		end // if (I_STROBE)
 
       /*If not enabled, disable the output*/
-      if (~I_WAVEFORM_EN)
-	O_SAMPLE <= 0;
+      //if (~I_WAVEFORM_EN)
+			//O_SAMPLE <= 0;
 
       if (I_RESET) begin
          count <= 0;
-	 O_SAMPLE <= 0;
+			O_SAMPLE <= 0;
       end
       
    end // always @ (posedge I_BITCLK)
@@ -101,7 +104,6 @@ module squarewave_generator(
     * from the BRAM lookup table*/
    sound_bram period_lookup_table(
 		                  .clka(I_BITCLK),
-		                  .rsta(I_RESET),
 		                  .wea(gnd),
 		                  .addra(freq_reg),
 		                  .dina(0),

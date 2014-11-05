@@ -34,14 +34,6 @@ module AC97(
 	reg         offset = 1'b0;
 	reg rst = 1'b0;
 	
-	bram music(
-  .clka(ac97_bitclk),
-  .wea(0),
-  .addra(flash_a[17:0]),
-  .dina(16'b0),
-  .douta(flipped)
-	);
-	
 	always @(posedge ac97_bitclk) begin
 		if (pos1)
 			offset <= 0;
@@ -89,19 +81,21 @@ module AC97(
 	wire [19:0] ac97_out_slot11 = 'h0;
 	wire        ac97_out_slot12_valid = 0;
 	wire [19:0] ac97_out_slot12 = 'h0;
-			
+	
+	
 	sound_channel1 ch1(
                       .I_CLK(I_CLK),
-                      .I_CLK33MHZ(I_CLK_33MHZ),
+                      .I_CLK33MHZ(I_CLK33MHZ),
                       .I_RESET(I_RESET),
 		                .I_BITCLK(ac97_bitclk),
 		                .I_STROBE(ac97_strobe),
                       .I_IOREG_ADDR(I_IOREG_ADDR),
-                      .I0_IOREG_DATA(I_IOREG_DATA),
+                      .IO_IOREG_DATA(I_IOREG_DATA),
                       .I_IOREG_WE_L(I_IOREG_WE_L),
                       .I_IOREG_RE_L(I_IOREG_RE_L),
                       .O_CH1_WAVEFORM(ac97_out_slot3)
                       );
+							 
 
 	ACLink link(
 		/*AUTOINST*/
