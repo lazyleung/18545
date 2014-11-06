@@ -18,7 +18,8 @@ module AC97(
 	input [15:0] I_IOREG_ADDR,
 	inout [7:0]  IO_IOREG_DATA,
 	input        I_IOREG_WE_L,	
-	input        I_IOREG_RE_L
+	input        I_IOREG_RE_L,
+	output [7:0] O_D0, O_D1, O_D2, O_D3, O_D4
 	
 	);
 	
@@ -93,7 +94,9 @@ module AC97(
                       .IO_IOREG_DATA(I_IOREG_DATA),
                       .I_IOREG_WE_L(I_IOREG_WE_L),
                       .I_IOREG_RE_L(I_IOREG_RE_L),
-                      .O_CH1_WAVEFORM(ac97_out_slot3)
+                      .O_CH1_WAVEFORM(ac97_out_slot3),
+							 .O_D1(O_D1), .O_D0(O_D0),
+							 .O_D2(O_D2), .O_D3(O_D3), .O_D4(O_D4)
                       );
 							 
 
