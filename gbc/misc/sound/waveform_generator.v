@@ -3,8 +3,8 @@ module squarewave_generator(
                             I_BITCLK,
                             I_RESET,
 
-			    /*Sampling Strobe Input*/
-			    I_STROBE,
+									/*Sampling Strobe Input*/
+									 I_STROBE,
 			    
                             /*Waveform Output Signal*/
                             O_SAMPLE,
@@ -13,7 +13,7 @@ module squarewave_generator(
                             I_FREQUENCY,
                             I_DUTY_CYCLE,
                             I_WAVEFORM_EN, 
-			    I_VOLUME);
+									 I_VOLUME);
    
    
    input I_BITCLK, I_RESET;
@@ -26,26 +26,47 @@ module squarewave_generator(
 				    * 10 - 50%
 				    * 11 - 75% */
    
-   wire [15:0] 	     num_strobes_in_period;
-   wire [15:0] 	     num_strobes_high;
+   wire [31:0] 	     num_strobes_in_period;
+   wire [31:0] 	     num_strobes_high;
    reg [10:0] 	     freq_reg, freq_reg_d1, freq_reg_d2;
    reg [1:0] 	     duty_cyc_reg, duty_cyc_reg_d1, duty_cyc_reg_d2;
    reg [3:0] 	     volume_reg, volume_reg_d1, volume_reg_d2;
-   reg 		     waveform;
-   reg [15:0] 	     count;
+   reg 		        waveform;
+   reg [31:0] 	     count;
 
-   wire [19:0] 	     volume_to_sample;
+   reg [19:0] 	     volume_to_sample;
+	wire [19:0] 	volume_to_sample_low;
    
    /*go from a 4 bit value to a 20 bit value*/
-   assign volume_to_sample = volume_reg << 16;
+   always @(*) begin
+		case(I_VOLUME)
+			0:  volume_to_sample = 0;
+			1:  volume_to_sample = 20'h08888;
+			2:  volume_to_sample = 20'h11110;
+			3:  volume_to_sample = 20'h19999;
+			4:  volume_to_sample = 20'h22221;
+			5:  volume_to_sample = 20'h2AAAA;
+			6:  volume_to_sample = 20'h33332;
+			7:  volume_to_sample = 20'h3BBBB;
+			8:  volume_to_sample = 20'h44443;
+			9:  volume_to_sample = 20'h4CCCC;
+			10: volume_to_sample = 20'h55554;
+			11: volume_to_sample = 20'h5DDDD;
+			12: volume_to_sample = 20'h66665;
+			13: volume_to_sample = 20'h6EEEE;
+			14: volume_to_sample = 20'h77776;
+			15: volume_to_sample = 20'h7FFFF;
+		endcase
+	end
+	
+	assign volume_to_sample_low = ~volume_to_sample + 1;
    
    /*figure out the duty cycle*/
    assign num_strobes_high = (duty_cyc_reg == 'b00) ? num_strobes_in_period >> 3 : //12.5%
                              (duty_cyc_reg == 'b01) ? num_strobes_in_period >> 2 : //25%
                              (duty_cyc_reg == 'b10) ? num_strobes_in_period >> 1 : //50%
-                             (duty_cyc_reg == 'b11) ? (num_strobes_in_period + //75%
-						       num_strobes_in_period << 1) >> 2 
-			     : 0; 
+                             (duty_cyc_reg == 'b11) ? (num_strobes_in_period + (num_strobes_in_period << 1)) >> 2 
+			                                : 0; 
 
    /* Cross information over clock domains by
     * registering the information a few times*/
@@ -68,28 +89,25 @@ module squarewave_generator(
 			count <= count + 1;
 	 
 			/*make the duty cycle*/
-			//if (count < num_strobes_high) begin
-			if (count < 48000/880) begin
-            O_SAMPLE <= 20'h80000;
+			if (count < num_strobes_high) begin
+            O_SAMPLE <= volume_to_sample;
 			end
 	 
 			/*low end of duty cycle, finish period*/
-			//else if (count < num_strobes_in_period) begin
-			else if (count < 48000/440) begin
-            O_SAMPLE <= 20'h7ffff;
+			else if (count < num_strobes_in_period) begin
+            O_SAMPLE <= volume_to_sample_low;
 			end
 	 
 			/*reset the counter when overflow*/
-			//else if (count >= num_strobes_in_period) begin
-			else if (count >= 48000/440) begin
+			else if (count >= num_strobes_in_period) begin
             count <= 0;
 			end
 	 
 		end // if (I_STROBE)
 
       /*If not enabled, disable the output*/
-      //if (~I_WAVEFORM_EN)
-			//O_SAMPLE <= 0;
+      if (~I_WAVEFORM_EN)
+			O_SAMPLE <= 0;
 
       if (I_RESET) begin
          count <= 0;
@@ -99,6 +117,7 @@ module squarewave_generator(
    end // always @ (posedge I_BITCLK)
       
    wire gnd = 0;
+	
 
    /* Translate the frequency to the strobes in period
     * from the BRAM lookup table*/
@@ -110,6 +129,4 @@ module squarewave_generator(
 		                  .douta(num_strobes_in_period)
 		                  );
    
-
-
 endmodule
