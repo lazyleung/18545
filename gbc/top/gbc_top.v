@@ -6,9 +6,17 @@ module gameboycolorsim();
    reg      clock, reset;
    reg      high_byte;
    reg[7:0] LED;
+   
+   wire     latch, pulse, data;
+   
+   assign latch = 0;
+   assign pulse = 0;
+   assign data = 0;
+   
+   integer count;
 
    always
-     #5 clock = ~clock;
+     #1 clock = ~clock;
 
    initial begin
       clock = 0;
@@ -36,9 +44,9 @@ module gameboycolorsim();
                       .GPIO_SW_W(reset), //reset
 
                       /*FPGA GPIO for Controller*/
-                      .HDR2_2_SM_8_N(0),
-                      //HDR2_4_SM_8_P,
-                      //HDR2_6_SM_7_N,
+                      .HDR2_2_SM_8_N(latch),
+                      .HDR2_4_SM_8_P(pulse),
+                      .HDR2_6_SM_7_N(data),
 
                       /*To See multiple bytes of data*/
                       .GPIO_DIP_SW1(high_byte),

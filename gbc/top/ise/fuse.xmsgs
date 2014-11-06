@@ -5,16 +5,76 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="HDLCompiler" num="1654" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 172: Instantiating &lt;<arg fmt="%s" index="1">dma</arg>&gt; from unknown module &lt;<arg fmt="%s" index="2">dma_controller</arg>&gt;
+<msg type="warning" file="HDLCompiler" num="687" delta="unknown" >"../../memory/io_bus_parser/io_bus_parser.v" Line 7: Illegal redeclaration of module &lt;<arg fmt="%s" index="1">io_bus_parser_reg</arg>&gt;.
 </msg>
 
-<msg type="error" file="HDLCompiler" num="1654" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/working_memory_bank/working_memory_banking.v" Line 112: Instantiating &lt;<arg fmt="%s" index="1">banked_memory</arg>&gt; from unknown module &lt;<arg fmt="%s" index="2">bram_wram</arg>&gt;
+<msg type="warning" file="HDLCompiler" num="687" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/io_bus_parser/io_bus_parser.v" Line 7: Illegal redeclaration of module &lt;<arg fmt="%s" index="1">io_bus_parser_reg</arg>&gt;.
 </msg>
 
-<msg type="error" file="HDLCompiler" num="1654" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cartridge_sim/cartridge_sim.v" Line 40: Instantiating &lt;<arg fmt="%s" index="1">cartridge</arg>&gt; from unknown module &lt;<arg fmt="%s" index="2">bram_cart</arg>&gt;
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 55: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
-<msg type="error" file="HDLCompiler" num="1654" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/memory_testing_modules/oam_test.v" Line 41: Instantiating &lt;<arg fmt="%s" index="1">lcdbram</arg>&gt; from unknown module &lt;<arg fmt="%s" index="2">bram_lcd</arg>&gt;
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 56: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 57: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 58: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 59: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 60: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 61: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 62: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 153: Port <arg fmt="%s" index="1">high_mem_data</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 190: Port <arg fmt="%s" index="1">IO_PPU_DATA</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 228: Port <arg fmt="%s" index="1">I_DATA_WR</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 238: Port <arg fmt="%s" index="1">I_DATA_WR</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 313: Port <arg fmt="%s" index="1">IO_DATA</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 90: Port <arg fmt="%s" index="1">O_WAIT</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 172: Port <arg fmt="%s" index="1">O_DBUS_WRITE</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 183: Port <arg fmt="%s" index="1">O_DBUS_WRITE</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 194: Port <arg fmt="%s" index="1">O_DBUS_WRITE</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 205: Port <arg fmt="%s" index="1">O_DBUS_WRITE</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 222: Port <arg fmt="%s" index="1">O_WAIT</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"../../memory/dma/dma.v" Line 235: Port <arg fmt="%s" index="1">O_DATA_READ</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 185: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">I_HBLANK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">1</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 186: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">I_VBLANK</arg>&gt;. Formal port size is <arg fmt="%d" index="2">1</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
 <msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 201: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">I_PPU_ADDR</arg>&gt;. Formal port size is <arg fmt="%d" index="2">16</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
@@ -26,10 +86,40 @@
 <msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 203: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">I_PPU_RE_L</arg>&gt;. Formal port size is <arg fmt="%d" index="2">1</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 296: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">I_SERIAL_INTERRUPT</arg>&gt;. Formal port size is <arg fmt="%d" index="2">1</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/working_memory_bank/working_memory_banking.v" Line 62: Port <arg fmt="%s" index="1">I_DATA_WR</arg> is not connected to this instance
 </msg>
 
-<msg type="error" file="Simulator" num="778" delta="unknown" >Static elaboration of top level Verilog design unit(s) in library <arg fmt="%s" index="1">work</arg> failed
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/working_memory_bank/working_memory_banking.v" Line 99: Port <arg fmt="%s" index="1">O_BRAM_EN</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/working_memory_bank/working_memory_banking.v" Line 112: Port <arg fmt="%s" index="1">web</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/working_memory_bank/working_memory_banking.v" Line 116: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">15</arg>-bit while actual signal size is <arg fmt="%d" index="1">16</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cartridge_sim/cartridge_sim.v" Line 27: Port <arg fmt="%s" index="1">O_BRAM_EN</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cartridge_sim/cartridge_sim.v" Line 40: Port <arg fmt="%s" index="1">web</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/cartridge_sim/cartridge_sim.v" Line 44: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">15</arg>-bit while actual signal size is <arg fmt="%d" index="1">16</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/memory_testing_modules/oam_test.v" Line 41: Port <arg fmt="%s" index="1">web</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/memory_testing_modules/oam_test.v" Line 45: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">15</arg>-bit while actual signal size is <arg fmt="%d" index="1">16</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="1016" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/memory_testing_modules/lcdram_test.v" Line 43: Port <arg fmt="%s" index="1">web</arg> is not connected to this instance
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../memory/memory_testing_modules/lcdram_test.v" Line 47: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">addra</arg>&gt;. Formal port size is <arg fmt="%d" index="2">15</arg>-bit while actual signal size is <arg fmt="%d" index="1">16</arg>-bit.
+</msg>
+
+<msg type="warning" file="HDLCompiler" num="189" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top_synth.v" Line 296: Size mismatch in connection of port &lt;<arg fmt="%s" index="3">I_SERIAL_INTERRUPT</arg>&gt;. Formal port size is <arg fmt="%d" index="2">1</arg>-bit while actual signal size is <arg fmt="%d" index="1">32</arg>-bit.
 </msg>
 
 </messages>

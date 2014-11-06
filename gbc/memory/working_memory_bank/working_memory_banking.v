@@ -109,8 +109,9 @@ module working_memory_bank(
 				       //.I_BRAM_DOUT(bram_data_out1)
 				       );
    /* Actual Memory Location*/
-   bram_wram banked_memory(
+   bram banked_memory(
 		      .clka(I_MEM_CLK),
+              .rsta(I_RESET),
 		      .wea(bram_we),
 		      .addra(bram_addr),
 		      .dina(bram_data_in),
