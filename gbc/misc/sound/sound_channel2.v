@@ -101,7 +101,7 @@ module sound_channel2(
          count <= 0;
          enable_sound <= 0;
       end
-
+   end // always @ (posedge I_CLK_33MHZ)
 
    waveform_generator ch2wgen(.I_CLK(I_CLK_33MHZ),
                               .I_RESET(I_RESET),
