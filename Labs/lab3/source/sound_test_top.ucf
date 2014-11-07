@@ -1,0 +1,10 @@
+NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
+NET "ac97_sdata_in" LOC="AE18";
+NET "ac97_sdata_out" LOC="AG16";
+NET "ac97_sync" LOC="AF19";
+NET "ac97_reset_b" LOC="AG17";
+TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
+NET  "pos1"            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
+NET  "pos2"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
+NET  "I_CLK33MHZ"       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
+NET  "I_RESET"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI

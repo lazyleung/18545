@@ -111,7 +111,7 @@ module working_memory_bank(
    /* Actual Memory Location*/
    bram banked_memory(
 		      .clka(I_MEM_CLK),
-		      .rsta(I_RESET),
+              .rsta(I_RESET),
 		      .wea(bram_we),
 		      .addra(bram_addr),
 		      .dina(bram_data_in),

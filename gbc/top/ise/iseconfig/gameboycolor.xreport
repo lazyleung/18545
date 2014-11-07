@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-11-02T19:59:13</DateModified>
+  <DateModified>2014-11-05T21:28:09</DateModified>
   <ModuleName>gameboycolor</ModuleName>
-  <SummaryTimeStamp>2014-11-02T19:59:07</SummaryTimeStamp>
+  <SummaryTimeStamp>2014-11-03T10:29:50</SummaryTimeStamp>
   <SavedFilePath>C:/Users/ash/Documents/18545/gbc/top/ise/iseconfig/gameboycolor.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/Users/ash/Documents/18545/gbc/top/ise</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>C:/Users/ash/Documents/18545/gbc/top/ise\</ImplementationReportsDirectory>
   <DateInitialized>2014-11-02T17:58:06</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
@@ -42,7 +42,7 @@
   </viewgroup>
   <viewgroup label="Errors and Warnings" >
    <view program="pn" WrapMessages="true" contextTags="EDK_OFF" type="MessageList" hideColumns="Filtered, New" file="_xmsgs/pn_parser.xmsgs" label="Parser Messages" />
-   <view program="xst" WrapMessages="true" contextTags="XST_ONLY,EDK_OFF" hidden="false" type="MessageList" hideColumns="Filtered" file="_xmsgs/xst.xmsgs" label="Synthesis Messages" />
+   <view program="xst" WrapMessages="true" showErrors="1" contextTags="XST_ONLY,EDK_OFF" showInfos="0" hidden="false" type="MessageList" hideColumns="Filtered" collate="0" file="_xmsgs/xst.xmsgs" label="Synthesis Messages" showWarnings="0" />
    <view inputState="Synthesized" program="ngdbuild" WrapMessages="true" type="MessageList" hideColumns="Filtered" file="_xmsgs/ngdbuild.xmsgs" label="Translation Messages" />
    <view inputState="Translated" program="map" WrapMessages="true" contextTags="FPGA_ONLY" type="MessageList" hideColumns="Filtered" file="_xmsgs/map.xmsgs" label="Map Messages" />
    <view inputState="Mapped" program="par" WrapMessages="true" contextTags="FPGA_ONLY" type="MessageList" hideColumns="Filtered" file="_xmsgs/par.xmsgs" label="Place and Route Messages" />

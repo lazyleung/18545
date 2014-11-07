@@ -1,87 +1,134 @@
-module waveform_generator(
-                          /*System Level Inputs*/
-                          I_CLK,
-                          I_RESET,
+module squarewave_generator(
+                            /*System Level Inputs*/
+                            I_BITCLK,
+                            I_RESET,
 
-                          /*Waveform Output Signal*/
-                          O_WAVE,
+                            /*Sampling Strobe Input*/
+                            I_STROBE,
 
-                          /*User Freq & Duty Cycle Spec*/
-                          I_FREQUENCY,
-                          I_DUTY_CYCLE,
-                          I_WAVEFORM_EN);
+                            /*Waveform Output Signal*/
+                            O_SAMPLE,
 
-   input I_CLK, I_RESET;
-   output O_WAVE;
-   input  I_WAVEFORM_EN;
-   input [10:0] I_FREQUENCY; //calculated as 2^17/(2^11-I_FREQUENCY)
-   input [1:0]  I_DUTY_CYCLE; /* 00 - 12.5%
-                               * 01 - 25%
-                               * 10 - 50%
-                               * 11 - 75% */
+                            /*User Freq & Duty Cycle Spec*/
+                            I_FREQUENCY,
+                            I_DUTY_CYCLE,
+                            I_WAVEFORM_EN, 
+                            I_VOLUME);
+   
+   
+   input             I_BITCLK, I_RESET;
+   output reg [19:0] O_SAMPLE;
+   input             I_WAVEFORM_EN, I_STROBE;
+   input [10:0]      I_FREQUENCY; //will be calculated as 2^17/(2^11-I_FREQUENCY)
+   input [3:0]       I_VOLUME;
+   input [1:0]       I_DUTY_CYCLE; /* 00 - 12.5%
+                                    * 01 - 25%
+                                    * 10 - 50%
+                                    * 11 - 75% */
+   
+   wire [31:0]       num_strobes_in_period;
+   wire [31:0]       num_strobes_high;
+   reg [10:0]        freq_reg, freq_reg_d1, freq_reg_d2;
+   reg [1:0]         duty_cyc_reg, duty_cyc_reg_d1, duty_cyc_reg_d2;
+   reg [3:0]         volume_reg, volume_reg_d1, volume_reg_d2;
+   reg               waveform;
+   reg [31:0]        count;
 
-   wire [15:0]  num_clocks_in_period;
-   wire [15:0]  num_clocks_high, bram_lookup_addr;
-   reg [10:0]   freq_reg;
-   reg [1:0]    duty_cyc_reg;
-   reg          waveform;
-   reg [15:0]   count;
-
-   assign O_WAVE = waveform & I_WAVEFORM_EN;
-
-   /*figure out the duty cycle*/
-   assign num_clocks_high = (duty_cyc_reg == 'b00) ? num_clocks_in_period >> 3 : //12.5%
-                            (duty_cyc_reg == 'b01) ? num_clocks_in_period >> 2 : //25%
-                            (duty_cyc_reg == 'b10) ? num_clocks_in_period >> 1 : //50%
-                            (duty_cyc_reg == 'b11) ? (num_clocks_in_period + num_clocks_in_period << 1) >> 2 : 0; //75%
-
-   always @(posedge I_CLK) begin
-      freq_reg <= I_FREQUENCY;
-      duty_cyc_reg <= I_DUTY_CYCLE;
+   reg [19:0]        volume_to_sample;
+   wire [19:0]       volume_to_sample_low;
+   
+   /*go from a 4 bit value to a 20 bit value*/
+   always @(*) begin
+      case(I_VOLUME)
+        0:  volume_to_sample = 0;
+        1:  volume_to_sample = 20'h08888; //7FFFF*(1/15)
+        2:  volume_to_sample = 20'h11110; //7FFFF*(2/15)
+        3:  volume_to_sample = 20'h19999; //etc ..
+        4:  volume_to_sample = 20'h22221;
+        5:  volume_to_sample = 20'h2AAAA;
+        6:  volume_to_sample = 20'h33332;
+        7:  volume_to_sample = 20'h3BBBB;
+        8:  volume_to_sample = 20'h44443;
+        9:  volume_to_sample = 20'h4CCCC;
+        10: volume_to_sample = 20'h55554;
+        11: volume_to_sample = 20'h5DDDD;
+        12: volume_to_sample = 20'h66665;
+        13: volume_to_sample = 20'h6EEEE;
+        14: volume_to_sample = 20'h77776;
+        15: volume_to_sample = 20'h7FFFF;
+      endcase
    end
 
-   /*generate the waveform based on the specification*/
-   always @(posedge I_CLK) begin
 
-      count <= count + 1;
+   /*the low part of the waveform amplitude is simply
+    *the negated magnitude of the positive amplitude*/
+   assign volume_to_sample_low = ~volume_to_sample + 1;
+   
+   /*figure out the duty cycle*/
+   assign num_strobes_high = (duty_cyc_reg == 'b00) ? num_strobes_in_period >> 3 : //12.5%
+                             (duty_cyc_reg == 'b01) ? num_strobes_in_period >> 2 : //25%
+                             (duty_cyc_reg == 'b10) ? num_strobes_in_period >> 1 : //50%
+                             (duty_cyc_reg == 'b11) ? (num_strobes_in_period + (num_strobes_in_period << 1)) >> 2 
+                             : 0; 
 
-      /*make the duty cycle*/
-      if (count < num_clocks_high) begin
-         waveform <= 1;
-      end
+   /* Cross information over clock domains by
+    * registering the information a few times*/
+   always @(posedge I_BITCLK) begin
+      freq_reg_d1 <= I_FREQUENCY;
+      duty_cyc_reg_d1 <= I_DUTY_CYCLE;
+      volume_reg_d1 <= I_VOLUME;
+      freq_reg_d2 <= freq_reg_d1;
+      duty_cyc_reg_d2 <= duty_cyc_reg_d1;
+      volume_reg_d2 <= volume_reg_d1;
+      freq_reg <= freq_reg_d2;
+      duty_cyc_reg <= duty_cyc_reg_d2;
+      volume_reg <= volume_reg_d2;
+   end
 
-      /*low end of duty cycle, finish period*/
-      else if (count < num_clocks_in_period) begin
-         waveform <= 0;
-      end
+   /*generate the square waveform based on the specification*/
+   always @(posedge I_BITCLK) begin
 
-      /*reset the counter when overflow*/
-      else if (count >= num_clocks_in_period) begin
-         count <= 0;
-      end
+      if (I_STROBE) begin
+         count <= count + 1;
+         
+         /*make the duty cycle*/
+         if (count < num_strobes_high) begin
+            O_SAMPLE <= volume_to_sample;
+         end
+         
+         /*low end of duty cycle, finish period*/
+         else if (count < num_strobes_in_period) begin
+            O_SAMPLE <= volume_to_sample_low;
+         end
+         
+         /*reset the counter when overflow*/
+         else if (count >= num_strobes_in_period) begin
+            count <= 0;
+         end
+         
+      end // if (I_STROBE)
+
+      /*If not enabled, disable the output*/
+      if (~I_WAVEFORM_EN)
+        O_SAMPLE <= 0;
 
       if (I_RESET) begin
          count <= 0;
+         O_SAMPLE <= 0;
       end
-
-   end
-
+      
+   end // always @ (posedge I_BITCLK)
+   
    wire gnd = 0;
+   
 
-   assign bram_lookup_addr[15:11] = 0;
-   assign bram_lookup_addr[10:0] = freq_reg;
-
-   /* Translate the frequency to the clocks in period
+   /* Translate the frequency to the strobes in period
     * from the BRAM lookup table*/
-   sound_bram period_lookup_table(
-		                          .clka(I_CLK),
-		                          .rsta(I_RESET),
-		                          .wea(gnd),
-		                          .addra(bram_lookup_addr),
-		                          .dina(0),
-		                          .douta(num_clocks_in_period)
-		                          );
-
-
-
+   sound_bram period_lookup_table(.clka(I_BITCLK),
+                                  .wea(gnd),
+                                  .addra(freq_reg),
+                                  .dina(0),
+                                  .douta(num_strobes_in_period)
+                                  );
+   
 endmodule

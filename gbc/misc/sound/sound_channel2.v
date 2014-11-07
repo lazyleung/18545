@@ -1,5 +1,6 @@
-`include "../memory/memory_router/memdef.vh"
+`include "C:/Users/ash/Documents/18545/gbc/memory/memory_router/memdef.vh"
 `define CLOCKS256    128906
+`define CLOCKS64     515625
 
 module sound_channel2(
                       /* System Level Inputs*/
@@ -76,38 +77,62 @@ module sound_channel2(
    wire         restart_sound;
    wire [31:0]  sound_length;
    reg          enable_sound;
-   reg [31:0]   count;
+   reg [31:0]   count, volume_time_count;
+   reg [3:0] 	current_volume;
+   wire [3:0] 	initial_volume;
+   wire 	volume_increase;
+   wire [31:0] 	volume_step_time;
+
+   /*Based off GBC Sound II specification*/
    assign duty_cycle = nr21_data[7:6];
-   assign sound_length = (64-nr21_data[5:0]) * CLOCKS256;
+   assign sound_length = (64-nr21_data[5:0]) * `CLOCKS256;
    assign stop_sound = nr24_data[6];
    assign restart_sound = nr24_data[7] & new_nr24;
    assign frequency = {nr24_data[2:0] , nr23_data};
+   assign initial_volume = nr22_data[7:4];
+   assign volume_increase = nr22_data[3];
+   assign volume_step_time = nr22_data[2:0] * `CLOCKS64;
 
    always @(posedge I_CLK_33MHZ) begin
 
       if (enable_sound)
         count <= count + 1;
 
+      /*time to play the sound expired*/
       if (count >= sound_length & stop_sound) begin
          enable_sound <= 0;
       end
 
+      /*volume envelope time expired, update the volume*/
+      if (volume_time_count >= volume_step_time && volume_step_time != 'd0) begin
+         volume_time_count <= 0;
+         if (volume_increase && current_volume != 'b1111)
+           current_volume <= current_volume + 1;
+         else if (~volume_increase && current_volume != 'b0000)
+           current_volume <= current_volume - 1;
+      end
+
+      /*Specification initates a new sound*/
       if (restart_sound) begin
          enable_sound <= 1;
          count <= 0;
+	 current_volume <= initial_volume;
       end
 
       if (I_RESET) begin
          count <= 0;
          enable_sound <= 0;
       end
-   end // always @ (posedge I_CLK_33MHZ)
+   end
 
+
+   /*generate the waveform fiven the parameters*/
    waveform_generator ch2wgen(.I_CLK(I_CLK_33MHZ),
                               .I_RESET(I_RESET),
                               .O_WAVE(O_CH2_WAVEFORM),
                               .I_FREQUENCY(frequency),
                               .I_DUTY_CYCLE(duty_cycle),
-                              .I_WAVEFORM_EN(enable_sound));
+                              .I_WAVEFORM_EN(enable_sound),
+			                  .I_VOLUME(current_volume));
 
 endmodule
