@@ -7,10 +7,10 @@ module oamram_test(
 		   I_OAM_RE_L
 		   );
 
-   input I_MEM_CLK, I_RESET;
+   input        I_MEM_CLK, I_RESET;
    input [15:0] I_OAM_ADDR;
-   inout [7:0] 	I0_OAM_DATA;
-   input 	I_OAM_WE_L, I_OAM_RE_L;
+   inout [7:0] 	IO_OAM_DATA;
+   input 	    I_OAM_WE_L, I_OAM_RE_L;
    
    wire 	bram_en;
    wire 	bram_we;
@@ -40,8 +40,7 @@ module oamram_test(
       /* Actual Memory Location*/
    bram lcdbram(
 		.clka(I_MEM_CLK),
-		.rsta(I_RESET),
-		//.ena(bram_en),
+        .rsta(I_RESET),
 		.wea(bram_we),
 		.addra(bram_addr),
 		.dina(bram_data_in2),

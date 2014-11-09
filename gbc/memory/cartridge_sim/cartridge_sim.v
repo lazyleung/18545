@@ -3,7 +3,6 @@
 module cartridge_sim(
 		     I_CLK,
 		     I_RESET,
-
 		     I_CARTRIDGE_ADDR,
 		     IO_CARTRIDGE_DATA,
 		     I_CARTRIDGE_WE_L,
@@ -25,29 +24,26 @@ module cartridge_sim(
 
    assign bram_addr = router_addr[14:0];
 
-   bram_wrapper #(16'h0FFF) ifconverter(
+   bram_wrapper #(16'h7FFF) ifconverter(
 				       .I_CLK(I_CLK),
 				       .I_RESET(I_RESET),
 				       .I_ADDR(I_CARTRIDGE_ADDR),
 				       .IO_DATA(IO_CARTRIDGE_DATA),
 				       .I_WE_L(I_CARTRIDGE_WE_L),
 				       .I_RE_L(I_CARTRIDGE_RE_L),
-				       .O_BRAM_EN(bram_en),
 				       .O_BRAM_WE(bram_we),
 				       .O_BRAM_ADDR(router_addr),
 				       .O_BRAM_DIN(bram_data_in2),
 				       .I_BRAM_DOUT(bram_data_out2)
 				       );
    /* Actual Memory Location*/
-   bram cartridge(
+   bram_cart cartridge(
 		  .clka(I_CLK),
-		  .rsta(I_RESET),
-		  //.ena(bram_en),
+          .rsta(I_RESET),
 		  .wea(bram_we),
 		  .addra(bram_addr),
 		  .dina(bram_data_in2),
 		  .douta(bram_data_out2)
 		  );
-   
    
 endmodule

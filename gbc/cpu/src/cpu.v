@@ -2,7 +2,6 @@
 `include "decode.v"
 `include "regfile.v"
 `include "alu.v"
-`include "mem.v"
 
 /**
  * The GB80 CPU.
@@ -109,7 +108,7 @@ module cpu(/*AUTOARG*/
                                    .in(data_ext_out),
                                    .en(data_buf_write_ext & high_mem));
    
-   mem #(127, 0) high_mmmod(.data_ext(high_mem_data[7:0]),
+   mem #(127) high_mmmod(.data_ext(high_mem_data[7:0]),
                             .addr_ext(high_mem_addr[15:0]),
                             .mem_we(addr_buf_write_ext & high_mem),
                             .mem_re(data_buf_load_ext & high_mem),
@@ -121,7 +120,7 @@ module cpu(/*AUTOARG*/
    wire [4:0]   IF_in_l, IE_in_l;
    wire         IME_data;
    wire         IE_load_l;
-//   wire [7:0]   A_data, instruction;  
+    //   wire [7:0]   A_data, instruction;  
 
    reg [4:0]   interrupt_mask; // IF mask
    reg [2:0]   interrupt_sel; // select

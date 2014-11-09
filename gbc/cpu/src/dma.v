@@ -21,7 +21,7 @@
  * @input clock The CPU clock.
  * @input reset The CPU reset.
  */
-module dma(/*AUTOARG*/
+module dma(
    // Outputs
    dma_mem_re, dma_mem_we, cpu_mem_disable,
    // Inouts

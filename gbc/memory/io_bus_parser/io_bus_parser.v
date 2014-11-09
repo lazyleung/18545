@@ -27,7 +27,7 @@ module io_bus_parser_reg (
    parameter P_FORWARD_DATA = 0;
    parameter P_RESET_ON_READ = 0;
    /*MODE:
-   /* 00 - read/write access
+    * 00 - read/write access
     * 01 - write only access
     * 10 - read only access
     */
@@ -36,8 +36,8 @@ module io_bus_parser_reg (
 
    /*Description of interface with the
     *io bus from the memory router*/
-   input I_CLK, I_SYNC_RESET;
-   inout [7:0] IO_DATA_BUS;
+   input        I_CLK, I_SYNC_RESET;
+   inout [7:0]  IO_DATA_BUS;
    input [15:0] I_ADDR_BUS;
    input        I_WE_BUS_L, I_RE_BUS_L;
 

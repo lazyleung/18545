@@ -11,15 +11,15 @@
 `define EXTERNAL_EXPANSION_HI 'hBFFF
 
 /*LCD RAM has a total of 32 KB of address
- *space which is separated into 2 banks, 
+ *space which is separated into 2 banks,
  *specified by the VBK register*/
 `define LCDRAM_LO 'h8000
 `define LCDRAM_HI 'h9FFF
 
-/*Working ram has a total of 32 kB of 
- * working memory, separated into 
+/*Working ram has a total of 32 kB of
+ * working memory, separated into
  *8 separate banks.  Bank0 is always
- * accessible by the address range 
+ * accessible by the address range
  * 0xC000 - 0xCFFF, but bank 0-7 are
  * accessible through 0xD000-0xDFFF
  * such that the bank being written
@@ -27,10 +27,10 @@
 `define WRAM_LO 'hC000
 `define WRAM_HI 'hDFFF
 
-/*OAM is composed of 160 bytes of 
+/*OAM is composed of 160 bytes of
  *information*/
 `define OAM_LO 'hFE00
-`define OAM_HI 'hFF7F
+`define OAM_HI 'hFE9F
 
 /*The "little working RAM"  is
  *composed of 127 bytes of information
@@ -43,7 +43,7 @@
 `define IOREG_HI 'hFF7F
 
 /* Definition to where the
- * interrupt enable register 
+ * interrupt enable register
  * is*/
 `define IE_REGISTER 'hFFFF
 
@@ -84,7 +84,12 @@
 `define HDMA3 16'hFF53   // X
 `define HDMA4 16'hFF54   // X
 `define HDMA5 16'hFF55   // X
-`define BCPS  16'hFF68
-`define BCPD  16'hFF69
-`define OCPS  16'hFF6A
-`define OCPD  16'hFF6B
+`define BCPS  16'hFF68   // X
+`define BCPD  16'hFF69   // X
+`define OCPS  16'hFF6A   // X
+`define OCPD  16'hFF6B   // X
+`define NR10  16'hFF10   // X
+`define NR11  16'hFF11   // X
+`define NR12  16'hFF12   // X
+`define NR13  16'hFF13   // X
+`define NR14  16'hFF14   // X
