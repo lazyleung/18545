@@ -311,6 +311,35 @@ module video_module(//Outputs
 			   .wr_dataA(scanline2_inA), 
 			   .wr_dataB(scanline2_inB)
 			   );
+	
+
+   wire [2:0] bg_pal_sel, spr_pal_sel;
+   wire [1:0] bg_pal_idx, spr_pal_idx;
+   wire [15:0] bg_pal_col, spr_pal_col;
+	wire [7:0] color_file_out;
+	wire color_file_enable;
+	color_file cf(
+                  /*System Inputs*/
+                  .I_CLK(clock),
+                  .I_RESET(reset),
+
+                  /*Interface with CPU (via Router)*/
+                  .I_MEMBUS_ADDR(A),
+						.I_DATA(di),
+						.O_DATA(color_file_out),
+                  .I_MEMBUS_WE_L(wr_n),
+						.O_IS_CF_ADDR(color_file_enable),
+
+                  /*Interface with PPU (BG Color)*/
+                  .I_BGPAL_SEL(bg_pal_sel), //pallete selection
+                  .I_BGPAL_INDEX(bg_pal_idx), //color in pallet
+                  .O_BGPAL_COLOR(bg_pal_col),
+
+                  /*Interface with PPU (Sprite Color)*/
+                  .I_SPRPAL_SEL(spr_pal_sel),
+                  .I_SPRPAL_INDEX(spr_pal_idx),
+                  .O_SPRPAL_COLOR(spr_pal_col)
+                  );
    
    //reg[7:0] oam[159:0]; // oam is reg array to speed up memory accesses
      //reg[7:0] scanline1[19:0];
@@ -1010,6 +1039,7 @@ module video_module(//Outputs
    // Else give the MMU 0xFF
    assign do = (vram_enable) ? (VRAM_BANK_SEL[0] ? vram_outA : vram_outB) :
 	       (oam_enable) ? oam_outA :
+			 (color_file_enable) ? color_file_out : 
 	       (reg_enable) ? reg_out : 8'hFF;
    
 endmodule
