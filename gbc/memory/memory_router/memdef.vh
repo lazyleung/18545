@@ -56,7 +56,7 @@
 `define P1    16'hFF00
 `define SB    16'hFF01
 `define SC    16'hFF02
-`define DIV   16'hFF03
+`define DIV   16'hFF04
 `define TIMA  16'hFF05
 `define TMA   16'hFF06
 `define TAC   16'hFF07

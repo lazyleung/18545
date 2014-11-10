@@ -5,5 +5,8 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
+<msg type="warning" file="HDLCompiler" num="687" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../cpu/src/cpu.v" Line 543: Illegal redeclaration of module &lt;<arg fmt="%s" index="1">tristate</arg>&gt;.
+</msg>
+
 </messages>
 
