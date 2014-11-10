@@ -27,8 +27,8 @@ module timer_module(
     wire    TIMA_ce;
 
     // State names
-    `define COUNTER_RESET   1'b0;
-    `define COUNTER_TRIGGER 1'b1;
+    `define COUNTER_RESET   1'b0
+    `define COUNTER_TRIGGER 1'b1
 
     assign O_TIMER_INTERRUPT = (TIMA == 8'hff) & increment;
 
