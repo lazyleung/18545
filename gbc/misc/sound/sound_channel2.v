@@ -8,6 +8,10 @@ module sound_channel2(
                       .I_CLK_33MHZ,
                       .I_RESET,
 
+                      /*Interface with sound module*/
+                      I_BITCLK,
+                      I_STROBE,
+
                       /*IO Register Bus*/
                       .I_IOREG_ADDR,
                       .IO_IOREG_DATA,
@@ -116,7 +120,7 @@ module sound_channel2(
       if (restart_sound) begin
          enable_sound <= 1;
          count <= 0;
-	 current_volume <= initial_volume;
+	     current_volume <= initial_volume;
       end
 
       if (I_RESET) begin
@@ -125,14 +129,13 @@ module sound_channel2(
       end
    end
 
-
-   /*generate the waveform fiven the parameters*/
-   waveform_generator ch2wgen(.I_CLK(I_CLK_33MHZ),
-                              .I_RESET(I_RESET),
-                              .O_WAVE(O_CH2_WAVEFORM),
-                              .I_FREQUENCY(frequency),
-                              .I_DUTY_CYCLE(duty_cycle),
-                              .I_WAVEFORM_EN(enable_sound),
-			                  .I_VOLUME(current_volume));
+   squarewave_generator waveGenCh2(.I_BITCLK(I_BITCLK),
+                                   .I_RESET(I_RESET),
+                                   .O_SAMPLE(O_CH2_WAVEFORM),
+                                   .I_STROBE(I_STROBE),
+                                   .I_FREQUENCY(current_freq),
+                                   .I_DUTY_CYCLE(duty_cycle),
+                                   .I_WAVEFORM_EN(sound_enable),
+                                   .I_VOLUME(current_volume));
 
 endmodule

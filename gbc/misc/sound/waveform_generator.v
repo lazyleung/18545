@@ -12,10 +12,9 @@ module squarewave_generator(
                             /*User Freq & Duty Cycle Spec*/
                             I_FREQUENCY,
                             I_DUTY_CYCLE,
-                            I_WAVEFORM_EN, 
+                            I_WAVEFORM_EN,
                             I_VOLUME);
-   
-   
+
    input             I_BITCLK, I_RESET;
    output reg [19:0] O_SAMPLE;
    input             I_WAVEFORM_EN, I_STROBE;
@@ -25,7 +24,7 @@ module squarewave_generator(
                                     * 01 - 25%
                                     * 10 - 50%
                                     * 11 - 75% */
-   
+
    wire [31:0]       num_strobes_in_period;
    wire [31:0]       num_strobes_high;
    reg [10:0]        freq_reg, freq_reg_d1, freq_reg_d2;
@@ -36,7 +35,7 @@ module squarewave_generator(
 
    reg [19:0]        volume_to_sample;
    wire [19:0]       volume_to_sample_low;
-   
+
    /*go from a 4 bit value to a 20 bit value*/
    always @(*) begin
       case(I_VOLUME)
@@ -63,13 +62,13 @@ module squarewave_generator(
    /*the low part of the waveform amplitude is simply
     *the negated magnitude of the positive amplitude*/
    assign volume_to_sample_low = ~volume_to_sample + 1;
-   
+
    /*figure out the duty cycle*/
    assign num_strobes_high = (duty_cyc_reg == 'b00) ? num_strobes_in_period >> 3 : //12.5%
                              (duty_cyc_reg == 'b01) ? num_strobes_in_period >> 2 : //25%
                              (duty_cyc_reg == 'b10) ? num_strobes_in_period >> 1 : //50%
-                             (duty_cyc_reg == 'b11) ? (num_strobes_in_period + (num_strobes_in_period << 1)) >> 2 
-                             : 0; 
+                             (duty_cyc_reg == 'b11) ? (num_strobes_in_period + (num_strobes_in_period << 1)) >> 2
+                             : 0;
 
    /* Cross information over clock domains by
     * registering the information a few times*/
@@ -90,22 +89,22 @@ module squarewave_generator(
 
       if (I_STROBE) begin
          count <= count + 1;
-         
+
          /*make the duty cycle*/
          if (count < num_strobes_high) begin
             O_SAMPLE <= volume_to_sample;
          end
-         
+
          /*low end of duty cycle, finish period*/
          else if (count < num_strobes_in_period) begin
             O_SAMPLE <= volume_to_sample_low;
          end
-         
+
          /*reset the counter when overflow*/
          else if (count >= num_strobes_in_period) begin
             count <= 0;
          end
-         
+
       end // if (I_STROBE)
 
       /*If not enabled, disable the output*/
@@ -116,11 +115,11 @@ module squarewave_generator(
          count <= 0;
          O_SAMPLE <= 0;
       end
-      
+
    end // always @ (posedge I_BITCLK)
-   
+
    wire gnd = 0;
-   
+
 
    /* Translate the frequency to the strobes in period
     * from the BRAM lookup table*/
@@ -130,5 +129,5 @@ module squarewave_generator(
                                   .dina(0),
                                   .douta(num_strobes_in_period)
                                   );
-   
+
 endmodule
