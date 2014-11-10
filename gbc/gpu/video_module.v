@@ -192,6 +192,8 @@ module video_module(//Outputs
    reg [7:0]          OBP1;
    reg [7:0]          WY;
    reg [7:0]          WX;
+	reg [7:0]          VRAM_BANK_SEL; // VRAM Bank Select
+	
    // temp registers for r/rw mixtures
    reg [4:0]          STAT_w;
 	
@@ -210,8 +212,12 @@ module video_module(//Outputs
    wire               vram_enable, oam_enable, reg_enable;
    reg [12:0]         vram_addrA;
    reg [12:0]         vram_addrB;
+	reg [12:0]         vram2_addrA;
+   reg [12:0]         vram2_addrB;
    wire [7:0]         vram_outA;
    wire [7:0]         vram_outB;
+	wire [7:0]         vram2_outA;
+   wire [7:0]         vram2_outB;
    
    //reg[7:0] oam_addrA;
    reg [7:0]          oam_addrB;
@@ -220,7 +226,7 @@ module video_module(//Outputs
    
    reg [7:0]          reg_out;
    
-   wire               vram_we_n, oam_we_n;
+   wire               vram_we_n, vram2_we_n, oam_we_n;
 
    reg [4:0]          scanline1_addrA, scanline1_addrB;
    reg [4:0]          scanline2_addrA, scanline2_addrB;
@@ -260,6 +266,22 @@ module video_module(//Outputs
 		.web(),
 		.addra(vram_addrA), 
 		.addrb(vram_addrB),					
+		.dina(di), 
+		.dinb()	
+		);
+		
+	// Second VRAM bank
+	VRAM2 vram2(
+		//Outputs
+		.douta(vram2_outA), 
+		.doutb(vram2_outB),
+		//Inputs
+		.clka(clock),
+		.clkb(clock),
+		.wea(~vram2_we_n), 
+		.web(),
+		.addra(vram2_addrA), 
+		.addrb(vram2_addrB),					
 		.dina(di), 
 		.dinb()	
 		);
@@ -370,16 +392,17 @@ module video_module(//Outputs
    always @(posedge clock) begin
       if (reset) begin
 	 // initialize registers // TODO: Testing
-	 LCDC 	<= 8'hC3; //91
-	 SCY 	<= 8'hB0 - 8; //4f
-	 SCX 	<= 8'hF0 - 16;
-	 LYC 	<= 8'h00;
+	 LCDC 	<= 8'hE3; // FF40 //91
+	 SCY 	<= 8'h00; //FF42 // 4f
+	 SCX 	<= 8'h00; // FF43
+	 LYC 	<= 8'h00; // FF45
 	 //BGP 	<= 8'hFC; //fc
-	 BGP 	<= 8'hE4; //fc
-	 OBP0 	<= 8'hD0;
-	 OBP1 	<= 8'hE0;
-	 WY 	<= 8'h90;
-	 WX		<= 8'h07;
+	 BGP 	<= 8'hE4; // FF47 //fc
+	 OBP0 	<= 8'hE4; // FF48
+	 OBP1 	<= 8'hE4; // FF49
+	 WY 	<= 8'h90; // FF4A
+	 WX		<= 8'h07; // FF4B
+	 VRAM_BANK_SEL <= 8'h00;
 	 
 	 // reset internal registers
 	 int_vblank_req <= 0;
@@ -410,6 +433,7 @@ module video_module(//Outputs
 		 16'hFF49: reg_out <= OBP1;
 		 16'hFF4A: reg_out <= WX;
 		 16'hFF4B: reg_out <= WY;
+		 16'hFF4F: reg_out <= VRAM_BANK_SEL;
 	       endcase
 	    end
 	    else if (!wr_n) begin
@@ -425,6 +449,7 @@ module video_module(//Outputs
 		 16'hFF49: OBP1 <= di;
 		 16'hFF4A: WX <= di;
 		 16'hFF4B: WY <= di;
+		 16'hFF4B: VRAM_BANK_SEL <= di;
 	       endcase
 	    end
 	 end
@@ -500,7 +525,13 @@ module video_module(//Outputs
 		    tile_x_pos <= {tile_col_num, 3'b0} + (WX - 7);
 		    tile_y_pos <= (line_count - WY);
 		    
+			 // Get sprite index from background map
 		    vram_addrA <= {(line_count - WY) >> 3, 5'b0} + //(tile_y_pos[7:3] << 5)
+				  (({tile_col_num, 3'b0} + (WX - 7)) >>3) + // (tile_x_pos[7:3])
+				  ((LCDC[6]) ? 16'h1C00 : 16'h1800);
+			 
+			 // Get sprite attributes from background map
+			 vram2_addrA <= {(line_count - WY) >> 3, 5'b0} + //(tile_y_pos[7:3] << 5)
 				  (({tile_col_num, 3'b0} + (WX - 7)) >>3) + // (tile_x_pos[7:3])
 				  ((LCDC[6]) ? 16'h1C00 : 16'h1800);
 		    
@@ -511,7 +542,13 @@ module video_module(//Outputs
 		    tile_x_pos <= {tile_col_num, 3'b0} + (SCX);
 		    tile_y_pos <= (SCY + line_count);
 		    
+			 // Get sprite index from background map
 		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
+				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
+				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
+			 
+			 // Get sprite attributes from background map
+			 vram2_addrA <= {(SCY + line_count) >> 3, 5'b0} +
 				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
 				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
 		    
@@ -540,14 +577,41 @@ module video_module(//Outputs
 	      //end
 	      
 	      BG_DATA_STATE: begin
+			
+			// vram2_outA contains sprite attributes:
+			// TODO: Use these values
+/*
+			
+  Bit 0-2  Background Palette number  (BGP0-7)
+  Bit 3    Tile VRAM Bank number      (0=Bank 0, 1=Bank 1)
+  Bit 4    Not used
+  Bit 5    Horizontal Flip            (0=Normal, 1=Mirror horizontally)
+  Bit 6    Vertical Flip              (0=Normal, 1=Mirror vertically)
+  Bit 7    BG-to-OAM Priority         (0=Use OAM priority bit, 1=BG Priority)
+*/
+		 // Get the 2 byte lines from background map for this scanline
 		 //tile_id_num <= vram_outA;
 		 vram_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
 			       { tile_y_pos[2:0], 1'b0 } :
 			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
 			       16'h1000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } :
 			       16'h1000 - (~({ vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 }) + 1);
+
 		 
-		 vram_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
+		 vram_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } +
+			       { tile_y_pos[2:0], 1'b0 } + 1 :(( { vram_outA, 4'b0 } +
+							         { tile_y_pos[2:0], 1'b0 } + 1 ) < 128) ? 16'h1000 + { vram_outA, 4'b0} +
+			       { tile_y_pos[2:0], 1'b0 } + 1 : 16'h1000 - (~({ vram_outA, 4'b0 } +
+							                     { tile_y_pos[2:0], 1'b0 } + 1) + 1);
+
+
+		 vram2_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
+			       { tile_y_pos[2:0], 1'b0 } :
+			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
+			       16'h1000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } :
+			       16'h1000 - (~({ vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 }) + 1);
+
+		 vram2_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
 			       { tile_y_pos[2:0], 1'b0 } + 1 :(( { vram_outA, 4'b0 } + 
 							         { tile_y_pos[2:0], 1'b0 } + 1 ) < 128) ? 16'h1000 + { vram_outA, 4'b0} + 
 			       { tile_y_pos[2:0], 1'b0 } + 1 : 16'h1000 - (~({ vram_outA, 4'b0 } + 
@@ -663,6 +727,17 @@ module video_module(//Outputs
 				 ((line_count - sprite_y_pos) - sprite_y_size) * -1 :
 				 (line_count - sprite_y_pos), 1'b0 } +
 			       { oam_outA, 4'b0 } + 1;
+					 
+		 					 
+		 vram2_addrA <= { (oam_outB[6]) ? 
+				 ((line_count - sprite_y_pos) - sprite_y_size) * -1 :
+				 (line_count - sprite_y_pos), 1'b0 } +
+			       { oam_outA, 4'b0 };
+
+		 vram2_addrB <= { (oam_outB[6]) ?
+				 ((line_count - sprite_y_pos) - sprite_y_size) * -1 :
+				 (line_count - sprite_y_pos), 1'b0 } +
+			       { oam_outA, 4'b0 } + 1;
 		 
 		 state <= SPRITE_DATA_WAIT_STATE;
 	      end
@@ -674,8 +749,15 @@ module video_module(//Outputs
 	      SPRITE_PIXEL_COMPUTE_STATE: begin
 		 // Handle horizontal flipping
 		 for (i = 0; i < 8; i = i + 1) begin
-			tile_data1[i] <= sprite_attributes[5] ? vram_outA[7 - i] : vram_outA[i];
-			tile_data2[i] <= sprite_attributes[5] ? vram_outB[7 - i] : vram_outB[i];
+		   if (oam_outB[3]) begin
+			  // Select sprite from bank 2
+			  tile_data1[i] <= sprite_attributes[5] ? vram2_outA[7 - i] : vram2_outA[i];
+			  tile_data2[i] <= sprite_attributes[5] ? vram2_outB[7 - i] : vram2_outB[i];
+			end else begin
+			  // Select sprite from bank 1
+			  tile_data1[i] <= sprite_attributes[5] ? vram_outA[7 - i] : vram_outA[i];
+			  tile_data2[i] <= sprite_attributes[5] ? vram_outB[7 - i] : vram_outB[i];
+			end
 		 end
 
 		 tile_byte_pos1 <= sprite_x_pos >> 3;
@@ -695,6 +777,7 @@ module video_module(//Outputs
 	      
 	      SPRITE_PIXEL_WAIT_STATE: begin
 		 sprite_pixel_num <= 0;
+		 // TODO GBC: Pallet number is bits [2:0]
 		 sprite_palette <= (sprite_attributes[4]) ? OBP1 : OBP0;
 		 state <= SPRITE_PIXEL_DRAW_STATE;
 	      end
@@ -831,8 +914,10 @@ module video_module(//Outputs
 	   state <= PIXEL_WAIT_STATE;
 	 
 	 // If GPU not reading from RAM, get vram_addrA from MMU
-	 if (mode < RAM_LOCK_MODE)
+	 if (mode < RAM_LOCK_MODE) begin
 	   vram_addrA <= A - 16'h8000;
+		vram2_addrA <= A - 16'h8000;
+	 end
 	 
 	 // If GPU not reading from OAM, get oam_addrA from MMU
 	 if (mode < OAM_LOCK_MODE)
@@ -874,7 +959,8 @@ module video_module(//Outputs
    
    // vram_we_n set when vram enabled, MMU is trying to write,
    // and the RAM is not locked
-   assign vram_we_n = !(vram_enable && !wr_n && mode != RAM_LOCK_MODE);
+   assign vram_we_n = !(~VRAM_BANK_SEL[0] && vram_enable && !wr_n && mode != RAM_LOCK_MODE);
+	assign vram2_we_n = !(VRAM_BANK_SEL[0] && vram_enable && !wr_n && mode != RAM_LOCK_MODE);
    
    // oam_we_n set when oam enabled, MMU is trying to write,
    // and neither the RAM nor OAM are locked
@@ -898,7 +984,7 @@ module video_module(//Outputs
    // Else if oam_enable, read OAM
    // Else if reg_enable, read a memory-mapped register
    // Else give the MMU 0xFF
-   assign do = (vram_enable) ? vram_outA :
+   assign do = (vram_enable) ? (VRAM_BANK_SEL[0] ? vram_outA : vram_outB) :
 	       (oam_enable) ? oam_outA :
 	       (reg_enable) ? reg_out : 8'hFF;
    
