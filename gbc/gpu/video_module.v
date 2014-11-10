@@ -372,6 +372,8 @@ module video_module(//Outputs
    reg [3:0]          tile_byte_offset1, tile_byte_offset2;
    reg [7:0]          tile_data1, tile_data2;
    reg                render_background;
+	
+	reg [7:0]          background_attributes;
    
    //reg[7:0] sprite_x_pos;
    //reg[7:0] sprite_y_pos;
@@ -580,6 +582,7 @@ module video_module(//Outputs
 			
 			// vram2_outA contains sprite attributes:
 			// TODO: Use these values
+			background_attributes <= vram2_outA;
 /*
 			
   Bit 0-2  Background Palette number  (BGP0-7)
@@ -591,6 +594,8 @@ module video_module(//Outputs
 */
 		 // Get the 2 byte lines from background map for this scanline
 		 //tile_id_num <= vram_outA;
+		 
+		 // TODO: handle vertical background flipping here
 		 vram_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
 			       { tile_y_pos[2:0], 1'b0 } :
 			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
@@ -625,8 +630,19 @@ module video_module(//Outputs
 	      //end
 	      
 	      BG_PIXEL_COMPUTE_STATE: begin
-		 tile_data1 <= vram_outA;
-		 tile_data2 <= vram_outB;
+		 // Handle horizontal flipping
+		 for (i = 0; i < 8; i = i + 1) begin
+		   if (background_attributes[3]) begin
+			  // Select sprite from bank 2
+			  tile_data1[i] <= background_attributes[5] ? vram2_outA[7 - i] : vram2_outA[i];
+			  tile_data2[i] <= background_attributes[5] ? vram2_outB[7 - i] : vram2_outB[i];
+			end else begin
+			  // Select sprite from bank 1
+			  tile_data1[i] <= background_attributes[5] ? vram_outA[7 - i] : vram_outA[i];
+			  tile_data2[i] <= background_attributes[5] ? vram_outB[7 - i] : vram_outB[i];
+			end
+		 end
+
 		 tile_byte_pos1 <= tile_x_pos >> 3;
 		 tile_byte_pos2 <= ((tile_x_pos + 8) & 8'hFF) >> 3;
 		 tile_byte_offset1 <= tile_x_pos[2:0];
@@ -777,7 +793,15 @@ module video_module(//Outputs
 	      
 	      SPRITE_PIXEL_WAIT_STATE: begin
 		 sprite_pixel_num <= 0;
-		 // TODO GBC: Pallet number is bits [2:0]
+		 /*
+		 TODO: Handle GBC sprites
+		 
+  oam_out_B:
+  Bit4   Palette number  **Non CGB Mode Only** (0=OBP0, 1=OBP1)
+  Bit3   Tile VRAM-Bank  **CGB Mode Only**     (0=Bank 0, 1=Bank 1)
+  Bit2-0 Palette number  **CGB Mode Only**     (OBP0-7)
+  */
+  
 		 sprite_palette <= (sprite_attributes[4]) ? OBP1 : OBP0;
 		 state <= SPRITE_PIXEL_DRAW_STATE;
 	      end
