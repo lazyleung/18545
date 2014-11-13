@@ -28,6 +28,9 @@ module sound_channel1(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
+		      /*Sound Status*/
+		      O_CH1_ON,
+
                       /*Output Samples*/
                       O_CH1_WAVEFORM, 
                       O_D0, O_D1, O_D2, O_D3, O_D4
@@ -37,6 +40,7 @@ module sound_channel1(
    input [15:0]  I_IOREG_ADDR;
    inout [7:0]   IO_IOREG_DATA;
    input         I_IOREG_WE_L, I_IOREG_RE_L, I_STROBE;
+   output 	 O_CH1_ON;
    output [19:0] O_CH1_WAVEFORM;
    output [7:0]  O_D0, O_D1, O_D2, O_D3, O_D4;
    
@@ -204,7 +208,9 @@ module sound_channel1(
          current_volume <= initial_volume;
       end
 
-   end
+   end // always @ (posedge I_CLK33MHZ)
+
+   assign O_CH1_ON = sound_enable;
 
    squarewave_generator waveGenCh1(
                                    .I_BITCLK(I_BITCLK),

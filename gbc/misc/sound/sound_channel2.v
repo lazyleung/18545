@@ -4,30 +4,34 @@
 
 module sound_channel2(
                       /* System Level Inputs*/
-                      .I_CLK,
-                      .I_CLK_33MHZ,
-                      .I_RESET,
+                      I_CLK,
+                      I_CLK_33MHZ,
+                      I_RESET,
 
                       /*Interface with sound module*/
                       I_BITCLK,
                       I_STROBE,
 
                       /*IO Register Bus*/
-                      .I_IOREG_ADDR,
-                      .IO_IOREG_DATA,
-                      .I_IOREG_WE_L,
-                      .I_IOREG_RE_L,
+                      I_IOREG_ADDR,
+                      IO_IOREG_DATA,
+                      I_IOREG_WE_L,
+                      I_IOREG_RE_L,
+
+		      /*Sound Status*/
+		      O_CH2_ON,
 
                       /*Output Waveform*/
-                      .O_CH2_WAVEFORM
+                      O_CH2_WAVEFORM
                       );
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
    input [15:0] I_IOREG_ADDR;
-   inout [7:0]  IO_IOREG_DATA;
+   inout [7:0] 	IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
-   output       O_CH2_WAVEFORM;
-
+   output [19:0] O_CH2_WAVEFORM;
+   output 	 O_CH2_ON;
+   
    wire         gnd=0;
    wire [7:0]   nr21_data, nr22_data,
                 nr23_data, nr24_data;
@@ -129,6 +133,8 @@ module sound_channel2(
       end
    end
 
+   assign O_CH2_ON = enable_sound;
+   
    squarewave_generator waveGenCh2(.I_BITCLK(I_BITCLK),
                                    .I_RESET(I_RESET),
                                    .O_SAMPLE(O_CH2_WAVEFORM),

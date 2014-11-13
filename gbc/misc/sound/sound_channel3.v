@@ -8,21 +8,30 @@ module sound_channel3(
                       I_CLK_33MHZ,
                       I_RESET,
 
+		      /*Interface with ac97*/
+		      I_BITCLK,
+		      I_STROBE,
+		      
                       /*IO Register Bus*/
                       I_IOREG_ADDR,
                       IO_IOREG_DATA,
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
+		      /*Sound Status Signal*/
+		      O_CH3_ON,
+
                       /*Output Waveform*/
                       O_CH3_WAVEFORM
                       );
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
+   input 	I_BITCLK, I_STROBE;
    input [15:0] I_IOREG_ADDR;
    inout [7:0]  IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
-   output       O_CH3_WAVEFORM;
+   output [19:0] O_CH3_WAVEFORM;
+   output 	 O_CH3_ON;
 
    wire [7:0]   nr30_data, nr31_data, nr32_data, nr33_data, nr34_data;
    wire         new_nr30, new_nr31, new_nr32, new_nr33, new_nr34;
@@ -198,6 +207,8 @@ module sound_channel3(
 
    end // always @ (posedge I_CLK_33MHZ)
 
+   assign O_CH3_ON = enable_sound & play_sound;
+   
    /*Find the amount of clocks in the period based off the frequency spec*/
    wire gnd = 0;
    sound_bram2 period_lookup_table(.clka(I_BITCLK),

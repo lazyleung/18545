@@ -18,6 +18,9 @@ module sound_channel4(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
+		      /*Sound Status Signals*/
+		      O_CH4_ON,
+
                       /*Output Waveform*/
                       O_CH4_WAVEFORM
                       );
@@ -27,6 +30,7 @@ module sound_channel4(
    inout [7:0] 	IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
    output [19:0] O_CH4_WAVEFORM;
+   output 	 O_CH4_ON;
    
    wire [7:0] 	 nr41_data, nr42_data,
                  nr43_data, nr44_data;
@@ -178,6 +182,8 @@ module sound_channel4(
       end
       
    end
+
+   assign O_CH4_ON = sound_enable;
 	 
    randwave_generator randwave(
 			       .I_SHIFT_CLOCK(shift_clock),
