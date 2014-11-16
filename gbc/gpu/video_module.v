@@ -28,7 +28,7 @@ module video_module(//Outputs
    output reg [7:0] line_count;						//CONVERTER Outputs
    output reg [8:0] pixel_count;						//CONVERTER Outputs
    output reg [7:0] pixel_data_count;				//CONVERTER Outputs
-   output reg [1:0] pixel_data;						//CONVERTER Outputs
+   output reg [15:0] pixel_data;						//CONVERTER Outputs
    output reg       pixel_we;									//CONVERTER Outputs
    output wire [7:0] do; 								//MMU Outputs
    
@@ -311,10 +311,27 @@ module video_module(//Outputs
 			   .wr_dataA(scanline2_inA), 
 			   .wr_dataB(scanline2_inB)
 			   );
-	
 
-   wire [2:0] bg_pal_sel, spr_pal_sel;
-   wire [1:0] bg_pal_idx, spr_pal_idx;
+	/*
+	// Buffer for holding the color data
+	wire [14:0] scanline_color_out;
+	wire scaline_color_we;
+	wire [7:0] scaline_color_addr;
+	wire [14:0] scaline_color_in;
+	scanline_color_ram scanline_colors(
+		// Outputs
+		.rd_data(scaline_color_out),
+
+		//Inputs
+		.clk(clock),
+		.wr_en(scanline_color_we),
+		.addr(scanline_color_addr),
+		.wr_data(scaline_color_in),
+	);
+	*/
+
+   reg [2:0] bg_pal_sel, spr_pal_sel;
+   reg [1:0] bg_pal_idx, spr_pal_idx;
    wire [15:0] bg_pal_col, spr_pal_col;
 	wire [7:0] color_file_out;
 	wire color_file_enable;
@@ -389,9 +406,10 @@ module video_module(//Outputs
    parameter PIXEL_WAIT_STATE = 26;
    parameter PIXEL_READ_STATE = 27;
    parameter PIXEL_READ_WAIT_STATE = 28;
-   parameter PIXEL_OUT_STATE = 29;
-   parameter PIXEL_OUT_HOLD_STATE = 30;
-   parameter PIXEL_INCREMENT_STATE = 31;
+	parameter PIXEL_INDEX_STATE = 29;
+   parameter PIXEL_OUT_STATE = 30;
+   parameter PIXEL_OUT_HOLD_STATE = 31;
+   parameter PIXEL_INCREMENT_STATE = 32;
    
    wire [7:0]         next_line_count;
    wire [8:0]         next_pixel_count;
@@ -415,6 +433,7 @@ module video_module(//Outputs
    reg [2:0]          sprite_pixel_num;
    reg [7:0]          sprite_palette;
    reg [4:0]          sprite_y_size;
+	reg [1:0]          pixel_index;
    
    reg [4:0]          tile_col_num; // increments from 0 -> 31
    //reg[6:0] sprite_num; // increments from 0 -> 39
@@ -608,11 +627,8 @@ module video_module(//Outputs
 	      //end
 	      
 	      BG_DATA_STATE: begin
-			
-			// vram2_outA contains sprite attributes:
-			// TODO: Use these values
-			background_attributes <= vram2_outA;
 /*
+  vram2_outA contains sprite attributes:
 			
   Bit 0-2  Background Palette number  (BGP0-7)
   Bit 3    Tile VRAM Bank number      (0=Bank 0, 1=Bank 1)
@@ -620,7 +636,10 @@ module video_module(//Outputs
   Bit 5    Horizontal Flip            (0=Normal, 1=Mirror horizontally)
   Bit 6    Vertical Flip              (0=Normal, 1=Mirror vertically)
   Bit 7    BG-to-OAM Priority         (0=Use OAM priority bit, 1=BG Priority)
-*/
+*/			
+
+			background_attributes <= vram2_outA;
+
 		 // Get the 2 byte lines from background map for this scanline
 		 //tile_id_num <= vram_outA;
 		 
@@ -827,7 +846,6 @@ module video_module(//Outputs
 		 
   oam_out_B:
   Bit4   Palette number  **Non CGB Mode Only** (0=OBP0, 1=OBP1)
-  Bit3   Tile VRAM-Bank  **CGB Mode Only**     (0=Bank 0, 1=Bank 1)
   Bit2-0 Palette number  **CGB Mode Only**     (OBP0-7)
   */
   
@@ -836,11 +854,17 @@ module video_module(//Outputs
 	      end
 	      
 	      SPRITE_PIXEL_DRAW_STATE: begin
+			/*
 		 sprite_pixel <= (sprite_palette >> 
 				  { tile_data2[sprite_pixel_num], 
 				    tile_data1[sprite_pixel_num], 
 				    1'b0 } ) & 2'b11;
+		*/
+		 sprite_pixel <=
+				  { tile_data2[sprite_pixel_num], 
+				    tile_data1[sprite_pixel_num] };
 
+/*
 		 bg_pixel <= (BGP >> (sprite_pixel_num < tile_byte_offset2) ?
 			      { scanline2_outA[sprite_pixel_num + tile_byte_offset1],
 				scanline1_outA[sprite_pixel_num + tile_byte_offset1], 
@@ -848,12 +872,18 @@ module video_module(//Outputs
 			      { scanline2_outB[sprite_pixel_num - tile_byte_offset1],
 				scanline1_outB[sprite_pixel_num - tile_byte_offset1], 
 				1'b0 } ) & 2'b11;
+				*/
+		 bg_pixel <= (sprite_pixel_num < tile_byte_offset2) ?
+			{ scanline2_outA[sprite_pixel_num + tile_byte_offset1],
+				scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
+			{ scanline2_outB[sprite_pixel_num - tile_byte_offset1],
+				scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
 		 
 		 state <= SPRITE_PIXEL_DATA_STATE;
 	      end
 	      
 	      SPRITE_PIXEL_DATA_STATE: begin
-		 if (sprite_pixel == 2'b00 || (sprite_attributes[7] && 
+		 if (sprite_pixel == 2'b00 || (sprite_attributes[7] &&
 					       bg_pixel != 2'b00)) begin
 		    sprite_data1 <= (sprite_data1 & ~(8'h01 << sprite_pixel_num)) |
 				    (bg_pixel[0] << sprite_pixel_num);
@@ -921,18 +951,63 @@ module video_module(//Outputs
 		 scanline1_addrA <= pixel_data_count >> 3;
 		 scanline2_addrA <= pixel_data_count >> 3;
 		 state <= PIXEL_READ_WAIT_STATE;
+		 
 	      end
 	      
-	      PIXEL_READ_WAIT_STATE: //begin
-		state <= PIXEL_OUT_STATE;
-              //					end
+	      PIXEL_READ_WAIT_STATE: begin
+				//state <= PIXEL_INDEX_STATE;
+				state <= PIXEL_OUT_STATE;
+         end
+			/*
+			PIXEL_INDEX_STATE: begin
+			   pixel_index <= { scanline2_outA[7 - pixel_data_count[2:0]], 
+			      scanline1_outA[7 - pixel_data_count[2:0]] };
+
+				bg_pal_idx <= { scanline2_outA[7 - pixel_data_count[2:0]], 
+			      scanline1_outA[7 - pixel_data_count[2:0]] };
+			  
+				spr_pal_idx <=  { scanline2_outA[7 - pixel_data_count[2:0]], 
+			      scanline1_outA[7 - pixel_data_count[2:0]] };
+
+			  
+			  // TODO: read and store this info in above states, per pixel
+			  bg_pal_sel <= 3'h4;
+			  spr_pal_sel <= 3'h4;
+			  
+			  state <= PIXEL_OUT_STATE;
+			end
+			*/
 	      
 	      
 	      PIXEL_OUT_STATE: begin
+			// TODO: this should index into the background pallette
+			/*
+			if(pixel_index == 0)
+				pixel_data <= 16'h2bf6;
+			else if (pixel_index == 1)
+				pixel_data <= 16'h072c;
+			else if (pixel_index == 2)
+				pixel_data <= 16'h01cf;
+			else
+				pixel_data <= 16'h1ce7;
+				*/
+			/*
+			// TODO: need to mux to select if it was a bg or sprite palette
+			pixel_data <= bg_pal_col;
+			*/
+			
+			///* Output raw index
+		 pixel_data <=
+         { 14'h0, scanline2_outA[7 - pixel_data_count[2:0]], 
+			  scanline1_outA[7 - pixel_data_count[2:0]] };
+			  //*/
+
+			/* Use BGP register
 		 pixel_data <= (BGP >> 
 				{ scanline2_outA[7 - pixel_data_count[2:0]], 
 				  scanline1_outA[7 - pixel_data_count[2:0]], 
 				  1'b0} ) & 2'b11;
+				  */
 		 pixel_we <= 1;
 		 state <= PIXEL_OUT_HOLD_STATE;
 	      end
@@ -946,9 +1021,12 @@ module video_module(//Outputs
 		 if (pixel_data_count < 160) begin
 		    pixel_data_count <= pixel_data_count + 1;
 		    
+			 ///*
 		    if (pixel_data_count[2:0] == 7)
 		      state <= PIXEL_READ_STATE;
 		    else state <= PIXEL_OUT_STATE;
+			 //*/
+			 //state <= PIXEL_READ_STATE;
 		 end
 		 else
 		   state <= IDLE_STATE;
