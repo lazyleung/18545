@@ -94,15 +94,172 @@ module color_file(
                                (ocps_rd) ? ocps_reg :
                                (ocpd_rd) ? sprpal_return_data : 0;
 
+
    always @(posedge I_CLK) begin
 		if (I_RESET) begin
-		
 		/*
-		TODO: Fill in colors from emulator
-		bg_pallet_arr = {
+		bg_pallete_arr <= {
+			// bg 0
+			8'h6f,
+			8'hfb,
+			8'h56,
+			8'hb5,
+			8'h35,
+			8'had,
+			8'h1c,
+			8'he7,
+			
+			// bg1
+			8'h6f,
+			8'hfb,
+			8'h62,
+			8'h7f,
+			8'h19,
+			8'h5e,
+			8'h1c,
+			8'he7,
+			
+			// bg2
+			8'h2b,
+			8'hf6,
+			8'h07,
+			8'h2c,
+			8'h01,
+			8'hc5,
+			8'h1c,
+			8'he7,
+			
+			// bg3
+			8'h7e,
+			8'hf7,
+			8'h7e,
+			8'h72,
+			8'h7d,
+			8'h8d,
+			8'h1c,
+			8'he7,
+			
+			// bg4
+			8'h6f,
+			8'hfb,
+			8'h1f,
+			8'hff,
+			8'h06,
+			8'h1f,
+			8'h1c,
+			8'he7,
+			
+			// bg5
+			8'h6f,
+			8'hfb,
+			8'h1e,
+			8'h58,
+			8'h0d,
+			8'hf4,
+			8'h1c,
+			8'he7,
+			
+			// bg6
+			8'h6f,
+			8'hfb,
+			8'h3b,
+			8'hf4,
+			8'h16,
+			8'heb,
+			8'h1c,
+			8'he7,
+			
+			// bg7
+			8'h7f,
+			8'hff,
+			8'h72,
+			8'h68,
+			8'h40,
+			8'ha5,
+			8'h00,
+			8'h00
 		};
 		
-		spr_pallet_arr = {
+		spr_pallete_arr <= {
+			// obj 0
+			8'h6f,
+			8'hfb,
+			8'h2a,
+			8'h7f,
+			8'h04,
+			8'hff,
+			8'h00,
+			8'h00,
+			
+			// obj 1
+			8'h6f,
+			8'hfb,
+			8'h2a,
+			8'h7f,
+			8'h7d,
+			8'h2a,
+			8'h00,
+			8'h00,
+			
+			// obj 2
+			8'h6f,
+			8'hfb,
+			8'h2a,
+			8'h7f,
+			8'h0e,
+			8'he7,
+			8'h00,
+			8'h00,
+			
+			// obj 3
+			8'h6f,
+			8'hfb,
+			8'h2a,
+			8'h7f,
+			8'h0d,
+			8'h4f,
+			8'h00,
+			8'h00,
+			
+			// obj 4
+			8'h6f,
+			8'hfb,
+			8'h2a,
+			8'h7f,
+			8'h19,
+			8'h5e,
+			8'h00,
+			8'h00,
+			
+			// obj 5
+			8'h7f,
+			8'hff,
+			8'h7f,
+			8'hff,
+			8'h35,
+			8'had,
+			8'h00,
+			8'h00,
+			
+			// obj 6
+			8'h2b,
+			8'hf6,
+			8'h07,
+			8'h2c,
+			8'h01,
+			8'hc5,
+			8'h1c,
+			8'he7,
+			
+			// obj 7
+			8'h6f,
+			8'hfb,
+			8'h1e,
+			8'h58,
+			8'h0d,
+			8'hf4,
+			8'h1c,
+			8'he7
 		};
 		*/
 

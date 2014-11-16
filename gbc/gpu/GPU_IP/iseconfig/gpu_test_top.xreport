@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-11-10T12:20:25</DateModified>
+  <DateModified>2014-11-16T16:58:36</DateModified>
   <ModuleName>gpu_test_top</ModuleName>
-  <SummaryTimeStamp>2014-11-10T12:19:30</SummaryTimeStamp>
+  <SummaryTimeStamp>2014-11-16T16:47:46</SummaryTimeStamp>
   <SavedFilePath>C:/Users/brock/Documents/18545/gbc/gpu/GPU_IP/iseconfig/gpu_test_top.xreport</SavedFilePath>
   <ImplementationReportsDirectory>C:/Users/brock/Documents/18545/gbc/gpu/GPU_IP\</ImplementationReportsDirectory>
   <DateInitialized>2014-10-15T11:25:10</DateInitialized>
