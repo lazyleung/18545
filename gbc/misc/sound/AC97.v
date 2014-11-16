@@ -6,6 +6,8 @@
  */
 
 module AC97(
+
+	    /*Interface with sound card*/
 	    input              ac97_bitclk,
 	    input              ac97_sdata_in,
 	    input              pos1, pos2,
@@ -13,6 +15,7 @@ module AC97(
 	    output wire        ac97_sync,
 	    output wire        ac97_reset_b,
 
+	    /*Interface witht the CPU*/
 	    input        I_CLK, I_CLK33MHZ,
 	    input        I_RESET,
 	    input [15:0] I_IOREG_ADDR,
@@ -82,24 +85,20 @@ module AC97(
    wire [19:0] 	ac97_out_slot11 = 'h0;
    wire 	ac97_out_slot12_valid = 0;
    wire [19:0] 	ac97_out_slot12 = 'h0;
-   
-   
-   sound_channel1 ch1(
-                      .I_CLK(I_CLK),
-                      .I_CLK33MHZ(I_CLK33MHZ),
-                      .I_RESET(I_RESET),
-		      .I_BITCLK(ac97_bitclk),
-		      .I_STROBE(ac97_strobe),
-                      .I_IOREG_ADDR(I_IOREG_ADDR),
-                      .IO_IOREG_DATA(I_IOREG_DATA),
-                      .I_IOREG_WE_L(I_IOREG_WE_L),
-                      .I_IOREG_RE_L(I_IOREG_RE_L),
-                      .O_CH1_WAVEFORM(ac97_out_slot3),
-		      .O_D1(O_D1), .O_D0(O_D0),
-		      .O_D2(O_D2), .O_D3(O_D3), .O_D4(O_D4)
-                      );
-   
 
+   sound_controller sc(
+		       .I_CLK(I_CLK),
+		       .I_CLK_33MHZ(I_CLK_33MHZ),
+		       .I_RESET(I_RESET),
+		       .I_BITCLK(ac97_bitclk),
+		       .I_STROBE(ac97_strobe),
+		       .O_SO1(ac97_outslot3),
+		       .O_SO2(ac97_outslot4),
+		       .I_IOREG_ADDR(I_IOREG_ADDR),
+		       .IO_IOREG_DATA(IO_IOREG_DATA),
+		       .I_IOREG_RE_L(I_IOREG_RE_L),
+		       .I_IOREG_WE_L(I_IOREG_WE_L));
+   
    ACLink link(
 	       /*AUTOINST*/
 	       // Outputs

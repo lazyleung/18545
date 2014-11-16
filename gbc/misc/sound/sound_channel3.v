@@ -8,21 +8,30 @@ module sound_channel3(
                       I_CLK_33MHZ,
                       I_RESET,
 
+		      /*Interface with ac97*/
+		      I_BITCLK,
+		      I_STROBE,
+		      
                       /*IO Register Bus*/
                       I_IOREG_ADDR,
                       IO_IOREG_DATA,
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
+		      /*Sound Status Signal*/
+		      O_CH3_ON,
+
                       /*Output Waveform*/
                       O_CH3_WAVEFORM
                       );
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
+   input 	I_BITCLK, I_STROBE;
    input [15:0] I_IOREG_ADDR;
    inout [7:0]  IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
-   output       O_CH3_WAVEFORM;
+   output [19:0] O_CH3_WAVEFORM;
+   output 	 O_CH3_ON;
 
    wire [7:0]   nr30_data, nr31_data, nr32_data, nr33_data, nr34_data;
    wire         new_nr30, new_nr31, new_nr32, new_nr33, new_nr34;
@@ -88,8 +97,8 @@ module sound_channel3(
    assign output_level_select = nr32_data[6:5];
    wire [10:0]  frequency;
    assign frequency = {nr34_data[2:0], nr33_data};
-   wire         continuous_output;
-   assign continuous_output = nr34_data[6];
+   wire         stop_output;
+   assign stop_output = nr34_data[6];
    wire         restart_sound;
    assign restart_sound = nr34_data[7] & new_nr34;
 
@@ -121,7 +130,7 @@ module sound_channel3(
    reg [4:0]  current_sample_ptr;
 
    wire [7:0] sample_data;
-   assign sample_data = waveform_ram[current_sample_ptr >> 1]'
+   assign sample_data = waveform_ram[current_sample_ptr >> 1];
    wire [3:0] current_sample;
    assign current_sample = (current_sample_ptr[0]) ? sample_data[3:0] : sample_data[7:4];
    wire [3:0] vol_sample;
@@ -165,8 +174,10 @@ module sound_channel3(
    always @(posedge I_BITCLK) begin
       if (I_STROBE) begin
          count_sample <= count_sample + 1;
-         if (count_sample >= strobes_in_sample)
-           current_sampe_ptr <= current_sample_ptr + 1;
+         if (count_sample >= strobes_in_sample) begin
+	    count_sample <= 0;
+            current_sample_ptr <= current_sample_ptr + 1;
+	 end
       end
       if (I_RESET) begin
          current_sample_ptr <= 0;
@@ -181,7 +192,7 @@ module sound_channel3(
       if (play_sound)
         sound_time_count <= sound_time_count + 1;
 
-      if (~continuous_sound && sound_time_count >= sound_length_clocks)
+      if (stop_output && sound_time_count >= sound_length_clocks)
         play_sound <= 0;
 
       if (restart_sound) begin
@@ -196,6 +207,8 @@ module sound_channel3(
 
    end // always @ (posedge I_CLK_33MHZ)
 
+   assign O_CH3_ON = enable_sound & play_sound;
+   
    /*Find the amount of clocks in the period based off the frequency spec*/
    wire gnd = 0;
    sound_bram2 period_lookup_table(.clka(I_BITCLK),
