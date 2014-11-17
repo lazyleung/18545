@@ -318,7 +318,7 @@ module dma_controller(
    /*give the status of the DMA transfer to the read only register of HDMA5*/
    assign hdma5_status[7] = (gdma_state == GDMA_WRITE) |
 			    (hdma_state != HDMA_WAIT);
-   assign hdma5_status[6:0] = 'd0;
+   assign hdma5_status[6:0] = ((transfer_length - hdma_count) >> 16) - 1;
 
    /*find the rising edge of the hblank signal to know
     *when to trigger the 16 bytes write of the hdma*/
