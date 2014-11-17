@@ -11,6 +11,15 @@ module gameboycolor(
                       HDR2_4_SM_8_P,
                       HDR2_6_SM_7_N,
 
+                      /*FPGA 28F256P30 Flash Controls*/
+                      flash_d,
+                      flash_a,
+                      flash_clk,
+                      flash_adv_n,
+                      flash_ce_n, 
+                      flash_oe_n,
+                      flash_we_n,
+
                       /*To See multiple bytes of data*/
                       GPIO_DIP_SW1,
 
@@ -33,6 +42,11 @@ module gameboycolor(
     output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
             GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
             GPIO_LED_6,GPIO_LED_7;
+
+    input  wire [15:0]  flash_d;
+    output wire [23:0]  flash_a;
+    output wire         flash_clk, flash_adv_n,
+                        flash_ce_n, flash_oe_n, flash_we_n;
 
     wire    clock, reset, synch_reset;
     wire    PUSH_BUTTON;

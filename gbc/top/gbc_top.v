@@ -1,6 +1,4 @@
 `include "../../memory/memory_router/memdef.vh"
-`include "../../memory/io_bus_parser/io_bus_parser.v"
-`include "../../memory/dma/dma.v"
 
 module gameboycolorsim();
    reg      clock, reset;
