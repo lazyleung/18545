@@ -133,7 +133,8 @@ module memory_router(
    assign wdma_en = ~I_WDMA_WE_L;
 
 
-   assign cpu_accessing_cartridge = (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI);
+   assign cpu_accessing_cartridge = (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI) || 
+				    (cpu_en && I_CPU_ADDR >= `EXTERNAL_EXPANSION_LO && I_CPU_ADDR < `I_EXTERNAL_EXPANSION_HI);
    assign cpu_accessing_ioreg = (cpu_en && I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR < `IOREG_HI);
    assign cpu_accessing_lcdram =  cpu_en && ((I_CPU_ADDR >= `LCDRAM_LO & I_CPU_ADDR < `LCDRAM_HI) || 
 					     (I_CPU_ADDR >= `OAM_LO & I_CPU_ADDR < `OAM_HI) || 
@@ -147,7 +148,8 @@ module memory_router(
 					     (I_CPU_ADDR == `OCPD) || (I_CPU_ADDR == `VBK)) ;
    assign cpu_accessing_wram = (cpu_en && I_CPU_ADDR >= `WRAM_LO && I_CPU_ADDR < `WRAM_HI);
 
-   assign ppu_accessing_cartridge = (ppu_en && I_PPU_ADDR >= `CARTRIDGE_LO && I_PPU_ADDR < `CARTRIDGE_HI);
+   assign ppu_accessing_cartridge = (ppu_en && I_PPU_ADDR >= `CARTRIDGE_LO && I_PPU_ADDR < `CARTRIDGE_HI) ||
+				    (ppu_en && I_PPU_ADDR >= `EXTERNAL_EXPANSION_LO && I_PPU_ADDR < `I_EXTERNAL_EXPANSION_HI);
    assign ppu_accessing_ioreg = (ppu_en && I_PPU_ADDR >= `IOREG_LO && I_PPU_ADDR < `IOREG_HI);
    assign ppu_accessing_lcdram =  ppu_en && ((I_PPU_ADDR >= `LCDRAM_LO & I_PPU_ADDR < `LCDRAM_HI) || 
 					     (I_PPU_ADDR >= `OAM_LO & I_PPU_ADDR < `OAM_HI) || 
@@ -161,7 +163,8 @@ module memory_router(
 					     (I_PPU_ADDR == `OCPD) || (I_PPU_ADDR == `VBK)) ;
    assign ppu_accessing_wram = (ppu_en && I_PPU_ADDR >= `WRAM_LO && I_PPU_ADDR < `WRAM_HI);
 
-   assign rdma_accessing_cartridge = (rdma_en && I_RDMA_ADDR >= `CARTRIDGE_LO && I_RDMA_ADDR < `CARTRIDGE_HI);
+   assign rdma_accessing_cartridge = (rdma_en && I_RDMA_ADDR >= `CARTRIDGE_LO && I_RDMA_ADDR < `CARTRIDGE_HI) ||
+				     (rdma_en && I_RDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_RDMA_ADDR < `I_EXTERNAL_EXPANSION_HI);
    assign rdma_accessing_ioreg = (rdma_en && I_RDMA_ADDR >= `IOREG_LO && I_RDMA_ADDR < `IOREG_HI);
    assign rdma_accessing_lcdram =  rdma_en && ((I_RDMA_ADDR >= `LCDRAM_LO & I_RDMA_ADDR < `LCDRAM_HI) || 
 					     (I_RDMA_ADDR >= `OAM_LO & I_RDMA_ADDR < `OAM_HI) || 
@@ -175,7 +178,8 @@ module memory_router(
 					     (I_RDMA_ADDR == `OCPD) || (I_RDMA_ADDR == `VBK)) ;
    assign rdma_accessing_wram = (rdma_en && I_RDMA_ADDR >= `WRAM_LO && I_RDMA_ADDR < `WRAM_HI);
 
-   assign wdma_accessing_cartridge = (wdma_en && I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR < `CARTRIDGE_HI);
+   assign wdma_accessing_cartridge = (wdma_en && I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR < `CARTRIDGE_HI) ||
+				     (wdma_en && I_WDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_WDMA_ADDR < `I_EXTERNAL_EXPANSION_HI);
    assign wdma_accessing_ioreg = (wdma_en && I_WDMA_ADDR >= `IOREG_LO && I_WDMA_ADDR < `IOREG_HI);
    assign wdma_accessing_lcdram =  wdma_en && ((I_WDMA_ADDR >= `LCDRAM_LO & I_CPU_ADDR < `LCDRAM_HI) || 
 					     (I_WDMA_ADDR >= `OAM_LO & I_WDMA_ADDR < `OAM_HI) || 
@@ -264,19 +268,19 @@ module memory_router(
 
 
    /*figure out who gives the data back to the cpu*/
-   assign ioreg_cpu_return = cpu_accessing_ioreg & ~I_CPU_RE_L;
+   assign ioreg_cpu_return = cpu_accessing_ioreg & ~I_CPU_RE_L & ~lcdram_cpu_return;
    assign cartridge_cpu_return = cpu_accessing_cartridge & ~I_CPU_RE_L;
    assign lcdram_cpu_return = cpu_accessing_lcdram & ~I_CPU_RE_L;
    assign wram_cpu_return = cpu_accessing_wram & ~I_CPU_RE_L;
 
    /*figure out who gives data back to the ppu*/
-   assign ioreg_ppu_return = ppu_accessing_ioreg & ~I_PPU_RE_L;
+   assign ioreg_ppu_return = ppu_accessing_ioreg & ~I_PPU_RE_L & ~lcdram_ppu_return;
    assign cartridge_ppu_return = ppu_accessing_cartridge & ~I_PPU_RE_L;
    assign lcdram_ppu_return = ppu_accessing_lcdram & ~I_PPU_RE_L;
    assign wram_ppu_return = ppu_accessing_wram & ~I_PPU_RE_L;
 
    /*figure out who gives data back to the rdma*/
-   assign ioreg_rdma_return = rdma_accessing_ioreg & ~I_RDMA_RE_L;
+   assign ioreg_rdma_return = rdma_accessing_ioreg & ~I_RDMA_RE_L & ~lcdram_rdma_return;
    assign cartridge_rdma_return = rdma_accessing_cartridge & ~I_RDMA_RE_L;
    assign lcdram_rdma_return = rdma_accessing_lcdram & ~I_RDMA_RE_L;
    assign wram_rdma_return = rdma_accessing_wram & ~I_RDMA_RE_L;
