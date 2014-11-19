@@ -209,6 +209,7 @@ module video_converter( //Outputs
 	// 10 -> dark gray
 	// 11 -> black
 
+    /*
 	wire [7:0] my_color = (pixel_count >= X_OFFSET && 
 								line_count >= Y_OFFSET && 
 								pixel_count < X_OFFSET + 320 && 
@@ -224,6 +225,16 @@ module video_converter( //Outputs
 	assign color[23:16] = my_color;
 	//assign color[15:8] = 0;
 	//assign color[23:16] = 0;
+    */
+    
+    wire [15:0] my_color = (pixel_count >= X_OFFSET && 
+								line_count >= Y_OFFSET &&   
+								pixel_count < X_OFFSET + 320 && 
+								line_count < Y_OFFSET + 288) ? read_data : 16'h0000;
+								
+	assign color[7:0] = { my_color[4:0], 3'b0 };
+	assign color[15:8] = { my_color[9:5], 3'b0 };
+	assign color[23:16] = { my_color[14:10], 3'b0 };
 	
 	//assign sync_b = hdelay[2] ^ vdelay[2];
 	assign blank_b = ~border; //(pixel_count[9:0] < 640) && (line_count[9:0] < 480);
