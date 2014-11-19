@@ -49,8 +49,8 @@ module cartridge_sim(
 
    /*Figure out which space on the cartridge you are accessing*/
    wire 	      accessing_ROM_space, accessing_RAM_space;
-   assign accessing_ROM_space = (I_CARTRIDGE_ADDR >=0 && I_CARTRIDGE_ADDR < 16'80000);
-   assign accessing_RAM_space = (I_CARTRIDGE_ADDR >= 16'A000 && I_CARTRIDGE_ADDR < 16'C000);
+   assign accessing_ROM_space = (I_CARTRIDGE_ADDR >=0 && I_CARTRIDGE_ADDR < 16'h8000);
+   assign accessing_RAM_space = (I_CARTRIDGE_ADDR >= 16'hA000 && I_CARTRIDGE_ADDR < 16'hC000);
 
    reg 		      ram_timer_en;
    reg [6:0] 	      rom_bank_num;

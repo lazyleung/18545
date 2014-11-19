@@ -1,3 +1,5 @@
+`include "../../memory/memory_router/memdef.vh"
+
 module sound_controller(
 
 			/*System Level Inputs*/
@@ -107,7 +109,7 @@ module sound_controller(
    assign nr52_write_data[1] = sound2_on;
    assign nr52_write_data[0] = sound1_on;
 
-   wire [19:0] 	 sc1_sample, sc2_sample, sc3_sample sc4_sample;
+   wire [19:0] 	 sc1_sample, sc2_sample, sc3_sample, sc4_sample;
 
    wire [19:0] 	 sc1_so2_sample, sc2_so2_sample, sc3_so2_sample, sc4_so2_sample;
    wire [19:0] 	 sc1_so1_sample, sc2_so1_sample, sc3_so1_sample, sc4_so1_sample;

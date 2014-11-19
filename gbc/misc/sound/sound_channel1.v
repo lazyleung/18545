@@ -1,4 +1,4 @@
-`include "C:/Users/ash/Documents/18545/gbc/memory/memory_router/memdef.vh"
+`include "../../memory/memory_router/memdef.vh"
 
 /*Clocks for sweep time specs based on 33MHz clock*/
 `define SWEEPCLOCKS1 257400
@@ -28,8 +28,8 @@ module sound_channel1(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		      /*Sound Status*/
-		      O_CH1_ON,
+		              /*Sound Status*/
+		              O_CH1_ON,
 
                       /*Output Samples*/
                       O_CH1_WAVEFORM, 

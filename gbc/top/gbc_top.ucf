@@ -4,9 +4,7 @@
 #NET  BUS_ERROR_1          LOC="F6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
 #NET  BUS_ERROR_2          LOC="T10";   # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
 #NET  CFG_ADDR_OUT0        LOC="AE12";  # Bank 2, Vcco=3.3V      
-#NET  CFG_ADDR_OUT1        LOC="AE13";  # Bank 2, Vcco=3.3V      
-#NET  CLK_27MHZ_FPGA       LOC="AG18";  # Bank 4, Vcco=3.3V, No DCI      
-#NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI      
+#NET  CFG_ADDR_OUT1        LOC="AE13";  # Bank 2, Vcco=3.3V       
 #NET  CLK_FPGA_N           LOC="K19";   # Bank 3, Vcco=2.5V, No DCI      
 #NET  CLK_FPGA_P           LOC="L19";   # Bank 3, Vcco=2.5V, No DCI      
 #NET  CLKBUF_Q0_N          LOC="H3";    # Bank 116, MGTREFCLKN_116, GTP_DUAL_X0Y4
@@ -52,13 +50,14 @@ NET  GPIO_LED_7           LOC="AE24";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm 
 #NET  LCD_FPGA_RS          LOC="J17";   # Bank 3, Vcco=2.5V, No DCI      
 #NET  LCD_FPGA_RW          LOC="AC10";  # Bank 22, Vcco=3.3V, DCI using 49.9 ohm resistors      
 #NET  USER_CLK             LOC="AH15";  # Bank 4, Vcco=3.3V, No DCI
+NET "USER_CLK"            LOC = AH15; 
+NET  CLK_27MHZ_FPGA       LOC="AG18";  # Bank 4, Vcco=3.3V, No DCI
 NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
 
 # Controller inputs
 NET  HDR2_2_SM_8_N        LOC="K34";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXN[15]) J4-2
-#NET  HDR2_4_SM_8_P        LOC="L34";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXP[15]) J4-4
-#NET  HDR2_6_SM_7_N        LOC="K32";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXN[14]) J4-6
-
+NET  HDR2_4_SM_8_P        LOC="L34";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXP[15]) J4-4
+NET  HDR2_6_SM_7_N        LOC="K32";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXN[14]) J4-6
 
 #NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
 #Created by Constraints Editor (xc5vlx110t-ff1136-1) - 2014/10/14
@@ -113,3 +112,34 @@ NET "flash_adv_n" LOC="F13";
 NET "flash_ce_n"  LOC="AE14";
 NET "flash_oe_n"  LOC="AF14";
 NET "flash_we_n"  LOC="AF20";
+
+NET "dvi_d<11>" LOC="AN14"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<10>" LOC="AP14"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<9>" LOC="AB10"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<8>" LOC="AA10"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<7>" LOC="AN13"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<6>" LOC="AM13"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<5>" LOC="AA8"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<4>" LOC="AA9"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<3>" LOC="AP12"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<2>" LOC="AN12"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<1>" LOC="AC8"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_d<0>" LOC="AB8"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_xclk_p" LOC="AL11"; //| TNM="dvi_c" | IOSTANDARD=LVDCI_33;
+NET "dvi_xclk_n" LOC="AL10"; //| TNM="dvi_c" | IOSTANDARD=LVDCI_33;
+NET "dvi_hs" LOC="AM12"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_vs" LOC="AM11"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_de" LOC="AE8"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+NET "dvi_reset_b" LOC="AK6"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
+
+NET "dvi_scl" LOC="u27"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
+NET "dvi_sda" LOC="t29"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
+
+NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
+NET "ac97_sdata_in" LOC="AE18";
+NET "ac97_sdata_out" LOC="AG16";
+NET "ac97_sync" LOC="AF19";
+NET "ac97_reset_b" LOC="AG17";
+TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
+NET  "pos1"            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
+NET  "pos2"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI

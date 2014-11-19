@@ -1,4 +1,4 @@
-`include "C:/Users/ash/Documents/18545/gbc/memory/memory_router/memdef.vh"
+`include "../../memory/memory_router/memdef.vh"
 `define CLOCKS256    128906
 `define CLOCKS64     515625
 

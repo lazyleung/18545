@@ -1,4 +1,4 @@
-`include "C:/Users/ash/Documents/18545/gbc/memory/memory_router/memdef.vh"
+`include "../../memory/memory_router/memdef.vh"
 `define CLOCKS256    128906
 `define CLOCKS64     515625
 
@@ -45,7 +45,7 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr21_data)
+                                       .O_DATA_READ(nr21_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr21));
    io_bus_parser_reg #(`NR22,0,0,0,0) (.I_CLK(I_CLK),
@@ -55,7 +55,7 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr22_data)
+                                       .O_DATA_READ(nr22_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr22));
    io_bus_parser_reg #(`NR23,0,0,0,0) (.I_CLK(I_CLK),
@@ -65,7 +65,7 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr23_data)
+                                       .O_DATA_READ(nr23_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr23));
    io_bus_parser_reg #(`NR24,0,0,0,0) (.I_CLK(I_CLK),
@@ -75,7 +75,7 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr24_data)
+                                       .O_DATA_READ(nr24_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr24));
 
