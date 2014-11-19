@@ -1,4 +1,4 @@
-`include "C:/Users/ash/Documents/18545/gbc/memory/memory_router/memdef.vh"
+`include "../../memory/memory_router/memdef.vh"
 `define CLOCKS256    128906
 `define CLOCKS64     515625
 
@@ -44,7 +44,7 @@ module sound_channel3(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr30_data)
+                                       .O_DATA_READ(nr30_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr30));
    io_bus_parser_reg #(`NR31,0,0,0,0) (.I_CLK(I_CLK),
@@ -54,7 +54,7 @@ module sound_channel3(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr31_data)
+                                       .O_DATA_READ(nr31_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr31));
    io_bus_parser_reg #(`NR32,0,0,0,0) (.I_CLK(I_CLK),
@@ -64,7 +64,7 @@ module sound_channel3(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr32_data)
+                                       .O_DATA_READ(nr32_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr32));
    io_bus_parser_reg #(`NR33,0,0,0,0) (.I_CLK(I_CLK),
@@ -74,7 +74,7 @@ module sound_channel3(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr33_data)
+                                       .O_DATA_READ(nr33_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr33));
    io_bus_parser_reg #(`NR34,0,0,0,0) (.I_CLK(I_CLK),
@@ -84,7 +84,7 @@ module sound_channel3(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr34_data)
+                                       .O_DATA_READ(nr34_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr34));
 
@@ -120,7 +120,7 @@ module sound_channel3(
         waveform_ram[I_IOREG_ADDR[3:0]] <= IO_IOREG_DATA;
 
       if (I_RESET) begin
-         for (i=0; i<16; i++) begin
+         for (i=0; i<16; i=i+1) begin
             waveform_ram[i] <= 0;
          end
       end

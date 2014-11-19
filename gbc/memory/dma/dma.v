@@ -24,8 +24,6 @@ module dma_controller(
                       /*System Status Signals*/
                       I_HBLANK, //to be held high during duration of
                                 //horizontal blanking period
-                      I_VBLANK, //to be held high during duration of
-                               //vertical blanking period
                       O_HALT_CPU // stop cpu execution durind DMA
                       );
 
@@ -43,7 +41,6 @@ module dma_controller(
    output [7:0]  O_WDMA_DATA;
    output 	 O_WDMA_WE_L;
    input         I_HBLANK;
-   input         I_VBLANK;
    output        O_HALT_CPU;
 
    reg           gdma_cpu_halt, hdma_cpu_halt;
