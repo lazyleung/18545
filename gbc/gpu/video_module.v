@@ -312,6 +312,23 @@ module video_module(//Outputs
 			   .wr_dataB(scanline2_inB)
 			   );
 
+   reg [4:0] bg_scanline_addrA, bg_scanline_addrB;
+   reg [7:0] bg_scanline_inA, bg_scanline_inB;
+   wire [7:0] bg_scanline_outA, bg_scanline_outB;
+ 
+    scanline_ram bg_scanline(
+        .rd_dataA(bg_scanline_outA), 
+        .rd_dataB(bg_scanline_outB),
+        //Inputs
+        .clk(clock),
+        .wr_enA(scanlineA_we), 
+        .wr_enB(scanlineB_we),
+        .addrA(bg_scanline_addrA),
+        .addrB(bg_scanline_addrB),					
+        .wr_dataA(bg_scanline_inA), 
+        .wr_dataB(bg_scanline_inB)
+    );
+
 	/*
 	// Buffer for holding the color data
 	wire [14:0] scanline_color_out;
@@ -333,8 +350,8 @@ module video_module(//Outputs
    reg [2:0] bg_pal_sel, spr_pal_sel;
    reg [1:0] bg_pal_idx, spr_pal_idx;
    wire [15:0] bg_pal_col, spr_pal_col;
-	wire [7:0] color_file_out;
-	wire color_file_enable;
+   wire [7:0] color_file_out;
+   wire color_file_enable;
 	color_file cf(
                   /*System Inputs*/
                   .I_CLK(clock),
@@ -427,6 +444,7 @@ module video_module(//Outputs
    //reg[7:0] sprite_y_pos;
    //reg[7:0] sprite_data1;
    //reg[7:0] sprite_data2;
+   reg [7:0] sprite_bg_data1, sprite_bg_data2;
    reg [7:0]          sprite_location;
    reg [7:0]          sprite_attributes;
    //reg[1:0] sprite_pixel;
@@ -435,6 +453,7 @@ module video_module(//Outputs
    reg [7:0]          sprite_palette;
    reg [4:0]          sprite_y_size;
    reg [1:0]          pixel_index;
+   reg is_spr_pix;
    
    reg [4:0]          tile_col_num; // increments from 0 -> 31
    //reg[6:0] sprite_num; // increments from 0 -> 39
@@ -704,6 +723,8 @@ module video_module(//Outputs
 		 scanline1_addrB <= tile_byte_pos2;
 		 scanline2_addrA <= tile_byte_pos1;
 		 scanline2_addrB <= tile_byte_pos2;
+         bg_scanline_addrA <= tile_byte_pos1;
+         bg_scanline_addrB <= tile_byte_pos2;
 		 state <= BG_PIXEL_WAIT_STATE;
 	      end
 	      
@@ -729,6 +750,9 @@ module video_module(//Outputs
 		 scanline2_inB <= (render_background) ? (scanline2_outB &
 							 ~(8'hFF << tile_byte_offset2) |
 							 (tile_data2 << tile_byte_offset2)) : 0;
+         // Reset bg scanline to 0
+         bg_scanline_inA <= 8'b0;
+         bg_scanline_inB <= 8'b0;
 		 
 		 // enable writes
 		 scanlineA_we <= (tile_byte_pos1 < 20) ? 1 : 0;
@@ -837,6 +861,8 @@ module video_module(//Outputs
 		 scanline1_addrB <= tile_byte_pos2;
 		 scanline2_addrA <= tile_byte_pos1;
 		 scanline2_addrB <= tile_byte_pos2;
+         bg_scanline_addrA <= tile_byte_pos1;
+		 bg_scanline_addrB <= tile_byte_pos2;
 		 state <= SPRITE_PIXEL_WAIT_STATE;
 	      end
 	      
@@ -890,12 +916,16 @@ module video_module(//Outputs
 				    (bg_pixel[0] << sprite_pixel_num);
 		    sprite_data2 <= (sprite_data2 & ~(8'h01 << sprite_pixel_num)) |
 				    (bg_pixel[1] << sprite_pixel_num);
+            sprite_bg_data1 <= (sprite_bg_data1 & ~(8'h01 << sprite_pixel_num)) |
+				    (1'b0 << sprite_pixel_num);
 		 end
 		 else begin
 		    sprite_data1 <= (sprite_data1 & ~(8'h01 << sprite_pixel_num)) |
 				    (sprite_pixel[0] << sprite_pixel_num);
 		    sprite_data2 <= (sprite_data2 & ~(8'h01 << sprite_pixel_num)) |
 				    (sprite_pixel[1] << sprite_pixel_num);
+            sprite_bg_data1 <= (sprite_bg_data1 & ~(8'h01 << sprite_pixel_num)) |
+				    (1'b1 << sprite_pixel_num);
 		 end
 		 if (sprite_pixel_num < 7) begin
 		    sprite_pixel_num <= sprite_pixel_num + 1;
@@ -912,13 +942,18 @@ module video_module(//Outputs
 				   (sprite_data1 >> tile_byte_offset1));
 		 scanline2_inA <= (scanline2_outA & (8'hFF << tile_byte_offset2) |
 				   (sprite_data2 >> tile_byte_offset1));
+         bg_scanline_inA <= (bg_scanline_outA & (8'hFF << tile_byte_offset2) |
+				   (sprite_bg_data1 >> tile_byte_offset1));
 		 
 		 // second byte
 		 scanline1_inB <= (scanline1_outB & ~(8'hFF << tile_byte_offset2) |
 				   (sprite_data1 << tile_byte_offset2));
 		 scanline2_inB <= (scanline2_outB & ~(8'hFF << tile_byte_offset2) |
 				   (sprite_data2 << tile_byte_offset2));
-		 
+                   
+		 bg_scanline_inB <= (bg_scanline_outB & ~(8'hFF << tile_byte_offset2) |
+				   (sprite_bg_data1 << tile_byte_offset2));		 
+           
 		 // enable writes
 		 scanlineA_we <= (tile_byte_pos1 < 20) ? 1 : 0;
 		 scanlineB_we <= (tile_byte_pos2 < 20 && 
@@ -951,6 +986,7 @@ module video_module(//Outputs
 	      PIXEL_READ_STATE: begin
 		 scanline1_addrA <= pixel_data_count >> 3;
 		 scanline2_addrA <= pixel_data_count >> 3;
+         bg_scanline_addrA <= pixel_data_count >> 3;
 		 state <= PIXEL_READ_WAIT_STATE;
 	      end
 	      
@@ -970,9 +1006,12 @@ module video_module(//Outputs
 				spr_pal_idx <=  { scanline2_outA[7 - pixel_data_count[2:0]], 
 			      scanline1_outA[7 - pixel_data_count[2:0]] };
 
+
+                is_spr_pix <= bg_scanline_outA[7 - pixel_data_count[2:0]];
+
 			  
 			  // TODO: read and store this info in above states, per pixel
-			  bg_pal_sel <= 3'h0;
+			  bg_pal_sel <= 3'h5;
 			  spr_pal_sel <= 3'h0;
 			  
 			  state <= PIXEL_OUT_STATE;
@@ -991,8 +1030,7 @@ module video_module(//Outputs
 			else
 				pixel_data <= 16'h1ce7;
                 */
-            // TODO: need to mux to select if it was a bg or sprite palette
-			pixel_data <= bg_pal_col;
+			pixel_data <= is_spr_pix ? spr_pal_col : bg_pal_col;
             
             // Output raw index data
             /*
