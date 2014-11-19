@@ -330,8 +330,8 @@ module video_module(//Outputs
 	);
 	*/
 
-   reg [2:0] bg_pal_sel, spr_pal_sel;
-   reg [1:0] bg_pal_idx, spr_pal_idx;
+   wire [2:0] bg_pal_sel, spr_pal_sel;
+   wire [1:0] bg_pal_idx, spr_pal_idx;
    wire [15:0] bg_pal_col, spr_pal_col;
 	wire [7:0] color_file_out;
 	wire color_file_enable;
@@ -406,10 +406,9 @@ module video_module(//Outputs
    parameter PIXEL_WAIT_STATE = 26;
    parameter PIXEL_READ_STATE = 27;
    parameter PIXEL_READ_WAIT_STATE = 28;
-	parameter PIXEL_INDEX_STATE = 29;
-   parameter PIXEL_OUT_STATE = 30;
-   parameter PIXEL_OUT_HOLD_STATE = 31;
-   parameter PIXEL_INCREMENT_STATE = 32;
+   parameter PIXEL_OUT_STATE = 29;
+   parameter PIXEL_OUT_HOLD_STATE = 30;
+   parameter PIXEL_INCREMENT_STATE = 31;
    
    wire [7:0]         next_line_count;
    wire [8:0]         next_pixel_count;
@@ -433,7 +432,6 @@ module video_module(//Outputs
    reg [2:0]          sprite_pixel_num;
    reg [7:0]          sprite_palette;
    reg [4:0]          sprite_y_size;
-	reg [1:0]          pixel_index;
    
    reg [4:0]          tile_col_num; // increments from 0 -> 31
    //reg[6:0] sprite_num; // increments from 0 -> 39
@@ -951,58 +949,20 @@ module video_module(//Outputs
 		 scanline1_addrA <= pixel_data_count >> 3;
 		 scanline2_addrA <= pixel_data_count >> 3;
 		 state <= PIXEL_READ_WAIT_STATE;
-		 
 	      end
 	      
 	      PIXEL_READ_WAIT_STATE: begin
-				//state <= PIXEL_INDEX_STATE;
-				state <= PIXEL_OUT_STATE;
+		state <= PIXEL_OUT_STATE;
          end
-			/*
-			PIXEL_INDEX_STATE: begin
-			   pixel_index <= { scanline2_outA[7 - pixel_data_count[2:0]], 
-			      scanline1_outA[7 - pixel_data_count[2:0]] };
-
-				bg_pal_idx <= { scanline2_outA[7 - pixel_data_count[2:0]], 
-			      scanline1_outA[7 - pixel_data_count[2:0]] };
-			  
-				spr_pal_idx <=  { scanline2_outA[7 - pixel_data_count[2:0]], 
-			      scanline1_outA[7 - pixel_data_count[2:0]] };
-
-			  
-			  // TODO: read and store this info in above states, per pixel
-			  bg_pal_sel <= 3'h4;
-			  spr_pal_sel <= 3'h4;
-			  
-			  state <= PIXEL_OUT_STATE;
-			end
-			*/
 	      
 	      
 	      PIXEL_OUT_STATE: begin
 			// TODO: this should index into the background pallette
-			/*
-			if(pixel_index == 0)
-				pixel_data <= 16'h2bf6;
-			else if (pixel_index == 1)
-				pixel_data <= 16'h072c;
-			else if (pixel_index == 2)
-				pixel_data <= 16'h01cf;
-			else
-				pixel_data <= 16'h1ce7;
-				*/
-			/*
-			// TODO: need to mux to select if it was a bg or sprite palette
-			pixel_data <= bg_pal_col;
-			*/
-			
-			///* Output raw index
 		 pixel_data <=
          { 14'h0, scanline2_outA[7 - pixel_data_count[2:0]], 
 			  scanline1_outA[7 - pixel_data_count[2:0]] };
-			  //*/
 
-			/* Use BGP register
+			/*
 		 pixel_data <= (BGP >> 
 				{ scanline2_outA[7 - pixel_data_count[2:0]], 
 				  scanline1_outA[7 - pixel_data_count[2:0]], 
@@ -1021,12 +981,9 @@ module video_module(//Outputs
 		 if (pixel_data_count < 160) begin
 		    pixel_data_count <= pixel_data_count + 1;
 		    
-			 ///*
 		    if (pixel_data_count[2:0] == 7)
 		      state <= PIXEL_READ_STATE;
 		    else state <= PIXEL_OUT_STATE;
-			 //*/
-			 //state <= PIXEL_READ_STATE;
 		 end
 		 else
 		   state <= IDLE_STATE;

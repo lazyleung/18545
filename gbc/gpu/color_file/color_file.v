@@ -97,86 +97,89 @@ module color_file(
 
    always @(posedge I_CLK) begin
 		if (I_RESET) begin
-			bg_pallete_arr[0] <= 8'h6f;
-			bg_pallete_arr[1] <= 8'hfb;
-			bg_pallete_arr[2] <= 8'h56;
-			bg_pallete_arr[3] <= 8'hb5;
-			bg_pallete_arr[4] <= 8'h35;
-			bg_pallete_arr[5] <= 8'had;
-			bg_pallete_arr[6] <= 8'h1c;
-			bg_pallete_arr[7] <= 8'he7;
+		/*
+		bg_pallete_arr <= {
+			// bg 0
+			8'h6f,
+			8'hfb,
+			8'h56,
+			8'hb5,
+			8'h35,
+			8'had,
+			8'h1c,
+			8'he7,
 			
 			// bg1
-			bg_pallete_arr[8] <= 8'h6f;
-			bg_pallete_arr[9] <= 8'hfb;
-			bg_pallete_arr[10] <= 8'h62;
-			bg_pallete_arr[11] <= 8'h7f;
-			bg_pallete_arr[12] <= 8'h19;
-			bg_pallete_arr[13] <= 8'h5e;
-			bg_pallete_arr[14] <= 8'h1c;
-			bg_pallete_arr[15] <= 8'he7;
+			8'h6f,
+			8'hfb,
+			8'h62,
+			8'h7f,
+			8'h19,
+			8'h5e,
+			8'h1c,
+			8'he7,
 			
 			// bg2
-			bg_pallete_arr[16] <= 8'h2b;
-			bg_pallete_arr[17] <= 8'hf6;
-			bg_pallete_arr[18] <= 8'h07;
-			bg_pallete_arr[19] <= 8'h2c;
-			bg_pallete_arr[20] <= 8'h01;
-			bg_pallete_arr[21] <= 8'hc5;
-			bg_pallete_arr[22] <= 8'h1c;
-			bg_pallete_arr[23] <= 8'he7;
-		
+			8'h2b,
+			8'hf6,
+			8'h07,
+			8'h2c,
+			8'h01,
+			8'hc5,
+			8'h1c,
+			8'he7,
+			
 			// bg3
-			bg_pallete_arr[24] <= 8'h7e;
-			bg_pallete_arr[25] <= 8'hf7;
-			bg_pallete_arr[26] <= 8'h7e;
-			bg_pallete_arr[27] <= 8'h72;
-			bg_pallete_arr[28] <= 8'h7d;
-			bg_pallete_arr[29] <= 8'h8d;
-			bg_pallete_arr[30] <= 8'h1c;
-			bg_pallete_arr[31] <= 8'he7;
+			8'h7e,
+			8'hf7,
+			8'h7e,
+			8'h72,
+			8'h7d,
+			8'h8d,
+			8'h1c,
+			8'he7,
 			
 			// bg4
-			bg_pallete_arr[32] <= 8'h6f;
-			bg_pallete_arr[33] <= 8'hfb;
-			bg_pallete_arr[34] <= 8'h1f;
-			bg_pallete_arr[35] <= 8'hff;
-			bg_pallete_arr[36] <= 8'h06;
-			bg_pallete_arr[37] <= 8'h1f;
-			bg_pallete_arr[38] <= 8'h1c;
-			bg_pallete_arr[39] <= 8'he7;
+			8'h6f,
+			8'hfb,
+			8'h1f,
+			8'hff,
+			8'h06,
+			8'h1f,
+			8'h1c,
+			8'he7,
 			
 			// bg5
-			bg_pallete_arr[40] <= 8'h6f;
-			bg_pallete_arr[41] <= 8'hfb;
-			bg_pallete_arr[42] <= 8'h1e;
-			bg_pallete_arr[43] <= 8'h58;
-			bg_pallete_arr[44] <= 8'h0d;
-			bg_pallete_arr[45] <= 8'hf4;
-			bg_pallete_arr[46] <= 8'h1c;
-			bg_pallete_arr[47] <= 8'he7;
+			8'h6f,
+			8'hfb,
+			8'h1e,
+			8'h58,
+			8'h0d,
+			8'hf4,
+			8'h1c,
+			8'he7,
 			
 			// bg6
-			bg_pallete_arr[48] <= 8'h6f;
-			bg_pallete_arr[49] <= 8'hfb;
-			bg_pallete_arr[50] <= 8'h3b;
-			bg_pallete_arr[51] <= 8'hf4;
-			bg_pallete_arr[52] <= 8'h16;
-			bg_pallete_arr[53] <= 8'heb;
-			bg_pallete_arr[54] <= 8'h1c;
-			bg_pallete_arr[55] <= 8'he7;
+			8'h6f,
+			8'hfb,
+			8'h3b,
+			8'hf4,
+			8'h16,
+			8'heb,
+			8'h1c,
+			8'he7,
 			
 			// bg7
-			bg_pallete_arr[56] <= 8'h7f;
-			bg_pallete_arr[57] <= 8'hff;
-			bg_pallete_arr[58] <= 8'h72;
-			bg_pallete_arr[59] <= 8'h68;
-			bg_pallete_arr[60] <= 8'h40;
-			bg_pallete_arr[61] <= 8'ha5;
-			bg_pallete_arr[62] <= 8'h00;
-			bg_pallete_arr[63] <= 8'h00;
+			8'h7f,
+			8'hff,
+			8'h72,
+			8'h68,
+			8'h40,
+			8'ha5,
+			8'h00,
+			8'h00
+		};
 		
-		/*
 		spr_pallete_arr <= {
 			// obj 0
 			8'h6f,
