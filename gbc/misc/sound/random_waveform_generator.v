@@ -107,7 +107,7 @@ module randwave_generator(
 
    /*generate the waveform based off bit 0 in the 
     *in one of the LFSR*/
-   always @(posedge I_BITBLK) begin
+   always @(posedge I_BITCLK) begin
       
       if (I_STROBE) begin
 	 
