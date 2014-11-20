@@ -73,6 +73,7 @@ gui_sg_create bram_Group
 gui_list_add_group -id Wave.1 {bram_Group}
 
       gui_sg_addsignal -group bram_Group  /bram_tb/status
+      gui_sg_addsignal -group bram_Group  /bram_tb/bram_synth_inst/bmg_port/RSTA
       gui_sg_addsignal -group bram_Group  /bram_tb/bram_synth_inst/bmg_port/CLKA
       gui_sg_addsignal -group bram_Group  /bram_tb/bram_synth_inst/bmg_port/ADDRA
       gui_sg_addsignal -group bram_Group  /bram_tb/bram_synth_inst/bmg_port/DINA

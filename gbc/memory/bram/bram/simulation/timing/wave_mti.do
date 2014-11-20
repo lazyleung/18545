@@ -11,6 +11,7 @@ quietly WaveActivateNextPane {} 0
 
 
       add wave -noupdate /bram_tb/status
+      add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/RSTA
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/CLKA
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/ADDRA
       add wave -noupdate /bram_tb/bram_synth_inst/bmg_port/DINA

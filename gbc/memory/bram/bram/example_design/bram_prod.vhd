@@ -90,7 +90,7 @@
 --    C_USE_DEFAULT_DATA          :  1 
 --    C_DEFAULT_DATA              :  0 
 --    C_RST_TYPE                  :  SYNC 
---    C_HAS_RSTA                  :  0 
+--    C_HAS_RSTA                  :  1 
 --    C_RST_PRIORITY_A            :  CE 
 --    C_RSTRAM_A                  :  0 
 --    C_INITA_VAL                 :  0 
@@ -231,6 +231,7 @@ ARCHITECTURE xilinx OF bram_prod IS
   COMPONENT bram_exdes IS
   PORT (
       --Port A
+    RSTA           : IN STD_LOGIC;  --opt port
   
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -252,6 +253,7 @@ BEGIN
   bmg0 : bram_exdes
     PORT MAP (
       --Port A
+      RSTA       => RSTA,
   
       WEA        => WEA,
       ADDRA      => ADDRA,
