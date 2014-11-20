@@ -37,7 +37,7 @@ module sound_channel3(
    wire         new_nr30, new_nr31, new_nr32, new_nr33, new_nr34;
 
    /*Sound Module 3 Control Registers*/
-   io_bus_parser_reg #(`NR30,0,0,0,0) (.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR30,0,0,0,0) nr30(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -47,7 +47,7 @@ module sound_channel3(
                                        .O_DATA_READ(nr30_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr30));
-   io_bus_parser_reg #(`NR31,0,0,0,0) (.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR31,0,0,0,0) nr31(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -57,7 +57,7 @@ module sound_channel3(
                                        .O_DATA_READ(nr31_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr31));
-   io_bus_parser_reg #(`NR32,0,0,0,0) (.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR32,0,0,0,0) nr32(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -67,7 +67,7 @@ module sound_channel3(
                                        .O_DATA_READ(nr32_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr32));
-   io_bus_parser_reg #(`NR33,0,0,0,0) (.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR33,0,0,0,0) nr33(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -77,7 +77,7 @@ module sound_channel3(
                                        .O_DATA_READ(nr33_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr33));
-   io_bus_parser_reg #(`NR34,0,0,0,0) (.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR34,0,0,0,0) nr44(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -139,7 +139,7 @@ module sound_channel3(
                        (output_level_select == 2) ? current_sample >> 1 :
                        current_sample >> 2;
 
-   wire [20:0] volume_to_sample;
+   reg [19:0] volume_to_sample;
    /*go from a 4 bit value to a 20 bit value*/
    always @(*) begin
       case(vol_sample)
@@ -211,11 +211,11 @@ module sound_channel3(
    
    /*Find the amount of clocks in the period based off the frequency spec*/
    wire gnd = 0;
-   sound_bram2 period_lookup_table(.clka(I_BITCLK),
+   /*sound_bram2 period_lookup_table(.clka(I_BITCLK),
                                    .wea(gnd),
                                    .addra(frequency),
                                    .dina(0),
                                    .douta(num_strobes_in_period)
-                                   );
+                                   );*/
 
 endmodule
