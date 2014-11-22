@@ -102,7 +102,7 @@ module sound_controller(
    assign ch1_so1_out = nr51_data[0];
    
    wire 	 enable_all_sound;
-   wire 	 sound4_on, sound2_on, sound3_on, sound4_on;
+   wire 	 sound1_on, sound2_on, sound3_on, sound4_on;
    assign enable_all_sound = nr52_data[7];
    assign nr52_write_data[3] = sound4_on;
    assign nr52_write_data[2] = sound3_on;
@@ -117,14 +117,14 @@ module sound_controller(
    /*enable the different components of the output waveforms
     * divide each signal by 4 so total sum is max possible
     * loudness*/
-   assign sc1_so1_sample = (ch1_so1_out) ? sc1_sample >> 2 : 0;
-   assign sc2_so1_sample = (ch2_so1_out) ? sc2_sample >> 2 : 0;
-   assign sc3_so1_sample = (ch3_so1_out) ? sc3_sample >> 2 : 0;
-   assign sc4_so1_sample = (ch4_so1_out) ? sc4_sample >> 2 : 0;
-   assign sc1_so2_sample = (ch1_so2_out) ? sc1_sample >> 2 : 0;
-   assign sc2_so2_sample = (ch2_so2_out) ? sc2_sample >> 2 : 0;
-   assign sc3_so2_sample = (ch3_so2_out) ? sc3_sample >> 2 : 0;
-   assign sc4_so2_sample = (ch4_so2_out) ? sc4_sample >> 2 : 0;
+   assign sc1_so1_sample = (ch1_so1_out) ? sc1_sample >>> 2 : 0;
+   assign sc2_so1_sample = (ch2_so1_out) ? sc2_sample >>> 2 : 0;
+   assign sc3_so1_sample = (ch3_so1_out) ? sc3_sample >>> 2 : 0;
+   assign sc4_so1_sample = (ch4_so1_out) ? sc4_sample >>> 2 : 0;
+   assign sc1_so2_sample = (ch1_so2_out) ? sc1_sample >>> 2 : 0;
+   assign sc2_so2_sample = (ch2_so2_out) ? sc2_sample >>> 2 : 0;
+   assign sc3_so2_sample = (ch3_so2_out) ? sc3_sample >>> 2 : 0;
+   assign sc4_so2_sample = (ch4_so2_out) ? sc4_sample >>> 2 : 0;
 
    /* add all te channels together*/
    wire [19:0] 	 so1_total, so2_total;

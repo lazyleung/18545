@@ -168,7 +168,7 @@ module sound_channel3(
 
    wire [31:0] num_strobes_in_period;
    wire [31:0] strobes_in_sample;
-   assign clocks_in_sample = num_strobes_in_period >> 5; //32 samples in period
+   assign strobes_in_sample = num_strobes_in_period >> 5; //32 samples in period
 
    reg [31:0]  count_sample;
    always @(posedge I_BITCLK) begin

@@ -28,8 +28,8 @@ module sound_channel1(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		              /*Sound Status*/
-		              O_CH1_ON,
+		      /*Sound Status*/
+		      O_CH1_ON,
 
                       /*Output Samples*/
                       O_CH1_WAVEFORM, 
@@ -38,18 +38,18 @@ module sound_channel1(
 
    input         I_CLK, I_CLK33MHZ, I_BITCLK, I_RESET;
    input [15:0]  I_IOREG_ADDR;
-   inout [7:0]   IO_IOREG_DATA;
+   inout [7:0] 	 IO_IOREG_DATA;
    input         I_IOREG_WE_L, I_IOREG_RE_L, I_STROBE;
    output 	 O_CH1_ON;
    output [19:0] O_CH1_WAVEFORM;
    output [7:0]  O_D0, O_D1, O_D2, O_D3, O_D4;
    
-   wire [7:0]    nr10_data, nr11_data,
+   wire [7:0] 	 nr10_data, nr11_data,
                  nr12_data, nr13_data,
                  nr14_data;
    wire          new_nr10, new_nr11, new_nr12,
                  new_nr13, new_nr14;
-   wire [7:0]    gnd8 = 0;
+   wire [7:0] 	 gnd8 = 0;
    
    assign O_D0 = nr10_data;
    assign O_D1 = nr11_data;
@@ -110,17 +110,17 @@ module sound_channel1(
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr14));
 
-   reg [10:0]    current_freq;
-   reg [3:0]     current_volume;
-   wire [2:0]    sweep_time;
+   reg [10:0] 	 current_freq;
+   reg [3:0] 	 current_volume;
+   wire [2:0] 	 sweep_time;
    wire          sweep_decrease;
-   wire [2:0]    num_sweep_shift;
+   wire [2:0] 	 num_sweep_shift;
 
-   wire [1:0]    duty_cycle;
-   wire [31:0]   sound_length;
-   wire [31:0]   volume_step_time;
-   wire [3:0]    initial_volume;
-   wire [10:0]   base_frequency;
+   wire [1:0] 	 duty_cycle;
+   wire [31:0] 	 sound_length;
+   wire [31:0] 	 volume_step_time;
+   wire [3:0] 	 initial_volume;
+   wire [10:0] 	 base_frequency;
    wire          restart_sound;
    wire          stop_output;
    wire          volume_increase;
@@ -139,7 +139,7 @@ module sound_channel1(
    assign volume_increase = nr12_data[3];
    
    /*calculate the number of clocks*/
-   wire [31:0]   num_clocks_sweep_time;
+   wire [31:0] 	 num_clocks_sweep_time;
    assign num_clocks_sweep_time = (sweep_time == 'b001) ? `SWEEPCLOCKS1 :
                                   (sweep_time == 'b010) ? `SWEEPCLOCKS2 :
                                   (sweep_time == 'b011) ? `SWEEPCLOCKS3 :
@@ -148,10 +148,10 @@ module sound_channel1(
                                   (sweep_time == 'b110) ? `SWEEPCLOCKS6 :
                                   (sweep_time == 'b111) ? `SWEEPCLOCKS7 : 0;
 
-   wire [10:0]   freq_delta, new_freq;
-   reg [31:0]    sweep_env_count;
-   reg [31:0]    sound_time_count;
-   reg [31:0]    volume_time_count;   
+   wire [10:0] 	 freq_delta, new_freq;
+   reg [31:0] 	 sweep_env_count;
+   reg [31:0] 	 sound_time_count;
+   reg [31:0] 	 volume_time_count;   
    reg           sound_enable;
    wire          not_overflow;
 

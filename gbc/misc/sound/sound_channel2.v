@@ -124,7 +124,7 @@ module sound_channel2(
       if (restart_sound) begin
          enable_sound <= 1;
          count <= 0;
-	     current_volume <= initial_volume;
+	 current_volume <= initial_volume;
       end
 
       if (I_RESET) begin
@@ -139,9 +139,9 @@ module sound_channel2(
                                    .I_RESET(I_RESET),
                                    .O_SAMPLE(O_CH2_WAVEFORM),
                                    .I_STROBE(I_STROBE),
-                                   .I_FREQUENCY(current_freq),
+                                   .I_FREQUENCY(frequency),
                                    .I_DUTY_CYCLE(duty_cycle),
-                                   .I_WAVEFORM_EN(sound_enable),
+                                   .I_WAVEFORM_EN(enable_sound),
                                    .I_VOLUME(current_volume));
 
 endmodule
