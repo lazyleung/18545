@@ -1202,12 +1202,9 @@ module video_module(//Outputs
 		 if (pixel_data_count < 160) begin
 		    pixel_data_count <= pixel_data_count + 1;
 		    
-            /*
 		    if (pixel_data_count[2:0] == 7)
 		      state <= PIXEL_READ_STATE;
-		    else state <= PIXEL_OUT_STATE;
-            */
-            state <= PIXEL_READ_STATE;
+		    else state <= PIXEL_INDEX_STATE;
 		 end
 		 else
 		   state <= IDLE_STATE;
