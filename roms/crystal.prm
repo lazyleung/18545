@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r crystal.hex -p mcs -data_width 16 -w -o crystal.mcs 
+
+PROM crystal.prm map: Wed Nov 19 19:47:48 2014
+
+Format        Mcs86 (32-bit)
+Size          4096K
+PROM start    0000:0000
+PROM end      003f:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    003f:ffff     Nov 19 19:47:46 2014 crystal.hex

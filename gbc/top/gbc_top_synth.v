@@ -35,12 +35,12 @@ module gameboycolor(
                       dvi_scl,
                       
                       /*FPGA AC97 Sound Module*/
-                      ac97_bitclk,
-                      ac97_sdata_in,
-                      pos1, pos2,
-                      ac97_sdata_out,
-                      ac97_sync,
-                      ac97_reset_b,
+                      // ac97_bitclk,
+                      // ac97_sdata_in,
+                      // pos1, pos2,
+                      // ac97_sdata_out,
+                      // ac97_sync,
+                      // ac97_reset_b,
 
                       /*To See multiple bytes of data*/
                       GPIO_DIP_SW1,
@@ -65,12 +65,12 @@ module gameboycolor(
     output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
             GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
             GPIO_LED_6,GPIO_LED_7;
-    input              ac97_bitclk;
-	input              ac97_sdata_in;
-	input              pos1, pos2;
-	output wire        ac97_sdata_out;
-	output wire        ac97_sync;
-	output wire        ac97_reset_b;
+ //    input              ac97_bitclk;
+	// input              ac97_sdata_in;
+	// input              pos1, pos2;
+	// output wire        ac97_sdata_out;
+	// output wire        ac97_sync;
+	// output wire        ac97_reset_b;
 
     input  wire [15:0]  flash_d;
     output wire [23:0]  flash_a;
@@ -136,11 +136,6 @@ module gameboycolor(
     wire        vblank_ack, lcdstat_ack;
     wire        mem_enable_video;
 
-    assign mem_enable_video = ~lcdram_we_l || ~lcdram_re_l;
-
-    assign vblank_interrupt = 0;
-    assign lcdstat_interrupt = 0;
-
     // ========================================
     // =========== Memory Setup ===============
     // ========================================
@@ -190,7 +185,8 @@ module gameboycolor(
     // ========================================
 
     wire        timer_interrupt, controller_interrupt;
-
+	 
+	 assign mem_enable_video = ~lcdram_we_l || ~lcdram_re_l;
     assign O_DATA1 = (PUSH_BUTTON) ? ioreg1_data : ioreg2_data;
 
     // ========================================
@@ -256,7 +252,7 @@ module gameboycolor(
         .wr_n_video(lcdram_we_l),
         .A_video(lcdram_addr),
         .di_video(lcdram_data),
-        .int_ack({lcdstat_ack,vblank_ack}),
+        .int_ack({lcdstat_ack,vblank_ack})
         );
         
         
@@ -364,7 +360,7 @@ module gameboycolor(
      *else if RAM or timer access is used, BRAM or internal
      *FPGA logic is used*/     
     cartridge_sim cartsim(
-		                  .I_CLK(I_CLK),
+		                  .I_CLK(mem_clocka),
 		                  .I_CLK_33MHZ(CLK_33MHZ_FPGA),
 		                  .I_RESET(synch_reset),
 		                  .I_CARTRIDGE_ADDR(cartridge_addr),
@@ -433,7 +429,7 @@ module gameboycolor(
      
      /*The AC97 write to the sound output, and within this module is the 
       *sound top level module that contains the four sound channels*/     
-     AC97 sound(
+     /*AC97 sound(
 	            .ac97_bitclk(ac97_bitclk),
 	            .ac97_sdata_in(ac97_sdata_in),
 	            .pos1(pos1), .pos2(pos2),
@@ -447,7 +443,7 @@ module gameboycolor(
 	            .IO_IOREG_DATA(iobus_data),
 	            .I_IOREG_WE_L(iobus_we_l),	
 	            .I_IOREG_RE_L(iobus_re_l)
-	    );
+	    );*/
 
 endmodule // gameboycolor
 

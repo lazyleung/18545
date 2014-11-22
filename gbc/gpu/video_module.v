@@ -328,22 +328,68 @@ module video_module(//Outputs
         .wr_dataA(bg_scanline_inA), 
         .wr_dataB(bg_scanline_inB)
     );
+    
+   reg [4:0] idx_scanline1_addrA, idx_scanline2_addrA, idx_scanline3_addrA;
+   reg [4:0] idx_scanline1_addrB, idx_scanline2_addrB, idx_scanline3_addrB;
+   reg [7:0] idx_scanline1_inA, idx_scanline2_inA, idx_scanline3_inA;
+   reg [7:0] idx_scanline1_inB, idx_scanline2_inB, idx_scanline3_inB;
+   wire [7:0] idx_scanline1_outA, idx_scanline2_outA,idx_scanline3_outA;
+   wire [7:0] idx_scanline1_outB, idx_scanline2_outB, idx_scanline3_outB;
+ 
+    scanline_ram idx_scanline1(
+        .rd_dataA(idx_scanline1_outA), 
+        .rd_dataB(idx_scanline1_outB),
+        //Inputs
+        .clk(clock),
+        .wr_enA(scanlineA_we), 
+        .wr_enB(scanlineB_we),
+        .addrA(idx_scanline1_addrA),
+        .addrB(idx_scanline1_addrB),					
+        .wr_dataA(idx_scanline1_inA), 
+        .wr_dataB(idx_scanline1_inB)
+    );
+    
+    scanline_ram idx_scanline2(
+        .rd_dataA(idx_scanline2_outA), 
+        .rd_dataB(idx_scanline2_outB),
+        //Inputs
+        .clk(clock),
+        .wr_enA(scanlineA_we), 
+        .wr_enB(scanlineB_we),
+        .addrA(idx_scanline2_addrA),
+        .addrB(idx_scanline2_addrB),					
+        .wr_dataA(idx_scanline2_inA), 
+        .wr_dataB(idx_scanline2_inB)
+    );
+    
+    scanline_ram idx_scanline3(
+        .rd_dataA(idx_scanline3_outA), 
+        .rd_dataB(idx_scanline3_outB),
+        //Inputs
+        .clk(clock),
+        .wr_enA(scanlineA_we), 
+        .wr_enB(scanlineB_we),
+        .addrA(idx_scanline3_addrA),
+        .addrB(idx_scanline3_addrB),					
+        .wr_dataA(idx_scanline3_inA), 
+        .wr_dataB(idx_scanline3_inB)
+    );
 
 	/*
 	// Buffer for holding the color data
 	wire [14:0] scanline_color_out;
-	wire scaline_color_we;
-	wire [7:0] scaline_color_addr;
-	wire [14:0] scaline_color_in;
+	wire scanline_color_we;
+	wire [7:0] scanline_color_addr;
+	wire [14:0] scanline_color_in;
 	scanline_color_ram scanline_colors(
 		// Outputs
-		.rd_data(scaline_color_out),
+		.rd_data(scanline_color_out),
 
 		//Inputs
 		.clk(clock),
 		.wr_en(scanline_color_we),
 		.addr(scanline_color_addr),
-		.wr_data(scaline_color_in),
+		.wr_data(scanline_color_in),
 	);
 	*/
 
@@ -444,11 +490,13 @@ module video_module(//Outputs
    //reg[7:0] sprite_y_pos;
    //reg[7:0] sprite_data1;
    //reg[7:0] sprite_data2;
-   reg [7:0] sprite_bg_data1, sprite_bg_data2;
+   reg [7:0] sprite_bg_data1;
+   reg [7:0] sprite_idx_data1, sprite_idx_data2, sprite_idx_data3;
    reg [7:0]          sprite_location;
    reg [7:0]          sprite_attributes;
    //reg[1:0] sprite_pixel;
    //reg[1:0] bg_pixel;
+   reg [2:0] bg_idx;
    reg [2:0]          sprite_pixel_num;
    reg [7:0]          sprite_palette;
    reg [4:0]          sprite_y_size;
@@ -725,6 +773,13 @@ module video_module(//Outputs
 		 scanline2_addrB <= tile_byte_pos2;
          bg_scanline_addrA <= tile_byte_pos1;
          bg_scanline_addrB <= tile_byte_pos2;
+
+         idx_scanline1_addrA <= tile_byte_pos1;
+         idx_scanline1_addrB <= tile_byte_pos2;
+         idx_scanline2_addrA <= tile_byte_pos1;
+         idx_scanline2_addrB <= tile_byte_pos2;
+         idx_scanline3_addrA <= tile_byte_pos1;
+         idx_scanline3_addrB <= tile_byte_pos2;
 		 state <= BG_PIXEL_WAIT_STATE;
 	      end
 	      
@@ -753,6 +808,38 @@ module video_module(//Outputs
          // Reset bg scanline to 0
          bg_scanline_inA <= 8'b0;
          bg_scanline_inB <= 8'b0;
+
+         // background index
+		 idx_scanline1_inA <= background_attributes[0] ?
+				  (idx_scanline1_outA & (8'hFF << tile_byte_offset2) |
+				   (8'hFF >> tile_byte_offset1)) :
+                  (idx_scanline1_outA & (8'hFF << tile_byte_offset2));
+                  
+         idx_scanline2_inA <= background_attributes[1] ?
+				  (idx_scanline2_outA & (8'hFF << tile_byte_offset2) |
+				   (8'hFF >> tile_byte_offset1)) :
+                  (idx_scanline2_outA & (8'hFF << tile_byte_offset2));
+                  
+		 idx_scanline3_inA <= background_attributes[2] ?
+				  (idx_scanline3_outA & (8'hFF << tile_byte_offset2) |
+				   (8'hFF >> tile_byte_offset1)) :
+                  (idx_scanline3_outA & (8'hFF << tile_byte_offset2));
+
+         idx_scanline1_inB <= background_attributes[0] ? (idx_scanline1_outB &
+							 ~(8'hFF << tile_byte_offset2) |
+							 (8'hFF << tile_byte_offset2)) :
+                             (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2));
+                             
+         idx_scanline2_inB <= background_attributes[1] ? (idx_scanline2_outB &
+							 ~(8'hFF << tile_byte_offset2) |
+							 (8'hFF << tile_byte_offset2)) :
+                             (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2));
+                             
+         idx_scanline3_inB <= background_attributes[2] ? (idx_scanline3_outB &
+							 ~(8'hFF << tile_byte_offset2) |
+							 (8'hFF << tile_byte_offset2)) :
+                             (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2));
+
 		 
 		 // enable writes
 		 scanlineA_we <= (tile_byte_pos1 < 20) ? 1 : 0;
@@ -863,6 +950,12 @@ module video_module(//Outputs
 		 scanline2_addrB <= tile_byte_pos2;
          bg_scanline_addrA <= tile_byte_pos1;
 		 bg_scanline_addrB <= tile_byte_pos2;
+         idx_scanline1_addrA <= tile_byte_pos1;
+		 idx_scanline1_addrB <= tile_byte_pos2;
+         idx_scanline2_addrA <= tile_byte_pos1;
+		 idx_scanline2_addrB <= tile_byte_pos2;
+         idx_scanline3_addrA <= tile_byte_pos1;
+		 idx_scanline3_addrB <= tile_byte_pos2;
 		 state <= SPRITE_PIXEL_WAIT_STATE;
 	      end
 	      
@@ -905,6 +998,14 @@ module video_module(//Outputs
 				scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
 			{ scanline2_outB[sprite_pixel_num - tile_byte_offset1],
 				scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
+                
+         bg_idx <= (sprite_pixel_num < tile_byte_offset2) ?
+			{ idx_scanline3_outA[sprite_pixel_num + tile_byte_offset1],
+              idx_scanline2_outA[sprite_pixel_num + tile_byte_offset1],
+		      idx_scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
+			{ idx_scanline3_outB[sprite_pixel_num - tile_byte_offset1],
+              idx_scanline2_outB[sprite_pixel_num - tile_byte_offset1],
+			  idx_scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
 		 
 		 state <= SPRITE_PIXEL_DATA_STATE;
 	      end
@@ -916,16 +1017,33 @@ module video_module(//Outputs
 				    (bg_pixel[0] << sprite_pixel_num);
 		    sprite_data2 <= (sprite_data2 & ~(8'h01 << sprite_pixel_num)) |
 				    (bg_pixel[1] << sprite_pixel_num);
+                    
             sprite_bg_data1 <= (sprite_bg_data1 & ~(8'h01 << sprite_pixel_num)) |
 				    (1'b0 << sprite_pixel_num);
+
+            sprite_idx_data1 <= (sprite_idx_data1 & ~(8'h01 << sprite_pixel_num)) |
+				    (bg_idx[0] << sprite_pixel_num);
+            sprite_idx_data2 <= (sprite_idx_data2 & ~(8'h01 << sprite_pixel_num)) |
+				    (bg_idx[1] << sprite_pixel_num);
+            sprite_idx_data3 <= (sprite_idx_data3 & ~(8'h01 << sprite_pixel_num)) |
+				    (bg_idx[2] << sprite_pixel_num);
+
 		 end
 		 else begin
 		    sprite_data1 <= (sprite_data1 & ~(8'h01 << sprite_pixel_num)) |
 				    (sprite_pixel[0] << sprite_pixel_num);
 		    sprite_data2 <= (sprite_data2 & ~(8'h01 << sprite_pixel_num)) |
 				    (sprite_pixel[1] << sprite_pixel_num);
+                    
             sprite_bg_data1 <= (sprite_bg_data1 & ~(8'h01 << sprite_pixel_num)) |
 				    (1'b1 << sprite_pixel_num);
+                    
+            sprite_idx_data1 <= (sprite_idx_data1 & ~(8'h01 << sprite_pixel_num)) |
+				    (sprite_attributes[0] << sprite_pixel_num);
+            sprite_idx_data2 <= (sprite_idx_data2 & ~(8'h01 << sprite_pixel_num)) |
+				    (sprite_attributes[1] << sprite_pixel_num);
+            sprite_idx_data3 <= (sprite_idx_data3 & ~(8'h01 << sprite_pixel_num)) |
+				    (sprite_attributes[2] << sprite_pixel_num);
 		 end
 		 if (sprite_pixel_num < 7) begin
 		    sprite_pixel_num <= sprite_pixel_num + 1;
@@ -942,8 +1060,16 @@ module video_module(//Outputs
 				   (sprite_data1 >> tile_byte_offset1));
 		 scanline2_inA <= (scanline2_outA & (8'hFF << tile_byte_offset2) |
 				   (sprite_data2 >> tile_byte_offset1));
+                   
          bg_scanline_inA <= (bg_scanline_outA & (8'hFF << tile_byte_offset2) |
 				   (sprite_bg_data1 >> tile_byte_offset1));
+         
+         idx_scanline1_inA <= (idx_scanline1_outA & (8'hFF << tile_byte_offset2) |
+				   (sprite_idx_data1 >> tile_byte_offset1));
+         idx_scanline2_inA <= (idx_scanline2_outA & (8'hFF << tile_byte_offset2) |
+				   (sprite_idx_data2 >> tile_byte_offset1));
+         idx_scanline3_inA <= (idx_scanline3_outA & (8'hFF << tile_byte_offset2) |
+				   (sprite_idx_data3 >> tile_byte_offset1));
 		 
 		 // second byte
 		 scanline1_inB <= (scanline1_outB & ~(8'hFF << tile_byte_offset2) |
@@ -952,7 +1078,15 @@ module video_module(//Outputs
 				   (sprite_data2 << tile_byte_offset2));
                    
 		 bg_scanline_inB <= (bg_scanline_outB & ~(8'hFF << tile_byte_offset2) |
-				   (sprite_bg_data1 << tile_byte_offset2));		 
+				   (sprite_bg_data1 << tile_byte_offset2));
+                   
+         idx_scanline1_inB <= (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2) |
+				   (sprite_idx_data1 << tile_byte_offset2));	
+         idx_scanline2_inB <= (idx_scanline2_outB & ~(8'hFF << tile_byte_offset2) |
+				   (sprite_idx_data2 << tile_byte_offset2));
+         idx_scanline3_inB <= (idx_scanline3_outB & ~(8'hFF << tile_byte_offset2) |
+				   (sprite_idx_data3 << tile_byte_offset2));
+                   
            
 		 // enable writes
 		 scanlineA_we <= (tile_byte_pos1 < 20) ? 1 : 0;
@@ -987,6 +1121,9 @@ module video_module(//Outputs
 		 scanline1_addrA <= pixel_data_count >> 3;
 		 scanline2_addrA <= pixel_data_count >> 3;
          bg_scanline_addrA <= pixel_data_count >> 3;
+         idx_scanline1_addrA <= pixel_data_count >> 3;
+         idx_scanline2_addrA <= pixel_data_count >> 3;
+         idx_scanline3_addrA <= pixel_data_count >> 3;
 		 state <= PIXEL_READ_WAIT_STATE;
 	      end
 	      
@@ -1009,10 +1146,17 @@ module video_module(//Outputs
 
                 is_spr_pix <= bg_scanline_outA[7 - pixel_data_count[2:0]];
 
-			  
-			  // TODO: read and store this info in above states, per pixel
-			  bg_pal_sel <= 3'h5;
-			  spr_pal_sel <= 3'h0;
+			  bg_pal_sel <= {
+                idx_scanline1_outA[7 - pixel_data_count[2:0]],
+                idx_scanline2_outA[7 - pixel_data_count[2:0]],
+                idx_scanline3_outA[7 - pixel_data_count[2:0]]
+              };
+                
+			  spr_pal_sel <= {
+                idx_scanline1_outA[7 - pixel_data_count[2:0]],
+                idx_scanline2_outA[7 - pixel_data_count[2:0]],
+                idx_scanline3_outA[7 - pixel_data_count[2:0]]
+              };
 			  
 			  state <= PIXEL_OUT_STATE;
 			end

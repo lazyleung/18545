@@ -49,6 +49,7 @@
 //----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
 bram your_instance_name (
   .clka(clka), // input clka
+  .rsta(rsta), // input rsta
   .wea(wea), // input [0 : 0] wea
   .addra(addra), // input [15 : 0] addra
   .dina(dina), // input [7 : 0] dina

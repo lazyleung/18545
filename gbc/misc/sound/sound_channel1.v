@@ -28,8 +28,11 @@ module sound_channel1(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		      /*Sound Status*/
-		      O_CH1_ON,
+
+		              /*Sound Status*/
+		              O_CH1_ON,
+                      
+                      new_sound, 
 
                       /*Output Samples*/
                       O_CH1_WAVEFORM, 
@@ -43,6 +46,7 @@ module sound_channel1(
    output 	 O_CH1_ON;
    output [19:0] O_CH1_WAVEFORM;
    output [7:0]  O_D0, O_D1, O_D2, O_D3, O_D4;
+   input new_sound;
    
    wire [7:0] 	 nr10_data, nr11_data,
                  nr12_data, nr13_data,
@@ -65,10 +69,11 @@ module sound_channel1(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr10_data),
+                                           //.O_DATA_READ(nr10_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr10)
                                            );
+   assign nr10_data = 'b0_111_0_111; 
    io_bus_parser_reg #(`NR11,0,0,0,0) nr11(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -76,9 +81,10 @@ module sound_channel1(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr11_data),
+                                           //.O_DATA_READ(nr11_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr11));
+   assign nr11_data = 'b10_000000;                                        
    io_bus_parser_reg #(`NR12,0,0,0,0) nr12(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -86,9 +92,10 @@ module sound_channel1(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr12_data),
+                                           //.O_DATA_READ(nr12_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr12));
+   assign nr12_data = 'b1111_1_111;
    io_bus_parser_reg #(`NR13,0,0,0,0) nr13(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -96,9 +103,10 @@ module sound_channel1(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr13_data),
+                                           //.O_DATA_READ(nr13_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr13));
+   assign nr13_data = 8'b11010110;
    io_bus_parser_reg #(`NR14,0,0,0,0) nr14(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -106,9 +114,10 @@ module sound_channel1(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr14_data),
+                                           //.O_DATA_READ(nr14_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr14));
+   assign nr14_data = 8'b1_0_000_110;
 
    reg [10:0] 	 current_freq;
    reg [3:0] 	 current_volume;
@@ -196,7 +205,7 @@ module sound_channel1(
          current_freq<= base_frequency;
          sound_time_count <= 0;
          current_volume <= initial_volume;
-	 volume_time_count <= 0;
+	     volume_time_count <= 0;
       end
       
       if (I_RESET) begin
@@ -204,7 +213,7 @@ module sound_channel1(
          sweep_env_count <= 0;
          current_freq <= base_frequency;
          sound_time_count <= 0;
-	 volume_time_count <= 0;
+	     volume_time_count <= 0;
          current_volume <= initial_volume;
       end
 

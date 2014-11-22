@@ -106,12 +106,11 @@ NET "flash_d<2>" LOC="AE17";
 NET "flash_d<1>" LOC="AE19";
 NET "flash_d<0>" LOC="AD19";
 
-NET "flash_clk"   LOC="N9";
-NET "flash_wait"  LOC="G13";
 NET "flash_adv_n" LOC="F13";
-NET "flash_ce_n"  LOC="AE14";
-NET "flash_oe_n"  LOC="AF14";
-NET "flash_we_n"  LOC="AF20";
+NET "flash_ce_n" LOC="AE14";
+NET "flash_clk" LOC="N9";
+NET "flash_oe_n" LOC="AF14";
+NET "flash_we_n" LOC="AF20";
 
 NET "dvi_d<11>" LOC="AN14"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
 NET "dvi_d<10>" LOC="AP14"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
@@ -135,11 +134,11 @@ NET "dvi_reset_b" LOC="AK6"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
 NET "dvi_scl" LOC="u27"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
 NET "dvi_sda" LOC="t29"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
 
-NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
-NET "ac97_sdata_in" LOC="AE18";
-NET "ac97_sdata_out" LOC="AG16";
-NET "ac97_sync" LOC="AF19";
-NET "ac97_reset_b" LOC="AG17";
-TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
-NET  "pos1"            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
-NET  "pos2"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
+#NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
+#NET "ac97_sdata_in" LOC="AE18";
+#NET "ac97_sdata_out" LOC="AG16";
+#NET "ac97_sync" LOC="AF19";
+#NET "ac97_reset_b" LOC="AG17";
+#TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
+#NET  "pos1"            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
+#NET  "pos2"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
