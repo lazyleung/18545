@@ -49,7 +49,7 @@ module video_converter( //Outputs
 	//Inputs
 	input reset, clock, gb_clock;
 	// run on gb_clock
-	input [1:0] pixel_data; 							//VIDEO_MOD Inputs
+	input [15:0] pixel_data; 							//VIDEO_MOD Inputs
 	input [7:0] gb_pixel_count, gb_line_count;	//VIDEO_MOD Inputs
 	input gb_hsync, gb_vsync, gb_we;					//VIDEO_MOD Inputs		
 
@@ -64,21 +64,20 @@ module video_converter( //Outputs
 
 	//wire[14:0] read_addr;
 	wire[14:0] write_addr;
-	wire[1:0] read_data;
+	wire[15:0] read_data;
 	//wire[1:0] write_data;
 	wire[14:0] b1_addr;
 	wire b1_clk;
-	wire[1:0] b1_din;
-	wire[1:0] b1_dout;
+	wire[15:0] b1_din;
+	wire[15:0] b1_dout;
 	wire b1_we; // active high
 
 	wire[14:0] b2_addr;
 	wire b2_clk;
-	wire[1:0] b2_din;
-	wire[1:0] b2_dout;
+	wire[15:0] b2_din;
+	wire[15:0] b2_dout;
 	wire b2_we; // active high
 	
-	reg[1:0] last_pixel_data;
 	reg[14:0] last_write_addr;
 
 	reg write_enable;
@@ -101,6 +100,15 @@ module video_converter( //Outputs
 	BUFGMUX clock_mux_b2(.S(front_buffer), .O(b2_clk),
 								.I0(gb_clock), .I1(clock));
 
+	framebuffer1 buffer1 (
+      .clka(b1_clk), // input clka
+      .wea(b1_we), // input [0 : 0] wea
+      .addra(b1_addr), // input [14 : 0] addra
+      .dina(b1_din), // input [15 : 0] dina
+      .douta(b1_dout) // output [15 : 0] douta
+   );
+	
+	/*
 	// internal buffer ram
 	frame_buffer buffer1(
 					//Outputs
@@ -111,7 +119,15 @@ module video_converter( //Outputs
 					.din(b1_din), //[1:0]
 					.addr(b1_addr) //[14:0] to be able to hold 160*144 pix
 					);
-
+	*/
+	framebuffer1 buffer2 (
+      .clka(b2_clk), // input clka
+      .wea(b2_we), // input [0 : 0] wea
+      .addra(b2_addr), // input [14 : 0] addra
+      .dina(b2_din), // input [15 : 0] dina
+      .douta(b2_dout) // output [15 : 0] douta
+   );
+	/*
 	frame_buffer buffer2(
 					//Outputs
 					.dout(b2_dout), //[1:0]
@@ -121,6 +137,7 @@ module video_converter( //Outputs
 					.din(b2_din), //[1:0]
 					.addr(b2_addr) //[14:0] to be able to hold 160*144 pix
 					);
+	*/
 
 	reg gb_last_vsync;
 	reg gb_last_hsync;
@@ -192,14 +209,15 @@ module video_converter( //Outputs
 	// 10 -> dark gray
 	// 11 -> black
 
+    /*
 	wire [7:0] my_color = (pixel_count >= X_OFFSET && 
 								line_count >= Y_OFFSET && 
 								pixel_count < X_OFFSET + 320 && 
 								line_count < Y_OFFSET + 288) ? 
 								
-								(read_data == 2'b00) ? 8'hFF: //white
-								((read_data == 2'b01) ? 8'hAA: //light gray
-								((read_data == 2'b10) ? 8'h55: //dark gray
+								(read_data[1:0] == 2'b00) ? 8'hFF: //white
+								((read_data[1:0] == 2'b01) ? 8'hAA: //light gray
+								((read_data[1:0] == 2'b10) ? 8'h55: //dark gray
 								8'h00)) : 8'h00; //black
 								
 	assign color[7:0] = my_color;
@@ -207,6 +225,16 @@ module video_converter( //Outputs
 	assign color[23:16] = my_color;
 	//assign color[15:8] = 0;
 	//assign color[23:16] = 0;
+    */
+    
+    wire [15:0] my_color = (pixel_count >= X_OFFSET && 
+								line_count >= Y_OFFSET &&   
+								pixel_count < X_OFFSET + 320 && 
+								line_count < Y_OFFSET + 288) ? read_data : 16'h0000;
+								
+	assign color[23:16] = { my_color[4:0], 3'b0 }; // Red
+	assign color[15:8] = { my_color[9:5], 3'b0 }; // Green 
+	assign color[7:0] = { my_color[14:10], 3'b0 }; // Blue
 	
 	//assign sync_b = hdelay[2] ^ vdelay[2];
 	assign blank_b = ~border; //(pixel_count[9:0] < 640) && (line_count[9:0] < 480);

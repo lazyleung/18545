@@ -88,8 +88,25 @@
 `define BCPD  16'hFF69   // X
 `define OCPS  16'hFF6A   // X
 `define OCPD  16'hFF6B   // X
+
 `define NR10  16'hFF10   // X
 `define NR11  16'hFF11   // X
 `define NR12  16'hFF12   // X
 `define NR13  16'hFF13   // X
 `define NR14  16'hFF14   // X
+`define NR21  16'hFF16   // X
+`define NR22  16'hFF17   // X
+`define NR23  16'hFF18   // X
+`define NR24  16'hFF19   // X
+`define NR30  16'hFF1A   // X
+`define NR31  16'hFF1B   // X
+`define NR32  16'hFF1C   // X
+`define NR33  16'hFF1D   // X
+`define NR34  16'hFF1E   // X
+`define NR41  16'hFF20   // X
+`define NR42  16'hFF21   // X
+`define NR43  16'hFF22   // X
+`define NR44  16'hFF23   // X
+`define NR50  16'hFF24   // X
+`define NR51  16'hFF25   // X
+`define NR52  16'hFF26   // X

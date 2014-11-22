@@ -24,8 +24,6 @@ module dma_controller(
                       /*System Status Signals*/
                       I_HBLANK, //to be held high during duration of
                                 //horizontal blanking period
-                      I_VBLANK, //to be held high during duration of
-                               //vertical blanking period
                       O_HALT_CPU // stop cpu execution durind DMA
                       );
 
@@ -43,7 +41,6 @@ module dma_controller(
    output [7:0]  O_WDMA_DATA;
    output 	 O_WDMA_WE_L;
    input         I_HBLANK;
-   input         I_VBLANK;
    output        O_HALT_CPU;
 
    reg           gdma_cpu_halt, hdma_cpu_halt;
@@ -318,7 +315,7 @@ module dma_controller(
    /*give the status of the DMA transfer to the read only register of HDMA5*/
    assign hdma5_status[7] = (gdma_state == GDMA_WRITE) |
 			    (hdma_state != HDMA_WAIT);
-   assign hdma5_status[6:0] = 'd0;
+   assign hdma5_status[6:0] = ((transfer_length - hdma_count) >> 16) - 1;
 
    /*find the rising edge of the hblank signal to know
     *when to trigger the 16 bytes write of the hdma*/

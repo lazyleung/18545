@@ -76,7 +76,7 @@ module gpu_top(//Outputs
 	//
 	wire gpuclk;
 	wire gb_hsync, gb_vsync;
-	wire[1:0] gb_pixel_data;
+	wire[15:0] gb_pixel_data;
 	wire[7:0] gb_pixel_count;
 	wire[7:0] gb_line_count;
 	wire[7:0] gb_pixel_cnt; // 0-454
