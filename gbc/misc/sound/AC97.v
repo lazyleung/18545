@@ -22,7 +22,8 @@ module AC97(
 	    inout [7:0]  IO_IOREG_DATA,
 	    input        I_IOREG_WE_L,	
 	    input        I_IOREG_RE_L,
-	    output [7:0] O_D0, O_D1, O_D2, O_D3, O_D4
+	    output [7:0] O_D0, O_D1, O_D2, O_D3, O_D4,
+        input new_sound
 
 	    );
    
@@ -88,16 +89,29 @@ module AC97(
 
    sound_controller sc(
 		       .I_CLK(I_CLK),
-		       .I_CLK_33MHZ(I_CLK_33MHZ),
+		       .I_CLK_33MHZ(I_CLK33MHZ),
 		       .I_RESET(I_RESET),
 		       .I_BITCLK(ac97_bitclk),
 		       .I_STROBE(ac97_strobe),
-		       .O_SO1(ac97_outslot3),
-		       .O_SO2(ac97_outslot4),
+		       .O_SO1(ac97_out_slot3),
+		       .O_SO2(ac97_out_slot4),
 		       .I_IOREG_ADDR(I_IOREG_ADDR),
 		       .IO_IOREG_DATA(IO_IOREG_DATA),
 		       .I_IOREG_RE_L(I_IOREG_RE_L),
 		       .I_IOREG_WE_L(I_IOREG_WE_L));
+               
+   /*sound_channel1 sc1(
+                      .I_CLK(I_CLK),
+                      .I_CLK33MHZ(I_CLK33MHZ),
+                      .I_RESET(I_RESET),
+                      .I_BITCLK(ac97_bitclk),
+                      .I_STROBE(ac97_strobe),
+                      .I_IOREG_ADDR(I_IOREG_ADDR),
+                      .IO_IOREG_DATA(I_IOREG_DATA),
+                      .I_IOREG_WE_L(I_IOREG_WE_L),
+                      .I_IOREG_RE_L(I_IOREG_RE_L),
+                      .O_CH1_WAVEFORM(ac97_out_slot3)
+                      );*/
    
    ACLink link(
 	       /*AUTOINST*/

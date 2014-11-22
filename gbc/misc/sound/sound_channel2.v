@@ -25,7 +25,7 @@ module sound_channel2(
                       O_CH2_WAVEFORM
                       );
 
-   input        I_CLK, I_CLK_33MHZ, I_RESET;
+   input        I_CLK, I_CLK_33MHZ, I_RESET, I_STROBE, I_BITCLK;
    input [15:0] I_IOREG_ADDR;
    inout [7:0] 	IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
@@ -38,27 +38,29 @@ module sound_channel2(
    wire         new_nr21, new_nr22, new_nr23, new_nr24;
 
    /*service data from the io register bus*/
-   io_bus_parser_reg #(`NR21,0,0,0,0) (.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR21,0,0,0,0) nr21(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr21_data),
+                                       //.O_DATA_READ(nr21_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr21));
-   io_bus_parser_reg #(`NR22,0,0,0,0) (.I_CLK(I_CLK),
+   assign nr21_data = 8'b10_000000;
+   io_bus_parser_reg #(`NR22,0,0,0,0) nr22(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       .O_DATA_READ(nr22_data),
+                                       //.O_DATA_READ(nr22_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr22));
-   io_bus_parser_reg #(`NR23,0,0,0,0) (.I_CLK(I_CLK),
+   assign nr22_data = 8'b0100_1_000;
+   io_bus_parser_reg #(`NR23,0,0,0,0) nr23(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -68,7 +70,8 @@ module sound_channel2(
                                        .O_DATA_READ(nr23_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr23));
-   io_bus_parser_reg #(`NR24,0,0,0,0) (.I_CLK(I_CLK),
+   assign nr23_data = 8'b11010110;
+   io_bus_parser_reg #(`NR24,0,0,0,0) nr24(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),
@@ -78,6 +81,7 @@ module sound_channel2(
                                        .O_DATA_READ(nr24_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr24));
+   assign nr24_data = 8'b1_1_000_110;
 
    wire [1:0]   duty_cycle;
    wire [10:0]  frequency;
@@ -124,7 +128,7 @@ module sound_channel2(
       if (restart_sound) begin
          enable_sound <= 1;
          count <= 0;
-	     current_volume <= initial_volume;
+	 current_volume <= initial_volume;
       end
 
       if (I_RESET) begin
@@ -139,9 +143,9 @@ module sound_channel2(
                                    .I_RESET(I_RESET),
                                    .O_SAMPLE(O_CH2_WAVEFORM),
                                    .I_STROBE(I_STROBE),
-                                   .I_FREQUENCY(current_freq),
+                                   .I_FREQUENCY(frequency),
                                    .I_DUTY_CYCLE(duty_cycle),
-                                   .I_WAVEFORM_EN(sound_enable),
+                                   .I_WAVEFORM_EN(enable_sound),
                                    .I_VOLUME(current_volume));
 
 endmodule

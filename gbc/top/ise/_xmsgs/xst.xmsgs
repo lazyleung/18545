@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../gbc_top_synth.v&quot; line 139 </arg>&apos;<arg fmt="%s" index="2">lcdram_we_l</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../gbc_top_synth.v&quot; line 139 </arg>&apos;<arg fmt="%s" index="2">lcdram_re_l</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">252</arg> <arg fmt="%s" index="3">expecting &apos;.&apos;, found &apos;)&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">256</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">257</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">258</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">259</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">260</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">261</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">262</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">263</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">264</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">265</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">266</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">267</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">268</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="26" delta="new" >&quot;<arg fmt="%s" index="1">../gbc_top_synth.v</arg>&quot; line <arg fmt="%d" index="2">269</arg> <arg fmt="%s" index="3">unexpected token: &apos;.&apos;</arg>
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../gbc_top_synth.v&quot; line 341 </arg>&apos;<arg fmt="%s" index="2">I_CLK</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 153 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 154 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 154 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 155 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 156 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 156 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 173 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 181 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 190 </arg>&apos;<arg fmt="%s" index="2">I_BITCLK</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 192 </arg>&apos;<arg fmt="%s" index="2">I_STROBE</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 196 </arg>&apos;<arg fmt="%s" index="2">current_volume</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="208" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 13 </arg>Port reference &apos;<arg fmt="%s" index="2">I_STROBE</arg>&apos; was not declared as input, inout or output
+</msg>
+
+<msg type="error" file="HDLCompilers" num="208" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel4.v&quot; line 12 </arg>Port reference &apos;<arg fmt="%s" index="2">I_BITCLK</arg>&apos; was not declared as input, inout or output
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel3.v&quot; line 171 </arg>&apos;<arg fmt="%s" index="2">clocks_in_sample</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel2.v&quot; line 138 </arg>&apos;<arg fmt="%s" index="2">I_BITCLK</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel2.v&quot; line 141 </arg>&apos;<arg fmt="%s" index="2">I_STROBE</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel2.v&quot; line 142 </arg>&apos;<arg fmt="%s" index="2">current_freq</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel2.v&quot; line 144 </arg>&apos;<arg fmt="%s" index="2">sound_enable</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="208" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel2.v&quot; line 13 </arg>Port reference &apos;<arg fmt="%s" index="2">I_STROBE</arg>&apos; was not declared as input, inout or output
+</msg>
+
+<msg type="error" file="HDLCompilers" num="208" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/sound_channel2.v&quot; line 12 </arg>Port reference &apos;<arg fmt="%s" index="2">I_BITCLK</arg>&apos; was not declared as input, inout or output
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/random_waveform_generator.v&quot; line 110 </arg>&apos;<arg fmt="%s" index="2">I_BITBLK</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="207" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 24 </arg>Signal &apos;<arg fmt="%s" index="2">O_LEFT_SAMPLE</arg>&apos; is not referenced in the module port list
+</msg>
+
+<msg type="error" file="HDLCompilers" num="207" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 24 </arg>Signal &apos;<arg fmt="%s" index="2">O_RIGHT_SAMPLE</arg>&apos; is not referenced in the module port list
+</msg>
+
+<msg type="error" file="HDLCompilers" num="27" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 75 </arg>Illegal redeclaration of &apos;<arg fmt="%s" index="2">nr52</arg>&apos;
+</msg>
+
+<msg type="error" file="HDLCompilers" num="27" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 105 </arg>Illegal redeclaration of &apos;<arg fmt="%s" index="2">sound4_on</arg>&apos;
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 110 </arg>&apos;<arg fmt="%s" index="2">sound1_on</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 134 </arg>&apos;<arg fmt="%s" index="2">O_SO1</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 135 </arg>&apos;<arg fmt="%s" index="2">O_SO2</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 148 </arg>&apos;<arg fmt="%s" index="2">sound1_on</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="208" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 13 </arg>Port reference &apos;<arg fmt="%s" index="2">O_SO1</arg>&apos; was not declared as input, inout or output
+</msg>
+
+<msg type="error" file="HDLCompilers" num="208" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/gbc_sound.v&quot; line 14 </arg>Port reference &apos;<arg fmt="%s" index="2">O_SO2</arg>&apos; was not declared as input, inout or output
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/AC97.v&quot; line 91 </arg>&apos;<arg fmt="%s" index="2">I_CLK_33MHZ</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/AC97.v&quot; line 95 </arg>&apos;<arg fmt="%s" index="2">ac97_outslot3</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../misc/sound/AC97.v&quot; line 96 </arg>&apos;<arg fmt="%s" index="2">ac97_outslot4</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="27" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/io_bus_parser/io_bus_parser.v&quot; line 7 </arg>Illegal redeclaration of &apos;<arg fmt="%s" index="2">io_bus_parser_reg</arg>&apos;
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 74 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 76 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 80 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 82 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 90 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 90 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 91 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 91 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 95 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 96 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 102 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 103 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 104 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 104 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 106 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 109 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 112 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 113 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 114 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 114 </arg>&apos;<arg fmt="%s" index="2">I_CARTRIDGE_DATA</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 116 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 119 </arg>&apos;<arg fmt="%s" index="2">zero_found</arg>&apos; has not been declared
+</msg>
+
+<msg type="error" file="HDLCompilers" num="27" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 197 </arg>Illegal redeclaration of &apos;<arg fmt="%s" index="2">bram_addr</arg>&apos;
+</msg>
+
+<msg type="warning" file="HDLCompilers" num="301" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 209 </arg>Too many digits specified in hex constant
+</msg>
+
+<msg type="error" file="HDLCompilers" num="28" delta="new" ><arg fmt="%s" index="1">&quot;../../memory/cartridge_sim/cartridge_sim.v&quot; line 231 </arg>&apos;<arg fmt="%s" index="2">rtc_data</arg>&apos; has not been declared
+</msg>
+
+</messages>
+

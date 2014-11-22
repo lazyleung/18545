@@ -1,39 +1,19 @@
-
-
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    21:11:32 11/04/2014 
-// Design Name: 
-// Module Name:    sound_test_top 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module sound_test_top(
 
-			/*forward the AC97 Interface*/
-         input              ac97_bitclk,
-			input              ac97_sdata_in,
-			input              pos1, pos2,
-			output wire        ac97_sdata_out,
-			output wire        ac97_sync,
-			output wire        ac97_reset_b,
+		      /*forward the AC97 Interface*/
+		      input              ac97_bitclk,
+		      input              ac97_sdata_in,
+		      input              pos1, pos2,
+		      output wire        ac97_sdata_out,
+		      output wire        ac97_sync,
+		      output wire        ac97_reset_b,
 
-			input CLK_33MHZ_FPGA,
-			input GPIO_SW_E,
-			
-			/*For Debugging*/
+		      input CLK_33MHZ_FPGA,
+		      input GPIO_SW_E,
+
+		      /*For Debugging*/
                       output GPIO_LED_0,
                       output GPIO_LED_1,
                       output GPIO_LED_2,
@@ -42,6 +22,7 @@ module sound_test_top(
                       output GPIO_LED_5,
                       output GPIO_LED_6,
                       output GPIO_LED_7,
+
 							 
 							 input GPIO_DIP_SW1,
 						    input GPIO_DIP_SW2,
@@ -58,14 +39,14 @@ module sound_test_top(
 	 reg [15:0] ioreg_addr;
 	 wire [7:0] ioreg_data;
 	 reg ioreg_we_l, ioreg_re_l;
-	 reg ioreg_en = 0;
+	 reg ioreg_en;
 	 reg [7:0] bus_data;
 	 
 	 wire I_CLK, I_CLK33MHZ, I_RESET;
 	 assign I_CLK33MHZ = CLK_33MHZ_FPGA;
 	 assign I_RESET = GPIO_SW_E;
 	 
-	 reg [7:0] O_DATA1;
+	 wire [7:0] O_DATA1;
 	 wire [7:0] I_DATA;
 	 
 	 assign GPIO_LED_0 = O_DATA1[7];
@@ -89,18 +70,7 @@ module sound_test_top(
 	 wire [7:0] da,db,dc,dd,de;
 	 reg [7:0]  restart_count;
 
-	 
-
-	 always @(*) begin
-		case(I_DATA) 
-			'd0: O_DATA1 = restart_count;
-			'd1: O_DATA1 = da;
-			'd2: O_DATA1 = db;
-			'd3: O_DATA1 = dc;
-			'd4: O_DATA1 = dd;
-			'd5: O_DATA1 = de;
-		endcase
-	end
+	 assign O_DATA1 = restart_count;
 
 	 
 	 my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
@@ -110,21 +80,23 @@ module sound_test_top(
 
 	 
 	 reg [23:0] count;
+     reg new_sound;
 	 
 	 
 	 always @(posedge I_CLK) begin
 	
-	   count <= count + 1;
-	   ioreg_en <= 0;
+	    count <= count + 1;
 		ioreg_we_l <= 1;
 		ioreg_re_l <= 1;
+        new_sound <= 0;
 	
 		if (count == 0) begin
 		   ioreg_addr <= 16'hFF10;
-			bus_data <= 8'b0_001_0_001;
+			bus_data <= 8'b0_111_0_111;
 			ioreg_en <= 1;
 			ioreg_we_l <= 0;
 			restart_count <= restart_count + 1;
+            new_sound <= 1;
 		end
 	   else if (count == 1) begin
 		   ioreg_addr <= 16'hFF11;
@@ -134,7 +106,7 @@ module sound_test_top(
 		end
       else if (count == 2) begin
 		   ioreg_addr <= 16'hFF12;
-			bus_data <= 8'b1111_0_111;
+			bus_data <= 8'b1111_1_111;
 			ioreg_en <= 1;
 			ioreg_we_l <= 0;
 		end
@@ -146,14 +118,31 @@ module sound_test_top(
 		end
 		else if (count == 4) begin
 		   ioreg_addr <= 16'hFF14;
-			bus_data <= 8'b1_1_000_110; //A 440 HZ
+			bus_data <= 8'b1_0_000_110; //A 440 HZ
 			ioreg_en <= 1;
 			ioreg_we_l <= 0;
 		end
+        else if (count == 5) begin
+            ioreg_addr <= 16'hFF19;
+			bus_data <= 8'b1_0_000_110;
+			ioreg_en <= 1;
+			ioreg_we_l <= 0;
+        end
+        else if (count == 6) begin
+            ioreg_addr <= 16'hFF23;
+			bus_data <= 8'b1_0_000_110;
+			ioreg_en <= 1;
+			ioreg_we_l <= 0;
+        end
+        else if (count == 7) begin
+           ioreg_en <= 0;
+           ioreg_we_l <= 1;
+        end
 	 
 		if (I_RESET) begin
 			count <= 0;
 			restart_count <= 0;
+            ioreg_en <= 0;
 	   end
 			
 			
@@ -177,6 +166,7 @@ module sound_test_top(
 	             .IO_IOREG_DATA(ioreg_data),
 	             .I_IOREG_WE_L(ioreg_we_l),	
 	             .I_IOREG_RE_L(ioreg_re_l),
+                 .new_sound(new_sound),
 					 
 					 .O_D1(db), .O_D2(dc),
 					 .O_D3(dd), .O_D4(de), .O_D0(da)
@@ -192,35 +182,35 @@ module my_clock_divider(
                         clock_in
                         );
 
-    parameter   DIV_SIZE = 15, DIV_OVER_TWO = 24000;
+   parameter   DIV_SIZE = 15, DIV_OVER_TWO = 24000;
 
-    output reg clock_out = 0;
+   output reg clock_out = 0;
 
-    input wire clock_in;
+   input wire clock_in;
 
-    reg [DIV_SIZE-1:0] counter=0;
+   reg [DIV_SIZE-1:0] counter=0;
 
-    always @(posedge clock_in) begin
+   always @(posedge clock_in) begin
       if (counter == DIV_OVER_TWO-1) begin
          clock_out <= ~clock_out;
          counter <= 0;
       end
       else
         counter <= counter + 1;
-    end
+   end
 
 endmodule // my_clock_divider
 
 module tristate(/*AUTOARG*/
-   // Outputs
-   out,
-   // Inputs
-   in, en
-   );
+		// Outputs
+		out,
+		// Inputs
+		in, en
+		);
    parameter
      width = 1;
    output wire [width-1:0] out;
-   input [width-1:0]       in;
+   input [width-1:0] 	   in;
    input                   en;
 
    assign out = (en) ? in : {width{1'bz}};

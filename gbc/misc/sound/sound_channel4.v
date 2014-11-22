@@ -25,7 +25,7 @@ module sound_channel4(
                       O_CH4_WAVEFORM
                       );
    
-   input        I_CLK, I_CLK_33MHZ, I_RESET;
+   input        I_CLK, I_CLK_33MHZ, I_RESET, I_STROBE, I_BITCLK;
    input [15:0] I_IOREG_ADDR;
    inout [7:0] 	IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
@@ -46,10 +46,11 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr41_data),
+                                           //.O_DATA_READ(nr41_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr41)
                                            );
+   assign nr41_data = 0;
    io_bus_parser_reg #(`NR42,0,0,0,0) nr42(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -57,9 +58,10 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr42_data),
+                                           //.O_DATA_READ(nr42_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr42));
+   assign nr42_data = 8'b0100_1_111;
    io_bus_parser_reg #(`NR43,0,0,0,0) nr43(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -67,9 +69,10 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr43_data),
+                                           //.O_DATA_READ(nr43_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr43));
+   assign nr43_data = 8'b0000_0_000;
    io_bus_parser_reg #(`NR44,0,0,0,0) nr44(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -77,9 +80,10 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           .O_DATA_READ(nr44_data),
+                                           //.O_DATA_READ(nr44_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr44));
+   assign nr44_data = 8'b1_1_000000;
 
    /*extract the parameters of the sound from the io register*/
    wire [31:0] 	 sound_length_clocks;
@@ -128,7 +132,7 @@ module sound_channel4(
    
    reg 		 shift_clock;
    reg 		 sound_enable;
-   reg [3:0] 	 current_colume;
+   reg [3:0] 	 current_volume;
    reg [31:0] 	 sound_length_count;
    reg [31:0] 	 shift_clock_count;
    reg [31:0] 	 volume_env_count;
@@ -186,12 +190,12 @@ module sound_channel4(
    assign O_CH4_ON = sound_enable;
 	 
    randwave_generator randwave(
-			       .I_SHIFT_CLOCK(shift_clock),
+			                   .I_SHIFT_CLOCK(shift_clock),
                                .I_BITCLK(I_BITCLK),
                                .I_RESET(I_RESET),
                                .I_STROBE(I_STROBE),
                                .O_SAMPLE(O_CH4_WAVEFORM),
-			       .I_BIT_WIDTH(counter_step_width),
+			                   .I_BIT_WIDTH(counter_step_width),
                                .I_WAVEFORM_EN(sound_enable),
                                .I_VOLUME(current_volume)
 			       );

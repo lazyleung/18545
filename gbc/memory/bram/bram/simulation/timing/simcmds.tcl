@@ -53,6 +53,7 @@
 wcfg new
 isim set radix hex
 wave add /bram_tb/status
+      wave add  /bram_tb/bram_synth_inst/BMG_PORT/RSTA
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/CLKA
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/ADDRA
       wave add  /bram_tb/bram_synth_inst/BMG_PORT/DINA

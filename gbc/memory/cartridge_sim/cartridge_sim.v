@@ -55,7 +55,7 @@ module cartridge_sim(
    reg 		      ram_timer_en;
    reg [6:0] 	      rom_bank_num;
    reg [3:0] 	      ram_bank_num;
-   reg 		      latch_clock_data, found_zero;
+   reg 		      latch_clock_data, zero_found;
 
    /*write to the controll registers!!*/
    always @(posedge I_CLK) begin
@@ -71,15 +71,15 @@ module cartridge_sim(
 	   /*enable the ram/timer when A is written to address space
 	    * 0x0XXX - 0x1XXX*/ 
 	   16'h0: begin
-	      if (I_CARTRIDGE_DATA == 0)
+	      if (IO_CARTRIDGE_DATA == 0)
 		ram_timer_en <= 0;
-	      else if (I_CARTRIDGE_DATA == 16'h000A)
+	      else if (IO_CARTRIDGE_DATA == 16'h000A)
 		ram_timer_en <= 1;
 	   end
 	   16'h1: begin
-	      if (I_CARTRIDGE_DATA == 0)
+	      if (IO_CARTRIDGE_DATA == 0)
 		ram_timer_en <= 0;
-	      else if (I_CARTRIDGE_DATA == 16'h000A)
+	      else if (IO_CARTRIDGE_DATA == 16'h000A)
 		ram_timer_en <= 1;
 	   end
 
@@ -87,21 +87,21 @@ module cartridge_sim(
 	    *bank specification.  Note that rom bank 0 is really 
 	    *just rom bank 1 since bank zero is in its own
 	    *address space*/
-	   16'h2: rom_bank_num <= (I_CARTRIDGE_DATA[6:0] == 0) ? 1 : I_CARTRIDGE_DATA[6:0];
-	   16'h3: rom_bank_num <= (I_CARTRIDGE_DATA[6:0] == 0) ? 1 : I_CARTRIDGE_DATA[6:0];
+	   16'h2: rom_bank_num <= (IO_CARTRIDGE_DATA[6:0] == 0) ? 1 : IO_CARTRIDGE_DATA[6:0];
+	   16'h3: rom_bank_num <= (IO_CARTRIDGE_DATA[6:0] == 0) ? 1 : IO_CARTRIDGE_DATA[6:0];
 
 	   /*When in the address range of 0x4XXX-5XXX, write the RAM
 	    *bank specification or the time register selection*/ 
-	   16'h4: ram_bank_num <= I_CARTRIDGE_DATA[3:0];
-	   16'h5: ram_bank_num <= I_CARTRIDGE_DATA[3:0];
+	   16'h4: ram_bank_num <= IO_CARTRIDGE_DATA[3:0];
+	   16'h5: ram_bank_num <= IO_CARTRIDGE_DATA[3:0];
 
 	   /*If writing a 0 follow by a 1 to the address range of 0x6XXX-0x7FFF
 	    *then indicate that the clock should be latched into the 
 	    *RTC registers*/
 	   16'h6: begin
-	      if (I_CARTRIDGE_DATA == 0)
+	      if (IO_CARTRIDGE_DATA == 0)
 		zero_found <= 1;
-	      else if (zero_found && I_CARTRIDGE_DATA == 'd1) begin
+	      else if (zero_found && IO_CARTRIDGE_DATA == 'd1) begin
 		 latch_clock_data <= 1;
 		 zero_found <= 0;
 	      end
@@ -109,9 +109,9 @@ module cartridge_sim(
 		zero_found <= 0;
 	   end
 	   16'h7: begin
-	      if (I_CARTRIDGE_DATA == 0)
+	      if (IO_CARTRIDGE_DATA == 0)
 		zero_found <= 1;
-	      else if (zero_found && I_CARTRIDGE_DATA == 'd1) begin
+	      else if (zero_found && IO_CARTRIDGE_DATA == 'd1) begin
 		 latch_clock_data <= 1;
 		 zero_found <= 0;
 	      end
@@ -194,7 +194,6 @@ module cartridge_sim(
 
    /*Figure out the data to return*/
    wire        is_bank_zero;
-   wire [14:0] bram_addr;
    wire [7:0]  return_data, ram_return_data, register_return_data;
    wire [15:0] cartridge_addr_offset;
 
@@ -207,7 +206,7 @@ module cartridge_sim(
    /*Offset ram address so it starts at 0, then use the bank to linearly
     *offset the address into bram*/
    assign cartridge_addr_offset = I_CARTRIDGE_ADDR - 16'hA0000;
-   assign bram_addr = {ram_bank_num[1:0], cartridge_addr_offset[12:0]};
+   assign bram_addr = {1'b0, ram_bank_num[1:0], cartridge_addr_offset[12:0]};
    assign bram_we =  ram_timer_en && ~I_CARTRIDGE_WE_L && ram_bank_num <= 3 && accessing_RAM_space;
 
    /*determine the write data into the BRAM , if indicated to write to BRAM*/
@@ -228,7 +227,7 @@ module cartridge_sim(
 				 (ram_bank_num == 9)  ? rtc_minutes :
 				 (ram_bank_num == 10) ? rtc_hours   :
 				 (ram_bank_num == 11) ? rtc_days[7:0] :
-				 (ram_bank_num == 12) ? rtc_data[15:8] : 0;
+				 (ram_bank_num == 12) ? rtc_days[15:8] : 0;
 
    /*Drive The Cartridge Data bus with the return data*/
    wire        en_data;
