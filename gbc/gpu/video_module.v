@@ -1147,15 +1147,15 @@ module video_module(//Outputs
                 is_spr_pix <= bg_scanline_outA[7 - pixel_data_count[2:0]];
 
 			  bg_pal_sel <= {
-                idx_scanline1_outA[7 - pixel_data_count[2:0]],
+                idx_scanline3_outA[7 - pixel_data_count[2:0]],
                 idx_scanline2_outA[7 - pixel_data_count[2:0]],
-                idx_scanline3_outA[7 - pixel_data_count[2:0]]
+                idx_scanline1_outA[7 - pixel_data_count[2:0]]
               };
                 
 			  spr_pal_sel <= {
-                idx_scanline1_outA[7 - pixel_data_count[2:0]],
+                idx_scanline3_outA[7 - pixel_data_count[2:0]],
                 idx_scanline2_outA[7 - pixel_data_count[2:0]],
-                idx_scanline3_outA[7 - pixel_data_count[2:0]]
+                idx_scanline1_outA[7 - pixel_data_count[2:0]]
               };
 			  
 			  state <= PIXEL_OUT_STATE;
