@@ -74,9 +74,9 @@
 `define LY    16'hFF44
 `define LYC   16'hFF45
 `define DMA   16'hFF46   // X
-`define BGP   16'hFF47
-`define OBP0  16'hFF48
-`define OBP1  16'hFF49
+`define BGP   16'hFF47   // X
+`define OBP0  16'hFF48   // X
+`define OBP1  16'hFF49   // X
 `define WY    16'hFF4A
 `define WX    16'hFF4B
 `define HDMA1 16'hFF51   // X

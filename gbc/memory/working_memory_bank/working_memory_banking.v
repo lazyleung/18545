@@ -1,19 +1,19 @@
 `include "../memory_router/memdef.vh"
 
 /*WORKING MEMORY BANK - reads the specified working bank from
- *the io bus register and determines whether the address to 
- * send the bram block.  Since the bram is 36kB and the 
+ * the io bus register and determines whether the address to
+ * send the bram block.  Since the bram is 36kB and the
  * total working memory is 32 kB, we can simply divide this up
- * into 4kB address spaces.  The start of the banks' address space 
+ * into 4kB address spaces.  The start of the banks' address space
  * will be determined by the input bram address as follows:
- * 
+ *
  * bank 0 -> 0b00000000000000
  * bank 1 -> 0b00100000000000
  * bank 2 -> 0b01000000000000
  * bank 3 -> 0b01100000000000
- * 
- * and so on.  
- * 
+ *
+ * and so on.
+ *
  * Note that the way the GBC is set up, the access to bank zero
  * is independent of the SVBK register and it has its own address
  * space (0xC000 - 0xCFFF) where as the address space of (0xD000 -
@@ -32,7 +32,7 @@ module working_memory_bank(
 			   I_IOREG_RE_L,
 
 			   /* Interface with Router to handle
-			    * working ram transactions*/ 
+			    * working ram transactions*/
 			   I_WRAM_ADDR,
 			   IO_WRAM_DATA,
 			   I_WRAM_WE_L,
@@ -46,15 +46,15 @@ module working_memory_bank(
    input [15:0] I_IOREG_ADDR, I_WRAM_ADDR;
    inout [7:0] 	IO_IOREG_DATA, IO_WRAM_DATA;
    input 	I_IOREG_WE_L, I_IOREG_RE_L,
-		I_WRAM_WE_L, I_WRAM_RE_L;
+		    I_WRAM_WE_L, I_WRAM_RE_L;
    input 	I_IN_DMG_MODE;
-   
+
    wire [7:0]	svbk_data;
    wire 	write_ioreg_l;
 
    wire 	is_bank_zero;
-   
-   
+
+
    /*only write to the io register in gameboy color mode*/
    assign write_ioreg_l = ~((~I_IOREG_WE_L) & (~I_IN_DMG_MODE));
 
@@ -68,7 +68,7 @@ module working_memory_bank(
 					  .I_RE_BUS_L(I_IOREG_RE_L),
 					  .O_DATA_READ(svbk_data));
 
-   /*the use of bank 0 is indicated such that top top 4 bits of 
+   /*the use of bank 0 is indicated such that top top 4 bits of
     * the incoming address will be 0xC*/
    assign is_bank_zero =  (I_WRAM_ADDR[15:12] == 4'hC);
 
@@ -88,14 +88,14 @@ module working_memory_bank(
    assign bram_banked_addr[14:12] = (svbk_data == 3'd0) ? 3'b001 : bank_selection;
    /*keep the offset from the "base of bank" address location*/
    assign bram_banked_addr[11:0] = router_addr[11:0];
-   
+
    /*if using bank zero keep the same address, else use the modified one
     *to get information from a different spot in the bram chunk*/
    assign bram_addr = (is_bank_zero) ?  router_addr[15:0] : bram_banked_addr[15:0];
-		      
-   
+
+
    /*keep only 12 bits since we are working with
-    *4 kbyte segments of memory*/ 
+    *4 kbyte segments of memory*/
    bram_wrapper #(16'h0FFF) ifconverter(
 				       .I_CLK(I_MEM_CLK),
 				       .I_RESET(I_RESET),
