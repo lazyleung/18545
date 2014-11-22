@@ -811,34 +811,34 @@ module video_module(//Outputs
 
          // background index
 		 idx_scanline1_inA <= background_attributes[0] ?
-				  (idx_scanline1_outA & (8'hFF << tile_byte_offset2) |
+				  ((tile_col_num == 0 ? 8'hFF : idx_scanline1_outA) & (8'hFF << tile_byte_offset2) |
 				   (8'hFF >> tile_byte_offset1)) :
-                  (idx_scanline1_outA & (8'hFF << tile_byte_offset2));
+                  ((tile_col_num == 0 ? 8'hFF : idx_scanline1_outA) & (8'hFF << tile_byte_offset2));
                   
          idx_scanline2_inA <= background_attributes[1] ?
-				  (idx_scanline2_outA & (8'hFF << tile_byte_offset2) |
+				  ((tile_col_num == 0 ? 8'hFF : idx_scanline2_outA) & (8'hFF << tile_byte_offset2) |
 				   (8'hFF >> tile_byte_offset1)) :
-                  (idx_scanline2_outA & (8'hFF << tile_byte_offset2));
+                  ((tile_col_num == 0 ? 8'hFF : idx_scanline2_outA) & (8'hFF << tile_byte_offset2));
                   
 		 idx_scanline3_inA <= background_attributes[2] ?
-				  (idx_scanline3_outA & (8'hFF << tile_byte_offset2) |
+				  ((tile_col_num == 0 ? 8'hFF : idx_scanline3_outA) & (8'hFF << tile_byte_offset2) |
 				   (8'hFF >> tile_byte_offset1)) :
-                  (idx_scanline3_outA & (8'hFF << tile_byte_offset2));
+                  ((tile_col_num == 0 ? 8'hFF : idx_scanline3_outA) & (8'hFF << tile_byte_offset2));
 
-         idx_scanline1_inB <= background_attributes[0] ? (idx_scanline1_outB &
+         idx_scanline1_inB <= background_attributes[0] ? ((tile_col_num == 0 ? 8'hFF : idx_scanline1_outB) &
 							 ~(8'hFF << tile_byte_offset2) |
 							 (8'hFF << tile_byte_offset2)) :
-                             (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2));
+                             ((tile_col_num == 0 ? 8'hFF : idx_scanline1_outB) & ~(8'hFF << tile_byte_offset2));
                              
-         idx_scanline2_inB <= background_attributes[1] ? (idx_scanline2_outB &
+         idx_scanline2_inB <= background_attributes[1] ? ((tile_col_num == 0 ? 8'hFF : idx_scanline2_outB) &
 							 ~(8'hFF << tile_byte_offset2) |
 							 (8'hFF << tile_byte_offset2)) :
-                             (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2));
+                             ((tile_col_num == 0 ? 8'hFF : idx_scanline2_outB) & ~(8'hFF << tile_byte_offset2));
                              
-         idx_scanline3_inB <= background_attributes[2] ? (idx_scanline3_outB &
+         idx_scanline3_inB <= background_attributes[2] ? ((tile_col_num == 0 ? 8'hFF : idx_scanline3_outB) &
 							 ~(8'hFF << tile_byte_offset2) |
 							 (8'hFF << tile_byte_offset2)) :
-                             (idx_scanline1_outB & ~(8'hFF << tile_byte_offset2));
+                             ((tile_col_num == 0 ? 8'hFF : idx_scanline3_outB) & ~(8'hFF << tile_byte_offset2));
 
 		 
 		 // enable writes
