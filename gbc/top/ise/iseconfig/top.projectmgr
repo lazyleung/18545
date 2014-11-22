@@ -26,6 +26,10 @@
          <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/gbc_cpu - cpu</ClosedNode>
          <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/lcdram - lcdram_test</ClosedNode>
          <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/oam - oamram_test</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/sound - AC97/sc - sound_controller/sc1 - sound_channel1</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/sound - AC97/sc - sound_controller/sc2 - sound_channel2</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/sound - AC97/sc - sound_controller/sc3 - sound_channel3</ClosedNode>
+         <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/sound - AC97/sc - sound_controller/sc4 - sound_channel4</ClosedNode>
          <ClosedNode>/gameboycolor C:|Users|ash|Documents|18545|gbc|top|gbc_top_synth.v/wram - working_memory_bank</ClosedNode>
          <ClosedNode>/lcd_top C:|Users|ash|Documents|18545|gbc|top|lcd_top.v</ClosedNode>
          <ClosedNode>/lcdram_test C:|Users|ash|Documents|18545|gbc|memory|memory_testing_modules|lcdram_test.v</ClosedNode>
@@ -36,13 +40,13 @@
          <ClosedNode>PROJECT</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>gbc_top.ucf (C:/Users/ash/Documents/18545/gbc/top/gbc_top.ucf)</SelectedItem>
+         <SelectedItem>gameboycolor (C:/Users/ash/Documents/18545/gbc/top/gbc_top_synth.v)</SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >9</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000001a0000000020000000000000000000000000200000064ffffffff000000810000000300000002000001a00000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>gbc_top.ucf (C:/Users/ash/Documents/18545/gbc/top/gbc_top.ucf)</CurrentItem>
+      <CurrentItem>gameboycolor (C:/Users/ash/Documents/18545/gbc/top/gbc_top_synth.v)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="DESUT_VERILOG" guiview="Process" >
       <ClosedNodes>
@@ -55,13 +59,13 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem/>
+         <SelectedItem></SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000000000000000001b2000000010000000100000000000000000000000064ffffffff000000810000000000000001000001b20000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem/>
+      <CurrentItem></CurrentItem>
    </ItemView>
    <ItemView guiview="File" >
       <ClosedNodes>
