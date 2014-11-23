@@ -1,5 +1,6 @@
 `define READ_ONLY 2'b10
 `define WRITE_ONLY 2'b01
+`default_nettype none
 
 
 /* IO BUS PARSER*/

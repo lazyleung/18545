@@ -1,3 +1,6 @@
+
+`default_nettype none
+
 module cartridge_sim(
 		     /*System Level Inputs*/
 		     I_CLK,
@@ -205,7 +208,7 @@ module cartridge_sim(
 
    /*Offset ram address so it starts at 0, then use the bank to linearly
     *offset the address into bram*/
-   assign cartridge_addr_offset = I_CARTRIDGE_ADDR - 16'hA0000;
+   assign cartridge_addr_offset = I_CARTRIDGE_ADDR - 16'hA000;
    assign bram_addr = {1'b0, ram_bank_num[1:0], cartridge_addr_offset[12:0]};
    assign bram_we =  ram_timer_en && ~I_CARTRIDGE_WE_L && ram_bank_num <= 3 && accessing_RAM_space;
 

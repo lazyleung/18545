@@ -1,5 +1,6 @@
 `include "../../memory/io_bus_parser/io_bus_parser.v"
 `include "../../memory/memory_router/memdef.vh"
+`default_nettype none
 
 module dma_controller(
                       I_CLK,

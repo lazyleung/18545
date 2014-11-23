@@ -11,6 +11,8 @@
 `define SERIAL  3
 `define JOYPAD  4
 
+`default_nettype none
+
 module interrupt(
         I_CLOCK, I_RESET,
         I_VBLANK_INTERRUPT,

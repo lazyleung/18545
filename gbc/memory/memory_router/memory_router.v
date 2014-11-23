@@ -1,5 +1,5 @@
 `include "memdef.vh"
-
+`default_nettype none
 
 module memory_router(
 
@@ -50,7 +50,8 @@ module memory_router(
 
                      /*LCD RAM*/
                      O_LCDRAM_ADDR,
-                     IO_LCDRAM_DATA,
+                     O_LCDRAM_DATA,
+                     I_LCDRAM_DATA,
                      O_LCDRAM_WE_L,
                      O_LCDRAM_RE_L,
 
@@ -71,7 +72,9 @@ module memory_router(
 
    /*Slave Interface Ports*/
    output [15:0]     O_IOREG_ADDR, O_CARTRIDGE_ADDR, O_LCDRAM_ADDR, O_WRAM_ADDR;
-   inout [7:0]       IO_IOREG_DATA, IO_CARTRIDGE_DATA, IO_LCDRAM_DATA, IO_WRAM_DATA;
+   inout [7:0]       IO_IOREG_DATA, IO_CARTRIDGE_DATA, IO_WRAM_DATA;
+   input [7:0]       I_LCDRAM_DATA;
+   output [7:0]      O_LCDRAM_DATA;
    output            O_IOREG_WE_L, O_IOREG_RE_L, O_CARTRIDGE_WE_L, O_CARTRIDGE_RE_L,
                      O_LCDRAM_WE_L, O_LCDRAM_RE_L, O_WRAM_WE_L, O_WRAM_RE_L;
 
@@ -93,7 +96,7 @@ module memory_router(
                      wram_data_in, oam_data_in, lwram_data_in;
    assign ioreg_data_in = IO_IOREG_DATA;
    assign cartridge_data_in = IO_CARTRIDGE_DATA;
-   assign lcdram_data_in = IO_LCDRAM_DATA;
+   assign lcdram_data_in = I_LCDRAM_DATA;
    assign wram_data_in = IO_WRAM_DATA;
    wire [7:0]        ioreg_data_out, cartridge_data_out, lcdram_data_out,
                      wram_data_out;
@@ -104,7 +107,7 @@ module memory_router(
    wire              cpu_accessing_cartridge;
    assign IO_IOREG_DATA = (en_ioreg_data) ? ioreg_data_out : 'bzzzzzzzz;
    assign IO_CARTRIDGE_DATA = (en_cartridge_data) ? cartridge_data_out : 'bzzzzzzzz;
-   assign IO_LCDRAM_DATA = (en_lcdram_data) ? lcdram_data_out : 'bzzzzzzzz;
+   assign O_LCDRAM_DATA = lcdram_data_out;
    assign IO_WRAM_DATA = (en_wram_data) ? wram_data_out : 'bzzzzzzzz;
 
    /*Bits to indicate who is accessing what*/

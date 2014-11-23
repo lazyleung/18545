@@ -1,4 +1,5 @@
 `include "../memory_router/memdef.vh"
+`default_nettype none
 
 /*WORKING MEMORY BANK - reads the specified working bank from
  * the io bus register and determines whether the address to

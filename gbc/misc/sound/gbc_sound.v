@@ -84,7 +84,7 @@ module sound_controller(
    
    wire 	 output_so1, output_so2;
    wire [2:0] 	 so1_volume, so2_volume;
-   assign output_so1 = 1;//nr50_data[3];
+   assign output_so1 = nr50_data[3];
    assign so1_volume = nr50_data[2:0]; //won't be implemented
    assign output_so2 = nr50_data[7];
    assign so2_volume = nr50_data[6:4]; //won't be implemented
@@ -95,14 +95,14 @@ module sound_controller(
    assign ch3_so2_out = nr51_data[6];
    assign ch2_so2_out = nr51_data[5];
    assign ch1_so2_out = nr51_data[4];
-   assign ch4_so1_out = 1;//nr51_data[3];
+   assign ch4_so1_out = nr51_data[3];
    assign ch3_so1_out = nr51_data[2];
-   assign ch2_so1_out = 1;//nr51_data[1];
-   assign ch1_so1_out = 1;//nr51_data[0];
+   assign ch2_so1_out = nr51_data[1];
+   assign ch1_so1_out = nr51_data[0];
    
    wire 	 enable_all_sound;
    wire 	 sound1_on, sound2_on, sound3_on, sound4_on;
-   assign enable_all_sound = 1;//nr52_data[7];
+   assign enable_all_sound = nr52_data[7];
    assign nr52_write_data[3] = sound4_on;
    assign nr52_write_data[2] = sound3_on;
    assign nr52_write_data[1] = sound2_on;

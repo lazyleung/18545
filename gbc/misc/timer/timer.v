@@ -1,6 +1,7 @@
 // jkleung1
 
 `include "../../memory/memory_router/memdef.vh"
+`default_nettype none
 
 // Expects a clock of 2^23
 module timer_module(

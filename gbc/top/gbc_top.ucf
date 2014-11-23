@@ -41,7 +41,7 @@ NET  GPIO_LED_7           LOC="AE24";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm 
 #NET  GPIO_SW_E            LOC="AK7";   # Bank 18, Vcco=3.3V, No DCI
 #NET  GPIO_SW_N            LOC="U8";    # Bank 18, Vcco=3.3V, No DCI
 #NET  GPIO_SW_S            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
-#NET  GPIO_SW_W            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
+NET  GPIO_SW_W            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
 #NET  LCD_FPGA_DB4         LOC="T9";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
 #NET  LCD_FPGA_DB5         LOC="G7";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
 #NET  LCD_FPGA_DB6         LOC="G6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
@@ -134,11 +134,11 @@ NET "dvi_reset_b" LOC="AK6"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
 NET "dvi_scl" LOC="u27"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
 NET "dvi_sda" LOC="t29"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
 
-#NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
-#NET "ac97_sdata_in" LOC="AE18";
-#NET "ac97_sdata_out" LOC="AG16";
-#NET "ac97_sync" LOC="AF19";
-#NET "ac97_reset_b" LOC="AG17";
-#TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
+NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
+NET "ac97_sdata_in" LOC="AE18";
+NET "ac97_sdata_out" LOC="AG16";
+NET "ac97_sync" LOC="AF19";
+NET "ac97_reset_b" LOC="AG17";
+TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
 #NET  "pos1"            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
 #NET  "pos2"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI

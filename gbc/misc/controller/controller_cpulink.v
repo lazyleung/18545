@@ -1,4 +1,5 @@
 `include "../../memory/memory_router/memdef.vh"
+`default_nettype none
 
 `define START 7
 `define SELECT 6

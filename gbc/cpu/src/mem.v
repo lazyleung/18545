@@ -1,3 +1,5 @@
+`default_nettype none
+
 /**
  * Very simple bus-based memory module.
  *

@@ -35,12 +35,12 @@ module gameboycolor(
                       dvi_scl,
                       
                       /*FPGA AC97 Sound Module*/
-                      // ac97_bitclk,
-                      // ac97_sdata_in,
-                      // pos1, pos2,
-                      // ac97_sdata_out,
-                      // ac97_sync,
-                      // ac97_reset_b,
+                      ac97_bitclk,
+                      ac97_sdata_in,
+                      pos1, pos2,
+                      ac97_sdata_out,
+                      ac97_sync,
+                      ac97_reset_b,
 
                       /*To See multiple bytes of data*/
                       GPIO_DIP_SW1,
@@ -65,12 +65,12 @@ module gameboycolor(
     output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
             GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
             GPIO_LED_6,GPIO_LED_7;
- //    input              ac97_bitclk;
-	// input              ac97_sdata_in;
-	// input              pos1, pos2;
-	// output wire        ac97_sdata_out;
-	// output wire        ac97_sync;
-	// output wire        ac97_reset_b;
+    input              ac97_bitclk;
+    input              ac97_sdata_in;
+    input              pos1, pos2;
+    output wire        ac97_sdata_out;
+    output wire        ac97_sync;
+	output wire        ac97_reset_b;
 
     input  wire [15:0]  flash_d;
     output wire [23:0]  flash_a;
@@ -184,21 +184,34 @@ module gameboycolor(
     // =========== Connections ================
     // ========================================
 
+    reg [7:0] count;
+    reg [20:0]   count2;
+
     wire        timer_interrupt, controller_interrupt;
 	 
 	 assign mem_enable_video = ~lcdram_we_l || ~lcdram_re_l;
-    assign O_DATA1 = (PUSH_BUTTON) ? ioreg1_data : ioreg2_data;
+    assign O_DATA1 = (PUSH_BUTTON) ? count : ioreg2_data;
+    
+    always @(posedge clock_main) begin
+        count2 <= count2 + 1;
+        
+        if (count2 == 0)
+            count <= count + 1;
+        if (synch_reset) begin
+            count <= 0;
+            count2 <= 0;
+        end
+    end
+            
+    
 
     // ========================================
     // ======== Module Instantiation ==========
     // ========================================
-
-    /*To convert an asynch reset to a synch reset, run on 8Mhz clock*/
-    reset_controller resetController(
-    		                        .I_CLK(clock_main),
-    		                        .I_ASYNC_RESET(reset),
-    		                        .O_SYNC_RESET(synch_reset));
-
+    
+    /*we have it this way in case we need to do a more elaborate system reset
+     *other than just pushing a button*/
+    assign synch_reset = reset;
     
     cpu gbc_cpu(
                .mem_we_l(cpu_mem_we_l),
@@ -245,7 +258,7 @@ module gameboycolor(
         .clk27(CLK_27MHZ_FPGA),
         .clk33(CLK_33MHZ_FPGA),
         .clk100(USER_CLK),
-        .top_rst_b(synch_reset),
+        .top_rst_b(~synch_reset),
         //MMU Inputs
         .mem_enable_video(mem_enable_video),
         .rd_n_video(lcdram_re_l),
@@ -311,7 +324,8 @@ module gameboycolor(
                         .O_CARTRIDGE_WE_L(cartridge_we_l),
                         .O_CARTRIDGE_RE_L(cartridge_re_l),
                         .O_LCDRAM_ADDR(lcdram_addr),
-                        .IO_LCDRAM_DATA(lcdram_data),
+                        .I_LCDRAM_DATA(do_video),
+                        .O_LCDRAM_DATA(lcdram_data),
                         .O_LCDRAM_WE_L(lcdram_we_l),
                         .O_LCDRAM_RE_L(lcdram_re_l)
                         );
@@ -429,7 +443,7 @@ module gameboycolor(
      
      /*The AC97 write to the sound output, and within this module is the 
       *sound top level module that contains the four sound channels*/     
-     /*AC97 sound(
+     AC97 sound(
 	            .ac97_bitclk(ac97_bitclk),
 	            .ac97_sdata_in(ac97_sdata_in),
 	            .pos1(pos1), .pos2(pos2),
@@ -443,7 +457,7 @@ module gameboycolor(
 	            .IO_IOREG_DATA(iobus_data),
 	            .I_IOREG_WE_L(iobus_we_l),	
 	            .I_IOREG_RE_L(iobus_re_l)
-	    );*/
+	    );
 
 endmodule // gameboycolor
 

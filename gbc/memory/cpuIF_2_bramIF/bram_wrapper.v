@@ -1,3 +1,5 @@
+`default_nettype none
+
 module bram_wrapper(
     I_CLK,
     I_RESET,

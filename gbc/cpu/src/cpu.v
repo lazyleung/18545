@@ -2,6 +2,7 @@
 `include "decode.v"
 `include "regfile.v"
 `include "alu.v"
+`default_nettype none
 
 /**
  * The GB80 CPU.

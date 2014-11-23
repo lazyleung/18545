@@ -45,10 +45,10 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       //.O_DATA_READ(nr21_data),
+                                       .O_DATA_READ(nr21_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr21));
-   assign nr21_data = 8'b10_000000;
+   //assign nr21_data = 8'b10_000000;
    io_bus_parser_reg #(`NR22,0,0,0,0) nr22(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
@@ -56,10 +56,10 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       //.O_DATA_READ(nr22_data),
+                                       .O_DATA_READ(nr22_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr22));
-   assign nr22_data = 8'b0100_1_000;
+   //assign nr22_data = 8'b0100_1_000;
    io_bus_parser_reg #(`NR23,0,0,0,0) nr23(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
@@ -70,7 +70,7 @@ module sound_channel2(
                                        .O_DATA_READ(nr23_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr23));
-   assign nr23_data = 8'b11010110;
+   //assign nr23_data = 8'b11010110;
    io_bus_parser_reg #(`NR24,0,0,0,0) nr24(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
@@ -81,7 +81,7 @@ module sound_channel2(
                                        .O_DATA_READ(nr24_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr24));
-   assign nr24_data = 8'b1_1_000_110;
+   //assign nr24_data = 8'b1_1_000_110;
 
    wire [1:0]   duty_cycle;
    wire [10:0]  frequency;
