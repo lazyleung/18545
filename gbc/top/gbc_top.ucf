@@ -1,29 +1,29 @@
-#NET  AUDIO_SDATA_IN       LOC="AE18";  # Bank 4, Vcco=3.3V, No DCI    
-#NET  AUDIO_SDATA_OUT      LOC="AG16";  # Bank 4, Vcco=3.3V, No DCI    
-#NET  AUDIO_SYNC           LOC="AF19";  # Bank 4, Vcco=3.3V, No DCI    
-#NET  BUS_ERROR_1          LOC="F6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
-#NET  BUS_ERROR_2          LOC="T10";   # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
-#NET  CFG_ADDR_OUT0        LOC="AE12";  # Bank 2, Vcco=3.3V      
-#NET  CFG_ADDR_OUT1        LOC="AE13";  # Bank 2, Vcco=3.3V       
-#NET  CLK_FPGA_N           LOC="K19";   # Bank 3, Vcco=2.5V, No DCI      
-#NET  CLK_FPGA_P           LOC="L19";   # Bank 3, Vcco=2.5V, No DCI      
+#NET  AUDIO_SDATA_IN       LOC="AE18";  # Bank 4, Vcco=3.3V, No DCI
+#NET  AUDIO_SDATA_OUT      LOC="AG16";  # Bank 4, Vcco=3.3V, No DCI
+#NET  AUDIO_SYNC           LOC="AF19";  # Bank 4, Vcco=3.3V, No DCI
+#NET  BUS_ERROR_1          LOC="F6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
+#NET  BUS_ERROR_2          LOC="T10";   # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
+#NET  CFG_ADDR_OUT0        LOC="AE12";  # Bank 2, Vcco=3.3V
+#NET  CFG_ADDR_OUT1        LOC="AE13";  # Bank 2, Vcco=3.3V
+#NET  CLK_FPGA_N           LOC="K19";   # Bank 3, Vcco=2.5V, No DCI
+#NET  CLK_FPGA_P           LOC="L19";   # Bank 3, Vcco=2.5V, No DCI
 #NET  CLKBUF_Q0_N          LOC="H3";    # Bank 116, MGTREFCLKN_116, GTP_DUAL_X0Y4
 #NET  CLKBUF_Q0_P          LOC="H4";    # Bank 116, MGTREFCLKP_116, GTP_DUAL_X0Y4
-#NET  CLKBUF_Q1_N          LOC="J19";   # Bank 3, Vcco=2.5V, No DCI      
-#NET  CLKBUF_Q1_P          LOC="K18";   # Bank 3, Vcco=2.5V, No DCI      
-#NET  CPLD_IO_1            LOC="W10";   # Bank 18, Vcco=3.3V, No DCI      
-#NET  CPU_TCK              LOC="E6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
-#NET  CPU_TDO              LOC="E7";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
-#NET  CPU_TMS              LOC="U10";   # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors      
-#NET  CPU_TRST             LOC="V10";   # Bank 18, Vcco=3.3V, No DCI      
+#NET  CLKBUF_Q1_N          LOC="J19";   # Bank 3, Vcco=2.5V, No DCI
+#NET  CLKBUF_Q1_P          LOC="K18";   # Bank 3, Vcco=2.5V, No DCI
+#NET  CPLD_IO_1            LOC="W10";   # Bank 18, Vcco=3.3V, No DCI
+#NET  CPU_TCK              LOC="E6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
+#NET  CPU_TDO              LOC="E7";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
+#NET  CPU_TMS              LOC="U10";   # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
+#NET  CPU_TRST             LOC="V10";   # Bank 18, Vcco=3.3V, No DCI
 NET  GPIO_DIP_SW1         LOC="U25";   # Bank 15, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW2         LOC="AG27";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW3         LOC="AF25";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW4         LOC="AF26";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW5         LOC="AE27";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW6         LOC="AE26";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW7         LOC="AC25";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
-#NET  GPIO_DIP_SW8         LOC="AC24";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW2         LOC="AG27";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW3         LOC="AF25";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW4         LOC="AF26";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW5         LOC="AE27";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW6         LOC="AE26";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW7         LOC="AC25";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
+NET  GPIO_DIP_SW8         LOC="AC24";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm resistors
 NET  GPIO_LED_0           LOC="H18";   # Bank 3, Vcco=2.5V, No DCI
 NET  GPIO_LED_1           LOC="L18";   # Bank 3, Vcco=2.5V, No DCI
 NET  GPIO_LED_2           LOC="G15";   # Bank 3, Vcco=2.5V, No DCI
@@ -41,16 +41,16 @@ NET  GPIO_LED_7           LOC="AE24";  # Bank 21, Vcco=1.8V, DCI using 49.9 ohm 
 #NET  GPIO_SW_E            LOC="AK7";   # Bank 18, Vcco=3.3V, No DCI
 #NET  GPIO_SW_N            LOC="U8";    # Bank 18, Vcco=3.3V, No DCI
 #NET  GPIO_SW_S            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
-#NET  GPIO_SW_W            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
+NET  GPIO_SW_W            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI
 #NET  LCD_FPGA_DB4         LOC="T9";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
 #NET  LCD_FPGA_DB5         LOC="G7";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
 #NET  LCD_FPGA_DB6         LOC="G6";    # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
 #NET  LCD_FPGA_DB7         LOC="T11";   # Bank 12, Vcco=3.3V, DCI using 49.9 ohm resistors
-#NET  LCD_FPGA_E           LOC="AC9";   # Bank 22, Vcco=3.3V, DCI using 49.9 ohm resistors      
-#NET  LCD_FPGA_RS          LOC="J17";   # Bank 3, Vcco=2.5V, No DCI      
-#NET  LCD_FPGA_RW          LOC="AC10";  # Bank 22, Vcco=3.3V, DCI using 49.9 ohm resistors      
+#NET  LCD_FPGA_E           LOC="AC9";   # Bank 22, Vcco=3.3V, DCI using 49.9 ohm resistors
+#NET  LCD_FPGA_RS          LOC="J17";   # Bank 3, Vcco=2.5V, No DCI
+#NET  LCD_FPGA_RW          LOC="AC10";  # Bank 22, Vcco=3.3V, DCI using 49.9 ohm resistors
 #NET  USER_CLK             LOC="AH15";  # Bank 4, Vcco=3.3V, No DCI
-NET "USER_CLK"            LOC = AH15; 
+NET "USER_CLK"            LOC = AH15;
 NET  CLK_27MHZ_FPGA       LOC="AG18";  # Bank 4, Vcco=3.3V, No DCI
 NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
 
@@ -134,11 +134,11 @@ NET "dvi_reset_b" LOC="AK6"; //| TNM="dvi_d" | IOSTANDARD=LVDCI_33;
 NET "dvi_scl" LOC="u27"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
 NET "dvi_sda" LOC="t29"; //| SLEW=fast | PULLUP | IOSTANDARD=SSTL18_II;
 
-#NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
-#NET "ac97_sdata_in" LOC="AE18";
-#NET "ac97_sdata_out" LOC="AG16";
-#NET "ac97_sync" LOC="AF19";
-#NET "ac97_reset_b" LOC="AG17";
-#TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
+NET "ac97_bitclk" LOC="AF18" | TNM_NET = ac97_bitclk;
+NET "ac97_sdata_in" LOC="AE18";
+NET "ac97_sdata_out" LOC="AG16";
+NET "ac97_sync" LOC="AF19";
+NET "ac97_reset_b" LOC="AG17";
+TIMESPEC TS_ac97_bitclk = PERIOD "ac97_bitclk" 12.288MHz HIGH 50%;
 #NET  "pos1"            LOC="V8";    # Bank 18, Vcco=3.3V, No DCI
 #NET  "pos2"            LOC="AJ7";   # Bank 18, Vcco=3.3V, No DCI

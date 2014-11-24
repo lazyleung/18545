@@ -509,7 +509,9 @@ module video_module(//Outputs
    
    always @(posedge clock) begin
       if (reset) begin
-	 // initialize registers // TODO: Testing
+	 // initialize registers
+     /*
+     // TODO: Pokemon testing
 	 LCDC 	<= 8'hE3; // FF40 //91
 	 SCY 	<= 8'h00; //FF42 // 4f
 	 SCX 	<= 8'h00; // FF43
@@ -521,6 +523,19 @@ module video_module(//Outputs
 	 WY 	<= 8'h90; // FF4A
 	 WX		<= 8'h07; // FF4B
 	 VRAM_BANK_SEL <= 8'h00;
+     */
+     
+     // Default values:
+     LCDC 	<= 8'h91; // FF40
+	 SCY 	<= 8'h00; //FF42
+	 SCX 	<= 8'h00; // FF43
+	 LYC 	<= 8'h00; // FF45
+	 BGP 	<= 8'hFC; // FF47
+	 OBP0 	<= 8'hFF; // FF48
+	 OBP1 	<= 8'hFF; // FF49
+	 WY 	<= 8'h00; // FF4A
+	 WX		<= 8'h00; // FF4B
+	 VRAM_BANK_SEL <= 8'h00; // FF4F
 	 
 	 // reset internal registers
 	 int_vblank_req <= 0;
@@ -560,7 +575,7 @@ module video_module(//Outputs
 		 16'hFF41: STAT_w[4:0] <= di[7:3];
 		 16'hFF42: SCY <= di;
 		 16'hFF43: SCX <= di;
-		 //16'hFF44: line_count <= 0; // TODO: reset counter
+		 // 16'hFF44: line_count <= 0; // TODO: why was this commented out?
 		 16'hFF45: LYC <= di;
 		 16'hFF47: BGP <= di;
 		 16'hFF48: OBP0 <= di;
@@ -1269,7 +1284,7 @@ module video_module(//Outputs
    // vram_we_n set when vram enabled, MMU is trying to write,
    // and the RAM is not locked
    assign vram_we_n = !(~VRAM_BANK_SEL[0] && vram_enable && !wr_n && mode != RAM_LOCK_MODE);
-	assign vram2_we_n = !(VRAM_BANK_SEL[0] && vram_enable && !wr_n && mode != RAM_LOCK_MODE);
+   assign vram2_we_n = !(VRAM_BANK_SEL[0] && vram_enable && !wr_n && mode != RAM_LOCK_MODE);
    
    // oam_we_n set when oam enabled, MMU is trying to write,
    // and neither the RAM nor OAM are locked
@@ -1293,7 +1308,7 @@ module video_module(//Outputs
    // Else if oam_enable, read OAM
    // Else if reg_enable, read a memory-mapped register
    // Else give the MMU 0xFF
-   assign do = (vram_enable) ? (VRAM_BANK_SEL[0] ? vram_outA : vram_outB) :
+   assign do = (vram_enable) ? (VRAM_BANK_SEL[0] ? vram_outB : vram_outA) :
 	       (oam_enable) ? oam_outA :
 			 (color_file_enable) ? color_file_out : 
 	       (reg_enable) ? reg_out : 8'hFF;

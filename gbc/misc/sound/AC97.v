@@ -23,7 +23,18 @@ module AC97(
 	    input        I_IOREG_WE_L,	
 	    input        I_IOREG_RE_L,
 	    output [7:0] O_D0, O_D1, O_D2, O_D3, O_D4,
-        input new_sound
+        input new_sound, 
+        
+        /*for debugging*/
+        output [7:0] O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA,
+                     O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA,
+                     O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+                     
+                     O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+                     O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15,
+                     
+                     O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA,
+                     O_NR50_DATA, O_NR51_DATA, O_NR52_DATA
 
 	    );
    
@@ -98,20 +109,49 @@ module AC97(
 		       .I_IOREG_ADDR(I_IOREG_ADDR),
 		       .IO_IOREG_DATA(IO_IOREG_DATA),
 		       .I_IOREG_RE_L(I_IOREG_RE_L),
-		       .I_IOREG_WE_L(I_IOREG_WE_L));
+		       .I_IOREG_WE_L(I_IOREG_WE_L), 
                
-   /*sound_channel1 sc1(
-                      .I_CLK(I_CLK),
-                      .I_CLK33MHZ(I_CLK33MHZ),
-                      .I_RESET(I_RESET),
-                      .I_BITCLK(ac97_bitclk),
-                      .I_STROBE(ac97_strobe),
-                      .I_IOREG_ADDR(I_IOREG_ADDR),
-                      .IO_IOREG_DATA(I_IOREG_DATA),
-                      .I_IOREG_WE_L(I_IOREG_WE_L),
-                      .I_IOREG_RE_L(I_IOREG_RE_L),
-                      .O_CH1_WAVEFORM(ac97_out_slot3)
-                      );*/
+               /*for debugging*/
+               .O_NR10_DATA(O_NR10_DATA),
+               .O_NR11_DATA(O_NR11_DATA), 
+               .O_NR12_DATA(O_NR12_DATA), 
+               .O_NR13_DATA(O_NR13_DATA), 
+               .O_NR14_DATA(O_NR14_DATA),
+               .O_NR21_DATA(O_NR21_DATA), 
+               .O_NR22_DATA(O_NR22_DATA),
+               .O_NR23_DATA(O_NR23_DATA),
+               .O_NR24_DATA(O_NR24_DATA),
+               .O_NR30_DATA(O_NR30_DATA),
+               .O_NR31_DATA(O_NR31_DATA), 
+               .O_NR32_DATA(O_NR32_DATA), 
+               .O_NR33_DATA(O_NR33_DATA), 
+               .O_NR34_DATA(O_NR34_DATA),
+                     
+               .O_WF0(O_WF0), 
+               .O_WF1(O_WF1), 
+               .O_WF2(O_WF2), 
+               .O_WF3(O_WF3), 
+               .O_WF4(O_WF4), 
+               .O_WF5(O_WF5), 
+               .O_WF6(O_WF6), 
+               .O_WF7(O_WF7),
+               .O_WF8(O_WF8), 
+               .O_WF9(O_WF9), 
+               .O_WF10(O_WF10), 
+               .O_WF11(O_WF11), 
+               .O_WF12(O_WF12), 
+               .O_WF13(O_WF13), 
+               .O_WF14(O_WF14), 
+               .O_WF15(O_WF15),
+                     
+               .O_NR41_DATA(O_NR41_DATA), 
+               .O_NR42_DATA(O_NR42_DATA), 
+               .O_NR43_DATA(O_NR43_DATA), 
+               .O_NR44_DATA(O_NR44_DATA),
+               .O_NR50_DATA(O_NR50_DATA), 
+               .O_NR51_DATA(O_NR51_DATA), 
+               .O_NR52_DATA(O_NR52_DATA));
+              
    
    ACLink link(
 	       /*AUTOINST*/

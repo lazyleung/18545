@@ -1,5 +1,5 @@
 `include "cpu.vh"
-
+`default_nettype none
 /**
  * The GB80 register file.
  * 

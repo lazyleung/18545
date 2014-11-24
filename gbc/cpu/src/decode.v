@@ -1,4 +1,5 @@
 `include "cpu.vh"
+`default_nettype none
 /**
  * The GB80 decode module.
  * 
@@ -24,7 +25,7 @@ module decode(/*AUTOARG*/
    alu_size, halt, debug_halt,
    // Inputs
    bp_step, bp_continue, bp_pc, instruction, taken, interrupt,
-   IME_data, clock, reset
+   IME_data, clock, reset, ext_halt
    );
    // Constant Parameters //////////////////////////////////////////////////////
    parameter
@@ -75,6 +76,8 @@ module decode(/*AUTOARG*/
    input              taken, interrupt, IME_data;
    
    input              clock, reset;
+   
+   input              ext_halt;
 
    // Internal Signals /////////////////////////////////////////////////////////
 
@@ -228,12 +231,12 @@ module decode(/*AUTOARG*/
       
       // Fetch/Decode //////////////////////////////////////////////////////////
 
-      if (cycle == 5'd0 & bp_pc & ~debug_halt) begin
+      if (cycle == 5'd0 & bp_pc & ~debug_halt & ~ext_halt) begin
          // Only break on Fetch 0
          // Do nothing for 1 cycle, set the state for the next 3
          m_cycles = 4'd1;
          next_debug_halt = 1'b1;
-      end else if (debug_halt & ~step_inst) begin
+      end else if (ext_halt | ( debug_halt & ~step_inst)) begin
          // Do nothing
          m_cycles = 4'd1;
       end else if (~debug_halt & interrupt & IME_data & cycle == 5'd0) begin
@@ -329,7 +332,7 @@ module decode(/*AUTOARG*/
               IF_load_l = 1'b1;
            end
          endcase
-      end else if (halted & ~(~IME_data & interrupt)) begin
+      end else if ((halted) & ~(~IME_data & interrupt)) begin
          // Do nothing
          m_cycles = 4'd1;
          halt = 1'b1;
@@ -2281,6 +2284,7 @@ module decode(/*AUTOARG*/
       end else begin
          next_cycle = next_cycle_high[4:0];
       end
+      
       
    end
    

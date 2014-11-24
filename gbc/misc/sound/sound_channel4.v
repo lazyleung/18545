@@ -18,11 +18,14 @@ module sound_channel4(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		      /*Sound Status Signals*/
-		      O_CH4_ON,
+		              /*Sound Status Signals*/
+		              O_CH4_ON,
 
                       /*Output Waveform*/
-                      O_CH4_WAVEFORM
+                      O_CH4_WAVEFORM,
+                      
+                      /*for debugging*/
+                      O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA
                       );
    
    input        I_CLK, I_CLK_33MHZ, I_RESET, I_STROBE, I_BITCLK;
@@ -30,13 +33,20 @@ module sound_channel4(
    inout [7:0] 	IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
    output [19:0] O_CH4_WAVEFORM;
-   output 	 O_CH4_ON;
+   output 	     O_CH4_ON;
+   output [7:0] O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA;
    
    wire [7:0] 	 nr41_data, nr42_data,
                  nr43_data, nr44_data;
    wire 	 new_nr41, new_nr42, new_nr43,
                  new_nr44;
    wire [7:0] 	 gnd8 = 0;
+   
+   assign O_NR41_DATA = nr41_data;
+   assign O_NR42_DATA = nr42_data;
+   assign O_NR43_DATA = nr43_data;
+   assign O_NR44_DATA=  nr44_data;
+
    
    /*service data from the IOREG Bus into the registers*/
    io_bus_parser_reg #(`NR41,0,0,0,0) nr41(.I_CLK(I_CLK),
@@ -46,11 +56,11 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           //.O_DATA_READ(nr41_data),
+                                           .O_DATA_READ(nr41_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr41)
                                            );
-   assign nr41_data = 0;
+   //assign nr41_data = 0;
    io_bus_parser_reg #(`NR42,0,0,0,0) nr42(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -58,10 +68,10 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           //.O_DATA_READ(nr42_data),
+                                           .O_DATA_READ(nr42_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr42));
-   assign nr42_data = 8'b0100_1_111;
+   //assign nr42_data = 8'b0100_1_111;
    io_bus_parser_reg #(`NR43,0,0,0,0) nr43(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -69,10 +79,10 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           //.O_DATA_READ(nr43_data),
+                                           .O_DATA_READ(nr43_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr43));
-   assign nr43_data = 8'b0000_0_000;
+   //assign nr43_data = 8'b0000_0_000;
    io_bus_parser_reg #(`NR44,0,0,0,0) nr44(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
@@ -80,10 +90,10 @@ module sound_channel4(
                                            .I_WE_BUS_L(I_IOREG_WE_L),
                                            .I_RE_BUS_L(I_IOREG_RE_L),
                                            .I_DATA_WR(gnd8),
-                                           //.O_DATA_READ(nr44_data),
+                                           .O_DATA_READ(nr44_data),
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr44));
-   assign nr44_data = 8'b1_1_000000;
+   //assign nr44_data = 8'b1_1_000000;
 
    /*extract the parameters of the sound from the io register*/
    wire [31:0] 	 sound_length_clocks;

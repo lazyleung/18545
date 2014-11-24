@@ -8,9 +8,9 @@ module sound_channel3(
                       I_CLK_33MHZ,
                       I_RESET,
 
-		      /*Interface with ac97*/
-		      I_BITCLK,
-		      I_STROBE,
+		              /*Interface with ac97*/
+		              I_BITCLK,
+		              I_STROBE,
 		      
                       /*IO Register Bus*/
                       I_IOREG_ADDR,
@@ -18,11 +18,17 @@ module sound_channel3(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		      /*Sound Status Signal*/
-		      O_CH3_ON,
+		             /*Sound Status Signal*/
+		              O_CH3_ON,
 
                       /*Output Waveform*/
-                      O_CH3_WAVEFORM
+                      O_CH3_WAVEFORM,
+                      
+                      /*for debugging*/
+                      O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+                     
+                      O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+                      O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15
                       );
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
@@ -32,9 +38,18 @@ module sound_channel3(
    input        I_IOREG_WE_L, I_IOREG_RE_L;
    output [19:0] O_CH3_WAVEFORM;
    output 	 O_CH3_ON;
+   output [7:0] O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+                     O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+                     O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15;
 
    wire [7:0]   nr30_data, nr31_data, nr32_data, nr33_data, nr34_data;
    wire         new_nr30, new_nr31, new_nr32, new_nr33, new_nr34;
+   
+   assign O_NR30_DATA = nr30_data;
+   assign O_NR31_DATA = nr31_data;
+   assign O_NR32_DATA = nr32_data;
+   assign O_NR33_DATA=  nr33_data;
+   assign O_NR34_DATA = nr34_data;
 
    /*Sound Module 3 Control Registers*/
    io_bus_parser_reg #(`NR30,0,0,0,0) nr30(.I_CLK(I_CLK),
@@ -106,6 +121,23 @@ module sound_channel3(
    reg [7:0]    waveform_ram[0:15];
    wire         enable_ioreg_data;
    wire         waveform_ram_access;
+   
+   assign O_WF0 = waveform_ram[0];
+   assign O_WF1 = waveform_ram[1];
+   assign O_WF2 = waveform_ram[2];
+   assign O_WF3 = waveform_ram[3];
+   assign O_WF4 = waveform_ram[4];
+   assign O_WF5 = waveform_ram[5];
+   assign O_WF6 = waveform_ram[6];
+   assign O_WF7 = waveform_ram[7];
+   assign O_WF8 = waveform_ram[8];
+   assign O_WF9 = waveform_ram[9];
+   assign O_WF10 = waveform_ram[10];
+   assign O_WF11 = waveform_ram[11];
+   assign O_WF12 = waveform_ram[12];
+   assign O_WF13 = waveform_ram[13];
+   assign O_WF14 = waveform_ram[14];
+   assign O_WF15 = waveform_ram[15];
 
    /*Reading from the RAM*/
    assign waveform_ram_access = (I_IOREG_ADDR >= 16'hFF30 && I_IOREG_ADDR <= 16'hFF3F);
@@ -211,11 +243,11 @@ module sound_channel3(
    
    /*Find the amount of clocks in the period based off the frequency spec*/
    wire gnd = 0;
-   /*sound_bram2 period_lookup_table(.clka(I_BITCLK),
+   sound_bram2 period_lookup_table(.clka(I_BITCLK),
                                    .wea(gnd),
                                    .addra(frequency),
                                    .dina(0),
                                    .douta(num_strobes_in_period)
-                                   );*/
+                                   );
 
 endmodule

@@ -1,4 +1,5 @@
 `include "../../memory/memory_router/memdef.vh"
+`default_nettype none
 
 `define START 7
 `define SELECT 6
@@ -19,7 +20,7 @@ module controller(
 		  I_IOREG_ADDR,
 		  IO_IOREG_DATA,
 		  I_IOREG_WE_L,
-		  I_IOREG_RE_L, 
+		  I_IOREG_RE_L,
 
 		  /*IF with Controller Hardware*/
 		  O_CONTROLLER_LATCH,
@@ -27,9 +28,11 @@ module controller(
 		  I_CONTROLLER_DATA,
 
 		  /*CPU Interrupt*/
-		  O_CONTROLLER_INTERRUPT
+		  O_CONTROLLER_INTERRUPT,
+
+          O_P1_DATA
 		  );
-   
+
    input        I_CLK, I_CLK_33MHZ, I_RESET;
    input [15:0] I_IOREG_ADDR;
    inout [7:0] 	IO_IOREG_DATA;
@@ -38,6 +41,7 @@ module controller(
    output 	    O_CONTROLLER_PULSE;
    input 	    I_CONTROLLER_DATA;
    output reg	O_CONTROLLER_INTERRUPT;
+   output [7:0] O_P1_DATA;
 
    reg 	[1:0]	p1_reg;
    wire 	start, sel, a, b, up, down, left, right;
@@ -45,6 +49,8 @@ module controller(
    wire [3:0] 	UDLR_values, startselAB_values;
    wire [7:0] 	buttons_pressed;
    wire [7:0] 	return_data;
+
+   assign O_P1_DATA = {0,p1_reg,return_data[3:0]};
 
    /*determine selection lines for the array*/
    assign return_startselAB_values = p1_reg[1];
@@ -64,7 +70,7 @@ module controller(
    assign down  = buttons_pressed[`DOWN];
    assign left  = buttons_pressed[`LEFT];
    assign right = buttons_pressed[`RIGHT];
-   
+
    /*reorder the buttons to the specification*/
    assign UDLR_values = {down, up, left, right};
    assign startselAB_values = {start, sel, a, b};
@@ -77,11 +83,11 @@ module controller(
 
    /*write to the p1 register*/
    always @(posedge I_CLK) begin
-      
+
       if (membus_wr) begin
 	 p1_reg <= IO_IOREG_DATA[5:4];
       end
-      
+
       if (I_RESET) begin
 	 p1_reg <= 0;
       end
@@ -99,7 +105,7 @@ module controller(
       O_CONTROLLER_INTERRUPT <= ~interrupt_monitor_d1 & interrupt_monitor;
    end
 
-   
+
    controller_interface cif(
                             .O_BUTTONS(buttons_pressed),
                             .O_LATCH(O_CONTROLLER_LATCH),

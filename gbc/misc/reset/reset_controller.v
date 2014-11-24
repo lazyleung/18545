@@ -14,15 +14,13 @@ module reset_controller(
 
    always @(posedge I_CLK or posedge I_ASYNC_RESET) begin
       if (I_ASYNC_RESET) begin
-	 count <= 6;
-      end
-      else begin
-
-	 O_SYNC_RESET <= 0;
-	 if (count > 0) begin
-	    count <= count -1;
-	    O_SYNC_RESET <= 1;
-	 end
+        count <= 6;
+      end else begin
+        O_SYNC_RESET <= 0;
+        if (count > 0) begin
+            count <= count -1;
+            O_SYNC_RESET <= 1;
+        end
       end // else: !if(I_ASYNC_RESET)
    end // always @ (posedge I_CLK or posedge I_ASYNC_RESET)
 

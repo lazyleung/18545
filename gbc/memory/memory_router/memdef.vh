@@ -53,15 +53,15 @@
 
 
 /*io register            has been implemented? */
-`define P1    16'hFF00
-`define SB    16'hFF01
-`define SC    16'hFF02
-`define DIV   16'hFF04
-`define TIMA  16'hFF05
-`define TMA   16'hFF06
-`define TAC   16'hFF07
+`define P1    16'hFF00   // X
+`define SB    16'hFF01   // X
+`define SC    16'hFF02   // X
+`define DIV   16'hFF04   // X
+`define TIMA  16'hFF05   // X
+`define TMA   16'hFF06   // X
+`define TAC   16'hFF07   // X
 `define KEY1  16'hFF4D
-`define RP    16'hFF56
+`define RP    16'hFF56   // X
 `define VBK   16'hFF4F
 `define SVBK  16'hFF70   // X
 `define IF    16'hFF0F
@@ -74,9 +74,9 @@
 `define LY    16'hFF44
 `define LYC   16'hFF45
 `define DMA   16'hFF46   // X
-`define BGP   16'hFF47
-`define OBP0  16'hFF48
-`define OBP1  16'hFF49
+`define BGP   16'hFF47   // X
+`define OBP0  16'hFF48   // X
+`define OBP1  16'hFF49   // X
 `define WY    16'hFF4A
 `define WX    16'hFF4B
 `define HDMA1 16'hFF51   // X

@@ -18,11 +18,17 @@ module sound_channel2(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		      /*Sound Status*/
-		      O_CH2_ON,
+		              /*Sound Status*/
+		              O_CH2_ON,
 
                       /*Output Waveform*/
-                      O_CH2_WAVEFORM
+                      O_CH2_WAVEFORM,
+                      
+                      /*for debugging*/
+                      O_NR21_DATA,
+                      O_NR22_DATA,
+                      O_NR23_DATA, 
+                      O_NR24_DATA
                       );
 
    input        I_CLK, I_CLK_33MHZ, I_RESET, I_STROBE, I_BITCLK;
@@ -31,11 +37,17 @@ module sound_channel2(
    input        I_IOREG_WE_L, I_IOREG_RE_L;
    output [19:0] O_CH2_WAVEFORM;
    output 	 O_CH2_ON;
+   output [7:0] O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA;
    
    wire         gnd=0;
    wire [7:0]   nr21_data, nr22_data,
                 nr23_data, nr24_data;
    wire         new_nr21, new_nr22, new_nr23, new_nr24;
+   
+   assign O_NR21_DATA = nr21_data;
+   assign O_NR22_DATA = nr22_data;
+   assign O_NR23_DATA = nr23_data;
+   assign O_NR24_DATA=  nr24_data;
 
    /*service data from the io register bus*/
    io_bus_parser_reg #(`NR21,0,0,0,0) nr21(.I_CLK(I_CLK),
@@ -45,10 +57,10 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       //.O_DATA_READ(nr21_data),
+                                       .O_DATA_READ(nr21_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr21));
-   assign nr21_data = 8'b10_000000;
+   //assign nr21_data = 8'b10_000000;
    io_bus_parser_reg #(`NR22,0,0,0,0) nr22(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
@@ -56,10 +68,10 @@ module sound_channel2(
                                        .I_WE_BUS_L(I_IOREG_WE_L),
                                        .I_RE_BUS_L(I_IOREG_RE_L),
                                        .I_DATA_WR(0),
-                                       //.O_DATA_READ(nr22_data),
+                                       .O_DATA_READ(nr22_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr22));
-   assign nr22_data = 8'b0100_1_000;
+   //assign nr22_data = 8'b0100_1_000;
    io_bus_parser_reg #(`NR23,0,0,0,0) nr23(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
@@ -70,7 +82,7 @@ module sound_channel2(
                                        .O_DATA_READ(nr23_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr23));
-   assign nr23_data = 8'b11010110;
+   //assign nr23_data = 8'b11010110;
    io_bus_parser_reg #(`NR24,0,0,0,0) nr24(.I_CLK(I_CLK),
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
@@ -81,7 +93,7 @@ module sound_channel2(
                                        .O_DATA_READ(nr24_data),
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr24));
-   assign nr24_data = 8'b1_1_000_110;
+   //assign nr24_data = 8'b1_1_000_110;
 
    wire [1:0]   duty_cycle;
    wire [10:0]  frequency;

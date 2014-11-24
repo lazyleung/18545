@@ -1,5 +1,7 @@
 /*lcd ram without banking controll*/
 
+`default_nettype none
+
 module lcdram_test(
 		   I_MEM_CLK,
 		   I_RESET,
