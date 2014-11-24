@@ -22,6 +22,8 @@ module cartridge_sim(
 		             O_FLASH_OE_L,
 		             O_FLASH_WE_L
 		             );
+                     
+   parameter P_USE_FLASH_PORT = 1;
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
 
@@ -37,7 +39,7 @@ module cartridge_sim(
 
    wire               bram_en, bram_we;
    wire [15:0]        router_addr, bram_banked_addr, bram_addr;
-   wire [7:0]         bram_data_in2, bram_data_out2;
+   wire [7:0]         bram_data_in2, bram_data_out2, bram_cartridge_data;
 
    // Asynchronous read mode
    assign O_FLASH_CLK = 1'b1;
@@ -68,7 +70,7 @@ module cartridge_sim(
 
       /*must indicate a write signal to the ROM space to access controll
        *registers*/
-      if (~I_CARTRIDGE_WE_L && accessing_ROM_space && ~is_in_bootload_mode) begin
+      if (~I_CARTRIDGE_WE_L && accessing_ROM_space && is_in_rom_mode) begin
 
 	     case(I_CARTRIDGE_ADDR[15:12]) //upper bits of address
 
@@ -132,7 +134,7 @@ module cartridge_sim(
 
       /*reset the the hardware to begin in bootload mode*/
       if (I_RESET) begin
-         is_in_rom_mode <= 0;
+         is_in_rom_mode <= 1; //ignore bootload process (for now)
       end
 
    end // always @ (posedge I_CLK)
@@ -230,8 +232,9 @@ module cartridge_sim(
    /* if accessing ROM space on a read, return the flash data, else
     * return the data from the RAM or the timer*/
    assign return_data = (~is_in_rom_mode) ? bootload_data :
-                        (accessing_ROM_space) ? I_FLASH_DATA[7:0] : //rom -> read from flash
-			            (accessing_RAM_space & ram_timer_en) ? ram_return_data : 0;
+                        (P_USE_FLASH_PORT & accessing_ROM_space) ? I_FLASH_DATA[7:0] : //rom -> read from flash
+                        (~P_USE_FLASH_PORT & accessing_ROM_space) ? bram_cartridge_data :
+                       (accessing_RAM_space & ram_timer_en) ? ram_return_data : 0;
 
    /*the data being returned from the RAM address space can come from either BRAM
     *or from the RTC registers.  This is specified by the RAM bank number*/
@@ -258,13 +261,23 @@ module cartridge_sim(
 		              .dina(bram_data_in2),
 		              .douta(bram_data_out2)
 		              );
+                      
+                      
+   /*give capability of reading from FLASH or BRAM based on parameter*/                   
+   bram_cart  cartridge(
+                      .clka(I_CLK),
+		              .wea(0),
+		              .addra(I_CARTRIDGE_ADDR),
+		              .dina(0),
+		              .douta(bram_cartridge_data)
+                      );
 
-   boot_bram bootload_bram(
+   /*boot_bram bootload_bram(
                            .clka(I_CLK),
 		                   .wea(0),
 		                   .addra(bootload_bram_addr),
 		                   .dina(0),
 		                   .douta(bootload_data)
-		                   );
+		                   );*/
 
 endmodule

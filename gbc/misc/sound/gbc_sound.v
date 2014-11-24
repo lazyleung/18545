@@ -17,7 +17,19 @@ module sound_controller(
 			I_IOREG_ADDR,
 			IO_IOREG_DATA,
 			I_IOREG_RE_L,
-			I_IOREG_WE_L);
+			I_IOREG_WE_L, 
+            
+            /*for debugging*/
+            O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA,
+            O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA,
+            O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+                     
+            O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+            O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15,
+                     
+            O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA,
+            O_NR50_DATA, O_NR51_DATA, O_NR52_DATA
+           );
 
    input         I_CLK, I_CLK_33MHZ, I_RESET;
    input 	 I_BITCLK, I_STROBE;
@@ -25,12 +37,26 @@ module sound_controller(
    input [15:0]  I_IOREG_ADDR;
    inout [7:0] 	 IO_IOREG_DATA;
    input 	 I_IOREG_WE_L, I_IOREG_RE_L;
+   
+   output [7:0] O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA,
+                     O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA,
+                     O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+                     
+                     O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+                     O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15,
+                     
+                     O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA,
+                     O_NR50_DATA, O_NR51_DATA, O_NR52_DATA;
 
    wire [7:0] 	 gnd8 = 0;
    
    wire [7:0] 	 nr50_data, nr51_data, nr52_data;
    wire 	 new_nr50, new_nr51, new_nr52;
    wire [7:0]   	 nr52_write_data;
+   
+   assign O_NR50_DATA = nr50_data;
+   assign O_NR51_DATA = nr51_data;
+   assign O_NR52_DATA = {nr52_data[7], 3'b0, nr52_write_data[3:0]};
    
    /*Top Level Controll parameter Registers*/
    io_bus_parser_reg #(`NR50,0,0,0,0) nr50(.I_CLK(I_CLK),
@@ -59,7 +85,7 @@ module sound_controller(
    /*Reading and writing for nr52 does different things*/
 
    /*write only register*/
-   io_bus_parser_reg #(`NR52,0,0,0,'b10) nr52_wr(.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR52,0,0,0,'b01) nr52_wr(.I_CLK(I_CLK),
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
                                            .I_ADDR_BUS(I_IOREG_ADDR),
@@ -72,7 +98,7 @@ module sound_controller(
                                            );
 
    /*read only register*/
-   io_bus_parser_reg #(`NR52,0,1,0,'b01) nr52_re(.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR52,0,1,0,'b10) nr52_re(.I_CLK(I_CLK),
                                               .I_SYNC_RESET(I_RESET),
                                               .IO_DATA_BUS(IO_IOREG_DATA),
                                               .I_ADDR_BUS(I_IOREG_ADDR),
@@ -146,7 +172,14 @@ module sound_controller(
                       .I_IOREG_WE_L(I_IOREG_WE_L),
                       .I_IOREG_RE_L(I_IOREG_RE_L),
 		              .O_CH1_ON(sound1_on),
-                      .O_CH1_WAVEFORM(sc1_sample)
+                      .O_CH1_WAVEFORM(sc1_sample), 
+                      
+                      /*for debugging*/
+                      .O_NR10_DATA(O_NR10_DATA),
+                      .O_NR11_DATA(O_NR11_DATA), 
+                      .O_NR12_DATA(O_NR12_DATA), 
+                      .O_NR13_DATA(O_NR13_DATA), 
+                      .O_NR14_DATA(O_NR14_DATA)
                       );
 
    sound_channel2 sc2(
@@ -160,7 +193,13 @@ module sound_controller(
                       .I_IOREG_WE_L(I_IOREG_WE_L),
                       .I_IOREG_RE_L(I_IOREG_RE_L),
 		              .O_CH2_ON(sound2_on),
-                      .O_CH2_WAVEFORM(sc2_sample)
+                      .O_CH2_WAVEFORM(sc2_sample), 
+                      
+                      /*for debugging*/
+                      .O_NR21_DATA(O_NR21_DATA), 
+                      .O_NR22_DATA(O_NR22_DATA),
+                      .O_NR23_DATA(O_NR23_DATA),
+                      .O_NR24_DATA(O_NR24_DATA)
                       );
    
    sound_channel3 sc3(
@@ -174,7 +213,31 @@ module sound_controller(
                       .I_IOREG_WE_L(I_IOREG_WE_L),
                       .I_IOREG_RE_L(I_IOREG_RE_L),
 		              .O_CH3_ON(sound3_on),
-                      .O_CH3_WAVEFORM(sc3_sample)
+                      .O_CH3_WAVEFORM(sc3_sample),
+                      
+                      /*for debugging*/
+                      .O_NR30_DATA(O_NR30_DATA),
+                      .O_NR31_DATA(O_NR31_DATA), 
+                      .O_NR32_DATA(O_NR32_DATA), 
+                      .O_NR33_DATA(O_NR33_DATA), 
+                      .O_NR34_DATA(O_NR34_DATA),
+                     
+                      .O_WF0(O_WF0), 
+                      .O_WF1(O_WF1), 
+                      .O_WF2(O_WF2), 
+                      .O_WF3(O_WF3), 
+                      .O_WF4(O_WF4), 
+                      .O_WF5(O_WF5), 
+                      .O_WF6(O_WF6), 
+                      .O_WF7(O_WF7),
+                      .O_WF8(O_WF8), 
+                      .O_WF9(O_WF9), 
+                      .O_WF10(O_WF10), 
+                      .O_WF11(O_WF11), 
+                      .O_WF12(O_WF12), 
+                      .O_WF13(O_WF13), 
+                      .O_WF14(O_WF14), 
+                      .O_WF15(O_WF15)
                       );
    
    sound_channel4 sc4(
@@ -188,7 +251,12 @@ module sound_controller(
                       .I_IOREG_WE_L(I_IOREG_WE_L),
                       .I_IOREG_RE_L(I_IOREG_RE_L),
 		              .O_CH4_ON(sound4_on),
-                      .O_CH4_WAVEFORM(sc4_sample)
+                      .O_CH4_WAVEFORM(sc4_sample),
+                      .O_NR41_DATA(O_NR41_DATA), 
+                      .O_NR42_DATA(O_NR42_DATA), 
+                      .O_NR43_DATA(O_NR43_DATA), 
+                      .O_NR44_DATA(O_NR44_DATA)
+                      
                       );
    
 endmodule   

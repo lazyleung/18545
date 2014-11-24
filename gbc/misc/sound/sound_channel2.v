@@ -18,11 +18,17 @@ module sound_channel2(
                       I_IOREG_WE_L,
                       I_IOREG_RE_L,
 
-		      /*Sound Status*/
-		      O_CH2_ON,
+		              /*Sound Status*/
+		              O_CH2_ON,
 
                       /*Output Waveform*/
-                      O_CH2_WAVEFORM
+                      O_CH2_WAVEFORM,
+                      
+                      /*for debugging*/
+                      O_NR21_DATA,
+                      O_NR22_DATA,
+                      O_NR23_DATA, 
+                      O_NR24_DATA
                       );
 
    input        I_CLK, I_CLK_33MHZ, I_RESET, I_STROBE, I_BITCLK;
@@ -31,11 +37,17 @@ module sound_channel2(
    input        I_IOREG_WE_L, I_IOREG_RE_L;
    output [19:0] O_CH2_WAVEFORM;
    output 	 O_CH2_ON;
+   output [7:0] O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA;
    
    wire         gnd=0;
    wire [7:0]   nr21_data, nr22_data,
                 nr23_data, nr24_data;
    wire         new_nr21, new_nr22, new_nr23, new_nr24;
+   
+   assign O_NR21_DATA = nr21_data;
+   assign O_NR22_DATA = nr22_data;
+   assign O_NR23_DATA = nr23_data;
+   assign O_NR24_DATA=  nr24_data;
 
    /*service data from the io register bus*/
    io_bus_parser_reg #(`NR21,0,0,0,0) nr21(.I_CLK(I_CLK),

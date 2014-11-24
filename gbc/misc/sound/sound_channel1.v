@@ -35,8 +35,15 @@ module sound_channel1(
                       new_sound, 
 
                       /*Output Samples*/
-                      O_CH1_WAVEFORM, 
-                      O_D0, O_D1, O_D2, O_D3, O_D4
+                      O_CH1_WAVEFORM,
+
+                      /*for debugging*/
+                      O_NR10_DATA, 
+                      O_NR11_DATA, 
+                      O_NR12_DATA, 
+                      O_NR13_DATA, 
+                      O_NR14_DATA
+                      
                       );
 
    input         I_CLK, I_CLK33MHZ, I_BITCLK, I_RESET;
@@ -45,8 +52,8 @@ module sound_channel1(
    input         I_IOREG_WE_L, I_IOREG_RE_L, I_STROBE;
    output 	 O_CH1_ON;
    output [19:0] O_CH1_WAVEFORM;
-   output [7:0]  O_D0, O_D1, O_D2, O_D3, O_D4;
    input new_sound;
+   output [7:0] O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA;
    
    wire [7:0] 	 nr10_data, nr11_data,
                  nr12_data, nr13_data,
@@ -55,11 +62,11 @@ module sound_channel1(
                  new_nr13, new_nr14;
    wire [7:0] 	 gnd8 = 0;
    
-   assign O_D0 = nr10_data;
-   assign O_D1 = nr11_data;
-   assign O_D2 = nr12_data;
-   assign O_D3 = nr13_data;
-   assign O_D4 = nr14_data;
+   assign O_NR10_DATA = nr10_data;
+   assign O_NR11_DATA = nr11_data;
+   assign O_NR12_DATA = nr12_data;
+   assign O_NR13_DATA=  nr13_data;
+   assign O_NR14_DATA = nr14_data;
    
    /*service data from the IOREG Bus into the registers*/
    io_bus_parser_reg #(`NR10,0,0,0,0) nr10(.I_CLK(I_CLK),

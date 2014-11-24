@@ -25,7 +25,15 @@ module dma_controller(
                       /*System Status Signals*/
                       I_HBLANK, //to be held high during duration of
                                 //horizontal blanking period
-                      O_HALT_CPU // stop cpu execution durind DMA
+                      O_HALT_CPU, // stop cpu execution durind DMA
+                      
+                      /*for debugging*/
+                      O_DMA_DATA,
+                      O_HDMA1_DATA, 
+                      O_HDMA2_DATA, 
+                      O_HDMA3_DATA, 
+                      O_HDMA4_DATA, 
+                      O_HDMA5_DATA
                       );
 
    input I_CLK;
@@ -43,6 +51,8 @@ module dma_controller(
    output 	 O_WDMA_WE_L;
    input         I_HBLANK;
    output        O_HALT_CPU;
+   output [7:0]  O_DMA_DATA,O_HDMA1_DATA, O_HDMA2_DATA, 
+                  O_HDMA3_DATA, O_HDMA4_DATA, O_HDMA5_DATA;
 
    reg           gdma_cpu_halt, hdma_cpu_halt;
    assign O_HALT_CPU = gdma_cpu_halt | hdma_cpu_halt;
@@ -217,7 +227,7 @@ module dma_controller(
     *to register initiates or cancels a dma operation*/
 
    /*write only register (10) */
-   io_bus_parser_reg #(`HDMA5,0,0,0,'b10) hdma5w_reg(
+   io_bus_parser_reg #(`HDMA5,0,0,0,'b01) hdma5w_reg(
                                                   .I_CLK(I_CLK),
                                                   .I_SYNC_RESET(I_SYNC_RESET),
                                                   .IO_DATA_BUS(IO_IOREG_DATA),
@@ -230,7 +240,7 @@ module dma_controller(
                                                   .I_REG_WR_EN(gnd));
 
    /*read only register (01) - forward the status data*/
-   io_bus_parser_reg #(`HDMA5,0,1,0,'b01) hdma5r_reg(
+   io_bus_parser_reg #(`HDMA5,0,1,0,'b10) hdma5r_reg(
                                                     .I_CLK(I_CLK),
                                                     .I_SYNC_RESET(I_SYNC_RESET),
                                                     .IO_DATA_BUS(IO_IOREG_DATA),

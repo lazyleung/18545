@@ -106,13 +106,13 @@ module working_memory_bank(
 				       .I_RE_L(I_WRAM_RE_L),
 				       .O_BRAM_WE(bram_we),
 				       .O_BRAM_ADDR(router_addr),
-				       .O_BRAM_DIN(bram_data_in)//,
-				       //.I_BRAM_DOUT(bram_data_out1)
+				       .O_BRAM_DIN(bram_data_in),
+				       .I_BRAM_DOUT(bram_data_out1)
 				       );
    /* Actual Memory Location*/
    bram banked_memory(
 		      .clka(I_MEM_CLK),
-            .rsta(I_RESET),
+              .rsta(I_RESET),
 		      .wea(bram_we),
 		      .addra(bram_addr),
 		      .dina(bram_data_in),

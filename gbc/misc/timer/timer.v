@@ -8,10 +8,14 @@ module timer_module(
         O_TIMER_INTERRUPT,
         I_CLOCK, I_RESET,
         I_ADDR, IO_DATA,
-        I_RE_L, I_WE_L
+        I_RE_L, I_WE_L, 
+        
+        /*for debugging*/
+        O_DIV_DATA, O_TIMA_DATA, O_TMA_DATA, O_TAC_DATA
     );
 
     output          O_TIMER_INTERRUPT;
+    output [7:0]    O_DIV_DATA, O_TIMA_DATA, O_TMA_DATA, O_TAC_DATA;
 
     input           I_CLOCK, I_RESET, I_RE_L, I_WE_L;
 
@@ -22,6 +26,11 @@ module timer_module(
     wire [10:0]      counter;
     wire [7:0]       DIV, TIMA, TMA;
     wire [2:0]       TAC;
+    
+    assign O_DIV_DATA = DIV;
+    assign O_TIMA_DATA = TIMA;
+    assign O_TMA_DATA = TMA;
+    assign O_TAC_DATA = {5'b0, TAC};
 
     // Internal Variables
     reg     state, next_state, increment;
@@ -85,12 +94,23 @@ module timer_module(
     assign TAC_re  = (~I_RE_L) ? (I_ADDR == `TAC)  : 0;
 
     // Bus tristate
-    tristate #(8) DIV_tri(
+   /* tristate #(8) DIV_tri(
         .out(IO_DATA),
         .in(DIV),
         .en(DIV_re)
-    );
-
+    );*/
+    
+    io_bus_parser_reg #(`DIV,0,1,0,01) div_register(
+                              .I_CLK(I_CLOCK),
+                              .I_SYNC_RESET(I_RESET),
+                              .IO_DATA_BUS(IO_DATA),
+                              .I_ADDR_BUS(I_ADDR),
+                              .I_WE_BUS_L(I_WE_L),
+                              .I_RE_BUS_L(I_RE_L),
+                              .I_REG_WR_EN(1'b1),
+                              .I_DATA_WR(DIV)
+                              );
+    
     tristate #(8) TIMA_tri(
         .out(IO_DATA),
         .in(TIMA[7:0]),
