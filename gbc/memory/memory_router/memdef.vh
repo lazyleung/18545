@@ -60,25 +60,25 @@
 `define TIMA  16'hFF05   // X
 `define TMA   16'hFF06   // X
 `define TAC   16'hFF07   // X
-`define KEY1  16'hFF4D
+`define KEY1  16'hFF4D   // X
 `define RP    16'hFF56   // X
-`define VBK   16'hFF4F
+`define VBK   16'hFF4F   // X
 `define SVBK  16'hFF70   // X
 `define IF    16'hFF0F
 `define IE    16'hFFFF
 `define IME   0
-`define LCDC  16'hFF40
-`define STAT  16'hFF41
-`define SCY   16'hFF42
-`define SCX   16'hFF43
-`define LY    16'hFF44
-`define LYC   16'hFF45
+`define LCDC  16'hFF40   // X
+`define STAT  16'hFF41   // X   
+`define SCY   16'hFF42   // X
+`define SCX   16'hFF43   // X
+`define LY    16'hFF44   // X
+`define LYC   16'hFF45   // X
 `define DMA   16'hFF46   // X
 `define BGP   16'hFF47   // X
 `define OBP0  16'hFF48   // X
 `define OBP1  16'hFF49   // X
-`define WY    16'hFF4A
-`define WX    16'hFF4B
+`define WY    16'hFF4A   // X
+`define WX    16'hFF4B   // X
 `define HDMA1 16'hFF51   // X
 `define HDMA2 16'hFF52   // X
 `define HDMA3 16'hFF53   // X
