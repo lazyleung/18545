@@ -347,7 +347,6 @@ module dma_controller(
 
       hdma_we_l <= 1;
       hdma_re_l <= 1;
-      hdma_active <= 0;
       hdma_cpu_halt <= 0;
 
       case(hdma_state)
@@ -384,6 +383,7 @@ module dma_controller(
            if (hdma_init_change & (dma_sel == 0)) begin
               hdma_state <= HDMA_WAIT;
               hdma_count <= 0;
+              hdma_active <= 0;
            end
 
            /*start DMA on first hblank period*/
@@ -409,12 +409,14 @@ module dma_controller(
            if (hdma_init_change & (dma_sel == 0)) begin
               hdma_state <= HDMA_WAIT;
               hdma_count <= 0;
+              hdma_active <= 0;
            end
 
            /*this was the last burst of writing 16*/
            else if (hdma_count >= transfer_length -1) begin
               hdma_state <= HDMA_WAIT;
               hdma_count <= 0;
+              hdma_active <= 0;
            end
 
            /*write 16 values then wait for next hblank period*/
@@ -442,6 +444,7 @@ module dma_controller(
            if ( hdma_init_change & (dma_sel == 0)) begin
               hdma_state <= HDMA_WAIT;
               hdma_count <= 0;
+              hdma_active <= 0;
            end
 
            /*start of new hblank period,
@@ -463,6 +466,7 @@ module dma_controller(
       if (I_SYNC_RESET) begin
 	     hdma_state <= HDMA_WAIT;
 	     hdma_count <= 0;
+         hdma_active <= 0;
       end
 
 

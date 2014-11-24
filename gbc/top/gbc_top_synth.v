@@ -243,6 +243,7 @@
                .IF_load(IF_load),
                .IE_load(IE_load),
                .cpu_mem_disable(dma_cpu_halt),
+               .ext_halt(dma_cpu_halt),
                .bp_addr(bp_addr),
                .bp_step(bp_step),
                .bp_continue(bp_continue),

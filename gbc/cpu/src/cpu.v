@@ -25,7 +25,7 @@ module cpu(/*AUTOARG*/
    addr_ext, data_ext,
    // Inputs
    IF_in, IE_in, IF_load, IE_load, cpu_mem_disable, clock, reset,
-   bp_addr, bp_step, bp_continue, cpu_addr_out
+   bp_addr, bp_step, bp_continue, cpu_addr_out, ext_halt
    );
    inout [15:0] addr_ext;
    inout [7:0]  data_ext;
@@ -53,7 +53,7 @@ module cpu(/*AUTOARG*/
    input [4:0]  IF_in, IE_in;
    input        IF_load, IE_load;
    input        cpu_mem_disable;
-   input        clock, reset;
+   input        clock, reset, ext_halt;
 
    input [15:0] bp_addr;
    input        bp_step, bp_continue;
@@ -440,6 +440,7 @@ module cpu(/*AUTOARG*/
                       .alu_op           (alu_op[4:0]),
                       .alu_size         (alu_size[1:0]),
                       .halt             (halt),
+                      .ext_halt         (ext_halt),
                       .debug_halt       (debug_halt),
                       // Inputs
                       .bp_step          (bp_step),
