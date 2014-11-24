@@ -187,7 +187,7 @@ module memory_router(
    assign wdma_accessing_cartridge = (wdma_en && I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR < `CARTRIDGE_HI) ||
 				     (wdma_en && I_WDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_WDMA_ADDR < `EXTERNAL_EXPANSION_HI);
    assign wdma_accessing_ioreg = (wdma_en && I_WDMA_ADDR >= `IOREG_LO && I_WDMA_ADDR < `IOREG_HI);
-   assign wdma_accessing_lcdram =  wdma_en && ((I_WDMA_ADDR >= `LCDRAM_LO & I_CPU_ADDR < `LCDRAM_HI) || 
+   assign wdma_accessing_lcdram =  wdma_en && ((I_WDMA_ADDR >= `LCDRAM_LO & I_WDMA_ADDR < `LCDRAM_HI) || 
 					     (I_WDMA_ADDR >= `OAM_LO & I_WDMA_ADDR < `OAM_HI) || 
 					     (I_WDMA_ADDR == `LCDC) || (I_WDMA_ADDR == `STAT) ||
 					     (I_WDMA_ADDR == `SCX)  || (I_WDMA_ADDR == `SCY)  ||
