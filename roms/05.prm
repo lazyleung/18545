@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r 05.hex -p mcs -data_width 16 -w -o 05.mcs 
+
+PROM 05.prm map: Mon Nov 24 21:26:32 2014
+
+Format        Mcs86 (32-bit)
+Size          64K
+PROM start    0000:0000
+PROM end      0000:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0000:ffff     Nov 24 21:26:31 2014 05.hex

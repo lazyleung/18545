@@ -189,10 +189,10 @@
 
    assign  mem_clock = ~mem_clocka;
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4))
    cdiv(.clock_out(clock_main), .clock_in(clock));
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
    cdivdouble(.clock_out(mem_clocka), .clock_in(clock));
 
    // ========================================
