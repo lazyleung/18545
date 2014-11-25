@@ -229,7 +229,11 @@
 
    /*we have it this way in case we need to do a more elaborate system reset
     *other than just pushing a button*/
-   assign synch_reset = reset;
+   reset_controller rc(
+			.I_CLK(clock_main),
+			.I_ASYNC_RESET(reset),
+			.O_SYNC_RESET(synch_reset)
+            );
 
    cpu gbc_cpu(
                .mem_we_l(cpu_mem_we_l),
@@ -356,7 +360,9 @@
                         );
 
 
-   /*Registers for debugging*/
+   /*Registers that are unused, but need to still be implemented, 
+    *they can also be used for debugging when running custom
+    *made programs*/
    io_bus_parser_reg #(`SC, 8'h7C)ioreg1(
                                      .I_CLK(clock_main),
                                      .I_SYNC_RESET(synch_reset),
@@ -385,6 +391,15 @@
                                      .I_WE_BUS_L(iobus_we_l),
                                      .I_RE_BUS_L(iobus_re_l),
                                      .O_DATA_READ(register_data[2])
+                                     );
+   io_bus_parser_reg #(`KEY1,8'hFD) ioreg4(
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h4D])
                                      );
 
    /*Working memory bank is just logic surrounding block RAM

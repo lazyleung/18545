@@ -57,23 +57,24 @@ module controller(
    assign return_UDLR_values = p1_reg[0];
 
    /*multiplex which row in the array to choose*/
-   assign return_data[7:4] = 0;
-   assign return_data[3:0] = (return_startselAB_values) ? startselAB_values :
-			     (return_UDLR_values) ? UDLR_values : 0;
+   assign return_data[7:6] = 0;
+   assign return_data[5:4] = p1_reg;
+   assign return_data[3:0] = (!return_startselAB_values) ? startselAB_values :
+			     (!return_UDLR_values) ? UDLR_values : 0;
 
    /*find the buttons, so they can easily be reordered*/
-   assign start = buttons_pressed[`START];
-   assign sel   = buttons_pressed[`SELECT];
-   assign a     = buttons_pressed[`A];
-   assign b     = buttons_pressed[`B];
-   assign up    = buttons_pressed[`UP];
-   assign down  = buttons_pressed[`DOWN];
-   assign left  = buttons_pressed[`LEFT];
-   assign right = buttons_pressed[`RIGHT];
+   assign start = ~buttons_pressed[`START];
+   assign sel   = ~buttons_pressed[`SELECT];
+   assign a     = ~buttons_pressed[`A];
+   assign b     = ~buttons_pressed[`B];
+   assign up    = ~buttons_pressed[`UP];
+   assign down  = ~buttons_pressed[`DOWN];
+   assign left  = ~buttons_pressed[`LEFT];
+   assign right = ~buttons_pressed[`RIGHT];
 
    /*reorder the buttons to the specification*/
    assign UDLR_values = {down, up, left, right};
-   assign startselAB_values = {start, sel, a, b};
+   assign startselAB_values = {start, sel, b, a};
 
    /*drive the memory bus*/
    wire 	membus_rd, membus_wr;
@@ -102,7 +103,9 @@ module controller(
       /*find the rising edge of any button being pressed to
        *to trigger the interrupt*/
       interrupt_monitor_d1 <= interrupt_monitor;
-      O_CONTROLLER_INTERRUPT <= ~interrupt_monitor_d1 & interrupt_monitor;
+      //O_CONTROLLER_INTERRUPT <= ~interrupt_monitor_d1 & interrupt_monitor;
+      // TODO: this interrupt code isn't correct
+      O_CONTROLLER_INTERRUPT <= 1'b0;
    end
 
 
