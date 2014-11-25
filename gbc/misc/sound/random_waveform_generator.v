@@ -71,21 +71,21 @@ module randwave_generator(
    always @(*) begin
       case(I_VOLUME)
         0:  volume_to_sample = 0;
-        1:  volume_to_sample = 20'h08888; //7FFFF*(1/15)
-        2:  volume_to_sample = 20'h11110; //7FFFF*(2/15)
-        3:  volume_to_sample = 20'h19999; //etc ..
-        4:  volume_to_sample = 20'h22221;
-        5:  volume_to_sample = 20'h2AAAA;
-        6:  volume_to_sample = 20'h33332;
-        7:  volume_to_sample = 20'h3BBBB;
-        8:  volume_to_sample = 20'h44443;
-        9:  volume_to_sample = 20'h4CCCC;
-        10: volume_to_sample = 20'h55554;
-        11: volume_to_sample = 20'h5DDDD;
-        12: volume_to_sample = 20'h66665;
-        13: volume_to_sample = 20'h6EEEE;
-        14: volume_to_sample = 20'h77776;
-        15: volume_to_sample = 20'h7FFFF;
+        1:  volume_to_sample = 20'h08888 >> 2; //7FFFF*(1/15)
+        2:  volume_to_sample = 20'h11110 >> 2; //7FFFF*(2/15)
+        3:  volume_to_sample = 20'h19999 >> 2; //etc ..
+        4:  volume_to_sample = 20'h22221 >> 2;
+        5:  volume_to_sample = 20'h2AAAA >> 2;
+        6:  volume_to_sample = 20'h33332 >> 2;
+        7:  volume_to_sample = 20'h3BBBB >> 2;
+        8:  volume_to_sample = 20'h44443 >> 2;
+        9:  volume_to_sample = 20'h4CCCC >> 2;
+        10: volume_to_sample = 20'h55554 >> 2;
+        11: volume_to_sample = 20'h5DDDD >> 2;
+        12: volume_to_sample = 20'h66665 >> 2;
+        13: volume_to_sample = 20'h6EEEE >> 2;
+        14: volume_to_sample = 20'h77776 >> 2;
+        15: volume_to_sample = 20'h7FFFF >> 2;
       endcase
    end
 

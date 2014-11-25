@@ -110,9 +110,9 @@ module sound_controller(
    
    wire 	 output_so1, output_so2;
    wire [2:0] 	 so1_volume, so2_volume;
-   assign output_so1 = nr50_data[3];
+   assign output_so1 = nr50_data[3]; //won't be implemented
    assign so1_volume = nr50_data[2:0]; //won't be implemented
-   assign output_so2 = nr50_data[7];
+   assign output_so2 = nr50_data[7];   //won't be implemented
    assign so2_volume = nr50_data[6:4]; //won't be implemented
 
    wire 	 ch4_so2_out, ch3_so2_out, ch2_so2_out, ch1_so2_out;
@@ -157,8 +157,8 @@ module sound_controller(
    assign so1_total = sc1_so1_sample + sc2_so1_sample + sc3_so1_sample + sc4_so1_sample;
    assign so2_total = sc1_so2_sample + sc2_so2_sample + sc3_so2_sample + sc4_so2_sample;
 
-   assign O_SO1 = (output_so1 & enable_all_sound) ? so1_total : 0;
-   assign O_SO2 = (output_so2 & enable_all_sound) ? so2_total : 0;
+   assign O_SO1 = (enable_all_sound) ? so1_total : 0;
+   assign O_SO2 = 0;//(enable_all_sound) ? so2_total : 0;
    
    /* Implement the Sound Channels*/
    sound_channel1 sc1(
