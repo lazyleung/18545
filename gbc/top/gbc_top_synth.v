@@ -8,6 +8,7 @@
                       USER_CLK, // 100mhz clock for ppu
 
                       GPIO_SW_W, //reset
+                      GPIO_SW_E,
 
                       /*FPGA GPIO for Controller*/
                       HDR2_2_SM_8_N,
@@ -66,7 +67,7 @@
    // ========================================
    // ========== Board I/O Setup =============
    // ========================================
-   input   GPIO_DIP_SW1, GPIO_SW_W, CLK_33MHZ_FPGA,
+   input   GPIO_DIP_SW1, GPIO_SW_W, GPIO_SW_E, CLK_33MHZ_FPGA,
            CLK_27MHZ_FPGA, USER_CLK, HDR2_6_SM_7_N, 
            GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
            GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7,
@@ -112,7 +113,7 @@
    assign GPIO_LED_0 = O_DATA1[7];
 
    assign I_DATA = {GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
-                    GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7, GPIO_DIP_SW8};
+                    GPIO_DIP_SW5, GPIO_SW_E, GPIO_DIP_SW7, GPIO_DIP_SW8};
 
    // ========================================
    // ============= CPU Setup ================
@@ -424,7 +425,7 @@
     *else if RAM or timer access is used, BRAM or internal
     *FPGA logic is used.  The parameter set to 0 will
     *load from BRAM instead of flash to more easily.*/
-   cartridge_sim #(0) cartsim(
+   cartridge_sim #(1) cartsim(
 		                 .I_CLK(mem_clocka),
 		                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
 		                 .I_RESET(synch_reset),
