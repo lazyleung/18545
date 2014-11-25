@@ -111,8 +111,6 @@ module color_file(
 			bg_pallete_arr[9] <= 8'hfb;
 			bg_pallete_arr[10] <= 8'h62;
 			bg_pallete_arr[11] <= 8'h7f;
-            //bg_pallete_arr[10] <= 8'h00;
-			//bg_pallete_arr[11] <= 8'h1F;
 			bg_pallete_arr[12] <= 8'h19;
 			bg_pallete_arr[13] <= 8'h5e;
 			bg_pallete_arr[14] <= 8'h1c;
