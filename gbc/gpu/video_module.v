@@ -10,6 +10,7 @@ module video_module(//Outputs
 
 		    //Inputs
 		    reset, clock, //33MHz clock
+            clock_cpu,
 		    mem_enable, rd_n, wr_n, A, di,	//MMU Inputs
 		    int_vblank_ack, int_lcdc_ack,	//INT Inputs
 
@@ -34,6 +35,7 @@ module video_module(//Outputs
    
    //Inputs
    input wire        reset, clock; //33MHz clock
+   input wire        clock_cpu;
    input wire        mem_enable, rd_n, wr_n; 				//MMU Inputs
    input wire [15:0] A;									//MMU Inputs
    input wire [7:0]  di;									//MMU Inputs
@@ -400,7 +402,7 @@ module video_module(//Outputs
    wire color_file_enable;
 	color_file cf(
                   /*System Inputs*/
-                  .I_CLK(clock),
+                  .I_CLK(clock_cpu),
                   .I_RESET(reset),
 
                   /*Interface with CPU (via Router)*/

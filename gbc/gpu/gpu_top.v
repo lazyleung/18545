@@ -31,7 +31,7 @@ module gpu_top(//Outputs
 					//Inouts
 					dvi_sda, dvi_scl, 
 					//Inputs
-					clk27, clk33, clk100, top_rst_b,
+					clk27, clk33, clk100, clk_cpu, top_rst_b,
 					mem_enable_video, 		//MMU Inputs
 					rd_n_video, wr_n_video, //MMU Inputs
 					A_video, di_video,		//MMU Inputs
@@ -59,7 +59,7 @@ module gpu_top(//Outputs
 	inout dvi_sda, dvi_scl;
 	
 	//Inputs
-	input clk27, clk33, clk100, top_rst_b;
+	input clk27, clk33, clk100, clk_cpu, top_rst_b;
 	input mem_enable_video;		 		//MMU Inputs
 	input rd_n_video, wr_n_video;		//MMU Inputs
 	input [15:0]	A_video;				//MMU Inputs
@@ -113,6 +113,7 @@ module gpu_top(//Outputs
 							  //Inputs
 				.reset(~top_rst_b), 					//reset is asserted High
 				.clock(clk33), 						//33MHz clock
+                .clock_cpu(clk_cpu),
 				.mem_enable(mem_enable_video), 	//MMU Inputs
 				.rd_n(rd_n_video), 					//MMU Inputs
 				.wr_n(wr_n_video), 					//MMU Inputs

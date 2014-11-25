@@ -282,6 +282,7 @@
                .clk27(CLK_27MHZ_FPGA),
                .clk33(CLK_33MHZ_FPGA),
                .clk100(USER_CLK),
+               .clk_cpu(clock_main),
                .top_rst_b(~synch_reset),
                //MMU Inputs
                .mem_enable_video(mem_enable_video),
