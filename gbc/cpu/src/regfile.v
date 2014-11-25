@@ -86,9 +86,11 @@ module regfile(/*AUTOARG*/
    
    always @(posedge clock or posedge reset) begin
       if (reset) begin
-         for (i = 0; i < 5; i = i + 1) begin
-            mem[i] <= 16'd0;
-         end
+         mem[0] <= 16'h0013; // BC
+         mem[1] <= 16'h00D8; // DE
+         mem[2] <= 16'h014D; // HL
+         mem[3] <= 16'hFFFE; // SP
+         mem[4] <= 16'h0100; // PC
       end
 /*      else if (regfile_we) begin
          if (regfile_change_pc & regfile_inc_pc) begin

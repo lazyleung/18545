@@ -46,7 +46,7 @@ module cartridge_sim(
    // Chip enable
    assign O_FLASH_CE_L = 1'b0;
    // Output enable
-   assign O_FLASH_OE_L = I_CARTRIDGE_RE_L;
+   assign O_FLASH_OE_L = 1'b0;
    // Write enable
    assign O_FLASH_WE_L = 1'b1;
    // Address Valid

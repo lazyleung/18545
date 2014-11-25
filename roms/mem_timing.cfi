@@ -1,0 +1,10 @@
+# PROMGEN: Xilinx Prom Generator P.20131013
+# Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.20131013
+DATE            11/25/2014 - 00:35
+SOURCE          mem_timing.mcs
+DEVICE          128K
+DATA_WIDTH      16
+FILL_DATA       0xFF
+START_ADDRESS   0x00000000 END_ADDRESS 0x0001FFFF DIRECTION_UP   "mem_timing.hex"

@@ -306,13 +306,13 @@ module cpu(/*AUTOARG*/
                              .clock(clock),
                              .reset(reset));
 
-   register #(8, 0) A_reg(.q(A_data),
+   register #(8, 8'h11) A_reg(.q(A_data),
                           .d(alu_data_out),
                           .load(A_load),
                           .clock(clock),
                           .reset(reset));
 
-   register #(8, 0) F_reg(.q(F_data),
+   register #(8, 8'hB0) F_reg(.q(F_data),
                           .d({alu_flags_out, 4'b0}),
                           .load(F_load),
                           .clock(clock),
