@@ -1028,7 +1028,7 @@ module video_module(//Outputs
 	      end
 	      
 	      SPRITE_PIXEL_DATA_STATE: begin
-		 if (sprite_pixel == 2'b00 || (sprite_attributes[7] &&
+		 if (!LCDC[1] || sprite_pixel == 2'b00 || (sprite_attributes[7] &&
 					       bg_pixel != 2'b00)) begin
 		    sprite_data1 <= (sprite_data1 & ~(8'h01 << sprite_pixel_num)) |
 				    (bg_pixel[0] << sprite_pixel_num);
