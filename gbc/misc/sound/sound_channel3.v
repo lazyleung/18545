@@ -172,25 +172,31 @@ module sound_channel3(
                        current_sample >> 2;
 
    reg [19:0] volume_to_sample;
-   /*go from a 4 bit value to a 20 bit value*/
+   
+   /*go from a 4 bit value to a 20 bit value, 
+    * GBC volumes are all positive, so we must convert them to
+    * signed integers.  Dividing by 4 allows for the 
+    * mixing with the other 3 sound channels to not overflow.
+    * we convert the positive magnitue to negative by adding
+    * the minumum integer divided by 4 : (0x80000 -> 0xE0000)*/
    always @(*) begin
       case(vol_sample)
         0:  volume_to_sample = 0;
-        1:  volume_to_sample = 20'h08888 >> 2; //7FFFF*(1/15)
-        2:  volume_to_sample = 20'h11110 >> 2; //7FFFF*(2/15)
-        3:  volume_to_sample = 20'h19999 >> 2; //etc ..
-        4:  volume_to_sample = 20'h22221 >> 2;
-        5:  volume_to_sample = 20'h2AAAA >> 2;
-        6:  volume_to_sample = 20'h33332 >> 2;
-        7:  volume_to_sample = 20'h3BBBB >> 2;
-        8:  volume_to_sample = 20'h44443 >> 2;
-        9:  volume_to_sample = 20'h4CCCC >> 2;
-        10: volume_to_sample = 20'h55554 >> 2;
-        11: volume_to_sample = 20'h5DDDD >> 2;
-        12: volume_to_sample = 20'h66665 >> 2;
-        13: volume_to_sample = 20'h6EEEE >> 2;
-        14: volume_to_sample = 20'h77776 >> 2;
-        15: volume_to_sample = 20'h7FFFF >> 2;
+        1:  volume_to_sample = 20'h11111 >> 2 + 20'hE0000; //7FFFF*(1/15)
+        2:  volume_to_sample = 20'h22222 >> 2 + 20'hE0000; //7FFFF*(2/15)
+        3:  volume_to_sample = 20'h33333 >> 2 + 20'hE0000; //etc ..
+        4:  volume_to_sample = 20'h44444 >> 2 + 20'hE0000;
+        5:  volume_to_sample = 20'h55555 >> 2 + 20'hE0000;
+        6:  volume_to_sample = 20'h66666 >> 2 + 20'hE0000;
+        7:  volume_to_sample = 20'h77777 >> 2 + 20'hE0000;
+        8:  volume_to_sample = 20'h88888 >> 2 + 20'hE0000;
+        9:  volume_to_sample = 20'h99999 >> 2 + 20'hE0000;
+        10: volume_to_sample = 20'hAAAAA >> 2 + 20'hE0000;
+        11: volume_to_sample = 20'hBBBBB >> 2 + 20'hE0000;
+        12: volume_to_sample = 20'hDDDDD >> 2 + 20'hE0000;
+        13: volume_to_sample = 20'hCCCCC >> 2 + 20'hE0000;
+        14: volume_to_sample = 20'hEEEEE >> 2 + 20'hE0000;
+        15: volume_to_sample = 20'hFFFFF >> 2 + 20'hE0000;
       endcase
    end
 
@@ -207,9 +213,9 @@ module sound_channel3(
       if (I_STROBE) begin
          count_sample <= count_sample + 1;
          if (count_sample >= strobes_in_sample) begin
-	    count_sample <= 0;
+	        count_sample <= 0;
             current_sample_ptr <= current_sample_ptr + 1;
-	 end
+	     end
       end
       if (I_RESET) begin
          current_sample_ptr <= 0;
