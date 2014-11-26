@@ -63,6 +63,8 @@
                       GPIO_LED_6,
                       GPIO_LED_7
                       );
+							
+	parameter SYNTH = 1;
 
    // ========================================
    // ========== Board I/O Setup =============
@@ -76,6 +78,7 @@
    output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
            GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
            GPIO_LED_6,GPIO_LED_7;
+           
    input   ac97_bitclk;
    input   ac97_sdata_in;
    input   pos1, pos2;
@@ -426,7 +429,7 @@
     *else if RAM or timer access is used, BRAM or internal
     *FPGA logic is used.  The parameter set to 0 will
     *load from BRAM instead of flash to more easily.*/
-   cartridge_sim #(1) cartsim(
+   cartridge_sim #(SYNTH) cartsim(
 		                 .I_CLK(mem_clocka),
 		                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
 		                 .I_RESET(synch_reset),
@@ -513,7 +516,7 @@
 	          .ac97_sync(ac97_sync),
 	          .ac97_reset_b(ac97_reset_b),
 	          .I_CLK(clock_main),
-              .I_CLK33MHZ(CLK_33MHZ_FPGA),
+             .I_CLK33MHZ(CLK_33MHZ_FPGA),
 	          .I_RESET(synch_reset),
 	          .I_IOREG_ADDR(iobus_addr),
 	          .IO_IOREG_DATA(iobus_data),
