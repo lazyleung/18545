@@ -27,6 +27,9 @@
 `define WRAM_LO 'hC000
 `define WRAM_HI 'hDFFF
 
+`define ECHO_LO 'hE000
+`define ECHO_HI 'hFDFF
+
 /*OAM is composed of 160 bytes of
  *information*/
 `define OAM_LO 'hFE00

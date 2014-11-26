@@ -189,10 +189,10 @@
 
    assign  mem_clock = ~mem_clocka;
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4))
    cdiv(.clock_out(clock_main), .clock_in(clock));
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
    cdivdouble(.clock_out(mem_clocka), .clock_in(clock));
 
    // ========================================
@@ -282,6 +282,7 @@
                .clk27(CLK_27MHZ_FPGA),
                .clk33(CLK_33MHZ_FPGA),
                .clk100(USER_CLK),
+               .clk_cpu(clock_main),
                .top_rst_b(~synch_reset),
                //MMU Inputs
                .mem_enable_video(mem_enable_video),

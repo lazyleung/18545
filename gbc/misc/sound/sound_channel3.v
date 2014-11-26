@@ -182,21 +182,21 @@ module sound_channel3(
    always @(*) begin
       case(vol_sample)
         0:  volume_to_sample = 0;
-        1:  volume_to_sample = 20'h11111 >> 2 + 20'hE0000; //7FFFF*(1/15)
-        2:  volume_to_sample = 20'h22222 >> 2 + 20'hE0000; //7FFFF*(2/15)
-        3:  volume_to_sample = 20'h33333 >> 2 + 20'hE0000; //etc ..
-        4:  volume_to_sample = 20'h44444 >> 2 + 20'hE0000;
-        5:  volume_to_sample = 20'h55555 >> 2 + 20'hE0000;
-        6:  volume_to_sample = 20'h66666 >> 2 + 20'hE0000;
-        7:  volume_to_sample = 20'h77777 >> 2 + 20'hE0000;
-        8:  volume_to_sample = 20'h88888 >> 2 + 20'hE0000;
-        9:  volume_to_sample = 20'h99999 >> 2 + 20'hE0000;
-        10: volume_to_sample = 20'hAAAAA >> 2 + 20'hE0000;
-        11: volume_to_sample = 20'hBBBBB >> 2 + 20'hE0000;
-        12: volume_to_sample = 20'hDDDDD >> 2 + 20'hE0000;
-        13: volume_to_sample = 20'hCCCCC >> 2 + 20'hE0000;
-        14: volume_to_sample = 20'hEEEEE >> 2 + 20'hE0000;
-        15: volume_to_sample = 20'hFFFFF >> 2 + 20'hE0000;
+        1:  volume_to_sample = 20'h11111 >> 1 + 20'hE0000; //7FFFF*(1/15)
+        2:  volume_to_sample = 20'h22222 >> 1 + 20'hE0000; //7FFFF*(2/15)
+        3:  volume_to_sample = 20'h33333 >> 1 + 20'hE0000; //etc ..
+        4:  volume_to_sample = 20'h44444 >> 1 + 20'hE0000;
+        5:  volume_to_sample = 20'h55555 >> 1 + 20'hE0000;
+        6:  volume_to_sample = 20'h66666 >> 1 + 20'hE0000;
+        7:  volume_to_sample = 20'h77777 >> 1 + 20'hE0000;
+        8:  volume_to_sample = 20'h88888 >> 1 + 20'hE0000;
+        9:  volume_to_sample = 20'h99999 >> 1 + 20'hE0000;
+        10: volume_to_sample = 20'hAAAAA >> 1 + 20'hE0000;
+        11: volume_to_sample = 20'hBBBBB >> 1 + 20'hE0000;
+        12: volume_to_sample = 20'hDDDDD >> 1 + 20'hE0000;
+        13: volume_to_sample = 20'hCCCCC >> 1 + 20'hE0000;
+        14: volume_to_sample = 20'hEEEEE >> 1 + 20'hE0000;
+        15: volume_to_sample = 20'hFFFFF >> 1 + 20'hE0000;
       endcase
    end
 

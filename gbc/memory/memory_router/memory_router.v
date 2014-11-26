@@ -136,11 +136,11 @@ module memory_router(
    assign wdma_en = ~I_WDMA_WE_L;
 
 
-   assign cpu_accessing_cartridge = (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR < `CARTRIDGE_HI) || 
-				    (cpu_en && I_CPU_ADDR >= `EXTERNAL_EXPANSION_LO && I_CPU_ADDR < `EXTERNAL_EXPANSION_HI);
-   assign cpu_accessing_ioreg = (cpu_en && I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR < `IOREG_HI);
-   assign cpu_accessing_lcdram =  cpu_en && ((I_CPU_ADDR >= `LCDRAM_LO & I_CPU_ADDR < `LCDRAM_HI) || 
-					     (I_CPU_ADDR >= `OAM_LO & I_CPU_ADDR < `OAM_HI) || 
+   assign cpu_accessing_cartridge = (cpu_en && I_CPU_ADDR >= `CARTRIDGE_LO && I_CPU_ADDR <= `CARTRIDGE_HI) || 
+				    (cpu_en && I_CPU_ADDR >= `EXTERNAL_EXPANSION_LO && I_CPU_ADDR <= `EXTERNAL_EXPANSION_HI);
+   assign cpu_accessing_ioreg = (cpu_en && I_CPU_ADDR >= `IOREG_LO && I_CPU_ADDR <= `IOREG_HI);
+   assign cpu_accessing_lcdram =  cpu_en && ((I_CPU_ADDR >= `LCDRAM_LO & I_CPU_ADDR <= `LCDRAM_HI) || 
+					     (I_CPU_ADDR >= `OAM_LO & I_CPU_ADDR <= `OAM_HI) || 
 					     (I_CPU_ADDR == `LCDC) || (I_CPU_ADDR == `STAT) ||
 					     (I_CPU_ADDR == `SCX)  || (I_CPU_ADDR == `SCY)  ||
 					     (I_CPU_ADDR == `LY )  || (I_CPU_ADDR == `LYC)  ||
@@ -149,14 +149,14 @@ module memory_router(
 					     (I_CPU_ADDR == `WX)   || (I_CPU_ADDR == `BCPS) ||
 					     (I_CPU_ADDR == `BCPD) || (I_CPU_ADDR == `OCPS) ||
 					     (I_CPU_ADDR == `OCPD) || (I_CPU_ADDR == `VBK)  ||
-                         (I_CPU_ADDR >= `OAM_LO && I_CPU_ADDR < `OAM_HI));
-   assign cpu_accessing_wram = (cpu_en && I_CPU_ADDR >= `WRAM_LO && I_CPU_ADDR < `WRAM_HI);
+                         (I_CPU_ADDR >= `OAM_LO && I_CPU_ADDR <= `OAM_HI));
+   assign cpu_accessing_wram = (cpu_en && I_CPU_ADDR >= `WRAM_LO && I_CPU_ADDR <= `ECHO_HI);
 
-   assign ppu_accessing_cartridge = (ppu_en && I_PPU_ADDR >= `CARTRIDGE_LO && I_PPU_ADDR < `CARTRIDGE_HI) ||
-				    (ppu_en && I_PPU_ADDR >= `EXTERNAL_EXPANSION_LO && I_PPU_ADDR < `EXTERNAL_EXPANSION_HI);
-   assign ppu_accessing_ioreg = (ppu_en && I_PPU_ADDR >= `IOREG_LO && I_PPU_ADDR < `IOREG_HI);
-   assign ppu_accessing_lcdram =  ppu_en && ((I_PPU_ADDR >= `LCDRAM_LO & I_PPU_ADDR < `LCDRAM_HI) || 
-					     (I_PPU_ADDR >= `OAM_LO & I_PPU_ADDR < `OAM_HI) || 
+   assign ppu_accessing_cartridge = (ppu_en && I_PPU_ADDR >= `CARTRIDGE_LO && I_PPU_ADDR <= `CARTRIDGE_HI) ||
+				    (ppu_en && I_PPU_ADDR >= `EXTERNAL_EXPANSION_LO && I_PPU_ADDR <= `EXTERNAL_EXPANSION_HI);
+   assign ppu_accessing_ioreg = (ppu_en && I_PPU_ADDR >= `IOREG_LO && I_PPU_ADDR <= `IOREG_HI);
+   assign ppu_accessing_lcdram =  ppu_en && ((I_PPU_ADDR >= `LCDRAM_LO & I_PPU_ADDR <= `LCDRAM_HI) || 
+					     (I_PPU_ADDR >= `OAM_LO & I_PPU_ADDR <= `OAM_HI) || 
 					     (I_PPU_ADDR == `LCDC) || (I_PPU_ADDR == `STAT) ||
 					     (I_PPU_ADDR == `SCX)  || (I_PPU_ADDR == `SCY)  ||
 					     (I_PPU_ADDR == `LY )  || (I_PPU_ADDR == `LYC)  ||
@@ -165,14 +165,14 @@ module memory_router(
 					     (I_PPU_ADDR == `WX)   || (I_PPU_ADDR == `BCPS) ||
 					     (I_PPU_ADDR == `BCPD) || (I_PPU_ADDR == `OCPS) ||
 					     (I_PPU_ADDR == `OCPD) || (I_PPU_ADDR == `VBK) ||
-                         (I_PPU_ADDR >= `OAM_LO && I_PPU_ADDR < `OAM_HI));
-   assign ppu_accessing_wram = (ppu_en && I_PPU_ADDR >= `WRAM_LO && I_PPU_ADDR < `WRAM_HI);
+                         (I_PPU_ADDR >= `OAM_LO && I_PPU_ADDR <= `OAM_HI));
+   assign ppu_accessing_wram = (ppu_en && I_PPU_ADDR >= `WRAM_LO && I_PPU_ADDR <= `ECHO_HI);
 
-   assign rdma_accessing_cartridge = (rdma_en && I_RDMA_ADDR >= `CARTRIDGE_LO && I_RDMA_ADDR < `CARTRIDGE_HI) ||
-				     (rdma_en && I_RDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_RDMA_ADDR < `EXTERNAL_EXPANSION_HI);
-   assign rdma_accessing_ioreg = (rdma_en && I_RDMA_ADDR >= `IOREG_LO && I_RDMA_ADDR < `IOREG_HI);
-   assign rdma_accessing_lcdram =  rdma_en && ((I_RDMA_ADDR >= `LCDRAM_LO & I_RDMA_ADDR < `LCDRAM_HI) || 
-					     (I_RDMA_ADDR >= `OAM_LO & I_RDMA_ADDR < `OAM_HI) || 
+   assign rdma_accessing_cartridge = (rdma_en && I_RDMA_ADDR >= `CARTRIDGE_LO && I_RDMA_ADDR <= `CARTRIDGE_HI) ||
+				     (rdma_en && I_RDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_RDMA_ADDR <= `EXTERNAL_EXPANSION_HI);
+   assign rdma_accessing_ioreg = (rdma_en && I_RDMA_ADDR >= `IOREG_LO && I_RDMA_ADDR <= `IOREG_HI);
+   assign rdma_accessing_lcdram =  rdma_en && ((I_RDMA_ADDR >= `LCDRAM_LO & I_RDMA_ADDR <= `LCDRAM_HI) || 
+					     (I_RDMA_ADDR >= `OAM_LO & I_RDMA_ADDR <= `OAM_HI) || 
 					     (I_RDMA_ADDR == `LCDC) || (I_RDMA_ADDR == `STAT) ||
 					     (I_RDMA_ADDR == `SCX)  || (I_RDMA_ADDR == `SCY)  ||
 					     (I_RDMA_ADDR == `LY )  || (I_RDMA_ADDR == `LYC)  ||
@@ -181,14 +181,14 @@ module memory_router(
 					     (I_RDMA_ADDR == `WX)   || (I_RDMA_ADDR == `BCPS) ||
 					     (I_RDMA_ADDR == `BCPD) || (I_RDMA_ADDR == `OCPS) ||
 					     (I_RDMA_ADDR == `OCPD) || (I_RDMA_ADDR == `VBK) ||
-                         (I_RDMA_ADDR >= `OAM_LO && I_RDMA_ADDR < `OAM_HI));
-   assign rdma_accessing_wram = (rdma_en && I_RDMA_ADDR >= `WRAM_LO && I_RDMA_ADDR < `WRAM_HI);
+                         (I_RDMA_ADDR >= `OAM_LO && I_RDMA_ADDR <= `OAM_HI));
+   assign rdma_accessing_wram = (rdma_en && I_RDMA_ADDR >= `WRAM_LO && I_RDMA_ADDR <= `ECHO_HI);
 
-   assign wdma_accessing_cartridge = (wdma_en && I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR < `CARTRIDGE_HI) ||
-				     (wdma_en && I_WDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_WDMA_ADDR < `EXTERNAL_EXPANSION_HI);
-   assign wdma_accessing_ioreg = (wdma_en && I_WDMA_ADDR >= `IOREG_LO && I_WDMA_ADDR < `IOREG_HI);
-   assign wdma_accessing_lcdram =  wdma_en && ((I_WDMA_ADDR >= `LCDRAM_LO & I_WDMA_ADDR < `LCDRAM_HI) || 
-					     (I_WDMA_ADDR >= `OAM_LO & I_WDMA_ADDR < `OAM_HI) || 
+   assign wdma_accessing_cartridge = (wdma_en && I_WDMA_ADDR >= `CARTRIDGE_LO && I_WDMA_ADDR <= `CARTRIDGE_HI) ||
+				     (wdma_en && I_WDMA_ADDR >= `EXTERNAL_EXPANSION_LO && I_WDMA_ADDR <= `EXTERNAL_EXPANSION_HI);
+   assign wdma_accessing_ioreg = (wdma_en && I_WDMA_ADDR >= `IOREG_LO && I_WDMA_ADDR <= `IOREG_HI);
+   assign wdma_accessing_lcdram =  wdma_en && ((I_WDMA_ADDR >= `LCDRAM_LO & I_WDMA_ADDR <= `LCDRAM_HI) || 
+					     (I_WDMA_ADDR >= `OAM_LO & I_WDMA_ADDR <= `OAM_HI) || 
 					     (I_WDMA_ADDR == `LCDC) || (I_WDMA_ADDR == `STAT) ||
 					     (I_WDMA_ADDR == `SCX)  || (I_WDMA_ADDR == `SCY)  ||
 					     (I_WDMA_ADDR == `LY )  || (I_WDMA_ADDR == `LYC)  ||
@@ -197,8 +197,8 @@ module memory_router(
 					     (I_WDMA_ADDR == `WX)   || (I_WDMA_ADDR == `BCPS) ||
 					     (I_WDMA_ADDR == `BCPD) || (I_WDMA_ADDR == `OCPS) ||
 					     (I_WDMA_ADDR == `OCPD) || (I_WDMA_ADDR == `VBK) ||
-                         (I_WDMA_ADDR >= `OAM_LO && I_WDMA_ADDR < `OAM_HI));
-   assign wdma_accessing_wram = (wdma_en && I_WDMA_ADDR >= `WRAM_LO && I_WDMA_ADDR < `WRAM_HI);
+                         (I_WDMA_ADDR >= `OAM_LO && I_WDMA_ADDR <= `OAM_HI));
+   assign wdma_accessing_wram = (wdma_en && I_WDMA_ADDR >= `WRAM_LO && I_WDMA_ADDR <= `ECHO_HI);
 
    assign O_IOREG_WE_L = (cpu_accessing_ioreg) ? I_CPU_WE_L :
                          (ppu_accessing_ioreg) ? I_PPU_WE_L :

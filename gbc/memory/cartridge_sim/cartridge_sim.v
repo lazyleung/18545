@@ -79,13 +79,13 @@ module cartridge_sim(
 	       16'h0: begin
 	          if (IO_CARTRIDGE_DATA == 0)
 		        ram_timer_en <= 0;
-	          else if (IO_CARTRIDGE_DATA == 16'h000A)
+	          else if (IO_CARTRIDGE_DATA == 8'h0A)
 		        ram_timer_en <= 1;
 	       end
 	       16'h1: begin
 	          if (IO_CARTRIDGE_DATA == 0)
 		        ram_timer_en <= 0;
-	          else if (IO_CARTRIDGE_DATA == 16'h000A)
+	          else if (IO_CARTRIDGE_DATA == 8'h0A)
 		        ram_timer_en <= 1;
 	       end
 
@@ -135,6 +135,8 @@ module cartridge_sim(
       /*reset the the hardware to begin in bootload mode*/
       if (I_RESET) begin
          is_in_rom_mode <= 1; //ignore bootload process (for now)
+         rom_bank_num <= 1;
+         ram_bank_num <= 0;
       end
 
    end // always @ (posedge I_CLK)

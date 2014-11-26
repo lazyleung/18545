@@ -70,8 +70,8 @@ module working_memory_bank(
 					  .O_DATA_READ(svbk_data));
 
    /*the use of bank 0 is indicated such that top top 4 bits of
-    * the incoming address will be 0xC*/
-   assign is_bank_zero =  (I_WRAM_ADDR[15:12] == 4'hC);
+    * the incoming address will be 0xC, or 0xE (echo memory) */
+   assign is_bank_zero =  (I_WRAM_ADDR[15:12] == 4'hC || I_WRAM_ADDR[15:12] == 4'hE);
 
    wire 		bram_en;
    wire 		bram_we;
