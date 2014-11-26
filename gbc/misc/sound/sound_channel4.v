@@ -1,6 +1,7 @@
 `include "../../memory/memory_router/memdef.vh"
 `define CLOCKS256    128906
 `define CLOCKS64     515625
+`default_nettype none
 
 module sound_channel4(
                       /* System Level Inputs*/

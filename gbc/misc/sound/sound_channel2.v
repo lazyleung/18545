@@ -1,6 +1,7 @@
 `include "../../memory/memory_router/memdef.vh"
 `define CLOCKS256    128906
 `define CLOCKS64     515625
+`default_nettype none
 
 module sound_channel2(
                       /* System Level Inputs*/
@@ -125,6 +126,7 @@ module sound_channel2(
       /*time to play the sound expired*/
       if (count >= sound_length & stop_sound) begin
          enable_sound <= 0;
+         count <= 0;
       end
 
       /*volume envelope time expired, update the volume*/
@@ -140,12 +142,13 @@ module sound_channel2(
       if (restart_sound) begin
          enable_sound <= 1;
          count <= 0;
-	 current_volume <= initial_volume;
+	     current_volume <= initial_volume;
       end
 
       if (I_RESET) begin
          count <= 0;
          enable_sound <= 0;
+         current_volume <= initial_volume;
       end
    end
 

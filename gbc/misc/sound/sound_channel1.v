@@ -1,4 +1,5 @@
 `include "../../memory/memory_router/memdef.vh"
+`default_nettype none
 
 /*Clocks for sweep time specs based on 33MHz clock*/
 `define SWEEPCLOCKS1 257400
