@@ -55,6 +55,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="gameboycolor.xst"/>
     <file xil_pn:fileType="FILE_BLIF" xil_pn:name="gameboycolor_cs.blc"/>
     <file xil_pn:fileType="FILE_NGC" xil_pn:name="gameboycolor_cs.ngc"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="gameboycolor_envsettings.html"/>
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="gameboycolor_guide.ncd" xil_pn:origination="imported"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gameboycolor_map.map" xil_pn:subbranch="Map"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gameboycolor_map.mrp" xil_pn:subbranch="Map"/>
@@ -105,7 +106,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1416982262" xil_pn:in_ck="4668175234207600629" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="-8371786964588626451" xil_pn:start_ts="1416982103">
+    <transform xil_pn:end_ts="1417032673" xil_pn:in_ck="4668175234207600629" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="-8371786964588626451" xil_pn:start_ts="1417032515">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -127,10 +128,12 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1416982495" xil_pn:in_ck="-4977203282313204114" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="3461628187324884920" xil_pn:start_ts="1416982262">
+    <transform xil_pn:end_ts="1417032695" xil_pn:in_ck="-4977203282313204114" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="3461628187324884920" xil_pn:start_ts="1417032673">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="_ngo"/>
       <outfile xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
       <outfile xil_pn:name="gameboycolor.bld"/>
@@ -139,10 +142,12 @@
       <outfile xil_pn:name="gameboycolor_cs.ngc"/>
       <outfile xil_pn:name="gameboycolor_ngdbuild.xrpt"/>
     </transform>
-    <transform xil_pn:end_ts="1416982569" xil_pn:in_ck="-7109838992662375361" xil_pn:name="TRANEXT_map_virtex5" xil_pn:prop_ck="6733564432430981316" xil_pn:start_ts="1416982495">
+    <transform xil_pn:end_ts="1417032768" xil_pn:in_ck="-7109838992662375361" xil_pn:name="TRANEXT_map_virtex5" xil_pn:prop_ck="6733564432430981316" xil_pn:start_ts="1417032695">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="_xmsgs/map.xmsgs"/>
       <outfile xil_pn:name="gameboycolor.pcf"/>
       <outfile xil_pn:name="gameboycolor_map.map"/>
@@ -153,7 +158,7 @@
       <outfile xil_pn:name="gameboycolor_summary.xml"/>
       <outfile xil_pn:name="gameboycolor_usage.xml"/>
     </transform>
-    <transform xil_pn:end_ts="1416982631" xil_pn:in_ck="4200172386633788120" xil_pn:name="TRANEXT_par_virtex5" xil_pn:prop_ck="8974327551937068295" xil_pn:start_ts="1416982569">
+    <transform xil_pn:end_ts="1417032830" xil_pn:in_ck="4200172386633788120" xil_pn:name="TRANEXT_par_virtex5" xil_pn:prop_ck="8974327551937068295" xil_pn:start_ts="1417032768">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -168,7 +173,7 @@
       <outfile xil_pn:name="gameboycolor_pad.txt"/>
       <outfile xil_pn:name="gameboycolor_par.xrpt"/>
     </transform>
-    <transform xil_pn:end_ts="1416982710" xil_pn:in_ck="3065564483263418406" xil_pn:name="TRANEXT_bitFile_virtex5" xil_pn:prop_ck="1555517831305455702" xil_pn:start_ts="1416982631">
+    <transform xil_pn:end_ts="1417032976" xil_pn:in_ck="3065564483263418406" xil_pn:name="TRANEXT_bitFile_virtex5" xil_pn:prop_ck="1555517831305455702" xil_pn:start_ts="1417032899">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -181,7 +186,15 @@
       <outfile xil_pn:name="webtalk.log"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
     </transform>
-    <transform xil_pn:end_ts="1416982631" xil_pn:in_ck="-7109838992662375493" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416183" xil_pn:start_ts="1416982616">
+    <transform xil_pn:end_ts="1417033339" xil_pn:in_ck="3065564483263405552" xil_pn:name="TRAN_impactProgrammingTool" xil_pn:prop_ck="3319648727317268477" xil_pn:start_ts="1417033339">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1417033240" xil_pn:in_ck="3065564483263405552" xil_pn:name="TRAN_analyzeDesignUsingChipscope" xil_pn:prop_ck="3461628187324884920" xil_pn:start_ts="1417033240">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1417032830" xil_pn:in_ck="-7109838992662375493" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416183" xil_pn:start_ts="1417032815">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="_xmsgs/trce.xmsgs"/>

@@ -23,7 +23,7 @@ module timer_module(
     inout [7:0]     IO_DATA;
 
     // Timer & Diver Register wires
-    wire [10:0]      counter;
+    reg [10:0]      counter;
     wire [7:0]       DIV, TIMA, TMA;
     wire [2:0]       TAC;
     
@@ -47,29 +47,40 @@ module timer_module(
     // TIMA to be incremented.
 
     // 00:   4096 Hz    = 2^12 = 2^23 - 2^11
-    // 01: 262144 Hz    = 2^12 = 2^23 - 2^5
-    // 10:  65536 Hz    = 2^12 = 2^23 - 2^6
+    // 01: 262144 Hz    = 2^18 = 2^23 - 2^5
+    // 10:  65536 Hz    = 2^17 = 2^23 - 2^6
     // 11:  16384 Hz    = 2^14 = 2^23 - 2^9
 
     assign TIMA_ce =    (TAC[1:0] == 2'b00 ) ? counter[10] :
                         (TAC[1:0] == 2'b01 ) ? counter[4] :
                         (TAC[1:0] == 2'b10 ) ? counter[6] : counter[8];
-
-    always @(*) begin
-        next_state = state;
-        increment = 0;
-        case (state)
-            `COUNTER_RESET: begin
-                if(TIMA_ce) begin
-                    next_state = `COUNTER_TRIGGER;
-                    increment = 1;
-                end
-            end
-            `COUNTER_TRIGGER: begin
-                if(~TIMA_ce)
-                    next_state = `COUNTER_RESET;
-            end
-        endcase
+                        
+    reg reset_counter;
+    
+    always @(posedge I_CLOCK) begin
+    
+        increment <= 0;
+        counter <= counter + 1;
+        
+        if (TAC[1:0] == 2'b00 && counter == 'd1007) begin
+            increment <= 1;
+            counter <= 0;
+        end
+        else if (TAC[1:0] == 2'b01 && counter == 'd16) begin
+            increment <= 1;
+            counter <= 0;
+        end
+        else if (TAC[1:0] == 2'b10 && counter == 'd63) begin
+            increment <= 1;
+            counter <= 0;
+        end
+        else if (TAC[1:0] == 2'b01 && counter == 'd251) begin
+            increment <= 1;
+            counter <= 0;
+        end
+    
+        if (I_RESET) 
+            counter <= 0;
     end
 
     always @(posedge I_CLOCK or posedge I_RESET) begin
@@ -129,15 +140,6 @@ module timer_module(
         .out(IO_DATA),
         .in(TMA[7:0]),
         .en(TMA_re)
-    );
-
-    // Registers
-    register #(11, 0) TIMA_counter_reg(
-        .q(counter),
-        .d(counter + 11'd1),
-        .load(TAC[2]),
-        .clock(I_CLOCK),
-        .reset(I_RESET)
     );
 
     // Increment DIV every 256 clock ticks
