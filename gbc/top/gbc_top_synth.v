@@ -474,6 +474,7 @@
                       .I_ADDR(iobus_addr),
                       .I_RE_L(iobus_re_l),
                       .I_WE_L(iobus_we_l),
+                      .IO_DATA(iobus_data),
                       .O_DIV_DATA(register_data[4]), 
                       .O_TIMA_DATA(register_data[5]), 
                       .O_TMA_DATA(register_data[6]), 
@@ -483,8 +484,10 @@
 
    /*Controller makes an interface with the CPU with the handheld,
     *SNES controller.  It converts the interface to one that the
-    *CPU expects*/
-   controller Controller(
+    *CPU expects.  If the controller is not connected, then set
+    * the parameter to 0 so it does not continuously reset the 
+    * system.*/
+   controller #(0) Controller(
     	                 .I_CLK(clock_main),
     	                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
     	                 .I_RESET(synch_reset),

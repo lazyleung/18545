@@ -55,6 +55,7 @@
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="gameboycolor.xst"/>
     <file xil_pn:fileType="FILE_BLIF" xil_pn:name="gameboycolor_cs.blc"/>
     <file xil_pn:fileType="FILE_NGC" xil_pn:name="gameboycolor_cs.ngc"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="gameboycolor_envsettings.html"/>
     <file xil_pn:fileType="FILE_NCD" xil_pn:name="gameboycolor_guide.ncd" xil_pn:origination="imported"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gameboycolor_map.map" xil_pn:subbranch="Map"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="gameboycolor_map.mrp" xil_pn:subbranch="Map"/>
@@ -101,7 +102,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1416910043" xil_pn:in_ck="4668175234207600629" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="-8371786964588626451" xil_pn:start_ts="1416909888">
+    <transform xil_pn:end_ts="1416981889" xil_pn:in_ck="4668175234207600629" xil_pn:name="TRANEXT_xstsynthesize_virtex5" xil_pn:prop_ck="-8371786964588626451" xil_pn:start_ts="1416981738">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -123,7 +124,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1416910276" xil_pn:in_ck="-4977203282313204114" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="3461628187324884920" xil_pn:start_ts="1416910043">
+    <transform xil_pn:end_ts="1416981911" xil_pn:in_ck="-4977203282313204114" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="3461628187324884920" xil_pn:start_ts="1416981889">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -135,10 +136,12 @@
       <outfile xil_pn:name="gameboycolor_cs.ngc"/>
       <outfile xil_pn:name="gameboycolor_ngdbuild.xrpt"/>
     </transform>
-    <transform xil_pn:end_ts="1416910347" xil_pn:in_ck="-7109838992662375361" xil_pn:name="TRANEXT_map_virtex5" xil_pn:prop_ck="6733564432430981316" xil_pn:start_ts="1416910276">
+    <transform xil_pn:end_ts="1416981980" xil_pn:in_ck="-7109838992662375361" xil_pn:name="TRANEXT_map_virtex5" xil_pn:prop_ck="6733564432430981316" xil_pn:start_ts="1416981911">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="_xmsgs/map.xmsgs"/>
       <outfile xil_pn:name="gameboycolor.pcf"/>
       <outfile xil_pn:name="gameboycolor_map.map"/>
@@ -149,7 +152,7 @@
       <outfile xil_pn:name="gameboycolor_summary.xml"/>
       <outfile xil_pn:name="gameboycolor_usage.xml"/>
     </transform>
-    <transform xil_pn:end_ts="1416910407" xil_pn:in_ck="4200172386633788120" xil_pn:name="TRANEXT_par_virtex5" xil_pn:prop_ck="8974327551937068295" xil_pn:start_ts="1416910347">
+    <transform xil_pn:end_ts="1416982039" xil_pn:in_ck="4200172386633788120" xil_pn:name="TRANEXT_par_virtex5" xil_pn:prop_ck="8974327551937068295" xil_pn:start_ts="1416981980">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -164,7 +167,7 @@
       <outfile xil_pn:name="gameboycolor_pad.txt"/>
       <outfile xil_pn:name="gameboycolor_par.xrpt"/>
     </transform>
-    <transform xil_pn:end_ts="1416910528" xil_pn:in_ck="3065564483263418406" xil_pn:name="TRANEXT_bitFile_virtex5" xil_pn:prop_ck="1555517831305455702" xil_pn:start_ts="1416910451">
+    <transform xil_pn:end_ts="1416982114" xil_pn:in_ck="3065564483263418406" xil_pn:name="TRANEXT_bitFile_virtex5" xil_pn:prop_ck="1555517831305455702" xil_pn:start_ts="1416982039">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -177,11 +180,25 @@
       <outfile xil_pn:name="webtalk.log"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
     </transform>
-    <transform xil_pn:end_ts="1416910671" xil_pn:in_ck="3065564483263405552" xil_pn:name="TRAN_impactProgrammingTool" xil_pn:prop_ck="3319648727317268477" xil_pn:start_ts="1416910671">
+    <transform xil_pn:end_ts="1416970867" xil_pn:in_ck="3065564483263405552" xil_pn:name="TRAN_impactProgrammingTool" xil_pn:prop_ck="3319648727317268477" xil_pn:start_ts="1416970867">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
     </transform>
-    <transform xil_pn:end_ts="1416910407" xil_pn:in_ck="-7109838992662375493" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416183" xil_pn:start_ts="1416910392">
+    <transform xil_pn:end_ts="1416978895" xil_pn:in_ck="3065564483263405552" xil_pn:name="TRAN_genImpactFile" xil_pn:prop_ck="-8217562035538416314" xil_pn:start_ts="1416978888">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
+    </transform>
+    <transform xil_pn:end_ts="1416977826" xil_pn:in_ck="3065564483263405552" xil_pn:name="TRAN_analyzeDesignUsingChipscope" xil_pn:prop_ck="3461628187324884920" xil_pn:start_ts="1416977826">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
+    </transform>
+    <transform xil_pn:end_ts="1416982039" xil_pn:in_ck="-7109838992662375493" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416183" xil_pn:start_ts="1416982024">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="_xmsgs/trce.xmsgs"/>
