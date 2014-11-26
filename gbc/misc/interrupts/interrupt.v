@@ -5,6 +5,7 @@
 // Bit 2: Timer    Interrupt Enable  (INT 50h)  (1=Enable)
 // Bit 3: Serial   Interrupt Enable  (INT 58h)  (1=Enable)
 // Bit 4: Joypad   Interrupt Enable  (INT 60h)  (1=Enable)
+`include "../../memory/memory_router/memdef.vh"
 `define VBLANK  0
 `define LCDSTAT 1
 `define TIMER   2
@@ -54,8 +55,8 @@ module interrupt(
     wire [4:0]      IF_TEMP;
     wire            IF_CPU_WE, IE_CPU_WE;
 
-    assign IF_CPU_WE = I_CPU_ADDR == 16'hff0f;
-    assign IE_CPU_WE = I_CPU_ADDR == 16'hffff;
+    assign IF_CPU_WE = I_CPU_ADDR == `IF;
+    assign IE_CPU_WE = I_CPU_ADDR == `IE;
 
     assign O_IF_LOAD = I_VBLANK_INTERRUPT | I_LCDSTAT_INTERRUPT | I_TIMER_INTERRUPT | I_SERIAL_INTERRUPT | I_JOYPAD_INTERRUPT | (IF_CPU_WE & ~I_MEM_WE_L);
     assign O_IE_LOAD = 1'b0;

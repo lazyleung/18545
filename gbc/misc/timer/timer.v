@@ -167,7 +167,7 @@ module timer_module(
         .reset(I_RESET)
     );
 
-    register #(8) TMA_reg(
+    register #(8, 0) TMA_reg(
         .q(TMA),
         .d(IO_DATA),
         .load(TMA_we),
@@ -175,7 +175,7 @@ module timer_module(
         .reset(I_RESET)
     );
 
-    register #(8) TIMA_reg(
+    register #(8, 0) TIMA_reg(
         .q(TIMA),
         .d(
             (TIMA_we) ? IO_DATA :
