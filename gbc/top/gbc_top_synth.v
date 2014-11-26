@@ -189,10 +189,10 @@
 
    assign  mem_clock = ~mem_clocka;
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4))
    cdiv(.clock_out(clock_main), .clock_in(clock));
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
    cdivdouble(.clock_out(mem_clocka), .clock_in(clock));
 
    // ========================================
@@ -426,7 +426,7 @@
     *else if RAM or timer access is used, BRAM or internal
     *FPGA logic is used.  The parameter set to 0 will
     *load from BRAM instead of flash to more easily.*/
-   cartridge_sim #(0) cartsim(
+   cartridge_sim #(1) cartsim(
 		                 .I_CLK(mem_clocka),
 		                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
 		                 .I_RESET(synch_reset),
@@ -454,8 +454,9 @@
                        .I_JOYPAD_INTERRUPT(controller_interrupt),
 
                        .I_MEM_WE_L(iobus_we_l),
+                       .I_MEM_RE_L(iobus_re_l),
                        .I_CPU_ADDR(iobus_addr),
-                       .I_CPU_DATA(iobus_data),
+                       .IO_CPU_DATA(iobus_data),
 
                        .I_IF_DATA(IF_data),
                        .I_IE_DATA(IE_data),
@@ -474,6 +475,7 @@
                       .I_ADDR(iobus_addr),
                       .I_RE_L(iobus_re_l),
                       .I_WE_L(iobus_we_l),
+                      .IO_DATA(iobus_data),
                       .O_DIV_DATA(register_data[4]), 
                       .O_TIMA_DATA(register_data[5]), 
                       .O_TMA_DATA(register_data[6]), 

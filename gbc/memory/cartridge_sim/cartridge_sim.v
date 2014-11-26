@@ -269,7 +269,7 @@ module cartridge_sim(
    /*give capability of reading from FLASH or BRAM based on parameter*/                   
    bram_cart  cartridge(
                       .clka(I_CLK),
-                      .rsta(I_RESET),
+                      //.rsta(I_RESET),
 		              .wea(0),
 		              .addra(I_CARTRIDGE_ADDR),
 		              .dina(0),
