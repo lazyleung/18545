@@ -32,6 +32,8 @@ module controller(
 
           O_P1_DATA
 		  );
+          
+   parameter P_CONTROLLER_CONNECTED = 1;
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
    input [15:0] I_IOREG_ADDR;
@@ -59,8 +61,9 @@ module controller(
    /*multiplex which row in the array to choose*/
    assign return_data[7:6] = 0;
    assign return_data[5:4] = p1_reg;
-   assign return_data[3:0] = (!return_startselAB_values) ? startselAB_values :
-			     (!return_UDLR_values) ? UDLR_values : 0;
+   assign return_data[3:0] = (~P_CONTROLLER_CONNECTED) ? 4'b1111 :
+                             (!return_startselAB_values) ? startselAB_values :
+			                 (!return_UDLR_values) ? UDLR_values : 0;
 
    /*find the buttons, so they can easily be reordered*/
    assign start = ~buttons_pressed[`START];
