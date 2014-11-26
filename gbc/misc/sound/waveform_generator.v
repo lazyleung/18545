@@ -1,3 +1,5 @@
+`default_nettype none
+
 module squarewave_generator(
                             /*System Level Inputs*/
                             I_BITCLK,

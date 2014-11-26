@@ -1,4 +1,5 @@
 `include "../../memory/memory_router/memdef.vh"
+`default_nettype none
 
 module sound_controller(
 
@@ -142,7 +143,6 @@ module sound_controller(
    /*enable the different components of the output waveforms
     * divide each signal by 4 so total sum is max possible
     * loudness*/
-
    assign sc1_so1_sample = (ch1_so1_out) ? sc1_sample : 0;
    assign sc2_so1_sample = (ch2_so1_out) ? sc2_sample : 0;
    assign sc3_so1_sample = (ch3_so1_out) ? sc3_sample : 0;
@@ -158,7 +158,7 @@ module sound_controller(
    assign so2_total = sc1_so2_sample + sc2_so2_sample + sc3_so2_sample + sc4_so2_sample;
 
    assign O_SO1 = (enable_all_sound) ? so1_total : 0;
-   assign O_SO2 = 0;//(enable_all_sound) ? so2_total : 0;
+   assign O_SO2 = (enable_all_sound) ? so2_total : 0;
    
    /* Implement the Sound Channels*/
    sound_channel1 sc1(

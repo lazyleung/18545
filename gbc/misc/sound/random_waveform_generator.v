@@ -1,3 +1,5 @@
+`default_nettype none
+
 module randwave_generator(
                           /*System Level Inputs*/
 			  I_SHIFT_CLOCK,
