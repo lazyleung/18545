@@ -94,9 +94,10 @@ module color_file(
                                (ocps_rd) ? ocps_reg :
                                (ocpd_rd) ? sprpal_return_data : 0;
 
-
+   integer i;
    always @(posedge I_CLK) begin
 		if (I_RESET) begin
+        /*
 			bg_pallete_arr[1] <= 8'h6f;
 			bg_pallete_arr[0] <= 8'hfb;
 			bg_pallete_arr[3] <= 8'h56;
@@ -257,6 +258,28 @@ module color_file(
 			spr_pallete_arr[60] <= 8'hf4;
 			spr_pallete_arr[63] <= 8'h1c;
 			spr_pallete_arr[62] <= 8'he7;
+            */
+            for (i = 0; i < 64; i = i + 8) begin
+               bg_pallete_arr[i + 0] <= 8'hff;
+               bg_pallete_arr[i + 1] <= 8'hff;
+               bg_pallete_arr[i + 2] <= 8'h14;
+               bg_pallete_arr[i + 3] <= 8'hA5;
+               bg_pallete_arr[i + 4] <= 8'h0c;
+               bg_pallete_arr[i + 5] <= 8'h63;
+               bg_pallete_arr[i + 6] <= 8'h00;
+               bg_pallete_arr[i + 7] <= 8'h00;
+            end
+            
+            for (i = 0; i < 64; i = i + 8) begin
+               spr_pallete_arr[i + 0] <= 8'hff;
+               spr_pallete_arr[i + 1] <= 8'hff;
+               spr_pallete_arr[i + 2] <= 8'h14;
+               spr_pallete_arr[i + 3] <= 8'hA5;
+               spr_pallete_arr[i + 4] <= 8'h0c;
+               spr_pallete_arr[i + 5] <= 8'h63;
+               spr_pallete_arr[i + 6] <= 8'h00;
+               spr_pallete_arr[i + 7] <= 8'h00;
+            end
             
             bcps_reg <= 8'b0;
             ocps_reg <= 8'b0;
