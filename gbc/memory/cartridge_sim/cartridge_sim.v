@@ -258,6 +258,7 @@ module cartridge_sim(
    /* Actual Memory Location*/
    bram expansion_ram(
 		              .clka(I_CLK),
+                      .rsta(I_RESET),
 		              .wea(bram_we),
 		              .addra(bram_addr),
 		              .dina(bram_data_in2),
@@ -268,6 +269,7 @@ module cartridge_sim(
    /*give capability of reading from FLASH or BRAM based on parameter*/                   
    bram_cart  cartridge(
                       .clka(I_CLK),
+                      //.rsta(I_RESET),
 		              .wea(0),
 		              .addra(I_CARTRIDGE_ADDR),
 		              .dina(0),

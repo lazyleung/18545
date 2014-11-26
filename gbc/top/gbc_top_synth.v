@@ -454,8 +454,9 @@
                        .I_JOYPAD_INTERRUPT(controller_interrupt),
 
                        .I_MEM_WE_L(iobus_we_l),
+                       .I_MEM_RE_L(iobus_re_l),
                        .I_CPU_ADDR(iobus_addr),
-                       .I_CPU_DATA(iobus_data),
+                       .IO_CPU_DATA(iobus_data),
 
                        .I_IF_DATA(IF_data),
                        .I_IE_DATA(IE_data),
@@ -519,7 +520,7 @@
 	          .I_IOREG_WE_L(iobus_we_l),
 	          .I_IOREG_RE_L(iobus_re_l),
               
-              /*for debugging*/
+              // for debugging
               .O_NR10_DATA(register_data[8'h10]), 
               .O_NR11_DATA(register_data[8'h11]), 
               .O_NR12_DATA(register_data[8'h12]),

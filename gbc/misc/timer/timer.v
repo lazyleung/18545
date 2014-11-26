@@ -94,12 +94,13 @@ module timer_module(
     assign TAC_re  = (~I_RE_L) ? (I_ADDR == `TAC)  : 0;
 
     // Bus tristate
-   /* tristate #(8) DIV_tri(
+    tristate #(8) DIV_tri(
         .out(IO_DATA),
         .in(DIV),
         .en(DIV_re)
-    );*/
+    );
     
+    /*
     io_bus_parser_reg #(`DIV,0,1,0,01) div_register(
                               .I_CLK(I_CLOCK),
                               .I_SYNC_RESET(I_RESET),
@@ -110,6 +111,7 @@ module timer_module(
                               .I_REG_WR_EN(1'b1),
                               .I_DATA_WR(DIV)
                               );
+                              */
     
     tristate #(8) TIMA_tri(
         .out(IO_DATA),
@@ -167,7 +169,7 @@ module timer_module(
         .reset(I_RESET)
     );
 
-    register #(8) TMA_reg(
+    register #(8, 0) TMA_reg(
         .q(TMA),
         .d(IO_DATA),
         .load(TMA_we),
@@ -175,7 +177,7 @@ module timer_module(
         .reset(I_RESET)
     );
 
-    register #(8) TIMA_reg(
+    register #(8, 0) TIMA_reg(
         .q(TIMA),
         .d(
             (TIMA_we) ? IO_DATA :
