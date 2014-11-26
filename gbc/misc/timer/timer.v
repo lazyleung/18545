@@ -62,7 +62,7 @@ module timer_module(
         increment <= 0;
         counter <= counter + 1;
         
-        if (TAC[1:0] == 2'b00 && counter == 'd1007) begin
+        if (TAC[1:0] == 2'b00 && counter == 'd1024) begin
             increment <= 1;
             counter <= 0;
         end
@@ -70,11 +70,11 @@ module timer_module(
             increment <= 1;
             counter <= 0;
         end
-        else if (TAC[1:0] == 2'b10 && counter == 'd63) begin
+        else if (TAC[1:0] == 2'b10 && counter == 'd64) begin
             increment <= 1;
             counter <= 0;
         end
-        else if (TAC[1:0] == 2'b01 && counter == 'd251) begin
+        else if (TAC[1:0] == 2'b01 && counter == 'd256) begin
             increment <= 1;
             counter <= 0;
         end
