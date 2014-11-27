@@ -6,60 +6,82 @@
  */
 
 module AC97(
+		/*Interface with sound card*/
+	   ac97_bitclk,
+		ac97_sdata_in,
+		pos1,
+		pos2,
+	   ac97_sdata_out,
+	   ac97_sync,
+	   ac97_reset_b,
 
-	    /*Interface with sound card*/
-	    input              ac97_bitclk,
-	    input              ac97_sdata_in,
-	    input              pos1, pos2,
-	    output wire        ac97_sdata_out,
-	    output wire        ac97_sync,
-	    output wire        ac97_reset_b,
-
-	    /*Interface witht the CPU*/
-	    input        I_CLK, I_CLK33MHZ,
-	    input        I_RESET,
-	    input [15:0] I_IOREG_ADDR,
-	    inout [7:0]  IO_IOREG_DATA,
-	    input        I_IOREG_WE_L,	
-	    input        I_IOREG_RE_L,
-	    output [7:0] O_D0, O_D1, O_D2, O_D3, O_D4,
-        input new_sound, 
+	   /*Interface witht the CPU*/
+	   I_CLK, I_CLK33MHZ,
+	   I_RESET,
+	   I_IOREG_ADDR,
+	   IO_IOREG_DATA,
+	   I_IOREG_WE_L,	
+	   I_IOREG_RE_L,
+	   O_D0, O_D1, O_D2, O_D3, O_D4,
+      new_sound, 
         
-        /*for debugging*/
-        output [7:0] O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA,
-                     O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA,
-                     O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+      /*for debugging*/
+      O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA,
+      O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA,
+      O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
                      
-                     O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
-                     O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15,
+      O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+      O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15,
                      
-                     O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA,
-                     O_NR50_DATA, O_NR51_DATA, O_NR52_DATA
+      O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA,
+      O_NR50_DATA, O_NR51_DATA, O_NR52_DATA
+	   );
+		 
+	/*Interface with sound card*/
+	input         ac97_bitclk, ac97_sdata_in, pos1, pos2;
+	output        ac97_sdata_out, ac97_sync, ac97_reset_b;
 
-	    );
+	/*Interface witht the CPU*/
+	input        	I_CLK, I_CLK33MHZ, I_RESET;
+	input [15:0]	I_IOREG_ADDR;
+	inout [7:0]  	IO_IOREG_DATA;
+	input        	I_IOREG_WE_L, I_IOREG_RE_L;
+	output [7:0] 	O_D0, O_D1, O_D2, O_D3, O_D4;
+   input 			new_sound;
+        
+   /*for debugging*/
+   output [7:0] O_NR10_DATA, O_NR11_DATA, O_NR12_DATA, O_NR13_DATA, O_NR14_DATA,
+                O_NR21_DATA, O_NR22_DATA, O_NR23_DATA, O_NR24_DATA,
+                O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
+                   
+                O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
+                O_WF8, O_WF9, O_WF10, O_WF11, O_WF12, O_WF13, O_WF14, O_WF15,
+                     
+                O_NR41_DATA, O_NR42_DATA, O_NR43_DATA, O_NR44_DATA,
+                O_NR50_DATA, O_NR51_DATA, O_NR52_DATA;
    
-   wire 		 flash_wait;
-   wire [15:0] 		 flash_d;
-   wire [23:0] 		 flash_a;
-   wire 		 flash_adv_n;
-   wire 		 flash_ce_n;
-   wire 		 flash_clk;
-   wire 		 flash_oe_n;
-   wire 		 flash_we_n;
-   wire [16:0] 		 flipped;
-   reg 			 offset = 1'b0;
-   reg 			 rst = 1'b0;
+   wire 		   flash_wait;
+   wire [15:0] flash_d;
+   wire [23:0] flash_a;
+   wire 		 	flash_adv_n;
+   wire 		 	flash_ce_n;
+   wire 		 	flash_clk;
+   wire 		 	flash_oe_n;
+   wire 		 	flash_we_n;
+   wire [16:0] flipped;
+   reg 			offset = 1'b0;
+   reg 			rst = 1'b0;
    
    always @(posedge ac97_bitclk) begin
       if (pos1)
-	offset <= 0;
+			offset <= 0;
       else if (pos2)
-	offset <= 1;
+			offset <= 1;
 
-      if (pos1 || pos2)
-	rst <= 1;
-      else
-	rst <= 0;
+		if (pos1 || pos2)
+			rst <= 1;
+		else
+			rst <= 0;
    end
    
    assign flash_d[15:8] = flipped[7:0];
@@ -200,21 +222,31 @@ module AC97(
 endmodule
 
 module AudioGen(
-		input             ac97_bitclk,
-		input             ac97_strobe,
-		output [19:0]     ac97_out_slot3,
-		output [19:0]     ac97_out_slot4,
-		input wire        flash_wait,
-		input wire [15:0] flash_d,
-		output reg [23:0] flash_a,
-		output reg        flash_adv_n,
-		output wire       flash_ce_n,
-		output wire       flash_clk,
-		output wire       flash_oe_n,
-		output wire       flash_we_n,
-		input wire offset,
-		input wire rst
+		ac97_bitclk,
+		ac97_strobe,
+		ac97_out_slot3,
+		ac97_out_slot4,
+		flash_wait,
+		flash_d,
+		flash_a,
+		flash_adv_n,
+		flash_ce_n,
+		flash_clk,
+		flash_oe_n,
+		flash_we_n,
+		offset,
+		rst
 		);
+		
+	input             ac97_bitclk, ac97_strobe;
+	input [19:0]		ac97_out_slot3;
+	output [19:0]     ac97_out_slot4;
+	input 				flash_wait;
+	input [15:0] 		flash_d;
+	output reg [23:0] flash_a;
+	output reg        flash_adv_n;
+	output 		      flash_ce_n, flash_clk, flash_oe_n, flash_we_n;
+	input					offset, rst;
 
    assign flash_ce_n = 'h0;
    assign flash_oe_n = 'h0;
@@ -257,10 +289,13 @@ module AudioGen(
 endmodule
 
 module SquareWave(
-		  input         ac97_bitclk,
-		  input         ac97_strobe,
-		  output [19:0] sample
+		  ac97_bitclk,
+		  ac97_strobe,
+		  sample
 		  );
+		  
+	input         ac97_bitclk, ac97_strobe;
+	output [19:0] sample;
 
    reg [3:0] 			count = 4'b0;
 
@@ -276,39 +311,68 @@ endmodule
  *   http://nyus.joshuawise.com/ac97-clocking.scale.jpg
  */
 module ACLink(
-	      input        ac97_bitclk,
-	      input        ac97_sdata_in,
-	      output wire  ac97_sdata_out,
-	      output wire  ac97_sync,
-	      output wire  ac97_reset_b,
+	      ac97_bitclk,
+	      ac97_sdata_in,
+	      ac97_sdata_out,
+	      ac97_sync,
+	      ac97_reset_b,
 
-	      output wire  ac97_strobe,
+	      ac97_strobe,
 
-	      input [19:0] ac97_out_slot1,
-	      input        ac97_out_slot1_valid,
-	      input [19:0] ac97_out_slot2,
-	      input        ac97_out_slot2_valid,
-	      input [19:0] ac97_out_slot3,
-	      input        ac97_out_slot3_valid,
-	      input [19:0] ac97_out_slot4,
-	      input        ac97_out_slot4_valid,
-	      input [19:0] ac97_out_slot5,
-	      input        ac97_out_slot5_valid,
-	      input [19:0] ac97_out_slot6,
-	      input        ac97_out_slot6_valid,
-	      input [19:0] ac97_out_slot7,
-	      input        ac97_out_slot7_valid,
-	      input [19:0] ac97_out_slot8,
-	      input        ac97_out_slot8_valid,
-	      input [19:0] ac97_out_slot9,
-	      input        ac97_out_slot9_valid,
-	      input [19:0] ac97_out_slot10,
-	      input        ac97_out_slot10_valid,
-	      input [19:0] ac97_out_slot11,
-	      input        ac97_out_slot11_valid,
-	      input [19:0] ac97_out_slot12,
-	      input        ac97_out_slot12_valid
+	      ac97_out_slot1,
+	      ac97_out_slot1_valid,
+	      ac97_out_slot2,
+	      ac97_out_slot2_valid,
+	      ac97_out_slot3,
+	      ac97_out_slot3_valid,
+	      ac97_out_slot4,
+	      ac97_out_slot4_valid,
+	      ac97_out_slot5,
+	      ac97_out_slot5_valid,
+	      ac97_out_slot6,
+	      ac97_out_slot6_valid,
+	      ac97_out_slot7,
+	      ac97_out_slot7_valid,
+	      ac97_out_slot8,
+	      ac97_out_slot8_valid,
+	      ac97_out_slot9,
+	      ac97_out_slot9_valid,
+	      ac97_out_slot10,
+	      ac97_out_slot10_valid,
+	      ac97_out_slot11,
+	      ac97_out_slot11_valid,
+	      ac97_out_slot12,
+	      ac97_out_slot12_valid
 	      );
+	input        	ac97_bitclk, ac97_sdata_in;
+   output 			ac97_sdata_out, ac97_sync, ac97_reset_b;
+
+   output 			ac97_strobe;
+
+   input [19:0]	ac97_out_slot1;
+   input        	ac97_out_slot1_valid;
+   input [19:0] 	ac97_out_slot2;
+   input        	ac97_out_slot2_valid;
+   input [19:0] 	ac97_out_slot3;
+   input        	ac97_out_slot3_valid;
+   input [19:0] 	ac97_out_slot4;
+   input        	ac97_out_slot4_valid;
+   input [19:0] 	ac97_out_slot5;
+   input        	ac97_out_slot5_valid;
+   input [19:0] 	ac97_out_slot6;
+   input        	ac97_out_slot6_valid;
+   input [19:0] 	ac97_out_slot7;
+   input        	ac97_out_slot7_valid;
+   input [19:0] 	ac97_out_slot8;
+   input        	ac97_out_slot8_valid;
+   input [19:0] 	ac97_out_slot9;
+   input        	ac97_out_slot9_valid;
+   input [19:0] 	ac97_out_slot10;
+   input        	ac97_out_slot10_valid;
+   input [19:0] 	ac97_out_slot11;
+   input        	ac97_out_slot11_valid;
+   input [19:0] 	ac97_out_slot12;
+   input        	ac97_out_slot12_valid;
    
    assign ac97_reset_b = 1;
    
@@ -396,13 +460,19 @@ module ACLink(
 endmodule
 
 module AC97Conf(
-		input              ac97_bitclk,
-		input              ac97_strobe,
-		output wire [19:0] ac97_out_slot1,
-		output wire        ac97_out_slot1_valid,
-		output wire [19:0] ac97_out_slot2,
-		output wire        ac97_out_slot2_valid
+		ac97_bitclk,
+		ac97_strobe,
+		ac97_out_slot1,
+		ac97_out_slot1_valid,
+		ac97_out_slot2,
+		ac97_out_slot2_valid
 		);
+
+	input             ac97_bitclk, ac97_strobe;
+	output [19:0]		ac97_out_slot1;
+	output       		ac97_out_slot1_valid;
+	output [19:0]		ac97_out_slot2;
+	output       		ac97_out_slot2_valid;
    
    reg 				   ac97_out_slot1_valid_r;
    reg [19:0] 			   ac97_out_slot1_r;
