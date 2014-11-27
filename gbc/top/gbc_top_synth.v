@@ -204,6 +204,8 @@
 
    reg [7:0]          count;
    reg [20:0]         count2;
+   
+   (* KEEP = "TRUE" *) reg [63:0]         cycle_count;
 
    wire               timer_interrupt, controller_interrupt;
 
@@ -218,12 +220,18 @@
 
    always @(posedge clock_main) begin
       count2 <= count2 + 1;
+      
+      // calculate T cycles
+      if (count2[1:0] == 0) begin
+         cycle_count <= cycle_count + 1;
+      end
 
       if (count2 == 0)
-        count <= count + 1;
+         count <= count + 1;
       if (synch_reset) begin
          count <= 0;
          count2 <= 0;
+         cycle_count <= 0;
       end
    end
 

@@ -3,9 +3,9 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="impact" timeStamp="Wed Nov 26 15:53:16 2014">
+<application name="impact" timeStamp="Thu Nov 27 00:35:22 2014">
 <section name="Project Information" visible="false">
-<property name="ProjectID" value="e45a9b0006664ab5aaf6feb88b1fa6da"/>
+<property name="ProjectID" value="d23f371834cb400da6c50e16da10141e"/>
 <property name="ProjectIteration" value="1"/>
 </section>
 <section name="iMPACT Project Info" visible="true">
@@ -33,11 +33,10 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="Part4" value="xccace"/>
 <property name="Device5" value="virtex5"/>
 <property name="Part5" value="xc5vlx110t"/>
-<property name="Device5" value="BPI FLASH"/>
-<property name="Part5" value="28F256P30"/>
-<property name="Data Width" value="x16"/>
 </item>
 <item name="Boundary Scan Operations Statistics">
+<property name="BSCAN Operation" value="Program -p 4
+"/>
 <property name="BSCAN Operation" value="Program -p 4
 "/>
 <property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpionly -e -v
@@ -46,7 +45,11 @@ This means code written to parse this file will need to be revisited each subseq
 "/>
 <property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpionly -e -v
 "/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpionly -e -v
+<property name="BSCAN Operation" value="Program -p 4
+"/>
+<property name="BSCAN Operation" value="Program -p 4
+"/>
+<property name="BSCAN Operation" value="Program -p 4
 "/>
 </item>
 <item name="Cable Summary">
