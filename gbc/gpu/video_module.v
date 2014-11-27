@@ -663,12 +663,12 @@ module video_module(//Outputs
 		    
 			 // Get sprite index from background map
 		    vram_addrA <= {(line_count - WY) >> 3, 5'b0} + //(tile_y_pos[7:3] << 5)
-				  (({tile_col_num, 3'b0} + (WX - 7)) >>3) + // (tile_x_pos[7:3])
+				  ({tile_col_num, 3'b0} >> 3) + // (tile_x_pos[7:3])
 				  ((LCDC[6]) ? 16'h1C00 : 16'h1800);
 			 
 			 // Get sprite attributes from background map
 			 vram2_addrA <= {(line_count - WY) >> 3, 5'b0} + //(tile_y_pos[7:3] << 5)
-				  (({tile_col_num, 3'b0} + (WX - 7)) >>3) + // (tile_x_pos[7:3])
+				  ({tile_col_num, 3'b0} >> 3) + // (tile_x_pos[7:3])
 				  ((LCDC[6]) ? 16'h1C00 : 16'h1800);
 		    
 		    render_background <= 1;
@@ -680,12 +680,12 @@ module video_module(//Outputs
 		    
             // Get sprite index from background map
 		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
-				  (({tile_col_num, 3'b0}) >> 3) +
+				  ({tile_col_num, 3'b0} >> 3) +
 				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
 			 
 			 // Get sprite attributes from background map
 			 vram2_addrA <= {(SCY + line_count) >> 3, 5'b0} +
-				  (({tile_col_num, 3'b0}) >> 3) +
+				  ({tile_col_num, 3'b0} >> 3) +
 				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
 		    
 		    render_background <= 1;
