@@ -577,14 +577,14 @@ module video_module(//Outputs
 		 16'hFF41: STAT_w[4:0] <= di[7:3];
 		 16'hFF42: SCY <= di;
 		 16'hFF43: SCX <= di;
-		 // 16'hFF44: line_count <= 0; // TODO: why was this commented out?
+		 16'hFF44: line_count <= 0; // TODO: why was this commented out?
 		 16'hFF45: LYC <= di;
 		 16'hFF47: BGP <= di;
 		 16'hFF48: OBP0 <= di;
 		 16'hFF49: OBP1 <= di;
 		 16'hFF4A: WX <= di;
 		 16'hFF4B: WY <= di;
-		 16'hFF4B: VRAM_BANK_SEL <= di;
+		 16'hFF4F: VRAM_BANK_SEL <= di;
 	       endcase
 	    end
 	 end

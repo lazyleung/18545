@@ -73,7 +73,7 @@ module sound_channel2(
                                        .I_REG_WR_EN(0),
                                        .O_DBUS_WRITE(new_nr22));
    //assign nr22_data = 8'b0100_1_000;
-   io_bus_parser_reg #(`NR23,0,0,0,0) nr23(.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR23,0,0,0,'b01) nr23(.I_CLK(I_CLK), //write only
                                        .I_SYNC_RESET(I_RESET),
                                        .IO_DATA_BUS(IO_IOREG_DATA),
                                        .I_ADDR_BUS(I_IOREG_ADDR),

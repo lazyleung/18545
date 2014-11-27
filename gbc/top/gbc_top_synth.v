@@ -572,6 +572,72 @@
               .O_NR51_DATA(register_data[8'h25]), 
               .O_NR52_DATA(register_data[8'h26])
 	          );
+              
+              
+     /*undocumented gameboy color registers*/    
+     io_bus_parser_reg #(16'hFF6C,8'hFE,0,0,0) ioreg5(
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h6C])
+                                     );
+     io_bus_parser_reg #(16'hFF72,8'h00,0,0,0) ioreg6(
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h72])
+                                     );
+     io_bus_parser_reg #(16'hFF73,8'h00,0,0,0) ioreg7(
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h73])
+                                     );
+    io_bus_parser_reg #(16'hFF74,8'h00,0,0,0) ioreg8(
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h74])
+                                     );
+     io_bus_parser_reg #(16'hFF75,8'h8F,0,0,0) ioreg9(
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h75])
+                                     );
+     io_bus_parser_reg #(16'hFF76,8'h00,0,0,'b10) ioreg10( //read only
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h76])
+                                     );
+     io_bus_parser_reg #(16'hFF77,8'h00,0,0,'b10) ioreg11( //read only
+                                     .I_CLK(clock_main),
+                                     .I_SYNC_RESET(synch_reset),
+                                     .IO_DATA_BUS(iobus_data),
+                                     .I_ADDR_BUS(iobus_addr),
+                                     .I_WE_BUS_L(iobus_we_l),
+                                     .I_RE_BUS_L(iobus_re_l),
+                                     .O_DATA_READ(register_data[8'h77])
+                                     );
 
 endmodule // gameboycolor
 

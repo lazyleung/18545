@@ -134,6 +134,7 @@ module sound_controller(
    assign nr52_write_data[2] = sound3_on;
    assign nr52_write_data[1] = sound2_on;
    assign nr52_write_data[0] = sound1_on;
+   assign nr52_write_data[7] = enable_all_sound;
 
    wire [19:0] 	 sc1_sample, sc2_sample, sc3_sample, sc4_sample;
 

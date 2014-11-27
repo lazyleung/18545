@@ -104,7 +104,7 @@ module sound_channel1(
                                            .I_REG_WR_EN(0),
                                            .O_DBUS_WRITE(new_nr12));
    //assign nr12_data = 'b1111_1_111;
-   io_bus_parser_reg #(`NR13,0,0,0,0) nr13(.I_CLK(I_CLK),
+   io_bus_parser_reg #(`NR13,0,0,0,'b01) nr13(.I_CLK(I_CLK), //write only
                                            .I_SYNC_RESET(I_RESET),
                                            .IO_DATA_BUS(IO_IOREG_DATA),
                                            .I_ADDR_BUS(I_IOREG_ADDR),

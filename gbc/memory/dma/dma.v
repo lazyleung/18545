@@ -266,8 +266,11 @@ module dma_controller(
    assign source_base_addr[5:0] = hdma_source_low & 8'hF0;
    assign dma_sel = hdma5_specification[7];
    assign transfer_length = (hdma5_specification[6:0] + 1) << 4; //16*(n+1)
+   
+   //when running at double speed, DMA transfer takes same time as single speed, 
+   //hence [16:1] (doubles the time it takes)
    assign gdma_rdma_addr = source_base_addr + gdma_count;
-   assign gdma_wdma_addr = dest_base_addr + gdma_count;
+   assign gdma_wdma_addr = dest_base_addr + gdma_count; 
 
    /*GENERAL DMA CONTROLLER*/
    always @(posedge I_CLK) begin
@@ -333,7 +336,7 @@ module dma_controller(
    reg        hblank_d1;
    reg        rising_edge_hblank;
    wire [3:0] hdma_4bits;
-   assign hdma_4bits = hdma_count[3:0];
+   assign hdma_4bits = hdma_count;
    always @(posedge I_CLK) begin
       hblank_d1 <= I_HBLANK;
       rising_edge_hblank <= ~hblank_d1 & I_HBLANK;
@@ -355,7 +358,7 @@ module dma_controller(
         HDMA_WAIT: begin
 
            /*indicatesthe CPU schedules DMA transaction*/
-           if (hdma_init_change & hdma_init_change & (dma_sel == 1)) begin
+           if (hdma_init_change & (dma_sel == 1)) begin
 
               /*initiation on same cycle as start of hblank*/
               if (rising_edge_hblank) begin
