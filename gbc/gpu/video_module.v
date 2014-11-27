@@ -656,6 +656,7 @@ module video_module(//Outputs
 		 // disable writes
 		 scanlineA_we <= 0;
 		 scanlineB_we <= 0;
+         /*
 		 if (LCDC[5] && WY <= line_count) begin // enable window
 		    tile_x_pos <= {tile_col_num, 3'b0} + (WX - 7);
 		    tile_y_pos <= (line_count - WY);
@@ -673,10 +674,11 @@ module video_module(//Outputs
 		    render_background <= 1;
 		    state <= BG_ADDR_WAIT_STATE;
 		 end
-		 else if (LCDC[0]) begin // enable background
-		    tile_x_pos <= {tile_col_num, 3'b0} + (SCX);
+		 else */if (LCDC[0]) begin // enable background
+		    tile_x_pos <= {tile_col_num, 3'b0} + (-SCX);
 		    tile_y_pos <= (SCY + line_count);
 		    
+            /*
 			 // Get sprite index from background map
 		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
 				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
@@ -685,6 +687,16 @@ module video_module(//Outputs
 			 // Get sprite attributes from background map
 			 vram2_addrA <= {(SCY + line_count) >> 3, 5'b0} +
 				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
+				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
+                  */
+            // Get sprite index from background map
+		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
+				  (({tile_col_num, 3'b0}) >> 3) +
+				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
+			 
+			 // Get sprite attributes from background map
+			 vram2_addrA <= {(SCY + line_count) >> 3, 5'b0} +
+				  (({tile_col_num, 3'b0}) >> 3) +
 				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
 		    
 		    render_background <= 1;
