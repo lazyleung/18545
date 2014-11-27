@@ -10,10 +10,11 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="21" />
+   <WVObjectSize size="20" />
    <wvobject fp_name="/gameboycolorsim/clock" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
+      <obj_property name="label">/gameboycolorsim/clock</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/clock33" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clock33</obj_property>
@@ -44,6 +45,10 @@
       <obj_property name="ElementShortName">data_ext[7:0]</obj_property>
       <obj_property name="ObjectShortName">data_ext[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/A_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">A_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">A_data[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/gb80_regfile/mem[4]" type="array" db_ref_id="1">
       <obj_property name="DisplayName">label</obj_property>
@@ -104,13 +109,5 @@
       <obj_property name="ElementShortName">I_WE_L</obj_property>
       <obj_property name="ObjectShortName">I_WE_L</obj_property>
       <obj_property name="label">TIMER_I_WE_L</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/cartridge_re_l" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">cartridge_re_l</obj_property>
-      <obj_property name="ObjectShortName">cartridge_re_l</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/cartridge_we_l" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">cartridge_we_l</obj_property>
-      <obj_property name="ObjectShortName">cartridge_we_l</obj_property>
    </wvobject>
 </wave_config>

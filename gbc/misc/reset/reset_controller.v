@@ -10,7 +10,7 @@ module reset_controller(
    input      I_CLK, I_ASYNC_RESET;
    output reg O_SYNC_RESET;
 
-   reg [15:0] count = 0;
+   reg [7:0] count = 0;
 
    always @(posedge I_CLK) begin
 
@@ -21,7 +21,7 @@ module reset_controller(
         end
         
         if (I_ASYNC_RESET)
-            count <= 1000;
+            count <= 100;
    end
 
 endmodule // reset_controller
