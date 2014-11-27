@@ -8,9 +8,6 @@
 <msg type="warning" file="HDLCompiler" num="327" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../../misc/controller/controller_cpulink.v" Line 55: Concatenation with unsized literal; will interpret as 32 bits
 </msg>
 
-<msg type="warning" file="HDLCompiler" num="687" delta="unknown" >"../../memory/io_bus_parser/io_bus_parser.v" Line 8: Illegal redeclaration of module &lt;<arg fmt="%s" index="1">io_bus_parser_reg</arg>&gt;.
-</msg>
-
 <msg type="warning" file="HDLCompiler" num="329" delta="unknown" >"C:/Users/ash/Documents/18545/gbc/top/ise/../gbc_top.v" Line 129: Target &lt;<arg fmt="%s" index="1">LED</arg>&gt; of concurrent assignment or output port connection should be a net type.
 </msg>
 
