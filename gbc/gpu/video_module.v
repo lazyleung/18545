@@ -566,8 +566,8 @@ module video_module(//Outputs
 		 16'hFF47: reg_out <= BGP;
 		 16'hFF48: reg_out <= OBP0;
 		 16'hFF49: reg_out <= OBP1;
-		 16'hFF4A: reg_out <= WX;
-		 16'hFF4B: reg_out <= WY;
+		 16'hFF4A: reg_out <= WY;
+		 16'hFF4B: reg_out <= WX;
 		 16'hFF4F: reg_out <= VRAM_BANK_SEL;
 	       endcase
 	    end
@@ -582,8 +582,8 @@ module video_module(//Outputs
 		 16'hFF47: BGP <= di;
 		 16'hFF48: OBP0 <= di;
 		 16'hFF49: OBP1 <= di;
-		 16'hFF4A: WX <= di;
-		 16'hFF4B: WY <= di;
+		 16'hFF4A: WY <= di;
+		 16'hFF4B: WX <= di;
 		 16'hFF4F: VRAM_BANK_SEL <= di;
 	       endcase
 	    end
@@ -656,7 +656,7 @@ module video_module(//Outputs
 		 // disable writes
 		 scanlineA_we <= 0;
 		 scanlineB_we <= 0;
-         /*
+
 		 if (LCDC[5] && WY <= line_count) begin // enable window
 		    tile_x_pos <= {tile_col_num, 3'b0} + (WX - 7);
 		    tile_y_pos <= (line_count - WY);
@@ -674,21 +674,10 @@ module video_module(//Outputs
 		    render_background <= 1;
 		    state <= BG_ADDR_WAIT_STATE;
 		 end
-		 else */if (LCDC[0]) begin // enable background
+		 else if (LCDC[0]) begin // enable background
 		    tile_x_pos <= {tile_col_num, 3'b0} + (-SCX);
 		    tile_y_pos <= (SCY + line_count);
 		    
-            /*
-			 // Get sprite index from background map
-		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
-				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
-				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
-			 
-			 // Get sprite attributes from background map
-			 vram2_addrA <= {(SCY + line_count) >> 3, 5'b0} +
-				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
-				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
-                  */
             // Get sprite index from background map
 		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
 				  (({tile_col_num, 3'b0}) >> 3) +
