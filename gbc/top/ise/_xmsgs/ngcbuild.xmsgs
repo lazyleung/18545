@@ -5,8 +5,5 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="NgdBuild" num="76" delta="new" >File &quot;<arg fmt="%s" index="4">../../memory/bram/bram_cart.ngc</arg>&quot; cannot be merged into block &quot;<arg fmt="%s" index="1">cartsim/cartridge</arg>&quot; (<arg fmt="%s" index="2">TYPE</arg>=&quot;<arg fmt="%s" index="3">bram_cart</arg>&quot;) because one or more pins on the block, including pin &quot;<arg fmt="%s" index="5">rsta</arg>&quot;, were not found in the file.  Please make sure that all pins on the instantiated component match pins in the lower-level design block (irrespective of case).  If there are bussed pins on this block, make sure that the upper-level and lower-level netlists use the same bus-naming convention.
-</msg>
-
 </messages>
 

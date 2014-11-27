@@ -57,6 +57,11 @@ module timer_module(
                         
     reg reset_counter;
     
+
+    // Bus enables
+    wire    DIV_we, TIMA_we, TMA_we, TAC_we;
+    wire    DIV_re, TIMA_re, TMA_re, TAC_re;
+    
     always @(posedge I_CLOCK) begin
     
         increment <= 0;
@@ -81,6 +86,12 @@ module timer_module(
     
         if (I_RESET) 
             counter <= 0;
+        
+        // Reset counter if relevent registers are written to
+        if (TIMA_we || TAC_we) begin
+            // This instruction completes this action 3 cycles too early,
+            counter <= 1 - 4;
+        end
     end
 
     always @(posedge I_CLOCK or posedge I_RESET) begin
@@ -90,9 +101,6 @@ module timer_module(
             state <= next_state;
     end
 
-    // Bus enables
-    wire    DIV_we, TIMA_we, TMA_we, TAC_we;
-    wire    DIV_re, TIMA_re, TMA_re, TAC_re;
 
     assign DIV_we  = (~I_WE_L) ? (I_ADDR == `DIV)  : 0;
     assign TIMA_we = (~I_WE_L) ? (I_ADDR == `TIMA) : 0;
