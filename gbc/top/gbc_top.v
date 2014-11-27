@@ -58,7 +58,7 @@ module gameboycolorsim();
       count = 0;
       reset = 0;
 
-      while (count < 10000000) begin
+      while (1) begin
          count = count + 1;
          if(count % 3)
             clock33 = ~clock33;

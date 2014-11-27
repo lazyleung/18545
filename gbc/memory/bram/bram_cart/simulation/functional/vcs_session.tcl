@@ -73,6 +73,7 @@ gui_sg_create bram_cart_Group
 gui_list_add_group -id Wave.1 {bram_cart_Group}
 
       gui_sg_addsignal -group bram_cart_Group  /bram_cart_tb/status
+      gui_sg_addsignal -group bram_cart_Group  /bram_cart_tb/bram_cart_synth_inst/bmg_port/RSTA
       gui_sg_addsignal -group bram_cart_Group  /bram_cart_tb/bram_cart_synth_inst/bmg_port/CLKA
       gui_sg_addsignal -group bram_cart_Group  /bram_cart_tb/bram_cart_synth_inst/bmg_port/ADDRA
       gui_sg_addsignal -group bram_cart_Group  /bram_cart_tb/bram_cart_synth_inst/bmg_port/DINA

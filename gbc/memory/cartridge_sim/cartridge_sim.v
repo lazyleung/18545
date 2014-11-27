@@ -269,11 +269,11 @@ module cartridge_sim(
    /*give capability of reading from FLASH or BRAM based on parameter*/                   
    bram_cart  cartridge(
                       .clka(I_CLK),
-                      //.rsta(I_RESET),
-		              .wea(0),
-		              .addra(I_CARTRIDGE_ADDR),
-		              .dina(0),
-		              .douta(bram_cartridge_data)
+                      .rsta(I_RESET),
+		                .wea(0),
+		                .addra(I_CARTRIDGE_ADDR),
+		                .dina(0),
+		                .douta(bram_cartridge_data)
                       );
 
    /*boot_bram bootload_bram(
