@@ -1841,8 +1841,12 @@ module decode(/*AUTOARG*/
            // RET; RETI; RET cc //
            8'b11_001_001, 8'b11_011_001, 8'b11_0xx_000: begin
               if (instruction[0] | taken | branch_taken) begin
-                 // RET; RETI; RET cc: taken //
-                 m_cycles = 4'd4;
+                 // RET cc; taken //
+                 if(instruction != 8'b11_001_001 && instruction != 8'b11_011_001)
+                   m_cycles = 4'd5;
+                 else
+                   // RET; RETI; //
+                   m_cycles = 4'd4;
                  case (cycle)
                    5'd3: begin
                       // Taken
