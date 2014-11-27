@@ -20,11 +20,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module scanline(//Input
-					 clk, addrA, addrB, wr_csA, wr_csB, wr_dataA, wr_dataB,
+					 clk, rst, addrA, addrB, wr_csA, wr_csB, wr_dataA, wr_dataB,
 					 //Output
 					 rd_dataA, rd_dataB);
 	//Input
-	input wire clk;
+	input wire clk, rst;
 	input wire [4:0] addrA, addrB;
 	input wire wr_csA, wr_csB;
 	input wire [7:0] wr_dataA, wr_dataB;
@@ -36,15 +36,19 @@ module scanline(//Input
 	parameter depth = 32;
 	
 	reg [7:0] mem [0:depth-1];
-	
+    integer i;
+    
 	always @(posedge clk) begin
-		if(wr_csA)
-			mem[addrA] <= wr_dataA;
-	end
-		
-	always @(posedge clk) begin
-		if(wr_csB)
-			mem[addrB] <= wr_dataB;
+        if (rst) begin
+            for (i = 0; i < depth; i = i + 1) begin
+                mem[i] = 8'b0;
+            end
+        end else begin
+		    if(wr_csA)
+			    mem[addrA] <= wr_dataA;
+            if(wr_csB)
+			    mem[addrB] <= wr_dataB;
+        end
 	end
 
 	assign rd_dataA = mem[addrA];

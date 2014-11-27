@@ -236,6 +236,7 @@ module video_module(//Outputs
    reg [7:0]          scanline2_inA, scanline2_inB;
    wire [7:0]         scanline1_outA, scanline1_outB;
    wire [7:0]         scanline2_outA, scanline2_outB;
+   reg                scanline_rst;
    
    reg                scanlineA_we, scanlineB_we;
    
@@ -293,6 +294,7 @@ module video_module(//Outputs
 			   .rd_dataB(scanline1_outB),
 			   //Inputs
 			   .clk(clock),
+               .rst(scanline_rst),
 			   .wr_enA(scanlineA_we), 
 			   .wr_enB(scanlineB_we),
 			   .addrA(scanline1_addrA), 
@@ -306,6 +308,7 @@ module video_module(//Outputs
 			   .rd_dataB(scanline2_outB),
 			   //Inputs
 			   .clk(clock),
+               .rst(scanline_rst),
 			   .wr_enA(scanlineA_we), 
 			   .wr_enB(scanlineB_we),
 			   .addrA(scanline2_addrA), 
@@ -323,6 +326,7 @@ module video_module(//Outputs
         .rd_dataB(bg_scanline_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(bg_scanline_addrA),
@@ -343,6 +347,7 @@ module video_module(//Outputs
         .rd_dataB(idx_scanline1_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(idx_scanline1_addrA),
@@ -356,6 +361,7 @@ module video_module(//Outputs
         .rd_dataB(idx_scanline2_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(idx_scanline2_addrA),
@@ -369,6 +375,7 @@ module video_module(//Outputs
         .rd_dataB(idx_scanline3_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(idx_scanline3_addrA),
@@ -510,6 +517,7 @@ module video_module(//Outputs
 	integer i;
    
    always @(posedge clock) begin
+      scanline_rst <= 1'b0;
       if (reset) begin
 	 // initialize registers
      /*
@@ -646,6 +654,9 @@ module video_module(//Outputs
 		    sprite_num <= 0;
 		    pixel_data_count <= 0;
 		    state <= BG_ADDR_STATE;
+            
+            // Reset the scanlines
+            scanline_rst <= 1'b1;
 		 end
 	      end
 	      
