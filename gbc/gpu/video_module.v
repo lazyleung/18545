@@ -236,6 +236,7 @@ module video_module(//Outputs
    reg [7:0]          scanline2_inA, scanline2_inB;
    wire [7:0]         scanline1_outA, scanline1_outB;
    wire [7:0]         scanline2_outA, scanline2_outB;
+   reg                scanline_rst;
    
    reg                scanlineA_we, scanlineB_we;
    
@@ -257,6 +258,10 @@ module video_module(//Outputs
 		.dinb()
 		);
    
+   // Signals to prevent compiler from complaining
+   (* KEEP = "TRUE" *) wire web = 1'b0;
+   (* KEEP = "TRUE" *) wire [7:0] dinb = 8'b0;
+
    //vram_rom vram(vram_addr, vram_addrB, clock, clock, vram_outA, vram_outB);
    VRAM vram(	//Outputs
 		.douta(vram_outA), 
@@ -265,11 +270,11 @@ module video_module(//Outputs
 		.clka(clock),
 		.clkb(clock),
 		.wea(~vram_we_n), 
-		.web(),
+		.web(web),
 		.addra(vram_addrA), 
 		.addrb(vram_addrB),					
 		.dina(di), 
-		.dinb()	
+		.dinb(dinb)	
 		);
 		
 	// Second VRAM bank
@@ -281,11 +286,11 @@ module video_module(//Outputs
 		.clka(clock),
 		.clkb(clock),
 		.wea(~vram2_we_n), 
-		.web(),
+		.web(web),
 		.addra(vram2_addrA), 
 		.addrb(vram2_addrB),					
 		.dina(di), 
-		.dinb()	
+		.dinb(dinb)	
 		);
    
    scanline_ram scanline1 (//Outputs
@@ -293,6 +298,7 @@ module video_module(//Outputs
 			   .rd_dataB(scanline1_outB),
 			   //Inputs
 			   .clk(clock),
+               .rst(scanline_rst),
 			   .wr_enA(scanlineA_we), 
 			   .wr_enB(scanlineB_we),
 			   .addrA(scanline1_addrA), 
@@ -306,6 +312,7 @@ module video_module(//Outputs
 			   .rd_dataB(scanline2_outB),
 			   //Inputs
 			   .clk(clock),
+               .rst(scanline_rst),
 			   .wr_enA(scanlineA_we), 
 			   .wr_enB(scanlineB_we),
 			   .addrA(scanline2_addrA), 
@@ -323,6 +330,7 @@ module video_module(//Outputs
         .rd_dataB(bg_scanline_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(bg_scanline_addrA),
@@ -343,6 +351,7 @@ module video_module(//Outputs
         .rd_dataB(idx_scanline1_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(idx_scanline1_addrA),
@@ -356,6 +365,7 @@ module video_module(//Outputs
         .rd_dataB(idx_scanline2_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(idx_scanline2_addrA),
@@ -369,6 +379,7 @@ module video_module(//Outputs
         .rd_dataB(idx_scanline3_outB),
         //Inputs
         .clk(clock),
+        .rst(scanline_rst),
         .wr_enA(scanlineA_we), 
         .wr_enB(scanlineB_we),
         .addrA(idx_scanline3_addrA),
@@ -510,6 +521,7 @@ module video_module(//Outputs
 	integer i;
    
    always @(posedge clock) begin
+      scanline_rst <= 1'b0;
       if (reset) begin
 	 // initialize registers
      /*
@@ -566,8 +578,8 @@ module video_module(//Outputs
 		 16'hFF47: reg_out <= BGP;
 		 16'hFF48: reg_out <= OBP0;
 		 16'hFF49: reg_out <= OBP1;
-		 16'hFF4A: reg_out <= WX;
-		 16'hFF4B: reg_out <= WY;
+		 16'hFF4A: reg_out <= WY;
+		 16'hFF4B: reg_out <= WX;
 		 16'hFF4F: reg_out <= VRAM_BANK_SEL;
 	       endcase
 	    end
@@ -582,8 +594,8 @@ module video_module(//Outputs
 		 16'hFF47: BGP <= di;
 		 16'hFF48: OBP0 <= di;
 		 16'hFF49: OBP1 <= di;
-		 16'hFF4A: WX <= di;
-		 16'hFF4B: WY <= di;
+		 16'hFF4A: WY <= di;
+		 16'hFF4B: WX <= di;
 		 16'hFF4F: VRAM_BANK_SEL <= di;
 	       endcase
 	    end
@@ -646,6 +658,9 @@ module video_module(//Outputs
 		    sprite_num <= 0;
 		    pixel_data_count <= 0;
 		    state <= BG_ADDR_STATE;
+            
+            // Reset the scanlines
+            scanline_rst <= 1'b1;
 		 end
 	      end
 	      
@@ -656,35 +671,36 @@ module video_module(//Outputs
 		 // disable writes
 		 scanlineA_we <= 0;
 		 scanlineB_we <= 0;
+
 		 if (LCDC[5] && WY <= line_count) begin // enable window
 		    tile_x_pos <= {tile_col_num, 3'b0} + (WX - 7);
 		    tile_y_pos <= (line_count - WY);
 		    
 			 // Get sprite index from background map
 		    vram_addrA <= {(line_count - WY) >> 3, 5'b0} + //(tile_y_pos[7:3] << 5)
-				  (({tile_col_num, 3'b0} + (WX - 7)) >>3) + // (tile_x_pos[7:3])
+				  ({tile_col_num, 3'b0} >> 3) + // (tile_x_pos[7:3])
 				  ((LCDC[6]) ? 16'h1C00 : 16'h1800);
 			 
 			 // Get sprite attributes from background map
 			 vram2_addrA <= {(line_count - WY) >> 3, 5'b0} + //(tile_y_pos[7:3] << 5)
-				  (({tile_col_num, 3'b0} + (WX - 7)) >>3) + // (tile_x_pos[7:3])
+				  ({tile_col_num, 3'b0} >> 3) + // (tile_x_pos[7:3])
 				  ((LCDC[6]) ? 16'h1C00 : 16'h1800);
 		    
 		    render_background <= 1;
 		    state <= BG_ADDR_WAIT_STATE;
 		 end
 		 else if (LCDC[0]) begin // enable background
-		    tile_x_pos <= {tile_col_num, 3'b0} + (SCX);
+		    tile_x_pos <= {tile_col_num, 3'b0} + (-SCX);
 		    tile_y_pos <= (SCY + line_count);
 		    
-			 // Get sprite index from background map
+            // Get sprite index from background map
 		    vram_addrA <= {(SCY + line_count) >> 3, 5'b0} +
-				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
+				  ({tile_col_num, 3'b0} >> 3) +
 				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
 			 
 			 // Get sprite attributes from background map
 			 vram2_addrA <= {(SCY + line_count) >> 3, 5'b0} +
-				  (({tile_col_num, 3'b0} + (SCX)) >> 3) +
+				  ({tile_col_num, 3'b0} >> 3) +
 				  ((LCDC[3]) ? 16'h1C00 : 16'h1800);
 		    
 		    render_background <= 1;
@@ -724,36 +740,20 @@ module video_module(//Outputs
 */			
 
 			background_attributes <= vram2_outA;
-
-		 // Get the 2 byte lines from background map for this scanline
-		 //tile_id_num <= vram_outA;
-		 
+         		 
 		 // TODO: handle vertical background flipping here
-		 vram_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
-			       { tile_y_pos[2:0], 1'b0 } :
-			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
-			       16'h1000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } :
-			       16'h1000 - (~({ vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 }) + 1);
+         if (LCDC[4]) begin
+            vram_addrA <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram_addrB <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+            vram2_addrA <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram2_addrB <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+         end else begin
+            vram_addrA <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram_addrB <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+            vram2_addrA <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram2_addrB <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+         end
 
-		 
-		 vram_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } +
-			       { tile_y_pos[2:0], 1'b0 } + 1 :(( { vram_outA, 4'b0 } +
-							         { tile_y_pos[2:0], 1'b0 } + 1 ) < 128) ? 16'h1000 + { vram_outA, 4'b0} +
-			       { tile_y_pos[2:0], 1'b0 } + 1 : 16'h1000 - (~({ vram_outA, 4'b0 } +
-							                     { tile_y_pos[2:0], 1'b0 } + 1) + 1);
-
-
-		 vram2_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
-			       { tile_y_pos[2:0], 1'b0 } :
-			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
-			       16'h1000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } :
-			       16'h1000 - (~({ vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 }) + 1);
-
-		 vram2_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
-			       { tile_y_pos[2:0], 1'b0 } + 1 :(( { vram_outA, 4'b0 } + 
-							         { tile_y_pos[2:0], 1'b0 } + 1 ) < 128) ? 16'h1000 + { vram_outA, 4'b0} + 
-			       { tile_y_pos[2:0], 1'b0 } + 1 : 16'h1000 - (~({ vram_outA, 4'b0 } + 
-							                     { tile_y_pos[2:0], 1'b0 } + 1) + 1);
 		 
 		 state <= BG_DATA_WAIT_STATE;
 	      end
@@ -1010,19 +1010,19 @@ module video_module(//Outputs
 				scanline1_outB[sprite_pixel_num - tile_byte_offset1], 
 				1'b0 } ) & 2'b11;
 				*/
-		 bg_pixel <= (sprite_pixel_num < tile_byte_offset2) ?
-			{ scanline2_outA[sprite_pixel_num + tile_byte_offset1],
-				scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
-			{ scanline2_outB[sprite_pixel_num - tile_byte_offset1],
-				scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
+		 bg_pixel <= (sprite_pixel_num >= tile_byte_offset1) ?
+			{ scanline2_outA[sprite_pixel_num - tile_byte_offset1],
+				scanline1_outA[sprite_pixel_num - tile_byte_offset1] } :
+			{ scanline2_outB[sprite_pixel_num + tile_byte_offset2],
+				scanline1_outB[sprite_pixel_num + tile_byte_offset2] };
                 
-         bg_idx <= (sprite_pixel_num < tile_byte_offset2) ?
-			{ idx_scanline3_outA[sprite_pixel_num + tile_byte_offset1],
-              idx_scanline2_outA[sprite_pixel_num + tile_byte_offset1],
-		      idx_scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
-			{ idx_scanline3_outB[sprite_pixel_num - tile_byte_offset1],
-              idx_scanline2_outB[sprite_pixel_num - tile_byte_offset1],
-			  idx_scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
+         bg_idx <= (sprite_pixel_num >= tile_byte_offset1) ?
+			{ idx_scanline3_outA[sprite_pixel_num - tile_byte_offset1],
+              idx_scanline2_outA[sprite_pixel_num - tile_byte_offset1],
+		      idx_scanline1_outA[sprite_pixel_num - tile_byte_offset1] } :
+			{ idx_scanline3_outB[sprite_pixel_num + tile_byte_offset2],
+              idx_scanline2_outB[sprite_pixel_num + tile_byte_offset2],
+			  idx_scanline1_outB[sprite_pixel_num + tile_byte_offset2] };
 		 
 		 state <= SPRITE_PIXEL_DATA_STATE;
 	      end
@@ -1103,8 +1103,8 @@ module video_module(//Outputs
 				   (sprite_idx_data2 << tile_byte_offset2));
          idx_scanline3_inB <= (idx_scanline3_outB & ~(8'hFF << tile_byte_offset2) |
 				   (sprite_idx_data3 << tile_byte_offset2));
-                   
            
+
 		 // enable writes
 		 scanlineA_we <= (tile_byte_pos1 < 20) ? 1 : 0;
 		 scanlineB_we <= (tile_byte_pos2 < 20 && 
