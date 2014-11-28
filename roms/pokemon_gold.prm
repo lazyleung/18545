@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r pokemon_gold.hex -p mcs -data_width 16 -w -o pokemon_gold.mcs 
+
+PROM pokemon_gold.prm map: Fri Nov 28 12:37:42 2014
+
+Format        Mcs86 (32-bit)
+Size          4096K
+PROM start    0000:0000
+PROM end      003f:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    003f:ffff     Nov 28 12:37:39 2014 pokemon_gold.hex

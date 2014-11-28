@@ -116,7 +116,7 @@
    assign GPIO_LED_0 = O_DATA1[7];
 
    assign I_DATA = {GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
-                    GPIO_DIP_SW5, GPIO_SW_E, GPIO_DIP_SW7, GPIO_DIP_SW8};
+                    GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7, GPIO_DIP_SW8};
 
    // ========================================
    // ============= CPU Setup ================
@@ -190,9 +190,10 @@
    wire               mem_clock;
    wire               mem_clocka;
 
-   assign  mem_clock = ~mem_clocka;
+   //assign  mem_clock = ~mem_clocka;
+    assign mem_clock = clock;
 
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4))
+   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
    cdiv(.clock_out(clock_main), .clock_in(clock));
 
    my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
