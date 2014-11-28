@@ -10,19 +10,30 @@ SLOT 0 START $0000 SIZE $4000       ;0-3FFF fixed bank
 ;.bank 0 slot 0   ;informs the game we are inserting to ROM bank 0, and assume in CPU slot 0 (which we defined above as $0-3FFF)
 ;.org $0A3F    ;CPU address to insert to
 
-.org $0000
-     jp   MAIN
+.org $0100
+     call MAIN
+     jr TEST_PASSED
 
-.org $0003
+.org $0150
 DELAY:
      sub  $05
      jr   nc, DELAY
      rra
-     jr   nc, TEST_FAILED
+     jr   nc, DELAY_FAILED
      adc  $01
      ret  nc
 
-.org $02A6
+DELAY_FAILED:
+    jr DELAY_FAILED
+
+TEST_PASSED:
+    jr TEST_PASSED
+
+.org $01B9
+TEST_FAILED:
+    jr TEST_FAILED
+
+.org $0200
 MAIN:
      push af
      di
@@ -52,7 +63,3 @@ MAIN:
 
      pop  af
      ret
-
-.org $01B9
-TEST_FAILED:
-     jr TEST_FAILED

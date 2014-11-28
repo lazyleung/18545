@@ -394,7 +394,7 @@ module dma_controller(
            /*if a cancel request*/
            hdma_active <= 1;
            if (hdma_init_change & (dma_sel == 0)) begin
-              hdma_state <= HDMA_WAIT;
+              hdma_state <= HDMA_WAIT; 
               hdma_count <= 0;
               hdma_active <= 0;
            end

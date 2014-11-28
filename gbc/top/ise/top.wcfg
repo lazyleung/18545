@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/ash/Documents/18545/gbc/top/ise/gameboycolorsim_isim_beh1.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/ash/Documents/18545/gbc/top/ise/gameboycolorsim_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="gameboycolorsim" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="19" />
+   <WVObjectSize size="26" />
    <wvobject fp_name="/gameboycolorsim/clock" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -27,6 +27,18 @@
    <wvobject fp_name="/gameboycolorsim/gbc/clock_main" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clock_main</obj_property>
       <obj_property name="ObjectShortName">clock_main</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/I_CLK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">I_CLK</obj_property>
+      <obj_property name="ObjectShortName">I_CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/mem_clock" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mem_clock</obj_property>
+      <obj_property name="ObjectShortName">mem_clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/mem_clocka" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mem_clocka</obj_property>
+      <obj_property name="ObjectShortName">mem_clocka</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/reset" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">reset</obj_property>
@@ -46,6 +58,18 @@
       <obj_property name="ObjectShortName">data_ext[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/I_CARTRIDGE_ADDR" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">I_CARTRIDGE_ADDR[15:0]</obj_property>
+      <obj_property name="ObjectShortName">I_CARTRIDGE_ADDR[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/IO_CARTRIDGE_DATA" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IO_CARTRIDGE_DATA[7:0]</obj_property>
+      <obj_property name="ObjectShortName">IO_CARTRIDGE_DATA[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/bram_cartridge_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bram_cartridge_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_cartridge_data[7:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/A_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">A_data[7:0]</obj_property>
       <obj_property name="ObjectShortName">A_data[7:0]</obj_property>
@@ -56,6 +80,10 @@
       <obj_property name="ObjectShortName">mem[4,15:0]</obj_property>
       <obj_property name="label">PC</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/gb80_decode/instruction" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">instruction[7:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/gb80_decode/cycle" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">cycle[4:0]</obj_property>

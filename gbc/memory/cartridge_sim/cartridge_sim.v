@@ -68,7 +68,7 @@ module cartridge_sim(
 
       latch_clock_data <= 0;
 
-      /*must indicate a write signal to the ROM space to access controll
+      /*must indicate a write signal to the ROM space to access control
        *registers*/
       if (~I_CARTRIDGE_WE_L && accessing_ROM_space && is_in_rom_mode) begin
 
