@@ -1022,19 +1022,19 @@ module video_module(//Outputs
 				scanline1_outB[sprite_pixel_num - tile_byte_offset1], 
 				1'b0 } ) & 2'b11;
 				*/
-		 bg_pixel <= (sprite_pixel_num < tile_byte_offset2) ?
-			{ scanline2_outA[sprite_pixel_num + tile_byte_offset1],
-				scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
-			{ scanline2_outB[sprite_pixel_num - tile_byte_offset1],
-				scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
+		 bg_pixel <= (sprite_pixel_num >= tile_byte_offset1) ?
+			{ scanline2_outA[sprite_pixel_num - tile_byte_offset1],
+				scanline1_outA[sprite_pixel_num - tile_byte_offset1] } :
+			{ scanline2_outB[sprite_pixel_num + tile_byte_offset2],
+				scanline1_outB[sprite_pixel_num + tile_byte_offset2] };
                 
-         bg_idx <= (sprite_pixel_num < tile_byte_offset2) ?
-			{ idx_scanline3_outA[sprite_pixel_num + tile_byte_offset1],
-              idx_scanline2_outA[sprite_pixel_num + tile_byte_offset1],
-		      idx_scanline1_outA[sprite_pixel_num + tile_byte_offset1] } :
-			{ idx_scanline3_outB[sprite_pixel_num - tile_byte_offset1],
-              idx_scanline2_outB[sprite_pixel_num - tile_byte_offset1],
-			  idx_scanline1_outB[sprite_pixel_num - tile_byte_offset1] };
+         bg_idx <= (sprite_pixel_num >= tile_byte_offset1) ?
+			{ idx_scanline3_outA[sprite_pixel_num - tile_byte_offset1],
+              idx_scanline2_outA[sprite_pixel_num - tile_byte_offset1],
+		      idx_scanline1_outA[sprite_pixel_num - tile_byte_offset1] } :
+			{ idx_scanline3_outB[sprite_pixel_num + tile_byte_offset2],
+              idx_scanline2_outB[sprite_pixel_num + tile_byte_offset2],
+			  idx_scanline1_outB[sprite_pixel_num + tile_byte_offset2] };
 		 
 		 state <= SPRITE_PIXEL_DATA_STATE;
 	      end
@@ -1115,8 +1115,8 @@ module video_module(//Outputs
 				   (sprite_idx_data2 << tile_byte_offset2));
          idx_scanline3_inB <= (idx_scanline3_outB & ~(8'hFF << tile_byte_offset2) |
 				   (sprite_idx_data3 << tile_byte_offset2));
-                   
            
+
 		 // enable writes
 		 scanlineA_we <= (tile_byte_pos1 < 20) ? 1 : 0;
 		 scanlineB_we <= (tile_byte_pos2 < 20 && 
