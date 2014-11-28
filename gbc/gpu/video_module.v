@@ -258,6 +258,10 @@ module video_module(//Outputs
 		.dinb()
 		);
    
+   // Signals to prevent compiler from complaining
+   (* KEEP = "TRUE" *) wire web = 1'b0;
+   (* KEEP = "TRUE" *) wire [7:0] dinb = 8'b0;
+
    //vram_rom vram(vram_addr, vram_addrB, clock, clock, vram_outA, vram_outB);
    VRAM vram(	//Outputs
 		.douta(vram_outA), 
@@ -266,11 +270,11 @@ module video_module(//Outputs
 		.clka(clock),
 		.clkb(clock),
 		.wea(~vram_we_n), 
-		.web(),
+		.web(web),
 		.addra(vram_addrA), 
 		.addrb(vram_addrB),					
 		.dina(di), 
-		.dinb()	
+		.dinb(dinb)	
 		);
 		
 	// Second VRAM bank
@@ -282,11 +286,11 @@ module video_module(//Outputs
 		.clka(clock),
 		.clkb(clock),
 		.wea(~vram2_we_n), 
-		.web(),
+		.web(web),
 		.addra(vram2_addrA), 
 		.addrb(vram2_addrB),					
 		.dina(di), 
-		.dinb()	
+		.dinb(dinb)	
 		);
    
    scanline_ram scanline1 (//Outputs
@@ -736,36 +740,20 @@ module video_module(//Outputs
 */			
 
 			background_attributes <= vram2_outA;
-
-		 // Get the 2 byte lines from background map for this scanline
-		 //tile_id_num <= vram_outA;
-		 
+         		 
 		 // TODO: handle vertical background flipping here
-		 vram_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
-			       { tile_y_pos[2:0], 1'b0 } :
-			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
-			       16'h1000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } :
-			       16'h1000 - (~({ vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 }) + 1);
+         if (LCDC[4]) begin
+            vram_addrA <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram_addrB <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+            vram2_addrA <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram2_addrB <= 16'h0000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+         end else begin
+            vram_addrA <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram_addrB <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+            vram2_addrA <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 };
+            vram2_addrB <= 13'h1000 + { vram_outA[7], vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } + 1;
+         end
 
-		 
-		 vram_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } +
-			       { tile_y_pos[2:0], 1'b0 } + 1 :(( { vram_outA, 4'b0 } +
-							         { tile_y_pos[2:0], 1'b0 } + 1 ) < 128) ? 16'h1000 + { vram_outA, 4'b0} +
-			       { tile_y_pos[2:0], 1'b0 } + 1 : 16'h1000 - (~({ vram_outA, 4'b0 } +
-							                     { tile_y_pos[2:0], 1'b0 } + 1) + 1);
-
-
-		 vram2_addrA <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
-			       { tile_y_pos[2:0], 1'b0 } :
-			       (( { vram_outA, 4'b0 } + {tile_y_pos[2:0], 1'b0 }) < 128) ?
-			       16'h1000 + { vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 } :
-			       16'h1000 - (~({ vram_outA, 4'b0 } + { tile_y_pos[2:0], 1'b0 }) + 1);
-
-		 vram2_addrB <= (LCDC[4]) ? 16'h0000 + { vram_outA, 4'b0 } + 
-			       { tile_y_pos[2:0], 1'b0 } + 1 :(( { vram_outA, 4'b0 } + 
-							         { tile_y_pos[2:0], 1'b0 } + 1 ) < 128) ? 16'h1000 + { vram_outA, 4'b0} + 
-			       { tile_y_pos[2:0], 1'b0 } + 1 : 16'h1000 - (~({ vram_outA, 4'b0 } + 
-							                     { tile_y_pos[2:0], 1'b0 } + 1) + 1);
 		 
 		 state <= BG_DATA_WAIT_STATE;
 	      end
