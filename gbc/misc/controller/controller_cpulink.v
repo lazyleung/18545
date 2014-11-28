@@ -61,7 +61,7 @@ module controller(
    /*multiplex which row in the array to choose*/
    assign return_data[7:6] = 0;
    assign return_data[5:4] = p1_reg;
-   assign return_data[3:0] = //(~P_CONTROLLER_CONNECTED) ? 4'b1111 :
+   assign return_data[3:0] = (~P_CONTROLLER_CONNECTED) ? 4'b1111 :
                              (!return_startselAB_values) ? startselAB_values :
 			                 (!return_UDLR_values) ? UDLR_values : 0;
 
