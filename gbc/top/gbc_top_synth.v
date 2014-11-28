@@ -220,11 +220,7 @@
 
    always @(posedge clock_main) begin
       count2 <= count2 + 1;
-      
-      // calculate T cycles
-      if (count2[1:0] == 0) begin
-         cycle_count <= cycle_count + 1;
-      end
+      cycle_count <= cycle_count + 1;
 
       if (count2 == 0)
          count <= count + 1;
