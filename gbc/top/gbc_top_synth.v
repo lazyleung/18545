@@ -116,7 +116,10 @@
    assign GPIO_LED_0 = O_DATA1[7];
 
    assign I_DATA = {GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
-                    GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7, GPIO_DIP_SW8};
+                    GPIO_DIP_SW5, GPIO_SW_E, GPIO_DIP_SW7, GPIO_DIP_SW8};
+	
+   parameter num_ioregister = 16'h100;
+   wire [7:0] register_data [0:num_ioregister-1];
 
    // ========================================
    // ============= CPU Setup ================
@@ -188,16 +191,23 @@
 
    wire               clock_main;
    wire               mem_clock;
-   wire               mem_clocka;
-
-   //assign  mem_clock = ~mem_clocka;
-    assign mem_clock = clock;
-
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
-   cdiv(.clock_out(clock_main), .clock_in(clock));
-
-   my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
-   cdivdouble(.clock_out(mem_clocka), .clock_in(clock));
+	wire               is_in_doublespeed_mode, controller_disable;
+	
+	clock_module clk_mod(
+					        .I_CLK33MHZ(clock), 
+					        .I_SYNC_RESET(synch_reset),
+					        .O_CLOCKMAIN(clock_main),
+					        .O_MEM_CLOCK(mem_clock),
+					        .I_IOREG_ADDR(iobus_addr),
+					        .IO_IOREG_DATA(iobus_data),
+					        .I_IOREG_WE_L(iobus_we_l),
+					        .I_IOREG_RE_L(iobus_re_l),
+					        .O_IS_IN_DOUBLE_SPEEDMODE(is_in_doublespeed_mode), 
+					        .O_DISABLE_CONTROLLER(controller_disable), 
+					
+					        /*for debugging*/
+					        .O_RP_DATA(register_data[8'h56])
+					        );
 
    // ========================================
    // =========== Connections ================
@@ -212,8 +222,6 @@
 
    assign mem_enable_video = ~lcdram_we_l || ~lcdram_re_l;
 
-   parameter num_ioregister = 16'h100;
-   wire [7:0] register_data [0:num_ioregister-1];
    
    assign O_DATA1 = register_data[I_DATA];
    assign register_data[255] = count;
@@ -221,7 +229,11 @@
 
    always @(posedge clock_main) begin
       count2 <= count2 + 1;
-      cycle_count <= cycle_count + 1;
+      
+      // calculate T cycles
+      if (count2[1:0] == 0) begin
+         cycle_count <= cycle_count + 1;
+      end
 
       if (count2 == 0)
          count <= count + 1;
@@ -382,16 +394,7 @@
                                      .I_RE_BUS_L(iobus_re_l),
                                      .O_DATA_READ(register_data[1])
                                      );
-                                     
-   io_bus_parser_reg #(`RP, 8'h3E) ioreg2(
-                                     .I_CLK(clock_main),
-                                     .I_SYNC_RESET(synch_reset),
-                                     .IO_DATA_BUS(iobus_data),
-                                     .I_ADDR_BUS(iobus_addr),
-                                     .I_WE_BUS_L(iobus_we_l),
-                                     .I_RE_BUS_L(iobus_re_l),
-                                     .O_DATA_READ(register_data[8'h56])
-                                     );
+
 
    io_bus_parser_reg #(`SB,0) ioreg3(
                                      .I_CLK(clock_main),
@@ -435,7 +438,7 @@
     *FPGA logic is used.  The parameter set to 0 will
     *load from BRAM instead of flash to more easily.*/
    cartridge_sim #(SYNTH) cartsim(
-		                 .I_CLK(mem_clocka),
+		                 .I_CLK(mem_clock),
 		                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
 		                 .I_RESET(synch_reset),
 		                 .I_CARTRIDGE_ADDR(cartridge_addr),
@@ -496,7 +499,7 @@
     *CPU expects.  If the controller is not connected, then set
     * the parameter to 0 so it does not continuously reset the 
     * system.*/
-   controller #(1) Controller(
+   controller #(0) Controller(
     	                 .I_CLK(clock_main),
     	                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
     	                 .I_RESET(synch_reset),
@@ -639,28 +642,3 @@
 endmodule // gameboycolor
 
 
-module my_clock_divider(
-                        // Outputs
-                        clock_out,
-                        // Inputs
-                        clock_in
-                        );
-
-   parameter   DIV_SIZE = 15, DIV_OVER_TWO = 24000;
-
-   output reg clock_out = 0;
-
-   input wire clock_in;
-
-   reg [DIV_SIZE-1:0] counter=0;
-
-   always @(posedge clock_in) begin
-      if (counter == DIV_OVER_TWO-1) begin
-         clock_out <= ~clock_out;
-         counter <= 0;
-      end
-      else
-        counter <= counter + 1;
-   end
-
-endmodule // my_clock_divider
