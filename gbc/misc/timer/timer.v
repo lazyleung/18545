@@ -83,14 +83,20 @@ module timer_module(
             increment <= 1;
             counter <= 0;
         end
-    
-        if (I_RESET) 
+
+        // resets when reset and register writes
+        if (I_RESET) begin 
+            increment <= 0;
             counter <= 0;
-        
-        // Reset counter if relevent registers are written to
-        if (TIMA_we || TAC_we) begin
-            // This instruction completes this action 3 cycles too early,
-            counter <= 1 - 4;
+        end else begin 
+            if (TIMA_we) begin
+                //increment <= 0;
+            end
+            if (TAC_we) begin
+                // This instruction completes this action 3 cycles too early,
+                increment <= 0;
+                counter <= 1 - 4;
+            end
         end
     end
 

@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="26" />
+   <WVObjectSize size="25" />
    <wvobject fp_name="/gameboycolorsim/clock" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -28,18 +28,6 @@
       <obj_property name="ElementShortName">clock_main</obj_property>
       <obj_property name="ObjectShortName">clock_main</obj_property>
    </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/I_CLK" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">I_CLK</obj_property>
-      <obj_property name="ObjectShortName">I_CLK</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/mem_clock" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">mem_clock</obj_property>
-      <obj_property name="ObjectShortName">mem_clock</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/mem_clocka" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">mem_clocka</obj_property>
-      <obj_property name="ObjectShortName">mem_clocka</obj_property>
-   </wvobject>
    <wvobject fp_name="/gameboycolorsim/reset" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -47,6 +35,22 @@
    <wvobject fp_name="/gameboycolorsim/gbc/synch_reset" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">synch_reset</obj_property>
       <obj_property name="ObjectShortName">synch_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/router/O_IOREG_ADDR" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">O_IOREG_ADDR[15:0]</obj_property>
+      <obj_property name="ObjectShortName">O_IOREG_ADDR[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/router/O_IOREG_RE_L" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">O_IOREG_RE_L</obj_property>
+      <obj_property name="ObjectShortName">O_IOREG_RE_L</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/router/O_IOREG_WE_L" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">O_IOREG_WE_L</obj_property>
+      <obj_property name="ObjectShortName">O_IOREG_WE_L</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/router/ioreg_data_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ioreg_data_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ioreg_data_out[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/addr_ext" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">addr_ext[15:0]</obj_property>
@@ -58,21 +62,14 @@
       <obj_property name="ObjectShortName">data_ext[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/I_CARTRIDGE_ADDR" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">I_CARTRIDGE_ADDR[15:0]</obj_property>
-      <obj_property name="ObjectShortName">I_CARTRIDGE_ADDR[15:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/IO_CARTRIDGE_DATA" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">IO_CARTRIDGE_DATA[7:0]</obj_property>
-      <obj_property name="ObjectShortName">IO_CARTRIDGE_DATA[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/cartsim/bram_cartridge_data" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">bram_cartridge_data[7:0]</obj_property>
-      <obj_property name="ObjectShortName">bram_cartridge_data[7:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/A_data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">A_data[7:0]</obj_property>
       <obj_property name="ObjectShortName">A_data[7:0]</obj_property>
+      <obj_property name="label">/gameboycolorsim/gbc/gbc_cpu/A_data[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/F_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">F_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">F_data[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/gb80_regfile/mem[4]" type="array" db_ref_id="1">
       <obj_property name="DisplayName">label</obj_property>
@@ -94,17 +91,13 @@
       <obj_property name="ElementShortName">TIMA[7:0]</obj_property>
       <obj_property name="ObjectShortName">TIMA[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IF_reg/d" type="array" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">d[4:0]</obj_property>
-      <obj_property name="ObjectShortName">d[4:0]</obj_property>
-      <obj_property name="label">IF</obj_property>
+   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IF_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IF_data[4:0]</obj_property>
+      <obj_property name="ObjectShortName">IF_data[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IE_reg/d" type="array" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">d[4:0]</obj_property>
-      <obj_property name="ObjectShortName">d[4:0]</obj_property>
-      <obj_property name="label">IE</obj_property>
+   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IE_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">IE_data[4:0]</obj_property>
+      <obj_property name="ObjectShortName">IE_data[4:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IME_reg/d" type="array" db_ref_id="1">
       <obj_property name="DisplayName">label</obj_property>
