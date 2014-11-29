@@ -90,7 +90,7 @@ module timer_module(
             counter <= 0;
         end else begin 
             if (TIMA_we) begin
-                increment <= 0;
+                //increment <= 0;
             end
             if (TAC_we) begin
                 // This instruction completes this action 3 cycles too early,

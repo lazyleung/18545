@@ -8,7 +8,9 @@
                       USER_CLK, // 100mhz clock for ppu
 
                       GPIO_SW_W, //reset
-                      GPIO_SW_E,
+                      GPIO_SW_N, //load
+                      GPIO_SW_S, //save
+                      GPIO_SW_E, //switch
 
                       /*FPGA GPIO for Controller*/
                       HDR2_2_SM_8_N,
@@ -69,7 +71,7 @@
    // ========================================
    // ========== Board I/O Setup =============
    // ========================================
-   input   GPIO_DIP_SW1, GPIO_SW_W, GPIO_SW_E, CLK_33MHZ_FPGA,
+   input   GPIO_DIP_SW1, GPIO_SW_W, GPIO_SW_E, GPIO_SW_N, GPIO_SW_S, CLK_33MHZ_FPGA,
            CLK_27MHZ_FPGA, USER_CLK, HDR2_6_SM_7_N, 
            GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
            GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7,
@@ -86,7 +88,7 @@
    output wire ac97_sync;
    output wire ac97_reset_b;
 
-   input  wire [15:0] flash_d;
+   inout  wire [15:0] flash_d;
    output wire [23:0] flash_a;
    output wire        flash_clk, flash_adv_n,
                       flash_ce_n, flash_oe_n, flash_we_n;
@@ -97,13 +99,15 @@
    inout              dvi_sda, dvi_scl;
 
    wire               clock, reset, synch_reset;
-   wire               PUSH_BUTTON;
+   wire               SAVE, LOAD, PUSH_BUTTON;
    wire [7:0]         I_DATA;
-   wire  [7:0]         O_DATA1;
+   wire [7:0]         O_DATA1;
 
    assign clock = CLK_33MHZ_FPGA;
    assign reset = GPIO_SW_W;
-
+   
+   assign LOAD = GPIO_SW_N;
+   assign SAVE = GPIO_SW_S;
    assign PUSH_BUTTON = GPIO_DIP_SW1;
 
    assign GPIO_LED_7 = O_DATA1[0];
@@ -441,17 +445,20 @@
 		                 .I_CLK(mem_clock),
 		                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
 		                 .I_RESET(synch_reset),
+                     .I_SAVE(SAVE),
+                     .I_LOAD(LOAD),
 		                 .I_CARTRIDGE_ADDR(cartridge_addr),
 		                 .IO_CARTRIDGE_DATA(cartridge_data),
 		                 .I_CARTRIDGE_WE_L(cartridge_we_l),
 		                 .I_CARTRIDGE_RE_L(cartridge_re_l),
-		                 .I_FLASH_DATA(flash_d),
+		                 .IO_FLASH_DATA(flash_d),
 		                 .O_FLASH_ADDR(flash_a),
 		                 .O_FLASH_CLK(flash_clk),
 		                 .O_ADDR_VALID_L(flash_adv_n),
 		                 .O_FLASH_CE_L(flash_ce_n),
 		                 .O_FLASH_OE_L(flash_oe_n),
 		                 .O_FLASH_WE_L(flash_we_n)
+                     //.O_HALT()
 		                 );
 
 

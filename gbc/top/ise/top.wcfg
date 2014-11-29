@@ -3,14 +3,14 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Users/ash/Documents/18545/gbc/top/ise/timer_module_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/ash/Documents/18545/gbc/top/ise/gameboycolorsim_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="gameboycolorsim" />
             <top_module name="glbl" />
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="30" />
+   <WVObjectSize size="25" />
    <wvobject fp_name="/gameboycolorsim/clock" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
@@ -99,26 +99,6 @@
       <obj_property name="ElementShortName">IE_data[4:0]</obj_property>
       <obj_property name="ObjectShortName">IE_data[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IF_reg/d" type="array" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">d[4:0]</obj_property>
-      <obj_property name="ObjectShortName">d[4:0]</obj_property>
-      <obj_property name="label">IF</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IE_reg/d" type="array" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">d[4:0]</obj_property>
-      <obj_property name="ObjectShortName">d[4:0]</obj_property>
-      <obj_property name="label">IE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/Interrupt/I_IF_DATA" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">I_IF_DATA[4:0]</obj_property>
-      <obj_property name="ObjectShortName">I_IF_DATA[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/Interrupt/I_IE_DATA" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">I_IE_DATA[4:0]</obj_property>
-      <obj_property name="ObjectShortName">I_IE_DATA[4:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/gameboycolorsim/gbc/gbc_cpu/IME_reg/d" type="array" db_ref_id="1">
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">d[0:0]</obj_property>
@@ -144,10 +124,5 @@
       <obj_property name="ElementShortName">TAC[2:0]</obj_property>
       <obj_property name="ObjectShortName">TAC[2:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/gameboycolorsim/gbc/Timer/counter" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">counter[10:0]</obj_property>
-      <obj_property name="ObjectShortName">counter[10:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
 </wave_config>
