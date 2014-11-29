@@ -157,6 +157,8 @@ module decode(/*AUTOARG*/
          step_inst <= 1'b0;
          step_pressed <= 1'b0;
          continue_pressed <= 1'b0;
+      end else if (ext_halt) begin
+         // Do nothing
       end else begin
          cycle <= next_cycle;
          cb <= next_cb;
