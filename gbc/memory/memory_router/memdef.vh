@@ -67,8 +67,8 @@
 `define RP    16'hFF56   // X
 `define VBK   16'hFF4F   // X
 `define SVBK  16'hFF70   // X
-`define IF    16'hFF0F
-`define IE    16'hFFFF
+`define IF    16'hFF0F   // X
+`define IE    16'hFFFF   // X
 `define IME   0
 `define LCDC  16'hFF40   // X
 `define STAT  16'hFF41   // X   
