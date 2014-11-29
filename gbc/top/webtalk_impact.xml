@@ -3,9 +3,9 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="impact" timeStamp="Fri Nov 28 16:43:00 2014">
+<application name="impact" timeStamp="Fri Nov 28 17:59:30 2014">
 <section name="Project Information" visible="false">
-<property name="ProjectID" value="47b5d3f385184b73ad9e18206afbcd83"/>
+<property name="ProjectID" value="b0d87425282848b5b3528b0f9f2af8da"/>
 <property name="ProjectIteration" value="1"/>
 </section>
 <section name="iMPACT Project Info" visible="true">
@@ -14,7 +14,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="OS Name" value="Microsoft Windows 7 (64 Bit)"/>
 <property name="User Lic. Info" value="174679548_176449548_210570730_342"/>
 </section>
-<section name="iMPACT One Step SVF File Mode" visible="true">
+<section name="iMPACT Boundary Scan Mode" visible="true">
 <item name="Chain Summary">
 <property name="Number of device" value="5"/>
 <property name="Number of Xilinx device" value="5"/>
@@ -35,67 +35,12 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="Part5" value="xc5vlx110t"/>
 <property name="Device5" value="BPI FLASH"/>
 <property name="Part5" value="28F256P30"/>
-<property name="Data Width" value="x16"/>
 </item>
 <item name="Boundary Scan Operations Statistics">
-<property name="BSCAN Operation" value="ReadIdcode -p 4
-"/>
-<property name="BSCAN Operation" value="Program -p 4
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4
-"/>
-<property name="BSCAN Operation" value="Program -p 4
-"/>
-<property name="BSCAN Operation" value="Program -p 4
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -dataWidth 16 -rs1 NONE -rs0 NONE -bpi
-"/>
-<property name="BSCAN Operation" value="Program -p 4 -bpionly -e -v
-"/>
 </item>
 <item name="Cable Summary">
 <property name="Cable Type" value="Platform Cable USB II"/>
-<property name="Cable Speed" value="3 MHz"/>
+<property name="Cable Speed" value="6 MHz"/>
 <property name="Port" value="usb-hs"/>
 <property name="Local_Server_Mode" value="Local"/>
 </item>

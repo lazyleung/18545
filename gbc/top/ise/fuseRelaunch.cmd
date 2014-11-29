@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "C:/Users/ash/Documents/18545/gbc/top/ise/my_clock_divider_isim_beh.exe" -prj "C:/Users/ash/Documents/18545/gbc/top/ise/my_clock_divider_beh.prj" "work.my_clock_divider" "work.glbl" 
+-intstyle "ise" -incremental -lib "unisims_ver" -lib "unimacro_ver" -lib "xilinxcorelib_ver" -lib "secureip" -o "C:/Users/ash/Documents/18545/gbc/top/ise/gameboycolorsim_isim_beh.exe" -prj "C:/Users/ash/Documents/18545/gbc/top/ise/gameboycolorsim_beh.prj" "gameboycolorsim" "work.glbl" 

@@ -44,7 +44,7 @@ module gameboycolorsim();
       @(posedge clock);
       reset = 1;
 
-      while (count < 10) begin
+      while (count < 50) begin
          count = count + 1;
          if(count % 3)
             clock33 = ~clock33;

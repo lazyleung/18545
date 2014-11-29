@@ -11,7 +11,8 @@ SLOT 0 START $0000 SIZE $4000       ;0-3FFF fixed bank
 ;.org $0A3F    ;CPU address to insert to
 
 .org $0100
-     call MAIN
+     call INIT
+     call TEST
      jr TEST_PASSED
 
 .org $0150
@@ -19,12 +20,10 @@ DELAY:
      sub  $05
      jr   nc, DELAY
      rra
-     jr   nc, DELAY_FAILED
+     jr   nc, DELAY2
+DELAY2:
      adc  $01
      ret  nc
-
-DELAY_FAILED:
-    jr DELAY_FAILED
 
 TEST_PASSED:
     jr TEST_PASSED
@@ -34,12 +33,12 @@ TEST_FAILED:
     jr TEST_FAILED
 
 .org $0200
-MAIN:
+INIT:
      push af
      di
      ldh  a, ($FF)        
-     and  $04
-     ldh  ($FF), a  ; 04 -> IE REG
+     and  ~$04
+     ldh  ($FF), a  ; ~04 -> IE REG
      ld   a, $00
      ldh  ($06), a  ; 00 -> TMA
      ld   a, $05
@@ -62,4 +61,14 @@ MAIN:
      jp   z,TEST_FAILED
 
      pop  af
+     ret
+
+TEST:
+     push af
+     xor  a
+     ldh  ($05), a
+     ldh  a, ($05)
+     or   a
+     jr nz, TEST
+     pop af
      ret

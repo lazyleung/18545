@@ -195,7 +195,7 @@
 	
 	clock_module clk_mod(
 					        .I_CLK33MHZ(clock), 
-					        .I_SYNC_RESET(synch_reset),
+					        .I_SYNC_RESET(reset),
 					        .O_CLOCKMAIN(clock_main),
 					        .O_MEM_CLOCK(mem_clock),
 					        .I_IOREG_ADDR(iobus_addr),
@@ -499,7 +499,7 @@
     *CPU expects.  If the controller is not connected, then set
     * the parameter to 0 so it does not continuously reset the 
     * system.*/
-   controller #(0) Controller(
+   controller #(1) Controller(
     	                 .I_CLK(clock_main),
     	                 .I_CLK_33MHZ(CLK_33MHZ_FPGA),
     	                 .I_RESET(synch_reset),
