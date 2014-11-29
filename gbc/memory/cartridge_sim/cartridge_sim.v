@@ -11,8 +11,7 @@ module cartridge_sim(
                  I_CLK,
                  I_CLK_33MHZ,
                  I_RESET,
-                 I_SAVE,
-                 I_LOAD,
+                 I_GAME_SELECT,
 
                  /*Interface with CPU*/
                  I_CARTRIDGE_ADDR,
@@ -21,115 +20,51 @@ module cartridge_sim(
                  I_CARTRIDGE_RE_L,
 
                  /*Interface with the flash module*/
-                 IO_FLASH_DATA,
+                 I_FLASH_DATA,
                  O_FLASH_ADDR,
                  O_FLASH_CLK,
                  O_ADDR_VALID_L,
                  O_FLASH_CE_L,
                  O_FLASH_OE_L,
-                 O_FLASH_WE_L, 
-
-                 O_HALT
+                 O_FLASH_WE_L
                  );
                      
    parameter P_USE_FLASH_PORT = 1;
 
-   input        I_CLK, I_CLK_33MHZ, I_RESET, I_SAVE, I_LOAD;
+   input        I_CLK, I_CLK_33MHZ, I_RESET;
+   input [2:0]  I_GAME_SELECT;
 
    input [15:0] I_CARTRIDGE_ADDR;
    inout [7:0]  IO_CARTRIDGE_DATA;
 
    input        I_CARTRIDGE_WE_L, I_CARTRIDGE_RE_L;
 
-   inout  [15:0] IO_FLASH_DATA;
+   input  [15:0] I_FLASH_DATA;
    output [23:0] O_FLASH_ADDR;
    output        O_FLASH_CLK, O_ADDR_VALID_L,
                  O_FLASH_CE_L, O_FLASH_OE_L, O_FLASH_WE_L;
 
-   output O_HALT;
-
    wire               bram_en, bram_we;
+
    wire [15:0]        router_addr, bram_banked_addr, bram_addr;
    wire [7:0]         bram_data_in2, bram_data_out2, bram_cartridge_data;
-
-
-   reg [14:0]   flash_counter;
-   reg          flash_we, flash_save_mode, flash_load_bram;
-
-   reg [2:0]    STATE;
-   reg [23:0]   rw_flash_addr;
-   wire [23:0]  read_flash_addr;
-                      
-   always @(posedge I_CLK_33MHZ) begin
-        if(I_RESET) begin
-            STATE <= `IDLE;
-            flash_save_mode <= 0;
-            flash_we <= 0;
-            flash_counter <= 14'h0000;
-            flash_load_bram <= 0;
-        end else begin
-            case(STATE)
-              `IDLE: begin
-                flash_save_mode <= 0;
-                flash_we <= 0;
-                flash_counter <= 14'h0000;
-                flash_load_bram <= 0;
-                if(I_SAVE)
-                  STATE <= `WRITE1;
-                else if (I_LOAD)
-                  STATE <= `LOAD1;
-                else
-                  STATE <= `IDLE;
-              end
-              `WRITE1: begin
-                flash_save_mode <= 1;
-                rw_flash_addr <= {9'b0_0100_0000 , flash_counter[14:0]};
-                flash_we <= 0;
-                STATE <= `WRITE2;
-              end
-              `WRITE2: begin
-                flash_save_mode <= 1;
-                flash_we <= 1;
-                if(flash_counter >= 14'h3FFF)
-                  STATE <= `IDLE;
-                else begin
-                  flash_counter <= flash_counter + 1;
-                  STATE <= `WRITE1;
-                end
-              end
-              `LOAD1: begin
-                flash_load_bram <= 0;
-                rw_flash_addr <= {9'b0_0100_0000 , flash_counter[14:0]};
-                STATE <= `LOAD2;
-              end
-              `LOAD2: begin
-                flash_load_bram <= 1;
-                if(flash_counter >= 14'h3FFF)
-                  STATE <= `IDLE;
-                else begin
-                  flash_counter <= flash_counter + 1;
-                  STATE <= `LOAD1;
-                end
-              end
-            endcase   
-        end
-   end     
+   wire [2:0]         game_select_num;
 
    // Asynchronous read mode
    assign O_FLASH_CLK = 1'b1;
    // Chip enable
    assign O_FLASH_CE_L = 1'b0;
    // Output enable
-   assign O_FLASH_OE_L = flash_save_mode;
+   assign O_FLASH_OE_L = 1'b1;
    // Write enable
-   assign O_FLASH_WE_L = ~flash_we;
+   assign O_FLASH_WE_L = 1'b1;
    // Address Valid
    assign O_ADDR_VALID_L = 1'b0;
 
-   assign IO_FLASH_DATA = (flash_save_mode) ? {8'h00 , bram_data_out2} : 16'hzzzz;
+   assign game_select_num = I_GAME_SELECT;
 
    /*Figure out which space on the cartridge you are accessing*/
-   wire               accessing_ROM_space, accessing_RAM_space;
+   wire   accessing_ROM_space, accessing_RAM_space;
    assign accessing_ROM_space = (I_CARTRIDGE_ADDR >=0 && I_CARTRIDGE_ADDR < 16'h8000);
    assign accessing_RAM_space = (I_CARTRIDGE_ADDR >= 16'hA000 && I_CARTRIDGE_ADDR < 16'hC000);
 
@@ -294,16 +229,15 @@ module cartridge_sim(
    /*the banks are laid out linearly in flash so offset the address
     *by the bank bits*/
    assign is_bank_zero = I_CARTRIDGE_ADDR < 16'h4000;
-   assign read_flash_addr[23:14] = (is_bank_zero) ? 10'd0 : {3'd0 , rom_bank_num};
-   assign read_flash_addr[13:0]  = I_CARTRIDGE_ADDR[13:0];
-   assign O_FLASH_ADDR = (flash_save_mode) ? rw_flash_addr : read_flash_addr;
+   assign O_FLASH_ADDR[23:14] = (is_bank_zero) ? 10'd0 : {game_select_num, rom_bank_num};
+   assign O_FLASH_ADDR[13:0]  = I_CARTRIDGE_ADDR[13:0];
    assign bootload_bram_addr = I_CARTRIDGE_ADDR;
 
    /*Offset ram address so it starts at 0, then use the bank to linearly
     *offset the address into bram*/
    assign cartridge_addr_offset = I_CARTRIDGE_ADDR - 16'hA000;
-   assign bram_addr = (flash_save_mode) ? flash_counter: {1'b0, ram_bank_num[1:0], cartridge_addr_offset[12:0]};
-   assign bram_we =  flash_load_bram || (ram_timer_en && ~I_CARTRIDGE_WE_L && ram_bank_num <= 3 && accessing_RAM_space);
+   assign bram_addr = {1'b0, ram_bank_num[1:0], cartridge_addr_offset[12:0]};
+   assign bram_we =  ram_timer_en && ~I_CARTRIDGE_WE_L && ram_bank_num <= 3 && accessing_RAM_space;
 
    /*determine the write data into the BRAM , if indicated to write to BRAM*/
    assign bram_data_in2 = (bram_we) ? IO_CARTRIDGE_DATA : 0;
@@ -311,9 +245,9 @@ module cartridge_sim(
    /* if accessing ROM space on a read, return the flash data, else
     * return the data from the RAM or the timer*/
    assign return_data = (~is_in_rom_mode) ? bootload_data :
-                        (P_USE_FLASH_PORT & accessing_ROM_space) ? IO_FLASH_DATA[7:0] : //rom -> read from flash
+                        (P_USE_FLASH_PORT & accessing_ROM_space) ? I_FLASH_DATA[7:0] : //rom -> read from flash
                         (~P_USE_FLASH_PORT & accessing_ROM_space) ? bram_cartridge_data :
-                       (accessing_RAM_space & ram_timer_en) ? ram_return_data : 0;
+                        (accessing_RAM_space & ram_timer_en) ? ram_return_data : 0;
 
    /*the data being returned from the RAM address space can come from either BRAM
     *or from the RTC registers.  This is specified by the RAM bank number*/
@@ -334,7 +268,7 @@ module cartridge_sim(
 
    /* Actual Memory Location*/
    bram_save expansion_ram(
-                  .clka(I_CLK),
+                  .clka(I_CLK_33MHZ),
                   .rsta(I_RESET),
                   .wea(bram_we),
                   .addra(bram_addr),
@@ -343,8 +277,8 @@ module cartridge_sim(
                   );           
                       
    /*give capability of reading from FLASH or BRAM based on parameter*/                   
-   bram_cart  cartridge(
-                      .clka(I_CLK),
+   bram_cart cartridge(
+                      .clka(I_CLK_33MHZ),
                       .rsta(I_RESET),
                       .wea(0),
                       .addra(I_CARTRIDGE_ADDR),

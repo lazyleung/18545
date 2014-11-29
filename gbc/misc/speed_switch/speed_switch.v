@@ -22,7 +22,7 @@ module clock_module(
 					O_DISABLE_CONTROLLER, 
 
 					/*for debugging*/
-					O_RP_DATA);
+					O_KEY1_DATA);
 
 	parameter P_COUNTDOWN_CLOCKS = 'd255;
 
@@ -38,24 +38,26 @@ module clock_module(
 
 	output O_IS_IN_DOUBLE_SPEEDMODE;
 	output reg O_DISABLE_CONTROLLER;
-	output [7:0] O_RP_DATA;
+	output [7:0] O_KEY1_DATA;
 
 
-	wire [7:0] rp_data;
-	wire new_rp_data;
+	wire [7:0] key1_data;
+	wire new_key1_data;
 	wire prepare_speed_switch;
 	reg in_double_speedmode;
 	wire clock_8Mhz, clock_4Mhz, clock_16Mhz;
 
 	assign O_IS_IN_DOUBLE_SPEEDMODE = in_double_speedmode;
-   assign prepare_speed_switch = rp_data[0] & new_rp_data;
+   assign prepare_speed_switch = key1_data[0] & new_key1_data;
 
    	/*generate the different clocks for the system*/
-   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(4))
+   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(2))
    	cdiv4(.clock_out(clock_4Mhz), .clock_in(I_CLK33MHZ));
 
-  	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
-   	cdiv8(.clock_out(O_MEM_CLOCK), .clock_in(I_CLK33MHZ));
+  	//my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
+   	//cdiv8(.clock_out(O_MEM_CLOCK), .clock_in(I_CLK33MHZ));
+    
+    assign O_MEM_CLOCK = I_CLK33MHZ;
 
   ///	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
   ///	cdiv16(.clock_out(O_MEM_CLOCK), .clock_in(O_CLOCK_MAIN));
@@ -65,7 +67,7 @@ module clock_module(
 	assign O_CLOCKMAIN = (in_double_speedmode) ? clock_8Mhz : clock_4Mhz; 
 
 	/*write only register (01) */
-   io_bus_parser_reg #(`RP,0,0,0,'b01) rp_wr_reg(
+   io_bus_parser_reg #(`KEY1,0,0,0,'b01) key1_wr_reg(
                                                   .I_CLK(O_CLOCKMAIN),
                                                   .I_SYNC_RESET(I_SYNC_RESET),
                                                   .IO_DATA_BUS(IO_IOREG_DATA),
@@ -73,12 +75,12 @@ module clock_module(
                                                   .I_WE_BUS_L(I_IOREG_WE_L),
                                                   .I_RE_BUS_L(I_IOREG_RE_L),
                                                   .I_DATA_WR(0),
-                                                  .O_DATA_READ(rp_data),
-                                                  .O_DBUS_WRITE(new_rp_data),
+                                                  .O_DATA_READ(key1_data),
+                                                  .O_DBUS_WRITE(new_key1_data),
                                                   .I_REG_WR_EN(0));
 
    /*read only register (10) - forward the status data*/
-   io_bus_parser_reg #(`RP,0,1,0,'b10) rp_re_reg(
+   io_bus_parser_reg #(`KEY1,0,1,0,'b10) key1_re_reg(
                                                     .I_CLK(O_CLOCKMAIN),
                                                     .I_SYNC_RESET(I_SYNC_RESET),
                                                     .IO_DATA_BUS(IO_IOREG_DATA),
