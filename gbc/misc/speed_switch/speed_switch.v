@@ -51,10 +51,10 @@ module clock_module(
    assign prepare_speed_switch = rp_data[0] & new_rp_data;
 
    	/*generate the different clocks for the system*/
-   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(8))
+   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(4))
    	cdiv4(.clock_out(clock_4Mhz), .clock_in(I_CLK33MHZ));
 
-  	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(4))
+  	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
    	cdiv8(.clock_out(O_MEM_CLOCK), .clock_in(I_CLK33MHZ));
 
   ///	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
