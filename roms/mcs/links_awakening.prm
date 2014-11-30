@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r bin/links_awakening.hex -p mcs -data_width 16 -w -o links_awakening.mcs 
+
+PROM links_awakening.prm map: Sat Nov 29 22:03:44 2014
+
+Format        Mcs86 (32-bit)
+Size          1024K
+PROM start    0000:0000
+PROM end      000f:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    000f:ffff     Nov 29 22:03:43 2014 bin/links_awakening.hex

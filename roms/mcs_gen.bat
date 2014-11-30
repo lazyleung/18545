@@ -10,12 +10,12 @@ if not exist %1 (
 )
 
 echo Generating data file from ROM...
-perl hex2dat.pl %1 %~n1.dat
+perl hex2dat.pl %1 bin/%~n1.dat
 
 echo Generating Flash file from data file...
-perl dat2hex.pl %~n1.dat %~n1.hex
+perl dat2hex.pl bin/%~n1.dat bin/%~n1.hex
 
-promgen -r %~n1.hex -p mcs -data_width 16 -w -o %~n2.mcs
+promgen -r bin/%~n1.hex -p mcs -data_width 16 -w -o %~n2.mcs
 
 goto exit
 

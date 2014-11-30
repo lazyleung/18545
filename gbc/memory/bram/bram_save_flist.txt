@@ -2,7 +2,6 @@
 _xmsgs\pn_parser.xmsgs
 bram_save.asy
 bram_save.gise
-bram_save.mif
 bram_save.ngc
 bram_save.v
 bram_save.veo

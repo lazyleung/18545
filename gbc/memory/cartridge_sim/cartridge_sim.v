@@ -6,6 +6,9 @@
 `define LOAD1       3
 `define LOAD2       4
 
+`define BLUE        2
+`define CRYSTAL     3
+
 module cartridge_sim(
                  /*System Level Inputs*/
                  I_CLK,
@@ -46,8 +49,11 @@ module cartridge_sim(
 
    wire               bram_en, bram_we;
 
-   wire [15:0]        router_addr, bram_banked_addr, bram_addr;
-   wire [7:0]         bram_data_in2, bram_data_out2, bram_cartridge_data;
+   wire [15:0]        router_addr, bram_banked_addr;
+   wire [15:0]        exp_bram_addr;
+   wire [7:0]         exp_bram_data_in;
+   wire [7:0]         exp_bram_data_out [0:2];
+   wire [7:0]         exp_bram_data_out_select, bram_cartridge_data;
    wire [2:0]         game_select_num;
 
    // Asynchronous read mode
@@ -55,7 +61,7 @@ module cartridge_sim(
    // Chip enable
    assign O_FLASH_CE_L = 1'b0;
    // Output enable
-   assign O_FLASH_OE_L = 1'b1;
+   assign O_FLASH_OE_L = 1'b0;
    // Write enable
    assign O_FLASH_WE_L = 1'b1;
    // Address Valid
@@ -224,23 +230,23 @@ module cartridge_sim(
    wire        is_bank_zero;
    wire [7:0]  return_data, ram_return_data, register_return_data;
    wire [15:0] cartridge_addr_offset;
-   wire [15:0]  bootload_bram_addr, bootload_data;
+   wire [15:0] bootload_bram_addr, bootload_data;
 
    /*the banks are laid out linearly in flash so offset the address
     *by the bank bits*/
    assign is_bank_zero = I_CARTRIDGE_ADDR < 16'h4000;
-   assign O_FLASH_ADDR[23:14] = (is_bank_zero) ? 10'd0 : {game_select_num, rom_bank_num};
+   assign O_FLASH_ADDR[23:14] = (is_bank_zero) ? {game_select_num, 7'd0} : {game_select_num, rom_bank_num};
    assign O_FLASH_ADDR[13:0]  = I_CARTRIDGE_ADDR[13:0];
    assign bootload_bram_addr = I_CARTRIDGE_ADDR;
 
    /*Offset ram address so it starts at 0, then use the bank to linearly
     *offset the address into bram*/
    assign cartridge_addr_offset = I_CARTRIDGE_ADDR - 16'hA000;
-   assign bram_addr = {1'b0, ram_bank_num[1:0], cartridge_addr_offset[12:0]};
+   assign exp_bram_addr = {1'b0, ram_bank_num[1:0], cartridge_addr_offset[12:0]};
    assign bram_we =  ram_timer_en && ~I_CARTRIDGE_WE_L && ram_bank_num <= 3 && accessing_RAM_space;
 
    /*determine the write data into the BRAM , if indicated to write to BRAM*/
-   assign bram_data_in2 = (bram_we) ? IO_CARTRIDGE_DATA : 0;
+   assign exp_bram_data_in = (bram_we) ? IO_CARTRIDGE_DATA : 0;
 
    /* if accessing ROM space on a read, return the flash data, else
     * return the data from the RAM or the timer*/
@@ -249,10 +255,13 @@ module cartridge_sim(
                         (~P_USE_FLASH_PORT & accessing_ROM_space) ? bram_cartridge_data :
                         (accessing_RAM_space & ram_timer_en) ? ram_return_data : 0;
 
+   assign exp_bram_data_out_select = (game_select_num == `BLUE) ? exp_bram_data_out[0] : 
+                                     (game_select_num == `CRYSTAL) ? exp_bram_data_out[1] : exp_bram_data_out[2];
+
    /*the data being returned from the RAM address space can come from either BRAM
     *or from the RTC registers.  This is specified by the RAM bank number*/
-   assign ram_return_data = (ram_bank_num <= 3) ? bram_data_out2 :
-                      (ram_bank_num >= 8 && ram_bank_num < 13) ? register_return_data : 0;
+   assign ram_return_data = (ram_bank_num <= 3) ? exp_bram_data_out_select :
+                            (ram_bank_num >= 8 && ram_bank_num < 13) ? register_return_data : 0;
 
    /*return the correct RTC register of the RAM bank number is in the RTC register range*/
    assign register_return_data = (ram_bank_num == 8)  ? rtc_seconds :
@@ -262,23 +271,41 @@ module cartridge_sim(
                          (ram_bank_num == 12) ? rtc_days[15:8] : 0;
 
    /*Drive The Cartridge Data bus with the return data*/
-   wire        en_data;
+   wire   en_data;
    assign en_data = ~I_CARTRIDGE_RE_L;
    assign IO_CARTRIDGE_DATA = (en_data) ? return_data : 'bzzzzzzzz;
 
-   /* Actual Memory Location*/
-   bram_save expansion_ram(
-                  .clka(I_CLK_33MHZ),
+   /* Actual Memory Location*/         
+   bram_save_blue expansion_blue(
+                  .clka(I_CLK),
                   .rsta(I_RESET),
-                  .wea(bram_we),
-                  .addra(bram_addr),
-                  .dina(bram_data_in2),
-                  .douta(bram_data_out2)
-                  );           
+                  .wea(bram_we && (game_select_num == `BLUE)),
+                  .addra(exp_bram_addr),
+                  .dina(exp_bram_data_in),
+                  .douta(exp_bram_data_out[0])
+                  ); 
+
+   bram_save_crystal expansion_crystal(
+                  .clka(I_CLK),
+                  .rsta(I_RESET),
+                  .wea(bram_we && (game_select_num == `CRYSTAL)),
+                  .addra(exp_bram_addr),
+                  .dina(exp_bram_data_in),
+                  .douta(exp_bram_data_out[1])
+                  ); 
+
+   bram_save expansion_other(
+                  .clka(I_CLK),
+                  .rsta(I_RESET),
+                  .wea(bram_we && (game_select_num != `BLUE) && (game_select_num != `CRYSTAL)),
+                  .addra(exp_bram_addr),
+                  .dina(exp_bram_data_in),
+                  .douta(exp_bram_data_out[2])
+                  ); 
                       
    /*give capability of reading from FLASH or BRAM based on parameter*/                   
    bram_cart cartridge(
-                      .clka(I_CLK_33MHZ),
+                      .clka(I_CLK),
                       .rsta(I_RESET),
                       .wea(0),
                       .addra(I_CARTRIDGE_ADDR),

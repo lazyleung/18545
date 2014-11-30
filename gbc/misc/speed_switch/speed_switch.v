@@ -2,7 +2,6 @@
 `default_nettype none
 
 module clock_module(
-
 					/*base clocks and reset*/
 					I_CLK33MHZ, 
 					I_SYNC_RESET,
@@ -48,26 +47,26 @@ module clock_module(
 	wire clock_8Mhz, clock_4Mhz, clock_16Mhz;
 
 	assign O_IS_IN_DOUBLE_SPEEDMODE = in_double_speedmode;
-   assign prepare_speed_switch = key1_data[0] & new_key1_data;
+    assign prepare_speed_switch = key1_data[0] & new_key1_data;
 
    	/*generate the different clocks for the system*/
-   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(2))
+   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(4))
    	cdiv4(.clock_out(clock_4Mhz), .clock_in(I_CLK33MHZ));
 
-  	//my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
-   	//cdiv8(.clock_out(O_MEM_CLOCK), .clock_in(I_CLK33MHZ));
+  	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
+   	cdiv8(.clock_out(clock_8Mhz), .clock_in(I_CLK33MHZ));
     
     assign O_MEM_CLOCK = I_CLK33MHZ;
 
-  ///	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
-  ///	cdiv16(.clock_out(O_MEM_CLOCK), .clock_in(O_CLOCK_MAIN));
+    //	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
+    //	cdiv16(.clock_out(O_MEM_CLOCK), .clock_in(O_CLOCK_MAIN));
 
 
   	/*multiplex which clock is being used*/
 	assign O_CLOCKMAIN = (in_double_speedmode) ? clock_8Mhz : clock_4Mhz; 
 
 	/*write only register (01) */
-   io_bus_parser_reg #(`KEY1,0,0,0,'b01) key1_wr_reg(
+    io_bus_parser_reg #(`KEY1,0,0,0,'b01) rp_wr_reg(
                                                   .I_CLK(O_CLOCKMAIN),
                                                   .I_SYNC_RESET(I_SYNC_RESET),
                                                   .IO_DATA_BUS(IO_IOREG_DATA),
@@ -80,7 +79,7 @@ module clock_module(
                                                   .I_REG_WR_EN(0));
 
    /*read only register (10) - forward the status data*/
-   io_bus_parser_reg #(`KEY1,0,1,0,'b10) key1_re_reg(
+   io_bus_parser_reg #(`KEY1,0,1,0,'b10) rp_re_reg(
                                                     .I_CLK(O_CLOCKMAIN),
                                                     .I_SYNC_RESET(I_SYNC_RESET),
                                                     .IO_DATA_BUS(IO_IOREG_DATA),

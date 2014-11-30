@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r bin/pokemon_blue.hex -p mcs -data_width 16 -w -o pokemon_blue.mcs 
+
+PROM pokemon_blue.prm map: Sat Nov 29 22:07:02 2014
+
+Format        Mcs86 (32-bit)
+Size          2048K
+PROM start    0000:0000
+PROM end      001f:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    001f:ffff     Nov 29 22:07:01 2014 bin/pokemon_blue.hex

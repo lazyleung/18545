@@ -97,23 +97,23 @@
                   dvi_xclk_n, dvi_de, dvi_reset_b;
    inout          dvi_sda, dvi_scl;
 
-   wire           clock, reset, synch_reset, PUSH_BUTTON;
+   wire           clock, reset, synch_reset, push_button;
    wire [7:0]     I_DATA;
-   wire [7:0]     O_DATA1;
+   wire [7:0]     O_DATA;
 
    assign clock = CLK_33MHZ_FPGA;
    assign reset = GPIO_SW_W;
 
-   assign PUSH_BUTTON = GPIO_SW_E;
+   assign push_button = GPIO_SW_E;
 
-   assign GPIO_LED_7 = O_DATA1[0];
-   assign GPIO_LED_6 = O_DATA1[1];
-   assign GPIO_LED_5 = O_DATA1[2];
-   assign GPIO_LED_4 = O_DATA1[3];
-   assign GPIO_LED_3 = O_DATA1[4];
-   assign GPIO_LED_2 = O_DATA1[5];
-   assign GPIO_LED_1 = O_DATA1[6];
-   assign GPIO_LED_0 = O_DATA1[7];
+   assign GPIO_LED_7 = O_DATA[0];
+   assign GPIO_LED_6 = O_DATA[1];
+   assign GPIO_LED_5 = O_DATA[2];
+   assign GPIO_LED_4 = O_DATA[3];
+   assign GPIO_LED_3 = O_DATA[4];
+   assign GPIO_LED_2 = O_DATA[5];
+   assign GPIO_LED_1 = O_DATA[6];
+   assign GPIO_LED_0 = O_DATA[7];
 
    assign I_DATA = {GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
                     GPIO_DIP_SW5, GPIO_SW_E, GPIO_DIP_SW7, GPIO_DIP_SW8};
@@ -225,29 +225,29 @@
    // ============ Debugging =================
    // ========================================
 
-   reg [7:0]          count;
-   reg [20:0]         count2;
-   (* KEEP = "TRUE" *) reg [63:0]         cycle_count;
+   // reg [7:0]                              count;
+   // reg [20:0]                             count2;
+   // (* KEEP = "TRUE" *) reg [63:0]         cycle_count;
    
-   assign O_DATA1 = register_data[I_DATA];
-   assign register_data[255] = count;
+   assign O_DATA = (push_button) ? {I_DATA[7:5], 4'b0000 , is_in_doublespeed_mode} : register_data[I_DATA];
+   //assign register_data[255] = count;
 
-   always @(posedge clock_main) begin
-      count2 <= count2 + 1;
+   // always @(posedge clock_main) begin
+   //    count2 <= count2 + 1;
       
-      // calculate T cycles
-      if (count2[1:0] == 0) begin
-         cycle_count <= cycle_count + 1;
-      end
+   //    // calculate T cycles
+   //    if (count2[1:0] == 0) begin
+   //       cycle_count <= cycle_count + 1;
+   //    end
 
-      if (count2 == 0)
-         count <= count + 1;
-      if (synch_reset) begin
-         count <= 0;
-         count2 <= 0;
-         cycle_count <= 0;
-      end
-   end
+   //    if (count2 == 0)
+   //       count <= count + 1;
+   //    if (synch_reset) begin
+   //       count <= 0;
+   //       count2 <= 0;
+   //       cycle_count <= 0;
+   //    end
+   // end
 
    // ========================================
    // ======== Module Instantiation ==========
@@ -543,27 +543,28 @@
    /*Registers that are unused, but need to still be implemented, 
    *they can also be used for debugging when running custom
    *made programs*/
-   io_bus_parser_reg #(`SC, 8'h7C)ioreg1(
+
+   io_bus_parser_reg #(`SB, 8'h00) ioregSB(
                                      .I_CLK(clock_main),
                                      .I_SYNC_RESET(synch_reset),
                                      .IO_DATA_BUS(iobus_data),
                                      .I_ADDR_BUS(iobus_addr),
                                      .I_WE_BUS_L(iobus_we_l),
                                      .I_RE_BUS_L(iobus_re_l),
-                                     .O_DATA_READ(register_data[1])
+                                     .O_DATA_READ(register_data[8'h01])
                                      );
 
-
-   io_bus_parser_reg #(`SB,0) ioreg3(
+   io_bus_parser_reg #(`SC, 8'h7C) ioregSC(
                                      .I_CLK(clock_main),
                                      .I_SYNC_RESET(synch_reset),
                                      .IO_DATA_BUS(iobus_data),
                                      .I_ADDR_BUS(iobus_addr),
                                      .I_WE_BUS_L(iobus_we_l),
                                      .I_RE_BUS_L(iobus_re_l),
-                                     .O_DATA_READ(register_data[2])
+                                     .O_DATA_READ(register_data[8'h02])
                                      );
-   io_bus_parser_reg #(`RP,8'hFD) ioreg4(
+
+   io_bus_parser_reg #(`RP,8'hFD) ioregRP(
                                      .I_CLK(clock_main),
                                      .I_SYNC_RESET(synch_reset),
                                      .IO_DATA_BUS(iobus_data),
@@ -575,7 +576,7 @@
               
               
    /*undocumented gameboy color registers*/    
-   io_bus_parser_reg #(16'hFF6C,8'hFE,0,0,0) ioreg5(
+   io_bus_parser_reg #(16'hFF6C,8'hFE,0,0,0) ioreg_unused_1(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
@@ -584,7 +585,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h6C])
                                   );
-   io_bus_parser_reg #(16'hFF72,8'h00,0,0,0) ioreg6(
+   io_bus_parser_reg #(16'hFF72,8'h00,0,0,0) ioreg_unused_2(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
@@ -593,7 +594,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h72])
                                   );
-   io_bus_parser_reg #(16'hFF73,8'h00,0,0,0) ioreg7(
+   io_bus_parser_reg #(16'hFF73,8'h00,0,0,0) ioreg_unused_3(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
@@ -602,7 +603,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h73])
                                   );
-   io_bus_parser_reg #(16'hFF74,8'h00,0,0,0) ioreg8(
+   io_bus_parser_reg #(16'hFF74,8'h00,0,0,0) ioreg_unused_4(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
@@ -611,7 +612,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h74])
                                   );
-   io_bus_parser_reg #(16'hFF75,8'h8F,0,0,0) ioreg9(
+   io_bus_parser_reg #(16'hFF75,8'h8F,0,0,0) ioreg_unused_5(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
@@ -620,7 +621,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h75])
                                   );
-   io_bus_parser_reg #(16'hFF76,8'h00,0,0,'b10) ioreg10( //read only
+   io_bus_parser_reg #(16'hFF76,8'h00,0,0,'b10) ioreg_unused_6( //read only
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
@@ -629,7 +630,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h76])
                                   );
-   io_bus_parser_reg #(16'hFF77,8'h00,0,0,'b10) ioreg11( //read only
+   io_bus_parser_reg #(16'hFF77,8'h00,0,0,'b10) ioreg_unused_7( //read only
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
                                   .IO_DATA_BUS(iobus_data),
