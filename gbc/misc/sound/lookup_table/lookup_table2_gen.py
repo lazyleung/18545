@@ -3,7 +3,7 @@ bram_sim_file = open("lookup_table2.dat", "w")
 
 sim_header = "@0000/n"
 synth_header = "memory_initialization_radix=16;\nmemory_initialization_vector=\n"
-CLOCKRATE = 48000 #sampling at on a 48 khz Clock
+CLOCKRATE = 33000000
 
 bram_file.write(synth_header)
 bram_sim_file.write(sim_header)

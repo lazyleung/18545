@@ -229,13 +229,11 @@ module sound_channel3(
    assign strobes_in_sample = num_strobes_in_period >> 5; //32 samples in period
 
    reg [31:0]  count_sample;
-   always @(posedge I_BITCLK) begin
-      if (I_STROBE) begin
-         count_sample <= count_sample + 1;
-         if (count_sample >= strobes_in_sample) begin
-	        count_sample <= 0;
-            current_sample_ptr <= current_sample_ptr + 1;
-	     end
+   always @(posedge I_CLK_33MHZ) begin
+      count_sample <= count_sample + 1;
+      if (count_sample >= strobes_in_sample) begin
+         count_sample <= 0;
+         current_sample_ptr <= current_sample_ptr + 1;
       end
       if (I_RESET) begin
          current_sample_ptr <= 0;
