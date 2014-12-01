@@ -189,7 +189,7 @@
    // ============ Clock Setup ===============
    // ========================================
 
-   wire               clock_main;
+   wire               clock_main, dma_clock;
    wire               mem_clock;
 	wire               is_in_doublespeed_mode, controller_disable;
 	
@@ -197,6 +197,7 @@
 					        .I_CLK33MHZ(clock), 
 					        .I_SYNC_RESET(synch_reset),
 					        .O_CLOCKMAIN(clock_main),
+                       .O_DMA_CLOCK(dma_clock),
 					        .O_MEM_CLOCK(mem_clock),
 					        .I_IOREG_ADDR(iobus_addr),
 					        .IO_IOREG_DATA(iobus_data),
@@ -320,6 +321,7 @@
     *DMA */
    dma_controller dma(
                       .I_CLK(clock_main),
+                      .I_DMA_CLK(dma_clock),
                       .I_SYNC_RESET(synch_reset),
                       .I_IOREG_ADDR(iobus_addr),
                       .IO_IOREG_DATA(iobus_data),

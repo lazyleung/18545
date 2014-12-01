@@ -86,7 +86,7 @@ module working_memory_bank(
 
    assign bram_banked_addr[15] = 0;
    /*specifiy bank by offsetting it into the address*/
-   assign bram_banked_addr[14:12] = (svbk_data == 3'd0) ? 3'b001 : bank_selection;
+   assign bram_banked_addr[14:12] = (svbk_data[2:0] == 3'd0) ? 3'b001 : bank_selection;
    /*keep the offset from the "base of bank" address location*/
    assign bram_banked_addr[11:0] = router_addr[11:0];
 

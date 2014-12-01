@@ -10,6 +10,7 @@ module clock_module(
 					/*output system clocks*/
 					O_CLOCKMAIN,
 					O_MEM_CLOCK,
+               O_DMA_CLOCK,
 
 					/*interface with CPU*/
 					I_IOREG_ADDR,
@@ -29,7 +30,7 @@ module clock_module(
 
 
 	input I_CLK33MHZ, I_SYNC_RESET; 
-	output O_CLOCKMAIN, O_MEM_CLOCK;
+	output O_CLOCKMAIN, O_MEM_CLOCK, O_DMA_CLOCK;
 
 	input [15:0] I_IOREG_ADDR;
 	inout [7:0] IO_IOREG_DATA;
@@ -49,13 +50,15 @@ module clock_module(
 
 	assign O_IS_IN_DOUBLE_SPEEDMODE = in_double_speedmode;
    assign prepare_speed_switch = rp_data[0] & new_rp_data;
+   
+   assign O_MEM_CLOCK = I_CLK33MHZ;
 
    	/*generate the different clocks for the system*/
-   	my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(4))
-   	cdiv4(.clock_out(clock_4Mhz), .clock_in(I_CLK33MHZ));
+   my_clock_divider #(.DIV_SIZE(8), .DIV_OVER_TWO(4))
+      cdiv4(.clock_out(clock_4Mhz), .clock_in(I_CLK33MHZ));
 
   	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(2))
-   	cdiv8(.clock_out(O_MEM_CLOCK), .clock_in(I_CLK33MHZ));
+      cdiv8(.clock_out(clock_8Mhz), .clock_in(I_CLK33MHZ));
 
   ///	my_clock_divider #(.DIV_SIZE(4), .DIV_OVER_TWO(1))
   ///	cdiv16(.clock_out(O_MEM_CLOCK), .clock_in(O_CLOCK_MAIN));
@@ -63,6 +66,7 @@ module clock_module(
 
   	/*multiplex which clock is being used*/
 	assign O_CLOCKMAIN = (in_double_speedmode) ? clock_8Mhz : clock_4Mhz; 
+   assign O_DMA_CLOCK = clock_8Mhz;
 
 	/*write only register (01) */
    io_bus_parser_reg #(`RP,0,0,0,'b01) rp_wr_reg(
