@@ -215,9 +215,6 @@ module sound_channel1(
          current_volume <= initial_volume;
 	     volume_time_count <= 0;
       end
-      else if (new_nr14) begin
-         sound_enable <= 0;
-      end
       
       if (I_RESET) begin
          sound_enable <= 0;
