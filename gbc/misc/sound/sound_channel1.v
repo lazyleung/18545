@@ -232,6 +232,7 @@ module sound_channel1(
    squarewave_generator waveGenCh1(
                                    .I_BITCLK(I_BITCLK),
                                    .I_RESET(I_RESET),
+                                   .I_CLK_33MHZ(I_CLK33MHZ),
                                    .O_SAMPLE(O_CH1_WAVEFORM),
                                    .I_STROBE(I_STROBE),
                                    .I_FREQUENCY(current_freq),
