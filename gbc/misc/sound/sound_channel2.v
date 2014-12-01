@@ -120,13 +120,16 @@ module sound_channel2(
 
    always @(posedge I_CLK_33MHZ) begin
 
-      if (enable_sound)
+      if (enable_sound) begin
         count <= count + 1;
+        volume_time_count <= volume_time_count + 1;
+      end
 
       /*time to play the sound expired*/
       if (count >= sound_length & stop_sound) begin
          enable_sound <= 0;
          count <= 0;
+         volume_time_count <= 0;
       end
 
       /*volume envelope time expired, update the volume*/
@@ -143,12 +146,14 @@ module sound_channel2(
          enable_sound <= 1;
          count <= 0;
 	     current_volume <= initial_volume;
+        volume_time_count <= 0;
       end
 
       if (I_RESET) begin
          count <= 0;
          enable_sound <= 0;
          current_volume <= initial_volume;
+         volume_time_count <= 0;
       end
    end
 
@@ -156,6 +161,7 @@ module sound_channel2(
    
    squarewave_generator waveGenCh2(.I_BITCLK(I_BITCLK),
                                    .I_RESET(I_RESET),
+                                   .I_CLK_33MHZ(I_CLK_33MHZ),
                                    .O_SAMPLE(O_CH2_WAVEFORM),
                                    .I_STROBE(I_STROBE),
                                    .I_FREQUENCY(frequency),

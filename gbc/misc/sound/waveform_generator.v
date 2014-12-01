@@ -3,6 +3,7 @@
 module squarewave_generator(
                             /*System Level Inputs*/
                             I_BITCLK,
+                            I_CLK_33MHZ,
                             I_RESET,
 
                             /*Sampling Strobe Input*/
@@ -17,7 +18,7 @@ module squarewave_generator(
                             I_WAVEFORM_EN,
                             I_VOLUME);
 
-   input             I_BITCLK, I_RESET;
+   input             I_BITCLK, I_RESET, I_CLK_33MHZ;
    output reg [19:0] O_SAMPLE;
    input             I_WAVEFORM_EN, I_STROBE;
    input [10:0]      I_FREQUENCY; //will be calculated as 2^17/(2^11-I_FREQUENCY)
@@ -42,21 +43,21 @@ module squarewave_generator(
    always @(*) begin
       case(I_VOLUME)
         0:  volume_to_sample = 0;
-        1:  volume_to_sample = 20'h08888 >> 2; //7FFFF*(1/15)
-        2:  volume_to_sample = 20'h11110 >> 2; //7FFFF*(2/15)
-        3:  volume_to_sample = 20'h19999 >> 2; //etc ..
-        4:  volume_to_sample = 20'h22221 >> 2;
-        5:  volume_to_sample = 20'h2AAAA >> 2;
-        6:  volume_to_sample = 20'h33332 >> 2;
-        7:  volume_to_sample = 20'h3BBBB >> 2;
-        8:  volume_to_sample = 20'h44443 >> 2;
-        9:  volume_to_sample = 20'h4CCCC >> 2;
-        10: volume_to_sample = 20'h55554 >> 2;
-        11: volume_to_sample = 20'h5DDDD >> 2;
-        12: volume_to_sample = 20'h66665 >> 2;
-        13: volume_to_sample = 20'h6EEEE >> 2;
-        14: volume_to_sample = 20'h77776 >> 2;
-        15: volume_to_sample = 20'h7FFFF >> 2;
+        1:  volume_to_sample = 20'h08888 >> 3; //7FFFF*(1/15)
+        2:  volume_to_sample = 20'h11110 >> 3; //7FFFF*(2/15)
+        3:  volume_to_sample = 20'h19999 >> 3; //etc ..
+        4:  volume_to_sample = 20'h22221 >> 3;
+        5:  volume_to_sample = 20'h2AAAA >> 3;
+        6:  volume_to_sample = 20'h33332 >> 3;
+        7:  volume_to_sample = 20'h3BBBB >> 3;
+        8:  volume_to_sample = 20'h44443 >> 3;
+        9:  volume_to_sample = 20'h4CCCC >> 3;
+        10: volume_to_sample = 20'h55554 >> 3;
+        11: volume_to_sample = 20'h5DDDD >> 3;
+        12: volume_to_sample = 20'h66665 >> 3;
+        13: volume_to_sample = 20'h6EEEE >> 3;
+        14: volume_to_sample = 20'h77776 >> 3;
+        15: volume_to_sample = 20'h7FFFF >> 3;
       endcase
    end
 
@@ -85,37 +86,46 @@ module squarewave_generator(
       duty_cyc_reg <= duty_cyc_reg_d2;
       volume_reg <= volume_reg_d2;
    end
+   
+   reg high;
 
    /*generate the square waveform based on the specification*/
    always @(posedge I_BITCLK) begin
 
       if (I_STROBE) begin
-         count <= count + 1;
-
-         /*make the duty cycle*/
-         if (count < num_strobes_high) begin
-            O_SAMPLE <= volume_to_sample;
-         end
-
-         /*low end of duty cycle, finish period*/
-         else if (count < num_strobes_in_period) begin
-            O_SAMPLE <= volume_to_sample_low;
-         end
-
-         /*reset the counter when overflow*/
-         else if (count >= num_strobes_in_period) begin
-            count <= 0;
-         end
-
-      end // if (I_STROBE)
-
-      /*If not enabled, disable the output*/
+         O_SAMPLE <= (high) ? volume_to_sample : volume_to_sample_low;
+      end
+      
       if (~I_WAVEFORM_EN)
         O_SAMPLE <= 0;
+      
+      if (I_RESET) begin
+         O_SAMPLE <= 0;
+      end
+      
+   end
+   
+   
+   always @(posedge I_CLK_33MHZ) begin
+      count <= count + 1;
 
+      /*make the duty cycle*/
+      if (count < num_strobes_high) begin
+         high <= 1;
+      end
+
+      /*low end of duty cycle, finish period*/
+      else if (count < num_strobes_in_period) begin
+         high <= 0;   
+      end
+      
+      else if (count >= num_strobes_in_period) begin
+         count <= 0;
+      end
+      
       if (I_RESET) begin
          count <= 0;
-         O_SAMPLE <= 0;
+         high <= 0;
       end
 
    end // always @ (posedge I_BITCLK)
