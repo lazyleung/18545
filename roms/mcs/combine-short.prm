@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r bin/combine.hex -p mcs -data_width 16 -w -o combine-short.mcs 
+
+PROM combine-short.prm map: Sun Nov 30 00:26:46 2014
+
+Format        Mcs86 (32-bit)
+Size          16384K
+PROM start    0000:0000
+PROM end      00ff:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    00ff:ffff     Nov 30 00:26:31 2014 bin/combine.hex

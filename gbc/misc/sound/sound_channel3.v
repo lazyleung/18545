@@ -38,7 +38,7 @@ module sound_channel3(
    input [15:0] I_IOREG_ADDR;
    inout [7:0]  IO_IOREG_DATA;
    input        I_IOREG_WE_L, I_IOREG_RE_L;
-   output [19:0] O_CH3_WAVEFORM;
+   output reg [19:0] O_CH3_WAVEFORM;
    output 	 O_CH3_ON;
    output [7:0] O_NR30_DATA, O_NR31_DATA, O_NR32_DATA, O_NR33_DATA, O_NR34_DATA,
                      O_WF0, O_WF1, O_WF2, O_WF3, O_WF4, O_WF5, O_WF6, O_WF7,
@@ -222,25 +222,38 @@ module sound_channel3(
 
    /*wire the output based off the pointer to the waveform ram*/
    reg play_sound;
-   assign O_CH3_WAVEFORM = (enable_sound & play_sound) ? volume_to_sample : 0;
 
    wire [31:0] num_strobes_in_period;
    wire [31:0] strobes_in_sample;
    assign strobes_in_sample = num_strobes_in_period >> 5; //32 samples in period
 
    reg [31:0]  count_sample;
-   always @(posedge I_BITCLK) begin
-      if (I_STROBE) begin
-         count_sample <= count_sample + 1;
-         if (count_sample >= strobes_in_sample) begin
-	        count_sample <= 0;
-            current_sample_ptr <= current_sample_ptr + 1;
-	     end
+   always @(posedge I_CLK_33MHZ) begin
+      count_sample <= count_sample + 1;
+      if (count_sample >= strobes_in_sample) begin
+         count_sample <= 0;
+         current_sample_ptr <= current_sample_ptr + 1;
       end
       if (I_RESET) begin
          current_sample_ptr <= 0;
          count_sample <= 0;
       end
+   end
+   
+   /*generate the square waveform based on the specification*/
+   always @(posedge I_BITCLK) begin
+
+      if (I_STROBE) begin
+         O_CH3_WAVEFORM <= (enable_sound & play_sound) ? volume_to_sample : 0;
+      end
+      
+      if (~play_sound)
+         O_CH3_WAVEFORM <= 0;
+      
+      if (I_RESET || restart_sound) begin
+         O_CH3_WAVEFORM <= 0;
+      end
+      
    end
 
    /*keep track of how long to play the sound*/

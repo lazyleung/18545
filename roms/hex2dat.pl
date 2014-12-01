@@ -14,9 +14,9 @@
       $s = 2*$n;
       print (OUT unpack("H$s", $b), "\n");
    }
+   print "Number of bytes converted = $byteCount\n";
    close(IN);
    close(OUT);
-   print "Number of bytes converted = $byteCount\n";
    exit;
 
 # Name to display in usage

@@ -277,8 +277,6 @@ module dma_controller(
 
       gdma_re_l <= 1;
       gdma_we_l <= 1;
-      gdma_active <= 0;
-      gdma_cpu_halt <= 0;
 
       case(gdma_state)
         GDMA_WAIT: begin
@@ -304,6 +302,7 @@ module dma_controller(
               gdma_state <= GDMA_WAIT;
               gdma_count <= 'd0;
               gdma_active <= 0;
+              gdma_cpu_halt <= 0;
            end
            else begin
               gdma_cpu_halt <= 1;
@@ -315,6 +314,14 @@ module dma_controller(
            end
         end
       endcase // case (gdma_state)
+      
+      if (I_SYNC_RESET) begin
+        gdma_state <= GDMA_WAIT;
+        gdma_count <= 0;
+        gdma_active <= 0;
+        gdma_cpu_halt <= 0;
+      end
+        
 
    end // always @ (posedge I_CLK)
 
@@ -327,9 +334,9 @@ module dma_controller(
    reg [15:0] hdma_count;
 
    /*give the status of the DMA transfer to the read only register of HDMA5*/
-   assign hdma5_status[7] = (gdma_state == GDMA_WRITE) |
-			    (hdma_state != HDMA_WAIT);
-   assign hdma5_status[6:0] = ((transfer_length - hdma_count) >> 16) - 1;
+   assign hdma5_status[7] = ~((gdma_state == GDMA_WRITE) | //1 means not active
+ 			    (hdma_state != HDMA_WAIT));
+   assign hdma5_status[6:0] = ((transfer_length - hdma_count) >> 4) - 1;
 
    /*find the rising edge of the hblank signal to know
     *when to trigger the 16 bytes write of the hdma*/
@@ -344,13 +351,16 @@ module dma_controller(
 
    assign hdma_rdma_addr = source_base_addr + hdma_count;
    assign hdma_wdma_addr = dest_base_addr + hdma_count;
+   
+   assign O_HDMA5_DATA = {6'b0, hdma_state};
+   assign O_HDMA4_DATA = hdma5_status;
+   assign O_HDMA3_DATA = hdma5_specification;
 
    /*Horizontal DMA Controller*/
    always @(posedge I_CLK) begin
 
       hdma_we_l <= 1;
       hdma_re_l <= 1;
-      hdma_cpu_halt <= 0;
 
       case(hdma_state)
 
@@ -384,7 +394,7 @@ module dma_controller(
            /*if a cancel request*/
            hdma_active <= 1;
            if (hdma_init_change & (dma_sel == 0)) begin
-              hdma_state <= HDMA_WAIT;
+              hdma_state <= HDMA_WAIT; 
               hdma_count <= 0;
               hdma_active <= 0;
            end
@@ -412,13 +422,15 @@ module dma_controller(
            if (hdma_init_change & (dma_sel == 0)) begin
               hdma_state <= HDMA_WAIT;
               hdma_count <= 0;
+              hdma_cpu_halt <= 0;
               hdma_active <= 0;
            end
 
            /*this was the last burst of writing 16*/
            else if (hdma_count >= transfer_length -1) begin
               hdma_state <= HDMA_WAIT;
-              hdma_count <= 0;
+              hdma_cpu_halt <= 0;
+              hdma_count <= hdma_count + 1; //rollover last byte to show FF for status data
               hdma_active <= 0;
            end
 
@@ -426,6 +438,7 @@ module dma_controller(
            else if (hdma_4bits >= 4'hF) begin
               hdma_state <= HDMA_CHECK_WAIT;
               hdma_count <= hdma_count + 1;
+              hdma_cpu_halt <= 0;
            end
 
            /*in the middle of moving 16 bytes*/
@@ -448,6 +461,7 @@ module dma_controller(
               hdma_state <= HDMA_WAIT;
               hdma_count <= 0;
               hdma_active <= 0;
+              hdma_cpu_halt <= 0;
            end
 
            /*start of new hblank period,
@@ -456,6 +470,7 @@ module dma_controller(
               hdma_state <= HDMA_16WRITE;
               hdma_we_l <= 0;
               hdma_re_l <= 0;
+              hdma_cpu_halt <= 1;
            end
 
            /*continue waiting for next hblank*/
@@ -470,6 +485,7 @@ module dma_controller(
 	     hdma_state <= HDMA_WAIT;
 	     hdma_count <= 0;
          hdma_active <= 0;
+         hdma_cpu_halt <= 0;
       end
 
 
