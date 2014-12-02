@@ -261,7 +261,7 @@ module dma_controller(
    wire        dma_sel;
 
    assign dest_base_addr[15:13] = 3'b100;//top 3 bits have to be 100, (vram destination)
-   assign dest_base_addr[12:8] = hdma_dest_high[5:0];
+   assign dest_base_addr[12:8] = hdma_dest_high[4:0];
    assign dest_base_addr[7:0] = hdma_dest_low & 8'hF0; //lowest 4 bits are 0
    assign source_base_addr[15:8] = hdma_source_high;
    assign source_base_addr[5:0] = hdma_source_low & 8'hF0;
