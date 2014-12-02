@@ -108,7 +108,7 @@ module gpu_top(//Outputs
 				.pixel_data_count(gb_pixel_count), 	//CONVERTER Outputs
 				.pixel_data(gb_pixel_data),			//CONVERTER Outputs
 				.pixel_we(gb_pixel_we),					//CONVERTER Outputs
-				.do(do_video),							//MMU Outputs
+				.data_out(do_video),							//MMU Outputs
 						  
 							  //Inputs
 				.reset(~top_rst_b), 					//reset is asserted High

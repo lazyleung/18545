@@ -217,27 +217,28 @@
    // ============ Clock Setup ===============
    // ========================================
 
-   wire              clock_main;
-   wire              mem_clock;
-   wire              is_in_doublespeed_mode, controller_disable;
-   
-   clock_module clk_mod(
-                       .I_CLK33MHZ(clock), 
-                       .I_SYNC_RESET(reset),
-                       .I_DOUBLE_SPEED(I_DATA[7]),
-                       .O_CLOCKMAIN(clock_main),
-                       .O_MEM_CLOCK(mem_clock),
-                       .I_IOREG_ADDR(iobus_addr),
-                       .IO_IOREG_DATA(iobus_data),
-                       .I_IOREG_WE_L(iobus_we_l),
-                       .I_IOREG_RE_L(iobus_re_l),
-                       .O_IS_IN_DOUBLE_SPEEDMODE(is_in_doublespeed_mode), 
-                       .O_DISABLE_CONTROLLER(controller_disable), 
-               
-                       /*for debugging*/
-                       .O_KEY1_DATA(register_data[8'h4D])
-                       );
-
+   wire               clock_main, dma_clock;
+   wire               mem_clock;
+	 wire               is_in_doublespeed_mode, controller_disable;
+	
+	clock_module clk_mod(
+					        .I_CLK33MHZ(clock), 
+					        .I_SYNC_RESET(synch_reset),
+                  .I_DOUBLE_SPEED(I_DATA[7]),
+					        .O_CLOCKMAIN(clock_main),
+                  .O_DMA_CLOCK(dma_clock),
+					        .O_MEM_CLOCK(mem_clock),
+					        .I_IOREG_ADDR(iobus_addr),
+					        .IO_IOREG_DATA(iobus_data),
+					        .I_IOREG_WE_L(iobus_we_l),
+					        .I_IOREG_RE_L(iobus_re_l),
+					        .O_IS_IN_DOUBLE_SPEEDMODE(is_in_doublespeed_mode), 
+					        .O_DISABLE_CONTROLLER(controller_disable), 
+					
+					        /*for debugging*/
+					        .O_RP_DATA(register_data[8'h56])
+					        );
+  
    // ========================================
    // =========== Connections ================
    // ========================================
@@ -347,6 +348,7 @@
     *DMA */
    dma_controller dma(
                       .I_CLK(clock_main),
+                      .I_DMA_CLK(dma_clock),
                       .I_SYNC_RESET(synch_reset),
                       .I_IOREG_ADDR(iobus_addr),
                       .IO_IOREG_DATA(iobus_data),

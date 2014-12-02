@@ -6,7 +6,7 @@ module video_module(//Outputs
 		    hsync, vsync, line_count, 		//CONVERTER Outputs
 		    pixel_count, pixel_data_count, //CONVERTER Outputs
 		    pixel_data, pixel_we,				//CONVERTER Outputs
-		    do, 									//MMU Outputs
+		    data_out, 								//MMU Outputs
 
 		    //Inputs
 		    reset, clock, //33MHz clock
@@ -31,7 +31,7 @@ module video_module(//Outputs
    output reg [7:0] pixel_data_count;				//CONVERTER Outputs
    output reg [15:0] pixel_data;						//CONVERTER Outputs
    output reg       pixel_we;									//CONVERTER Outputs
-   output wire [7:0] do; 								//MMU Outputs
+   output wire [7:0] data_out;						//MMU Outputs
    
    //Inputs
    input wire        reset, clock; //33MHz clock
@@ -198,18 +198,6 @@ module video_module(//Outputs
 	
    // temp registers for r/rw mixtures
    reg [4:0]          STAT_w;
-	
-	reg [7:0] 			 BCPS; // TODO GBC: Implement this
-	reg [7:0]          BCPD; // TODO GBC: Implement this
-	reg [7:0]          OCPS; // TODO GBC: Implement this
-	reg [7:0]          OCPD; // TODO GBC: Implement this
-	reg [7:0]          VBK; // TODO GBC: Implement this
-	
-	reg [7:0]          HDMA1; // TODO GBC: Implement this
-	reg [7:0]          HDMA2; // TODO GBC: Implement this
-	reg [7:0]          HDMA3; // TODO GBC: Implement this
-	reg [7:0]          HDMA4; // TODO GBC: Implement this
-	reg [7:0]          HDMA5; // TODO GBC: Implement this
    
    wire               vram_enable, oam_enable, reg_enable;
    reg [12:0]         vram_addrA;
@@ -1310,7 +1298,7 @@ module video_module(//Outputs
    // Else if oam_enable, read OAM
    // Else if reg_enable, read a memory-mapped register
    // Else give the MMU 0xFF
-   assign do = (vram_enable) ? (VRAM_BANK_SEL[0] ? vram_outB : vram_outA) :
+   assign data_out = (vram_enable) ? (VRAM_BANK_SEL[0] ? vram2_outA : vram_outA) :
 	       (oam_enable) ? oam_outA :
 			 (color_file_enable) ? color_file_out : 
 	       (reg_enable) ? reg_out : 8'hFF;

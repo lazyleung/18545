@@ -111,7 +111,7 @@ module cpu(/*AUTOARG*/
    
    mem #(127) high_mmmod(.data_ext(high_mem_data[7:0]),
                             .addr_ext(high_mem_addr[15:0]),
-                            .mem_we(addr_buf_write_ext & high_mem),
+                            .mem_we(addr_buf_write_ext & high_mem & ~ext_halt),
                             .mem_re(data_buf_load_ext & high_mem),
                             .reset(reset),
                             .clock(clock));
@@ -197,8 +197,8 @@ module cpu(/*AUTOARG*/
    wire        data_buf_load, data_buf_write;
 
    // Outputs
-   assign mem_we_l = ~(data_buf_write_ext & ~high_mem & ~cpu_mem_disable);
-   assign mem_re_l = ~(data_buf_load_ext & ~high_mem & ~cpu_mem_disable);
+   assign mem_we_l = ~(data_buf_write_ext & ~high_mem & ~cpu_mem_disable & ~ext_halt);
+   assign mem_re_l = ~(data_buf_load_ext & ~high_mem & ~cpu_mem_disable & ~ext_halt);
    
    // Registers
    wire        inst_reg_load, A_load, F_load, temp1_load, temp0_load;
@@ -282,18 +282,18 @@ module cpu(/*AUTOARG*/
    nobus_buffer #(8, 0) data_buf(.bus(data_bus),
                                  .bus_ext_out(data_ext_out),
                                  .bus_ext_in(data_ext_in),
-                                 .bus_read(data_buf_load),
+                                 .bus_read(data_buf_load & ~ext_halt),
                                  .bus_write(data_buf_write),
-                                 .bus_ext_read(data_buf_load_ext),
+                                 .bus_ext_read(data_buf_load_ext & ~ext_halt),
                                  .clock(clock),
                                  .reset(reset));
 
    nobus_buffer #(16, 0) addr_buf(.bus(addr_bus),
                                   .bus_ext_out(addr_ext_out),
                                   .bus_ext_in(addr_ext_in),
-                                  .bus_read(addr_buf_load),
+                                  .bus_read(addr_buf_load & ~ext_halt),
                                   .bus_write(addr_buf_write),
-                                  .bus_ext_read(addr_buf_load_ext),
+                                  .bus_ext_read(addr_buf_load_ext & ~ext_halt),
                                   .clock(clock),
                                   .reset(reset));
 
@@ -302,49 +302,50 @@ module cpu(/*AUTOARG*/
 
    register #(8, 0) inst_reg(.q(instruction),
                              .d(data_bus),
-                             .load(inst_reg_load),
+                             .load(inst_reg_load & ~ext_halt),
                              .clock(clock),
                              .reset(reset));
 
    register #(8, 8'h11) A_reg(.q(A_data),
                           .d(alu_data_out),
-                          .load(A_load),
+                          .load(A_load & ~ext_halt),
                           .clock(clock),
                           .reset(reset));
 
    register #(8, 8'hB0) F_reg(.q(F_data),
                           .d({alu_flags_out, 4'b0}),
-                          .load(F_load),
+                          .load(F_load & ~ext_halt),
                           .clock(clock),
                           .reset(reset));
 
    register #(8, 0) temp1_reg(.q(temp1_data),
                               .d(data_bus),
-                              .load(temp1_load),
+                              .load(temp1_load & ~ext_halt),
                               .clock(clock),
                               .reset(reset));
 
    register #(8, 0) temp0_reg(.q(temp0_data),
                               .d(data_bus),
-                              .load(temp0_load),
+                              .load(temp0_load & ~ext_halt),
                               .clock(clock),
                               .reset(reset));
 
    register #(5, 0) IF_reg(.q(IF_data),
                            .d(IF_in_l),
+                           // We want to still receive interrupts while halted in DMA
                            .load(IF_load_l | IF_load),
                            .clock(clock),
                            .reset(reset));
 
    register #(5, 0) IE_reg(.q(IE_data),
                            .d(IE_in_l),
-                           .load(IE_load_l | IE_load),
+                           .load((IE_load_l | IE_load) & ~ext_halt),
                            .clock(clock),
                            .reset(reset));
 
    register #(1, 1) IME_reg(.q(IME_data),
                             .d(IME_set),
-                            .load(IME_set | IME_reset),
+                            .load((IME_set | IME_reset) & ~ext_halt),
                             .clock(clock),
                             .reset(reset));
    
@@ -394,7 +395,7 @@ module cpu(/*AUTOARG*/
                         .regfile_data_in(regfile_data_in[7:0]),
                         .regfile_rn_in  (regfile_rn_in[4:0]),
                         .regfile_rn_out (regfile_rn_out[4:0]),
-                        .regfile_we     (regfile_we),
+                        .regfile_we     (regfile_we & ~ext_halt),
                         .regfile_change16(regfile_change16),
                         .regfile_inc    (regfile_inc),
                         .regfile_jp_hl  (regfile_jp_hl),

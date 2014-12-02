@@ -4,6 +4,7 @@
 
 module dma_controller(
                       I_CLK,
+                      I_DMA_CLK,
                       I_SYNC_RESET,
 
                       /*IO Register Bus*/
@@ -36,7 +37,7 @@ module dma_controller(
                       O_HDMA5_DATA
                       );
 
-   input I_CLK;
+   input I_CLK, I_DMA_CLK;
    input I_SYNC_RESET;
 
    input [15:0] I_IOREG_ADDR;
@@ -226,7 +227,7 @@ module dma_controller(
     *Reading from HDMA5 gives the status of the DMA transfer, while writing to
     *to register initiates or cancels a dma operation*/
 
-   /*write only register (10) */
+   /*write only register (01) */
    io_bus_parser_reg #(`HDMA5,0,0,0,'b01) hdma5w_reg(
                                                   .I_CLK(I_CLK),
                                                   .I_SYNC_RESET(I_SYNC_RESET),
@@ -239,7 +240,7 @@ module dma_controller(
                                                   .O_DBUS_WRITE(hdma_init_change),
                                                   .I_REG_WR_EN(gnd));
 
-   /*read only register (01) - forward the status data*/
+   /*read only register (10) - forward the status data*/
    io_bus_parser_reg #(`HDMA5,0,1,0,'b10) hdma5r_reg(
                                                     .I_CLK(I_CLK),
                                                     .I_SYNC_RESET(I_SYNC_RESET),
@@ -260,7 +261,7 @@ module dma_controller(
    wire        dma_sel;
 
    assign dest_base_addr[15:13] = 3'b100;//top 3 bits have to be 100, (vram destination)
-   assign dest_base_addr[12:8] = hdma_dest_high[5:0];
+   assign dest_base_addr[12:8] = hdma_dest_high[4:0];
    assign dest_base_addr[7:0] = hdma_dest_low & 8'hF0; //lowest 4 bits are 0
    assign source_base_addr[15:8] = hdma_source_high;
    assign source_base_addr[5:0] = hdma_source_low & 8'hF0;
@@ -273,7 +274,7 @@ module dma_controller(
    assign gdma_wdma_addr = dest_base_addr + gdma_count; 
 
    /*GENERAL DMA CONTROLLER*/
-   always @(posedge I_CLK) begin
+   always @(posedge I_DMA_CLK) begin
 
       gdma_re_l <= 1;
       gdma_we_l <= 1;
@@ -334,8 +335,7 @@ module dma_controller(
    reg [15:0] hdma_count;
 
    /*give the status of the DMA transfer to the read only register of HDMA5*/
-   assign hdma5_status[7] = ~((gdma_state == GDMA_WRITE) | //1 means not active
- 			    (hdma_state != HDMA_WAIT));
+   assign hdma5_status[7] = (hdma_state == HDMA_WAIT);
    assign hdma5_status[6:0] = ((transfer_length - hdma_count) >> 4) - 1;
 
    /*find the rising edge of the hblank signal to know
@@ -357,7 +357,7 @@ module dma_controller(
    assign O_HDMA3_DATA = hdma5_specification;
 
    /*Horizontal DMA Controller*/
-   always @(posedge I_CLK) begin
+   always @(posedge I_DMA_CLK) begin
 
       hdma_we_l <= 1;
       hdma_re_l <= 1;
