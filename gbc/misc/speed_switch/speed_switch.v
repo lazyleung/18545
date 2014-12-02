@@ -5,6 +5,7 @@ module clock_module(
 					/*base clocks and reset*/
 					I_CLK33MHZ, 
 					I_SYNC_RESET,
+                    I_DOUBLE_SPEED,
 
 					/*output system clocks*/
 					O_CLOCKMAIN,
@@ -27,7 +28,7 @@ module clock_module(
 
 
 
-	input I_CLK33MHZ, I_SYNC_RESET; 
+	input I_CLK33MHZ, I_SYNC_RESET, I_DOUBLE_SPEED; 
 	output O_CLOCKMAIN, O_MEM_CLOCK;
 
 	input [15:0] I_IOREG_ADDR;
@@ -141,7 +142,7 @@ module clock_module(
 
    		if (I_SYNC_RESET) begin
    			count <= P_COUNTDOWN_CLOCKS;
-   			in_double_speedmode <= 0;
+   			in_double_speedmode <= I_DOUBLE_SPEED;
    			O_DISABLE_CONTROLLER <= 0;
    			state <= FIND_NEW_SPEED_SWITCH;
    		end

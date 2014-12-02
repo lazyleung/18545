@@ -59,6 +59,12 @@ NET  HDR2_2_SM_8_N        LOC="K34";   # Bank 11, Vcco=2.5V or 3.3V user selecta
 NET  HDR2_4_SM_8_P        LOC="L34";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXP[15]) J4-4
 NET  HDR2_6_SM_7_N        LOC="K32";   # Bank 11, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXN[14]) J4-6
 
+# Serial Link
+NET  HDR2_58_SM_4_N       LOC="AB33";  # Bank 13, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXN[2]) J4-58
+NET  HDR2_60_SM_4_P       LOC="AC33";  # Bank 13, Vcco=2.5V or 3.3V user selectable by J20 (SYSMON External Input: VAUXP[2]) J4-60
+NET  HDR2_62_SM_9_N       LOC="AP32";  # Bank 13, Vcco=2.5V or 3.3V user selectable by J20
+NET  HDR2_64_SM_9_P       LOC="AN32";  # Bank 13, Vcco=2.5V or 3.3V user selectable by J20
+
 #NET  CLK_33MHZ_FPGA       LOC="AH17";  # Bank 4, Vcco=3.3V, No DCI
 #Created by Constraints Editor (xc5vlx110t-ff1136-1) - 2014/10/14
 #NET "USER_CLK" TNM_NET = USER_CLK;

@@ -15,6 +15,12 @@
                       HDR2_4_SM_8_P,
                       HDR2_6_SM_7_N,
 
+                      /*FPGA GPIO for Serial*/
+                      HDR2_58_SM_4_N,
+                      HDR2_60_SM_4_P,
+                      HDR2_62_SM_9_N,
+                      HDR2_64_SM_9_P,
+
                       /*FPGA 28F256P30 Flash Controls*/
                       flash_d,
                       flash_a,
@@ -69,17 +75,25 @@
    // ========================================
    // ========== Board I/O Setup =============
    // ========================================
+   // General I/O
    input   GPIO_SW_W, GPIO_SW_E,
            CLK_33MHZ_FPGA, CLK_27MHZ_FPGA, USER_CLK,
-           HDR2_6_SM_7_N, 
            GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3,
            GPIO_DIP_SW4, GPIO_DIP_SW5, GPIO_DIP_SW6,
            GPIO_DIP_SW7, GPIO_DIP_SW8;
-   output  HDR2_2_SM_8_N, HDR2_4_SM_8_P;
    output  GPIO_LED_0,GPIO_LED_1,GPIO_LED_2,
            GPIO_LED_3,GPIO_LED_4,GPIO_LED_5,
            GPIO_LED_6,GPIO_LED_7;
-           
+
+   // Controller I/O
+   input   HDR2_6_SM_7_N;
+   output  HDR2_2_SM_8_N, HDR2_4_SM_8_P;
+
+   // Serial I/O
+   input     HDR2_58_SM_4_N, HDR2_60_SM_4_P;
+   output    HDR2_62_SM_9_N, HDR2_64_SM_9_P;
+
+   // Sound I/O        
    input   ac97_bitclk;
    input   ac97_sdata_in;
    input   pos1, pos2;
@@ -87,11 +101,13 @@
    output  ac97_sync;
    output  ac97_reset_b;
 
+   // Flash I/O
    input  [15:0]  flash_d;
    output [23:0]  flash_a;
    output         flash_clk, flash_adv_n,
                   flash_ce_n, flash_oe_n, flash_we_n;
 
+   // DVI I/O
    output [11:0]  dvi_d;
    output         dvi_vs, dvi_hs, dvi_xclk_p,
                   dvi_xclk_n, dvi_de, dvi_reset_b;
@@ -100,6 +116,9 @@
    wire           clock, reset, synch_reset, push_button;
    wire [7:0]     I_DATA;
    wire [7:0]     O_DATA;
+
+   wire     serial_external_clock, serial_internal_clock;
+   wire     serial_in_data, serial_out_data;
 
    assign clock = CLK_33MHZ_FPGA;
    assign reset = GPIO_SW_W;
@@ -116,7 +135,12 @@
    assign GPIO_LED_0 = O_DATA[7];
 
    assign I_DATA = {GPIO_DIP_SW1, GPIO_DIP_SW2, GPIO_DIP_SW3, GPIO_DIP_SW4,
-                    GPIO_DIP_SW5, GPIO_SW_E, GPIO_DIP_SW7, GPIO_DIP_SW8};
+                    GPIO_DIP_SW5, GPIO_DIP_SW6, GPIO_DIP_SW7, GPIO_DIP_SW8};
+
+   assign serial_external_clock = HDR2_58_SM_4_N;
+   assign serial_in_data = HDR2_60_SM_4_P;
+   assign HDR2_62_SM_9_N = serial_internal_clock;
+   assign HDR2_64_SM_9_P = serial_out_data;
    
    parameter num_ioregister = 16'h100;
    wire [7:0] register_data [0:num_ioregister-1];
@@ -200,6 +224,7 @@
    clock_module clk_mod(
                        .I_CLK33MHZ(clock), 
                        .I_SYNC_RESET(reset),
+                       .I_DOUBLE_SPEED(I_DATA[7]),
                        .O_CLOCKMAIN(clock_main),
                        .O_MEM_CLOCK(mem_clock),
                        .I_IOREG_ADDR(iobus_addr),
@@ -217,7 +242,7 @@
    // =========== Connections ================
    // ========================================
 
-   wire     timer_interrupt, controller_interrupt;
+   wire     timer_interrupt, controller_interrupt, serial_interrupt;
 
    assign mem_enable_video = ~lcdram_we_l || ~lcdram_re_l;
 
@@ -228,8 +253,9 @@
    // reg [7:0]                              count;
    // reg [20:0]                             count2;
    // (* KEEP = "TRUE" *) reg [63:0]         cycle_count;
+   wire [2:0]   current_game_select;
    
-   assign O_DATA = (push_button) ? {I_DATA[7:5], 4'b0000 , is_in_doublespeed_mode} : register_data[I_DATA];
+   assign O_DATA = (push_button) ? {is_in_doublespeed_mode, 4'b0000 ,current_game_select} : register_data[I_DATA];
    //assign register_data[255] = count;
 
    // always @(posedge clock_main) begin
@@ -408,7 +434,8 @@
                        .I_CLK(mem_clock),
                        .I_CLK_33MHZ(CLK_33MHZ_FPGA),
                        .I_RESET(synch_reset),
-                       .I_GAME_SELECT(I_DATA[7:5]),
+                       .I_GAME_SELECT(I_DATA[2:0]),
+                       .O_GAME_SELECT(current_game_select),
                        .I_CARTRIDGE_ADDR(cartridge_addr),
                        .IO_CARTRIDGE_DATA(cartridge_data),
                        .I_CARTRIDGE_WE_L(cartridge_we_l),
@@ -428,7 +455,7 @@
                        .I_VBLANK_INTERRUPT(vblank_interrupt),
                        .I_LCDSTAT_INTERRUPT(lcdstat_interrupt),
                        .I_TIMER_INTERRUPT(timer_interrupt),
-                       .I_SERIAL_INTERRUPT(0),
+                       .I_SERIAL_INTERRUPT(serial_interrupt),
                        .I_JOYPAD_INTERRUPT(controller_interrupt),
 
                        .I_MEM_WE_L(iobus_we_l),
@@ -539,30 +566,25 @@
              .O_NR51_DATA(register_data[8'h25]), 
              .O_NR52_DATA(register_data[8'h26])
              );
+  
+    serial serial_mod(
+      .I_CLK(clock_main),
+      .I_RESET(synch_reset),
+      .I_ADDR_BUS(iobus_addr),
+      .IO_DATA_BUS(iobus_data),
+      .I_WE_BUS_L(iobus_we_l),
+      .I_RE_BUS_L(iobus_re_l),
+      .O_SERIAL_INTERRUPT(serial_interrupt),
+
+      .I_EXTERNAL_CLOCK(serial_external_clock),
+      .O_SERIAL_CLOCK(serial_internal_clock),
+      .I_SERIAL_DATA(serial_in_data),
+      .O_SERIAL_DATA(serial_out_data)
+      );
 
    /*Registers that are unused, but need to still be implemented, 
    *they can also be used for debugging when running custom
    *made programs*/
-
-   io_bus_parser_reg #(`SB, 8'h00) ioregSB(
-                                     .I_CLK(clock_main),
-                                     .I_SYNC_RESET(synch_reset),
-                                     .IO_DATA_BUS(iobus_data),
-                                     .I_ADDR_BUS(iobus_addr),
-                                     .I_WE_BUS_L(iobus_we_l),
-                                     .I_RE_BUS_L(iobus_re_l),
-                                     .O_DATA_READ(register_data[8'h01])
-                                     );
-
-   io_bus_parser_reg #(`SC, 8'h7C) ioregSC(
-                                     .I_CLK(clock_main),
-                                     .I_SYNC_RESET(synch_reset),
-                                     .IO_DATA_BUS(iobus_data),
-                                     .I_ADDR_BUS(iobus_addr),
-                                     .I_WE_BUS_L(iobus_we_l),
-                                     .I_RE_BUS_L(iobus_re_l),
-                                     .O_DATA_READ(register_data[8'h02])
-                                     );
 
    io_bus_parser_reg #(`RP,8'hFD) ioregRP(
                                      .I_CLK(clock_main),
@@ -585,6 +607,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h6C])
                                   );
+                                  
    io_bus_parser_reg #(16'hFF72,8'h00,0,0,0) ioreg_unused_2(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
@@ -594,6 +617,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h72])
                                   );
+                                  
    io_bus_parser_reg #(16'hFF73,8'h00,0,0,0) ioreg_unused_3(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
@@ -603,6 +627,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h73])
                                   );
+                                  
    io_bus_parser_reg #(16'hFF74,8'h00,0,0,0) ioreg_unused_4(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
@@ -612,6 +637,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h74])
                                   );
+                                  
    io_bus_parser_reg #(16'hFF75,8'h8F,0,0,0) ioreg_unused_5(
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
@@ -621,6 +647,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h75])
                                   );
+                                  
    io_bus_parser_reg #(16'hFF76,8'h00,0,0,'b10) ioreg_unused_6( //read only
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),
@@ -630,6 +657,7 @@
                                   .I_RE_BUS_L(iobus_re_l),
                                   .O_DATA_READ(register_data[8'h76])
                                   );
+                                  
    io_bus_parser_reg #(16'hFF77,8'h00,0,0,'b10) ioreg_unused_7( //read only
                                   .I_CLK(clock_main),
                                   .I_SYNC_RESET(synch_reset),

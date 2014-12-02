@@ -8,23 +8,24 @@ Rom Status
 GB Games
 Pokemon Blue            5
 Zelda Links Awakening   5 
-Tetris                  4, Sound hanging on pause
+Tetris                  5
 Tetris 2                5
 Super Mario Land        4, No Sound
-SUper Mario             4, Video rendering issues
+Super Mario 4           4, Video rendering issues
 
 GBC Games
-Pokemon Crystal         3/4, issue with sprites, and pop up windows when moving to new locations
-Super Mario Bro Deluxe  3/4, (Sprites) Cursor rendering in menu and semi invisible character
-Wario Land 3            3/4, Semi invisible character & text window rendering messed up
-Army Men                3,   Semi invisible characters, messed up videos, hud messed up
+Pokemon Crystal         4,      issue with sprites, and pop up windows when moving to new locations
+Super Mario Bro Deluxe  3/4,    (Sprites) Cursor rendering in menu and semi invisible character
+Wario Land 3            3/4,    Semi invisible character & text window rendering messed up
+Army Men                3,      Semi invisible characters, messed up videos, hud messed up
+1942                    5
+Konami Collection 1     4,      Controller does not work
+Zelda                   3,      In main game screwed up ground tiles
+
 
 Combined Rom
 0   Tetris
-1   Tetris 2
-2   Pokemon Blue
+1   Super Mario Land
+2   Zelda - Links Awakening
 3   Pokemon Crystal
-Below only in full combined Rom
-4   Zelda - Links Awakening
-5   Wario Land 3
-6   Super Mario Bros Deluxe
+4   Super Mario Bros Deluxe
