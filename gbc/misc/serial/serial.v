@@ -1,7 +1,6 @@
 `include "../../memory/memory_router/memdef.vh"
 
-`define SERIAL0 0
-`define SERIAL1 1
+`define SERIAL 0
 
 module serial(
     I_CLK, I_RESET,
@@ -33,7 +32,6 @@ module serial(
     wire        SB_we, SC_we, serial_clock, is_double;
 
     reg         clock_gen, bit_out, req_interrupt;
-    reg         serial_state;
     reg [3:0]   serial_count;
     reg [7:0]   SB, SC;
 
@@ -43,7 +41,7 @@ module serial(
 
     assign O_SERIAL_INTERRUPT = req_interrupt;
 
-    assign O_SERIAL_CLOCK = (transfer_active && is_internal) ? serial_clock : 1;
+    assign O_SERIAL_CLOCK = (transfer_active && is_internal) ? clock_gen : 0;
     assign O_SERIAL_DATA = bit_out;
 
     assign SB_we = (~I_WE_BUS_L) ? (I_ADDR_BUS == `SB) : 0;
@@ -92,33 +90,28 @@ module serial(
             SC <= {1'b0, 5'b111_111, 1'b00};
             SB <= 0;
             bit_out <= 0;
-            serial_state <= `SERIAL1;
             serial_count <= 0;
             req_interrupt <= 0;
         end else begin
-            serial_state <= serial_clock;
-            if(counter <= 4'd7) begin
-                req_interrupt <= 0;
-                case (serial_state)
-                    `SERIAL0: begin
-                        if(O_SERIAL_CLOCK) begin
-                            bit_out <= SB[7];
-                            SB <= {SB[6:0] , I_SERIAL_DATA};
-                            serial_count <= serial_count + 1;
-                        end 
+            req_interrupt <= 0;
+            if(transfer_active) begin
+                if(serial_clock) begin
+                    SB <= {SB[6:0] , I_SERIAL_DATA};
+                    serial_count <= serial_count + 1;
+                end else begin
+                    bit_out <= SB[7];
+                end
+
+                if(serial_count >= 8) begin
+                    serial_count <= 0;
+                    if(is_internal) begin
+                        req_interrupt <= 1;
+                        SC <= {1'b0, 5'b111_11, SC[1:0]};
+                    end else begin
+                        req_interrupt <= 1;
+                        SC <= {1'b0, 5'b111_11, SC[1:0]};
                     end
-                    `SERIAL1: begin
-                        if(~O_SERIAL_CLOCK) begin
-                            bit_out <= SB[7];
-                            //SB <= {SB[6:0] , I_SERIAL_DATA};
-                            //serial_count <= serial_count + 1;
-                        end
-                    end
-                endcase
-            end else if(serial_count >= 8) begin 
-                serial_count <= 0;
-                req_interrupt <= 1;
-                SC <= {1'b0, 5'b111_11, SC[1:0]};
+                end
             end
 
             if(SB_we)

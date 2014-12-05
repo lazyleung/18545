@@ -432,7 +432,7 @@
     *else if RAM or timer access is used, BRAM or internal
     *FPGA logic is used.  The parameter set to 0 will
     *load from BRAM instead of flash to more easily.*/
-   cartridge_sim #(SYNTH, 2'd1) cartsim(
+   cartridge_sim #(SYNTH, 2'd2) cartsim(
                        .I_CLK(mem_clock),
                        .I_CLK_33MHZ(CLK_33MHZ_FPGA),
                        .I_RESET(synch_reset),

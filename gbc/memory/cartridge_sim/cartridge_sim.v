@@ -7,8 +7,8 @@
 `define LOAD2       4
 
 `define CRYSTAL      0
-`define ZELDA        1
-`define MARIO_DELUXE 2
+`define MARIO_DELUXE 1
+`define TETRIS1      2
 
 `define BLUE         0
 `define POKE_PINBALL 1
@@ -20,8 +20,8 @@
 
 // Game addresses 
 `define CRYSTAL_BASE      24'h0000_0000
-`define ZELDA_BASE        24'h0020_0000
-`define MARIO_DELUXE_BASE 24'h0030_0000
+`define MARIO_DELUXE_BASE 24'h0020_0000
+`define TETRIS1_BASE      24'h0030_0000
 
 `define BLUE_BASE         24'h0000_0000
 `define POKE_PINBALL_BASE 24'h0010_0000
@@ -83,8 +83,8 @@ module cartridge_sim(
    reg [2:0]          game_select_num;
 
    assign game_select_base_addr_v1 = (game_select_num == `CRYSTAL) ?       `CRYSTAL_BASE:
-                                     (game_select_num == `ZELDA) ?         `ZELDA_BASE:
-                                     (game_select_num == `MARIO_DELUXE) ?  `MARIO_DELUXE_BASE: 0;
+                                     (game_select_num == `MARIO_DELUXE) ?  `MARIO_DELUXE_BASE:
+                                     (game_select_num == `TETRIS1) ?       `TETRIS1_BASE: 0;
 
    assign game_select_base_addr_v2 = (game_select_num == `BLUE) ?         `BLUE_BASE:
                                      (game_select_num == `POKE_PINBALL) ? `POKE_PINBALL_BASE:
