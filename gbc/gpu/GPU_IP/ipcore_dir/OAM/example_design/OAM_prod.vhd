@@ -85,12 +85,12 @@
 --    C_BYTE_SIZE                 :  9 
 --    C_ALGORITHM                 :  1 
 --    C_PRIM_TYPE                 :  1 
---    C_LOAD_INIT_FILE            :  1 
---    C_INIT_FILE_NAME            :  OAM.mif 
+--    C_LOAD_INIT_FILE            :  0 
+--    C_INIT_FILE_NAME            :  no_coe_file_loaded 
 --    C_USE_DEFAULT_DATA          :  0 
 --    C_DEFAULT_DATA              :  0 
 --    C_RST_TYPE                  :  SYNC 
---    C_HAS_RSTA                  :  0 
+--    C_HAS_RSTA                  :  1 
 --    C_RST_PRIORITY_A            :  CE 
 --    C_RSTRAM_A                  :  0 
 --    C_INITA_VAL                 :  0 
@@ -104,7 +104,7 @@
 --    C_WRITE_DEPTH_A             :  160 
 --    C_READ_DEPTH_A              :  160 
 --    C_ADDRA_WIDTH               :  8 
---    C_HAS_RSTB                  :  0 
+--    C_HAS_RSTB                  :  1 
 --    C_RST_PRIORITY_B            :  CE 
 --    C_RSTRAM_B                  :  0 
 --    C_INITB_VAL                 :  0 
@@ -231,6 +231,7 @@ ARCHITECTURE xilinx OF OAM_prod IS
   COMPONENT OAM_exdes IS
   PORT (
       --Port A
+    RSTA           : IN STD_LOGIC;  --opt port
   
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -244,6 +245,7 @@ ARCHITECTURE xilinx OF OAM_prod IS
 
   
       --Port B
+    RSTB           : IN STD_LOGIC;  --opt port
   
     WEB            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRB          : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -262,6 +264,7 @@ BEGIN
   bmg0 : OAM_exdes
     PORT MAP (
       --Port A
+      RSTA       => RSTA,
   
       WEA        => WEA,
       ADDRA      => ADDRA,
@@ -273,6 +276,7 @@ BEGIN
       CLKA       => CLKA,
   
       --Port B
+      RSTB       => RSTB,
   
       WEB        => WEB,
       ADDRB      => ADDRB,

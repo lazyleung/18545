@@ -1,0 +1,10 @@
+# PROMGEN: Xilinx Prom Generator P.20131013
+# Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.20131013
+DATE            12/05/2014 - 04:25
+SOURCE          combine_v1.mcs
+DEVICE          8192K
+DATA_WIDTH      16
+FILL_DATA       0xFF
+START_ADDRESS   0x00000000 END_ADDRESS 0x007FFFFF DIRECTION_UP   "bin/combine_v1.hex"

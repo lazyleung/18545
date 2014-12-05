@@ -1,8 +1,7 @@
 `include "../../memory/memory_router/memdef.vh"
 
-`define IDLE   0
-`define SERIAL 1
-`define WAIT   2
+`define SERIAL0 0
+`define SERIAL1 1
 
 module serial(
     I_CLK, I_RESET,
@@ -19,7 +18,7 @@ module serial(
     input           I_CLK, I_RESET;
 
     input [15:0]    I_ADDR_BUS;
-    input [7:0]     IO_DATA_BUS;
+    inout [7:0]     IO_DATA_BUS;
     input           I_WE_BUS_L, I_RE_BUS_L;
 
     output          O_SERIAL_INTERRUPT;
@@ -29,93 +28,103 @@ module serial(
     input           I_SERIAL_DATA;
     output          O_SERIAL_DATA;
 
-    wire        transfer_start, is_internal;
+    wire        transfer_active, is_internal;
 
-    wire [7:0]  SB_in, SB, SC_in, SC;
-    wire        SB_we, SC_we;
+    wire        SB_we, SC_we, serial_clock, is_double;
 
-    reg         clock_gen, bit_out, SB_save, SC_save, req_interrupt;
-    reg [1:0]   serial_state;
+    reg         clock_gen, bit_out, req_interrupt;
+    reg         serial_state;
     reg [3:0]   serial_count;
+    reg [7:0]   SB, SC;
 
-    assign transfer_start = SC[7];
+    assign transfer_active = SC[7];
+    assign is_double = SC[1];
+    assign is_internal = SC[0];
 
-    assign O_SERIAL_CLOCK = clock_gen;
+    assign O_SERIAL_INTERRUPT = req_interrupt;
+
+    assign O_SERIAL_CLOCK = (transfer_active && is_internal) ? serial_clock : 1;
     assign O_SERIAL_DATA = bit_out;
 
-    assign SB_we = (~I_WE_BUS_L) ? (I_ADDR_BUS == `SB) : SB_save;
-    assign SC_we = (~I_WE_BUS_L) ? (I_ADDR_BUS == `SC) : SC_save;
+    assign SB_we = (~I_WE_BUS_L) ? (I_ADDR_BUS == `SB) : 0;
+    assign SC_we = (~I_WE_BUS_L) ? (I_ADDR_BUS == `SC) : 0;
 
-    assign SB_in = (SB_we) ? IO_DATA_BUS : 
-                   (SB_save) ? {SB[6:0] , I_SERIAL_DATA} : 0; 
+    assign IO_DATA_BUS = (~I_RE_BUS_L && I_ADDR_BUS == `SB) ? SB:
+                         (~I_RE_BUS_L && I_ADDR_BUS == `SC) ? SC:8'hzz;
 
-    assign SC_in = (SC_we) ? IO_DATA_BUS :
-                   (SC_save) ? {1'b0, SC_in[6:0]} : 0;
+    assign serial_clock = (is_internal) ? clock_gen : I_EXTERNAL_CLOCK;
 
+    // 8192 Hz    = 2^13 = 2^22 - 2^9
+    // 262144 Hz  = 2^18 = 2^22 - 2^4
+
+    // 16384 Hz   = 2^14 = 2^23 - 2^9
+    // 524288 Hz  = 2^19 - 2^23 - 2^4
+    
+    reg [9:0] counter;
+                        
     always @(posedge I_CLK) begin
         if(I_RESET) begin
-            serial_state <= `IDLE;
-            serial_count <= 0;
-            SB_save <= 0;
             clock_gen <= 0;
-            req_interrupt <= 0;
+            counter <= 0;
         end else begin
-            case (serial_state)
-                `IDLE: begin
-                    SB_save <= 0;
-                    clock_gen <= 0;
-                    req_interrupt <= 0;
-                    if(transfer_start) begin
-                        serial_count <= 0;
-                        serial_state <= `SERIAL;
-                    end
-                end
-                `SERIAL: begin
-                    if(is_internal) begin
-                        clock_gen <= 1;
-                        SB_save <= 1;
-                        bit_out <= SB[7];
-                        serial_count <= serial_count + 1;
-                        serial_state <= `WAIT;
-                    end else if(I_EXTERNAL_CLOCK) begin
-                        SB_save <= 1;
-                        bit_out <= SB[7];
-                        serial_count <= serial_count + 1;
-                        if(serial_count < 4'd8) begin
-                            serial_state <= `SERIAL;
-                        end else begin
-                            req_interrupt <= 1;
-                            serial_state <= `IDLE;
-                        end
-                    end
-                end
-                `WAIT: begin
-                    clock_gen <= 0;
-                    SB_save <= 0;
-                    if(serial_count < 4'd8) begin
-                        serial_state <= `SERIAL;
-                    end else begin
-                        req_interrupt <= 1;
-                        serial_state <= `IDLE;
-                    end
-                end
-            endcase
+            clock_gen <= 0;
+            counter <= counter + 1;
+            if (~is_double && counter == 'd511) begin
+                clock_gen <= 1;
+                counter <= 0;
+            end else if (is_double && counter == 'd15) begin
+                clock_gen <= 1;
+                counter <= 0;
+            end
         end
     end
 
-    register #(8, 0) SB_reg(
-        .q(SB),
-        .d(SB_in),
-        .load(SB_we),
-        .clock(I_CLK),
-        .reset(I_RESET)
-    );
+    // always @(posedge increment) begin
+    //     if(I_RESET) begin
+    //         clock_gen <= 0;
+    //     end else if() begin
+    //         clock_gen <= ~clock_gen;
+    //     end
+    // end
 
-    register #(8, 0) SC_reg(
-        .q(SC),
-        .d(SC_in),
-        .load(SC_we),
-        .clock(I_CLK),
-        .reset(I_RESET)
-    );
+    always @(posedge I_CLK) begin
+        if(I_RESET) begin
+            SC <= {1'b0, 5'b111_111, 1'b00};
+            SB <= 0;
+            bit_out <= 0;
+            serial_state <= `SERIAL1;
+            serial_count <= 0;
+            req_interrupt <= 0;
+        end else begin
+            serial_state <= serial_clock;
+            if(counter <= 4'd7) begin
+                req_interrupt <= 0;
+                case (serial_state)
+                    `SERIAL0: begin
+                        if(O_SERIAL_CLOCK) begin
+                            bit_out <= SB[7];
+                            SB <= {SB[6:0] , I_SERIAL_DATA};
+                            serial_count <= serial_count + 1;
+                        end 
+                    end
+                    `SERIAL1: begin
+                        if(~O_SERIAL_CLOCK) begin
+                            bit_out <= SB[7];
+                            //SB <= {SB[6:0] , I_SERIAL_DATA};
+                            //serial_count <= serial_count + 1;
+                        end
+                    end
+                endcase
+            end else if(serial_count >= 8) begin 
+                serial_count <= 0;
+                req_interrupt <= 1;
+                SC <= {1'b0, 5'b111_11, SC[1:0]};
+            end
+
+            if(SB_we)
+                SB <= IO_DATA_BUS;
+            if(SC_we)
+                SC <= {IO_DATA_BUS[7], 5'b111_11, IO_DATA_BUS[1:0]};
+        end
+    end
 endmodule // serial

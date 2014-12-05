@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r bin/pokemon_pinball.hex -p mcs -data_width 16 -w -o pokemon_pinball.mcs 
+
+PROM pokemon_pinball.prm map: Fri Dec 05 02:01:19 2014
+
+Format        Mcs86 (32-bit)
+Size          2048K
+PROM start    0000:0000
+PROM end      001f:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    001f:ffff     Dec 05 02:01:18 2014 bin/pokemon_pinball.hex

@@ -120,6 +120,8 @@ ENTITY BMG_STIM_GEN IS
    PORT (
       CLKA     : IN   STD_LOGIC;
       CLKB     : IN   STD_LOGIC;
+      RSTA     : IN   STD_LOGIC;
+      RSTB     : IN   STD_LOGIC;
       TB_RST   : IN   STD_LOGIC;
       ADDRA    : OUT  STD_LOGIC_VECTOR(12 DOWNTO 0) := (OTHERS => '0'); 
       DINA     : OUT  STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => '0'); 

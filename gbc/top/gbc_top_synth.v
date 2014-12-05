@@ -217,26 +217,26 @@
    // ============ Clock Setup ===============
    // ========================================
 
-   wire               clock_main, dma_clock;
+   wire               clock_main, clock_main_double;
    wire               mem_clock;
 	 wire               is_in_doublespeed_mode, controller_disable;
 	
 	clock_module clk_mod(
 					        .I_CLK33MHZ(clock), 
 					        .I_SYNC_RESET(synch_reset),
-                  .I_DOUBLE_SPEED(I_DATA[7]),
+                       .I_DOUBLE_SPEED(I_DATA[0]),
 					        .O_CLOCKMAIN(clock_main),
-                  .O_DMA_CLOCK(dma_clock),
+                       .O_CLOCKMAIN_DOUBLE(clock_main_double),
 					        .O_MEM_CLOCK(mem_clock),
 					        .I_IOREG_ADDR(iobus_addr),
 					        .IO_IOREG_DATA(iobus_data),
 					        .I_IOREG_WE_L(iobus_we_l),
 					        .I_IOREG_RE_L(iobus_re_l),
 					        .O_IS_IN_DOUBLE_SPEEDMODE(is_in_doublespeed_mode), 
-					        .O_DISABLE_CONTROLLER(controller_disable), 
+					        .O_DISABLE_CONTROLLER(controller_disable)
 					
 					        /*for debugging*/
-					        .O_RP_DATA(register_data[8'h56])
+					       // .O_RP_DATA(register_data[8'h56])
 					        );
   
    // ========================================
@@ -256,7 +256,7 @@
    // (* KEEP = "TRUE" *) reg [63:0]         cycle_count;
    wire [2:0]   current_game_select;
    
-   assign O_DATA = (push_button) ? {is_in_doublespeed_mode, 4'b0000 ,current_game_select} : register_data[I_DATA];
+   assign O_DATA = (push_button) ? {I_DATA[7:5], 4'b0000, I_DATA[0]} : {current_game_select, 4'b0000, is_in_doublespeed_mode};
    //assign register_data[255] = count;
 
    // always @(posedge clock_main) begin
@@ -348,7 +348,7 @@
     *DMA */
    dma_controller dma(
                       .I_CLK(clock_main),
-                      .I_DMA_CLK(dma_clock),
+                      .I_DMA_CLK(clock_main_double),
                       .I_SYNC_RESET(synch_reset),
                       .I_IOREG_ADDR(iobus_addr),
                       .IO_IOREG_DATA(iobus_data),
@@ -432,11 +432,11 @@
     *else if RAM or timer access is used, BRAM or internal
     *FPGA logic is used.  The parameter set to 0 will
     *load from BRAM instead of flash to more easily.*/
-   cartridge_sim #(SYNTH) cartsim(
+   cartridge_sim #(SYNTH, 2'd1) cartsim(
                        .I_CLK(mem_clock),
                        .I_CLK_33MHZ(CLK_33MHZ_FPGA),
                        .I_RESET(synch_reset),
-                       .I_GAME_SELECT(I_DATA[2:0]),
+                       .I_GAME_SELECT(I_DATA[7:5]),
                        .O_GAME_SELECT(current_game_select),
                        .I_CARTRIDGE_ADDR(cartridge_addr),
                        .IO_CARTRIDGE_DATA(cartridge_data),
@@ -510,6 +510,21 @@
                         .O_P1_DATA(register_data[0])
                         );
 
+   serial Serial(
+      .I_CLK(clock_main),
+      .I_RESET(synch_reset),
+      .I_ADDR_BUS(iobus_addr),
+      .IO_DATA_BUS(iobus_data),
+      .I_WE_BUS_L(iobus_we_l),
+      .I_RE_BUS_L(iobus_re_l),
+      .O_SERIAL_INTERRUPT(serial_interrupt),
+
+      .I_EXTERNAL_CLOCK(serial_external_clock),
+      .O_SERIAL_CLOCK(serial_internal_clock),
+      .I_SERIAL_DATA(serial_in_data),
+      .O_SERIAL_DATA(serial_out_data)
+      );
+
    /*The AC97 write to the sound output, and within this module is the
     *sound top level module that contains the four sound channels*/
    AC97 sound(
@@ -568,21 +583,6 @@
              .O_NR51_DATA(register_data[8'h25]), 
              .O_NR52_DATA(register_data[8'h26])
              );
-  
-    serial serial_mod(
-      .I_CLK(clock_main),
-      .I_RESET(synch_reset),
-      .I_ADDR_BUS(iobus_addr),
-      .IO_DATA_BUS(iobus_data),
-      .I_WE_BUS_L(iobus_we_l),
-      .I_RE_BUS_L(iobus_re_l),
-      .O_SERIAL_INTERRUPT(serial_interrupt),
-
-      .I_EXTERNAL_CLOCK(serial_external_clock),
-      .O_SERIAL_CLOCK(serial_internal_clock),
-      .I_SERIAL_DATA(serial_in_data),
-      .O_SERIAL_DATA(serial_out_data)
-      );
 
    /*Registers that are unused, but need to still be implemented, 
    *they can also be used for debugging when running custom

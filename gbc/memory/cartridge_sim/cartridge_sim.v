@@ -6,20 +6,30 @@
 `define LOAD1       3
 `define LOAD2       4
 
-`define TETRIS       0
-`define CRYSTAL      1
-`define ZELDA        2
-`define MARIO_DELUXE 3
+`define CRYSTAL      0
+`define ZELDA        1
+`define MARIO_DELUXE 2
 
-`define YELLOW       4
+`define BLUE         0
+`define POKE_PINBALL 1
+`define 1942         2
+`define MEGAMAN      3
+`define METROID      4
+`define TETRIS2      5
+`define TETRIS       6
 
 // Game addresses 
-`define TETRIS_BASE       24'h0000_0000
-`define CRYSTAL_BASE      24'h0000_8000
-`define ZELDA_BASE        24'h0020_8000
-`define MARIO_DELUXE_BASE 24'h0030_8000
+`define CRYSTAL_BASE      24'h0000_0000
+`define ZELDA_BASE        24'h0020_0000
+`define MARIO_DELUXE_BASE 24'h0030_0000
 
-`define YELLOW_BASE       24'h0040_8000
+`define BLUE_BASE         24'h0000_0000
+`define POKE_PINBALL_BASE 24'h0010_0000
+`define 1942_BASE         24'h0020_0000
+`define MEGAMAN_BASE      24'h0030_0000
+`define METROID_BASE      24'h0038_0000
+`define TETRIS2_BASE      24'h003C_0000
+`define TETRIS_BASE       24'h003E_0000
 
 module cartridge_sim(
                  /*System Level Inputs*/
@@ -46,6 +56,7 @@ module cartridge_sim(
                  );
                      
    parameter P_USE_FLASH_PORT = 1;
+   parameter COMBINE_ROM_VERSION = 2'd1;
 
    input        I_CLK, I_CLK_33MHZ, I_RESET;
    input [2:0]  I_GAME_SELECT;
@@ -63,7 +74,7 @@ module cartridge_sim(
 
    wire               bram_en, bram_we;
 
-   wire [23:0]        flash_addr_offset, game_select_base_addr;
+   wire [23:0]        flash_addr_offset, game_select_base_addr_v1, game_select_base_addr_v2 ,game_select_base_addr;
    wire [15:0]        router_addr, bram_banked_addr;
    wire [15:0]        exp_bram_addr;
    wire [7:0]         exp_bram_data_in;
@@ -71,12 +82,20 @@ module cartridge_sim(
    wire [7:0]         exp_bram_data_out_select, bram_cartridge_data;
    reg [2:0]          game_select_num;
 
-   assign game_select_base_addr = (game_select_num == `TETRIS) ?        `TETRIS_BASE : 
-                                  (game_select_num == `CRYSTAL) ?       `CRYSTAL_BASE:
-                                  (game_select_num == `ZELDA) ?         `ZELDA_BASE:
-                                  (game_select_num == `MARIO_DELUXE) ?  `MARIO_DELUXE_BASE: 0;
-                                  //(game_select_num == `YELLOW) ?        `YELLOW_BASE: 0;
-                                  
+   assign game_select_base_addr_v1 = (game_select_num == `CRYSTAL) ?       `CRYSTAL_BASE:
+                                     (game_select_num == `ZELDA) ?         `ZELDA_BASE:
+                                     (game_select_num == `MARIO_DELUXE) ?  `MARIO_DELUXE_BASE: 0;
+
+   assign game_select_base_addr_v2 = (game_select_num == `BLUE) ?         `BLUE_BASE:
+                                     (game_select_num == `POKE_PINBALL) ? `POKE_PINBALL_BASE:
+                                     (game_select_num == `1942) ?         `1942_BASE:
+                                     (game_select_num == `MEGAMAN) ?      `MEGAMAN_BASE: 
+                                     (game_select_num == `METROID) ?      `METROID_BASE: 
+                                     (game_select_num == `TETRIS2) ?      `TETRIS2_BASE: 
+                                     (game_select_num == `TETRIS) ?       `TETRIS_BASE: 0;
+
+   assign game_select_base_addr = (COMBINE_ROM_VERSION == 1) ? game_select_base_addr_v1 :
+                                  (COMBINE_ROM_VERSION == 2) ? game_select_base_addr_v2 : 24'd0;                        
    
    assign O_GAME_SELECT = game_select_num;
 
@@ -280,8 +299,10 @@ module cartridge_sim(
                         (~P_USE_FLASH_PORT & accessing_ROM_space) ? bram_cartridge_data :
                         (accessing_RAM_space & ram_timer_en) ? ram_return_data : 0;
 
-   assign exp_bram_data_out_select = exp_bram_data_out[2]; //(game_select_num == `BLUE) ? exp_bram_data_out[0] : 
-                                     //(game_select_num == `CRYSTAL) ? exp_bram_data_out[1] : exp_bram_data_out[2];
+   assign exp_bram_data_out_select =  (COMBINE_ROM_VERSION == 2 && game_select_num == `BLUE) ? exp_bram_data_out[0] : 
+                                      (COMBINE_ROM_VERSION == 1 && game_select_num == `CRYSTAL) ? exp_bram_data_out[1] : exp_bram_data_out[2];
+
+                                     
 
    /*the data being returned from the RAM address space can come from either BRAM
     *or from the RTC registers.  This is specified by the RAM bank number*/
@@ -301,10 +322,10 @@ module cartridge_sim(
    assign IO_CARTRIDGE_DATA = (en_data) ? return_data : 'bzzzzzzzz;
 
    /* Actual Memory Location*/         
-   /*bram_save_blue expansion_blue(
+   bram_save_blue expansion_blue(
                   .clka(I_CLK),
                   .rsta(I_RESET),
-                  .wea(bram_we && (game_select_num == `BLUE)),
+                  .wea(bram_we && (COMBINE_ROM_VERSION == 2 && game_select_num == `BLUE)),
                   .addra(exp_bram_addr),
                   .dina(exp_bram_data_in),
                   .douta(exp_bram_data_out[0])
@@ -313,16 +334,16 @@ module cartridge_sim(
    bram_save_crystal expansion_crystal(
                   .clka(I_CLK),
                   .rsta(I_RESET),
-                  .wea(bram_we && (game_select_num == `CRYSTAL)),
+                  .wea(bram_we && (COMBINE_ROM_VERSION == 1 && game_select_num == `CRYSTAL)),
                   .addra(exp_bram_addr),
                   .dina(exp_bram_data_in),
                   .douta(exp_bram_data_out[1])
-                  );*/
+                  );
 
    bram_save expansion_other(
                   .clka(I_CLK),
                   .rsta(I_RESET),
-                  .wea(bram_we), //&& (game_select_num != `BLUE) && (game_select_num != `CRYSTAL)),
+                  .wea(bram_we && (game_select_num != `CRYSTAL) && (game_select_num != `BLUE)),
                   .addra(exp_bram_addr),
                   .dina(exp_bram_data_in),
                   .douta(exp_bram_data_out[2])

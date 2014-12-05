@@ -106,6 +106,7 @@ ARCHITECTURE OAM_synth_ARCH OF OAM_synth IS
 COMPONENT OAM_exdes 
   PORT (
       --Inputs - Port A
+    RSTA           : IN STD_LOGIC;  --opt port
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     DINA           : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -113,6 +114,7 @@ COMPONENT OAM_exdes
     CLKA       : IN STD_LOGIC;
 
       --Inputs - Port B
+    RSTB           : IN STD_LOGIC;  --opt port
     WEB            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRB          : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     DINB           : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -269,6 +271,8 @@ STATUS(7 DOWNTO 0) <= ISSUE_FLAG_STATUS;
       PORT MAP(
         CLKA => CLKA,
         CLKB => CLKB,
+    	RSTA => RSTA,
+ 	    RSTB => RSTB,
      	TB_RST => RSTA,
         ADDRA  => ADDRA,
         DINA => DINA,
@@ -348,12 +352,14 @@ STATUS(7 DOWNTO 0) <= ISSUE_FLAG_STATUS;
 
     BMG_PORT: OAM_exdes PORT MAP ( 
       --Port A
+      RSTA       => RSTA,
       WEA        => WEA_R,
       ADDRA      => ADDRA_R,
       DINA       => DINA_R,
       DOUTA      => DOUTA,
       CLKA       => CLKA,
       --Port B
+      RSTB       => RSTB,
   
       WEB        => WEB_R,
       ADDRB      => ADDRB_R,

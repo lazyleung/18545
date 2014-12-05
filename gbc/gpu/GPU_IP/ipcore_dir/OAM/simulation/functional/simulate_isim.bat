@@ -45,7 +45,6 @@
 :: PART OF THIS FILE AT ALL TIMES.
 ::--------------------------------------------------------------------------------
 
-cp ..\..\..\OAM.mif .
 
 
 echo "Compiling Core Verilog UNISIM/Behavioral model"

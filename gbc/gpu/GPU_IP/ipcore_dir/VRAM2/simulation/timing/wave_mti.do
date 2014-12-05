@@ -11,11 +11,13 @@ quietly WaveActivateNextPane {} 0
 
 
       add wave -noupdate /VRAM2_tb/status
+      add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/RSTA
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/CLKA
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/ADDRA
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/DINA
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/WEA
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/DOUTA
+      add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/RSTB
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/CLKB
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/ADDRB
       add wave -noupdate /VRAM2_tb/VRAM2_synth_inst/bmg_port/DINB

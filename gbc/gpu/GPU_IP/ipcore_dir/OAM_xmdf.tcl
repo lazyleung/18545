@@ -215,16 +215,8 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path OAM.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path OAM.mif
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path OAM.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path OAM.sym
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path OAM.v

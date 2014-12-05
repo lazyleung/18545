@@ -1,9 +1,7 @@
 # Output products list for <OAM>
 OAM.asy
 OAM.gise
-OAM.mif
 OAM.ngc
-OAM.sym
 OAM.v
 OAM.veo
 OAM.xco

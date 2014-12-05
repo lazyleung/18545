@@ -238,6 +238,8 @@ module video_module(//Outputs
 		//Inputs
 		.clka(clock),
 		.clkb(clock),
+        .rsta(reset),
+        .rstb(reset),
 		.wea(~oam_we_n), 
 		.web(),
 		.addra(oam_addrA), 
@@ -257,6 +259,8 @@ module video_module(//Outputs
 		//Inputs
 		.clka(clock),
 		.clkb(clock),
+        .rsta(reset),
+        .rstb(reset),
 		.wea(~vram_we_n), 
 		.web(web),
 		.addra(vram_addrA), 
@@ -273,6 +277,8 @@ module video_module(//Outputs
 		//Inputs
 		.clka(clock),
 		.clkb(clock),
+        .rsta(reset),
+        .rstb(reset),
 		.wea(~vram2_we_n), 
 		.web(web),
 		.addra(vram2_addrA), 
