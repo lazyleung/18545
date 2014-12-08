@@ -88,6 +88,7 @@ USE UNISIM.VCOMPONENTS.ALL;
 ENTITY OAM_exdes IS
   PORT (
       --Inputs - Port A
+    RSTA           : IN STD_LOGIC;  --opt port
   
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -100,6 +101,7 @@ ENTITY OAM_exdes IS
 
   
       --Inputs - Port B
+    RSTB           : IN STD_LOGIC;  --opt port
   
     WEB            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRB          : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -125,6 +127,7 @@ ARCHITECTURE xilinx OF OAM_exdes IS
   COMPONENT OAM IS
   PORT (
       --Port A
+    RSTA       : IN STD_LOGIC;  --opt port
   
     WEA        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA      : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -138,6 +141,7 @@ ARCHITECTURE xilinx OF OAM_exdes IS
 
   
       --Port B
+    RSTB       : IN STD_LOGIC;  --opt port
   
     WEB        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRB      : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -172,6 +176,7 @@ BEGIN
   bmg0 : OAM
     PORT MAP (
       --Port A
+      RSTA       => RSTA,
   
       WEA        => WEA,
       ADDRA      => ADDRA,
@@ -184,6 +189,7 @@ BEGIN
 
   
       --Port B
+      RSTB       => RSTB,
   
       WEB        => WEB,
       ADDRB      => ADDRB,

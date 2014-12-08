@@ -1,9 +1,7 @@
-echo Concatenating ROMS...
-gc bin/0.dat,bin/1.dat,bin/2.dat,bin/3.dat -Enc Byte -Read 512 | sc bin/combine.dat -Enc Byte
+gc bin/1_0.dat,bin/1_1.dat,bin/1_2.dat -Enc Byte -Read 512 | sc bin/combine_v1.dat -Enc Byte
+perl dat2hex.pl bin/combine_v1.dat bin/combine_v1.hex
+promgen -r bin/combine_v1.hex -p mcs -data_width 16 -w -o combine_v1.mcs
 
-gc bin/gbc0.dat,bin/gbc1.dat,bin/gbc2.dat,bin/gbc3.dat -Enc Byte -Read 512 | sc bin/combine.dat -Enc Byte
-
-echo Generating Flash file from data file...
-perl dat2hex.pl bin/combine.dat bin/combine.hex
-
-promgen -r bin/combine.hex -p mcs -data_width 16 -w -o combine-short.mcs
+gc bin/2_0.dat,bin/2_1.dat,bin/2_2.dat,bin/2_3.dat,bin/2_4.dat,bin/2_5.dat,bin/2_6.dat -Enc Byte -Read 512 | sc bin/combine_v2.dat -Enc Byte
+perl dat2hex.pl bin/combine_v2.dat bin/combine_v2.hex
+promgen -r bin/combine_v2.hex -p mcs -data_width 16 -w -o combine_v2.mcs

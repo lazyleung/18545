@@ -3,7 +3,6 @@ _xmsgs\pn_parser.xmsgs
 framebuffer1.asy
 framebuffer1.gise
 framebuffer1.ngc
-framebuffer1.sym
 framebuffer1.v
 framebuffer1.veo
 framebuffer1.xco

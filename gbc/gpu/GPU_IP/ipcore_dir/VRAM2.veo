@@ -49,11 +49,13 @@
 //----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
 VRAM2 your_instance_name (
   .clka(clka), // input clka
+  .rsta(rsta), // input rsta
   .wea(wea), // input [0 : 0] wea
   .addra(addra), // input [12 : 0] addra
   .dina(dina), // input [7 : 0] dina
   .douta(douta), // output [7 : 0] douta
   .clkb(clkb), // input clkb
+  .rstb(rstb), // input rstb
   .web(web), // input [0 : 0] web
   .addrb(addrb), // input [12 : 0] addrb
   .dinb(dinb), // input [7 : 0] dinb

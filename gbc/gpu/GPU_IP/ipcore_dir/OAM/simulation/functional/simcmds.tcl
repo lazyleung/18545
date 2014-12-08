@@ -53,11 +53,13 @@
 wcfg new
 isim set radix hex
 wave add /OAM_tb/status
+      wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/RSTA
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/CLKA
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/ADDRA
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/DINA
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/WEA
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/DOUTA
+      wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/RSTB
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/CLKB
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/ADDRB
       wave add  /OAM_tb/OAM_synth_inst/BMG_PORT/DINB

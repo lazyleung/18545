@@ -38,11 +38,13 @@
 
 module VRAM(
   clka,
+  rsta,
   wea,
   addra,
   dina,
   douta,
   clkb,
+  rstb,
   web,
   addrb,
   dinb,
@@ -50,11 +52,13 @@ module VRAM(
 );
 
 input clka;
+input rsta;
 input [0 : 0] wea;
 input [12 : 0] addra;
 input [7 : 0] dina;
 output [7 : 0] douta;
 input clkb;
+input rstb;
 input [0 : 0] web;
 input [12 : 0] addrb;
 input [7 : 0] dinb;
@@ -86,16 +90,16 @@ output [7 : 0] doutb;
     .C_HAS_MUX_OUTPUT_REGS_B(0),
     .C_HAS_REGCEA(0),
     .C_HAS_REGCEB(0),
-    .C_HAS_RSTA(0),
-    .C_HAS_RSTB(0),
+    .C_HAS_RSTA(1),
+    .C_HAS_RSTB(1),
     .C_HAS_SOFTECC_INPUT_REGS_A(0),
     .C_HAS_SOFTECC_OUTPUT_REGS_B(0),
     .C_INIT_FILE("BlankString"),
-    .C_INIT_FILE_NAME("VRAM.mif"),
+    .C_INIT_FILE_NAME("no_coe_file_loaded"),
     .C_INITA_VAL("0"),
     .C_INITB_VAL("0"),
     .C_INTERFACE_TYPE(0),
-    .C_LOAD_INIT_FILE(1),
+    .C_LOAD_INIT_FILE(0),
     .C_MEM_TYPE(2),
     .C_MUX_PIPELINE_STAGES(0),
     .C_PRIM_TYPE(1),
@@ -127,19 +131,19 @@ output [7 : 0] doutb;
   )
   inst (
     .CLKA(clka),
+    .RSTA(rsta),
     .WEA(wea),
     .ADDRA(addra),
     .DINA(dina),
     .DOUTA(douta),
     .CLKB(clkb),
+    .RSTB(rstb),
     .WEB(web),
     .ADDRB(addrb),
     .DINB(dinb),
     .DOUTB(doutb),
-    .RSTA(),
     .ENA(),
     .REGCEA(),
-    .RSTB(),
     .ENB(),
     .REGCEB(),
     .INJECTSBITERR(),

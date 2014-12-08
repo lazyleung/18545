@@ -1,0 +1,14 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -r bin/mario_tennis.hex -p mcs -data_width 16 -w -o mario_tennis.mcs 
+
+PROM mario_tennis.prm map: Fri Dec 05 01:52:48 2014
+
+Format        Mcs86 (32-bit)
+Size          4096K
+PROM start    0000:0000
+PROM end      003f:ffff
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    003f:ffff     Dec 05 01:52:46 2014 bin/mario_tennis.hex

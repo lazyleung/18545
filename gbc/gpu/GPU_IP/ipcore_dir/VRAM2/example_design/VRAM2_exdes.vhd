@@ -88,6 +88,7 @@ USE UNISIM.VCOMPONENTS.ALL;
 ENTITY VRAM2_exdes IS
   PORT (
       --Inputs - Port A
+    RSTA           : IN STD_LOGIC;  --opt port
   
     WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA          : IN STD_LOGIC_VECTOR(12 DOWNTO 0);
@@ -100,6 +101,7 @@ ENTITY VRAM2_exdes IS
 
   
       --Inputs - Port B
+    RSTB           : IN STD_LOGIC;  --opt port
   
     WEB            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRB          : IN STD_LOGIC_VECTOR(12 DOWNTO 0);
@@ -125,6 +127,7 @@ ARCHITECTURE xilinx OF VRAM2_exdes IS
   COMPONENT VRAM2 IS
   PORT (
       --Port A
+    RSTA       : IN STD_LOGIC;  --opt port
   
     WEA        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRA      : IN STD_LOGIC_VECTOR(12 DOWNTO 0);
@@ -138,6 +141,7 @@ ARCHITECTURE xilinx OF VRAM2_exdes IS
 
   
       --Port B
+    RSTB       : IN STD_LOGIC;  --opt port
   
     WEB        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     ADDRB      : IN STD_LOGIC_VECTOR(12 DOWNTO 0);
@@ -172,6 +176,7 @@ BEGIN
   bmg0 : VRAM2
     PORT MAP (
       --Port A
+      RSTA       => RSTA,
   
       WEA        => WEA,
       ADDRA      => ADDRA,
@@ -184,6 +189,7 @@ BEGIN
 
   
       --Port B
+      RSTB       => RSTB,
   
       WEB        => WEB,
       ADDRB      => ADDRB,

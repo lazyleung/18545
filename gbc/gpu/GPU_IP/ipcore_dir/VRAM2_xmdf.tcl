@@ -215,16 +215,8 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VRAM2.asy
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VRAM2.mif
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VRAM2.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VRAM2.sym
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path VRAM2.v

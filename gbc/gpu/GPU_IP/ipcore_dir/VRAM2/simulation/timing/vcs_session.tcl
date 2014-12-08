@@ -73,11 +73,13 @@ gui_sg_create VRAM2_Group
 gui_list_add_group -id Wave.1 {VRAM2_Group}
 
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/status
+      gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/RSTA
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/CLKA
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/ADDRA
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/DINA
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/WEA
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/DOUTA
+      gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/RSTB
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/CLKB
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/ADDRB
       gui_sg_addsignal -group VRAM2_Group  /VRAM2_tb/VRAM2_synth_inst/bmg_port/DINB

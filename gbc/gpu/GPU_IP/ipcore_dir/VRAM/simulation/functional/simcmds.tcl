@@ -53,11 +53,13 @@
 wcfg new
 isim set radix hex
 wave add /VRAM_tb/status
+      wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/RSTA
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/CLKA
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/ADDRA
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/DINA
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/WEA
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/DOUTA
+      wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/RSTB
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/CLKB
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/ADDRB
       wave add  /VRAM_tb/VRAM_synth_inst/BMG_PORT/DINB

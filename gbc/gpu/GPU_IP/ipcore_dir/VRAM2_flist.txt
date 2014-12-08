@@ -1,9 +1,7 @@
 # Output products list for <VRAM2>
 VRAM2.asy
 VRAM2.gise
-VRAM2.mif
 VRAM2.ngc
-VRAM2.sym
 VRAM2.v
 VRAM2.veo
 VRAM2.xco
