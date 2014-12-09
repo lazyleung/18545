@@ -21,6 +21,7 @@ without issues, some have minor bugs.
 ## Repository Structure
 
 Our main report is located at the top level directory as `./final_report.pdf`.
+It outlines an overview of the system and its various components.
 
 This project was developed using Xilinx ISE. The top level project file is
 located at:
@@ -49,8 +50,8 @@ All other modules are located at self explanatory paths:
 This project was only tested using the Virtex 5 FGPA, so use other FPGAs at your
 own risk.
 
-1. Set the DIP switches to all 0, connect the DVI cable, and connect an audio
-cable to the output.
+1. Set the DIP switches to all 0, connect the controller, connect the DVI cable,
+and connect an audio cable to the output.
 
 2. Open the project and compile the source.
 
@@ -64,3 +65,5 @@ cable to the output.
     - Select `automatically load FPGA with currently assigned - bitstream`
 
 5. If all went well, the game should be loaded.
+    - Note: if the controller is not connected, the game may be continuously soft
+        resetting.
