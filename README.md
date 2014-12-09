@@ -2,9 +2,10 @@
 ========================
 
 Members:
-+ David Campbell
-+ Bailey Forrest
-+ Jonathan Leung
+
+- David Campbell
+- Bailey Forrest
+- Jonathan Leung
 
 This is our 18545 main repository. It contains our verilog code, the ISE project
 files, utility scripts, and programming files, among others.
